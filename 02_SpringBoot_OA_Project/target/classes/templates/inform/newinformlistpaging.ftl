@@ -113,7 +113,8 @@
 								href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
 								<span class="glyphicon glyphicon-remove"></span> 删除
 							
-						</a></#if></td>
+						</a></#if>
+					</td>
 				</tr>
 				</#list>
 				

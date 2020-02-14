@@ -12,6 +12,10 @@ import javax.persistence.Table;
 import cn.gson.oasys.model.entity.system.SystemMenu;
 import cn.gson.oasys.model.entity.user.Position;
 
+/*
+ * 角色对应的菜单有哪些，且是否显示
+ */
+
 @Entity
 @Table(name="aoa_role_power_list")
 //角色权限中间表

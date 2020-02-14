@@ -46,8 +46,7 @@
 	style="padding: 0; margin: 0; display: block;">
 	<div class="col-md-12 green-g">
 		<a href="index"  class="navbar-brand" style="color: black;  padding: 8px 40px; ">
-		  OA办公系统
-			<#--<img src="images/logo.png" />-->
+			<img src="images/logo.png" />
 		</a>
 	</div>
 	<div class="col-md-12 list-left"

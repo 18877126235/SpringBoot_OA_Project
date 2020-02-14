@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -82,6 +83,51 @@ public class InformManageController {
 	@Autowired
 	private NoticeMapper nm;
 
+	
+	
+	/**
+	 * 通知管理删除
+	 */
+	@RequestMapping("infromdelete")
+	public String infromDelete(HttpSession session, HttpServletRequest req) {
+		Long noticeId = Long.parseLong(req.getParameter("id"));
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		NoticesList notice = informDao.findOne(noticeId);
+		if (!Objects.equals(userId, notice.getUserId())) {
+			System.out.println("权限不匹配，不能删除");
+			return "redirect:/notlimit";
+		}
+		System.out.println(noticeId);
+		informService.deleteOne(noticeId);
+		return "redirect:/infrommanage";
+
+	}
+	
+	
+	//使用ajax异步删除全选的公告
+	@RequestMapping("deleteAll")
+	public ModelAndView deleteAll(HttpSession session, HttpServletRequest req) {
+		ModelAndView modelAndView = new ModelAndView();
+		//System.out.println("来了老弟"+req.getParameter("noticeId"));
+		//接下来根据公告id删除公告
+		//informDao
+		Long noticeId = Long.parseLong(req.getParameter("noticeId"));
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		NoticesList notice = informDao.findOne(noticeId); //根据公告id查询一条公告
+		if ( userId != 1l ) { //如果不是超级管理员
+			//System.out.println("权限不匹配，不能删除");
+			
+			modelAndView.setViewName("redirect:/notlimit");
+			return modelAndView;
+		}
+		//System.out.println(noticeId);
+		informService.deleteOne(noticeId);
+
+		return modelAndView;
+	}
+	
+	
+	
 	/**
 	 * 通知管理面板
 	 * 
@@ -143,23 +189,7 @@ public class InformManageController {
 		// model.addAttribute("list",list);
 //	}
 
-	/**
-	 * 通知管理删除
-	 */
-	@RequestMapping("infromdelete")
-	public String infromDelete(HttpSession session, HttpServletRequest req) {
-		Long noticeId = Long.parseLong(req.getParameter("id"));
-		Long userId = Long.parseLong(session.getAttribute("userId") + "");
-		NoticesList notice = informDao.findOne(noticeId);
-		if (!Objects.equals(userId, notice.getUserId())) {
-			System.out.println("权限不匹配，不能删除");
-			return "redirect:/notlimit";
-		}
-		System.out.println(noticeId);
-		informService.deleteOne(noticeId);
-		return "redirect:/infrommanage";
 
-	}
 
 	/**
 	 * 通知列表删除

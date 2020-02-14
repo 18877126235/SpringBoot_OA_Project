@@ -127,6 +127,25 @@ public class Test1 {
 		
 	}
 	
+	/*
+	 * 测试根据公告标题来查找公告
+	 */
+	@Autowired
+	private InformService informService;
+	@Test
+	public void testnotice() {
+		//informService.deleteOne(noticeId);
+		
+		System.out.println("来了哦哈哈哈哈");
+		
+		
+//		NoticesList findByNoticeTitle = informDao.findByNoticeTitle("伊丽莎白的公告");
+//		
+//		System.out.println(findByNoticeTitle);
+		
+	}
+	
+	
 	@Test
 	public void test05() {
 		
@@ -145,20 +164,9 @@ public class Test1 {
 	
 	
 	
-	public static void main(String[] args) {
-		test06();
-	}
+	
 
-	public static void test06() {
-		
-		File file = new File("static/image/index");
-		
-		if( !file.exists() ) {
-			System.out.println("哈哈哈哈哈");
-			file.mkdirs();
-		}
-		System.out.println(file);
-	}
+	
 	
 	
 	
