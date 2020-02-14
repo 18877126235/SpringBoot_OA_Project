@@ -17,7 +17,7 @@ public class Rolemenu {
 	private Boolean show=false; // 菜单是否显示
 	
 	@Column(name = "is_show")
-	private Boolean check=false; // 是否分配资源
+	private Boolean check=false; // 是否显示
 	
 	private String menuIcon; // 菜单图标
 	
@@ -25,7 +25,7 @@ public class Rolemenu {
 	
 	private Integer menuGrade; // 权限值分数
 	
-	private Long parentId;
+	private Long parentId; //父菜单
 
 	public Long getMenuId() {
 		return menuId;

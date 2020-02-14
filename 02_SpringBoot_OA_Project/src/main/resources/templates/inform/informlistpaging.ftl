@@ -89,7 +89,7 @@
 					</#if>
 					
 					<td>
-						<a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}"
+						<a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}&isnew=not"
 						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>
 							查看</a> 
 							<#if this.contain!=1>

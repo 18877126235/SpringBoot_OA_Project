@@ -200,9 +200,9 @@ public class InformManageController {
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
 		
 		
-		for (Map<String, Object> map : list2) {
-			System.out.println("我去你大爷的哈哈哈哈哈哈"+map);
-		}
+//		for (Map<String, Object> map : list2) {
+//			System.out.println("我去你大爷的哈哈哈哈哈哈"+map);
+//		}
 		
 		
 		model.addAttribute("url", "informlistpaging");
@@ -215,6 +215,36 @@ public class InformManageController {
 		
 		return "inform/informlist";
 	}
+	
+	
+	/*
+	 * 点击显示最新公告
+	 */
+	@RequestMapping("newmasege")
+	public String newinfromlist(HttpSession session,Model model) {
+		
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		//查询和当前用户相关，且未读的公告
+		List<Map<String, Object>> list = nm.findMyNotice(userId);
+		
+		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
+		
+		for (Map<String, Object> map : list) { //每一个list里面都放置了一个map（每一个map都放置了公告信息属性的键值对）
+			int is_read = (int)map.get("is_read");
+			if(  is_read  == 0  ) { //如果是读公告
+				System.out.println(map);	
+				list2.add(map);
+			}
+		}
+		
+		List<Map<String, Object>> list3=informrelationservice.setList(list2);
+
+		model.addAttribute("list", list3);
+		return "inform/newinformlist";
+		
+	}
+	
+	
 
 	/**
 	 * 编辑通知界面
@@ -253,17 +283,30 @@ public class InformManageController {
 	 */
 	@RequestMapping("informshow")
 	public String informShow(HttpServletRequest req, Model model) {
+		
 		Long noticeId = Long.parseLong(req.getParameter("id"));
+		
+		String isnew = req.getParameter("isnew");
+		
+		model.addAttribute("isnew",isnew);  //放置判断是否从最新公告来了哈哈
+		
+		System.out.println("打印测试看看对不对：***********************"+isnew);
+		
 		if (!StringUtils.isEmpty(req.getParameter("read"))) {
 			if (("0").equals(req.getParameter("read"))) {
 				Long relationId = Long.parseLong(req.getParameter("relationid"));
 				NoticeUserRelation relation = informrelationDao.findOne(relationId);
-				relation.setRead(true);
+				relation.setRead(true); //设为已读状态
 				informrelationservice.save(relation);
 			}
 		}
 		NoticesList notice = informDao.findOne(noticeId);
-		User user = uDao.findOne(notice.getUserId());
+		
+		//System.out.println("打印这条公告试试看:"+notice);
+		
+		User user = uDao.findOne(notice.getUserId()); //获取公告发布人
+		//System.out.println("发布人："+user);
+		
 		model.addAttribute("notice", notice);
 		model.addAttribute("userName", user.getUserName());
 		return "inform/informshow";
@@ -304,9 +347,7 @@ public class InformManageController {
 		}
 		// 校验通过，下面写自己的逻辑业务
 		else {
-			
-			
-			
+
 			// 判断是否从编辑界面进来的，前面有"session.setAttribute("getId",getId);",在这里获取，并remove掉；
 			if (!StringUtils.isEmpty(session.getAttribute("noticeId"))) {
 				menuId = (Long) session.getAttribute("noticeId"); // 获取进入编辑界面的menuID值
@@ -321,10 +362,14 @@ public class InformManageController {
 			} else { //点击保存后来到这？？
 				
 				System.out.println("我不是编辑界面来的呀********************************");
+				
 				menu.setNoticeTime(new Date()); //设置当前公告时间
 				menu.setUserId(userId); //设置公告的发布人
 				
 				NoticesList noticeList = informService.save(menu); //保存当前公告
+				
+				
+				//System.out.println("这是刚才保存的公告哈哈哈哈哈："+noticeList);
 				
 				User user2 = uDao.findByUserId(userId);
 				
@@ -338,6 +383,18 @@ public class InformManageController {
 				for (User user1 : userList) {
 					informrelationservice.save(new NoticeUserRelation(noticeList, user1, false));
 				}
+				/*
+				 * 设置该公告为已读状态
+				 */
+				//先根据用户id和通知id获取中间表数据
+				User userId2 = uDao.findOne(userId);
+				NoticeUserRelation findByUserIdAndNoticeId = informrelationDao.findByUserIdAndNoticeId(userId2,noticeList );
+				findByUserIdAndNoticeId.setRead(true); //设置为已读
+				informrelationservice.save(findByUserIdAndNoticeId); //保存为已读
+				//System.out.println(findByUserIdAndNoticeId);
+				
+				
+				
 			}
 			// 执行业务代码
 			System.out.println("此操作是正确的");

@@ -68,7 +68,7 @@
 					<td><a href="informedit?id=${this.noticeId}"
 						class="label xiugai"><span class="glyphicon glyphicon-edit"></span>
 							修改</a> 
-							<a href="informshow?id=${this.noticeId}" class="label xiugai "><span
+							<a href="informshow?id=${this.noticeId}&isnew=mind" class="label xiugai "><span
 							class="glyphicon glyphicon-search"></span> 查看</a> 
 							<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
 						href="infromdelete?id=${this.noticeId}" class="label shanchu"><span

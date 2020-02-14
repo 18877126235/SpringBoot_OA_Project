@@ -20,11 +20,11 @@ a:hover {
 
 	<div class="row" style="padding-top: 10px;">
 		<div class="col-md-2">
-			<h1 style="font-size: 24px; margin: 0;" class="">通知管理</h1>
+			<h1 style="font-size: 24px; margin: 0;" class="">我的公告</h1>
 		</div>
 		<div class="col-md-10 text-right">
 			<a href="index"><span class="glyphicon glyphicon-home"></span> 首页</a> >
-			<a disabled="disabled">通知管理</a>
+			<a disabled="disabled">我的公告</a>
 		</div>
 	</div>
 

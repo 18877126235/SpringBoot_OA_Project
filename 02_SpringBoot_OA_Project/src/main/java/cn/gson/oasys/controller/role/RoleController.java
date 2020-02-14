@@ -114,7 +114,7 @@ public class RoleController {
 		
 		
 		for (Rolemenu rolemenu : oneMenuAll) {
-			System.out.println("打印试试看:"+rolemenu);
+			System.out.println("打印试试看爸爸:"+rolemenu);
 		}
 		
 		
@@ -122,7 +122,7 @@ public class RoleController {
 		
 		
 		for (Rolemenu rolemenu : twoMenuAll) {
-			System.out.println("打印试试看:"+rolemenu);
+			System.out.println("打印试试看儿子:"+rolemenu);
 		}
 		model.addAttribute("oneMenuAll", oneMenuAll);
 		model.addAttribute("twoMenuAll", twoMenuAll);

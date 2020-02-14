@@ -8,7 +8,7 @@
 		</h3>
 		<div class="box-tools">
 			<div class="input-group" style="width: 150px;">
-				<input type="text" class="form-control input-sm baseKey" placeholder="按标题查找"  value="${(baseKey)!''}"/>
+				<input type="text" class="form-control input-sm baseKey" placeholder="按标题查找" />
 				<div class="input-group-btn">
 					<a class="btn btn-sm btn-default baseKetsubmit"><span
 						class="glyphicon glyphicon-search"></span></a>
@@ -22,20 +22,24 @@
 			<table class="table table-hover">
 				<tr>
 					<th scope="col"><span class="paixu thistype">类型
+					
+						<#--  
 						<#if type?? && icon??>
 						<span class="glyphicon ${icon}"></span>
-						</#if>
+						</#if>-->
 						</span></th>
 					<th scope="col"><span class="paixu thisstatus">状态
+					<#--  
 						<#if status?? && icon??>
 							<span class="glyphicon ${icon}"></span>
-						</#if>
+						</#if>-->
 						</span></th>
 					<th scope="col">标题</th>
 					<th scope="col"><span class="paixu thistime">发布时间
+					<#--  
 						<#if time?? && icon??>
 							<span class="glyphicon ${icon}"></span>
-						</#if>
+						</#if>-->
 						</span></th>
 					<th scope="col">发布人</th>
 					<th scope="col">部门</th>
@@ -47,6 +51,7 @@
 					
 					<th scope="col">操作</th>
 				</tr>
+				
 				<#list list as this>
 				<tr>
 					
@@ -89,7 +94,7 @@
 					</#if>
 					
 					<td>
-						<a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}&isnew=not"
+						<a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}&isnew=yes"
 						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>
 							查看</a> 
 							<#if this.contain!=1>
@@ -101,21 +106,23 @@
 									已转发</a> 
 								</#if>
 							</#if>
-							<#if this.is_read==0> 
-								<#-- 
+							<#if userId!=1> 
+								<#--  -->
 								<#else> 
 								<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
 								href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
 								<span class="glyphicon glyphicon-remove"></span> 删除
-							 -->
+							
 						</a></#if></td>
 				</tr>
 				</#list>
+				
 			</table>
 		</div>
 	</div>
 	<!--盒子尾-->
-	<#include "/common/pagingmybatis.ftl">
+	
+	
 </div>
 <script>
 	$(function(){

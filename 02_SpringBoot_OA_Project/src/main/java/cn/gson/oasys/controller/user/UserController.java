@@ -67,13 +67,27 @@ public class UserController {
 		System.out.println("文件上传MVC");
 		//使用fileupload组件来上传文件
 		//先指定文件的上传位置
-		String path = request.getSession().getServletContext().getRealPath("/upload/");
+		//String path = "static/image/";
 		//判断该路径是否存在
+		///E:\WEB-workPath\02_SpringBoot_OA_Project\src\main\webapp\
+		String realPath = request.getSession().getServletContext().getRealPath("");
+		String path = realPath.substring(0, realPath.indexOf("src")) +"static/image";
+		
+		//System.out.println(path);
+		
 		File file = new File(path);
-		if(!file.exists()) {
+		
+		//System.out.println();
+		
+		if(!file.exists()) { //如果不存在
+			
+			System.out.println("文件不存在");
 			//创建文件夹
 			file.mkdirs();
 		}
+		
+		
+		
 		//获取上传文件名
 		String filename = upload.getOriginalFilename();
 		//把文件名称设置成唯一值
@@ -82,10 +96,31 @@ public class UserController {
 		//完成文件上传(传入参数:上传的目的路径，上传的文件名称)
 		upload.transferTo(new File(path,filename));
 		System.out.println("上传成功MVC");
+		
+	
+		//删除原来的头像
+		Long userId =  (Long) request.getSession().getAttribute("userId"); //获取当前用户id
+		Long userid = userId;
+		User user=udao.findOne(userid); //获取当前用户
+		//System.out.println("当前用户头像:"+user.getImgPath());
+		File file2 = new File(path+user.getImgPath());
+		file2.delete(); //删除文件
+		
+		user.setImgPath(filename); //设置新的头像名称
+		udao.save(user); //保存
+		
+		
+	
+		
+		//String imageold =  ;
+		
 		//将文件路径放置域对象
-		String imagepath = "upload/" + filename;
-		System.out.println(imagepath);
-		request.getSession().setAttribute("imagepath", imagepath);
+		//String imagepath = "upload/" + filename;
+		//System.out.println(imagepath);
+		//request.getSession().setAttribute("imagepath", imagepath);
+		
+		
+		
 		return "redirect:/userpanel";
 		//return "success";
 		
@@ -244,5 +279,15 @@ public class UserController {
 	}
 	
 	
+	public static void main(String[] args) {
+		
+		File file = new File("static/test1");
+
+		file.mkdirs();
+		
+		
+
+		
+	}
 
 }
