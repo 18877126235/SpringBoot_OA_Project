@@ -37,16 +37,16 @@
 			<table class="table table-hover">
 				<tr>
 					
-					<#if userId!=1> 
+					<#if userId != 1> 
 								<#--  -->
 								<#else> 
-								<th style="display: none;" scope="col"><span class="paixu thistype">
+								<th scope="col"><span class="paixu thistype">
 									选中
 								</th>
 							
-						</a></#if>
+						</#if>
 					<#-- 隐藏的一列id用来处理删除全操作的 -->
-					<th>id</th>
+					<th style="display: none;" >id</th>
 					
 					<th scope="col"><span class="paixu thistype">类型
 						<#if type?? && icon??>

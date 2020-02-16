@@ -115,8 +115,12 @@ public class IndexController {
 	public String index(HttpServletRequest req,Model model) {
 		HttpSession session = req.getSession();
 		if(StringUtils.isEmpty(session.getAttribute("userId"))){ //如果是空的
+			
+			
+			
 			return "login/login";
 		}
+		
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		User user=uDao.findOne(userId);
 		menuService.findMenuSys(req,user);

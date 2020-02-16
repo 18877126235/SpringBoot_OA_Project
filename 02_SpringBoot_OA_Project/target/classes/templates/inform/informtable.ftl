@@ -43,7 +43,7 @@
 					<#if userId!=1> 
 								<#--  -->
 								<#else> 
-								<th style="display: none;" scope="col"><span class="paixu thistype">
+								<th  scope="col"><span class="paixu thistype">
 									选中
 								</th>
 							

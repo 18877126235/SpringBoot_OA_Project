@@ -36,6 +36,9 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long userId;		//用户id
 	
+	@Column(name="is_login") //是否在线
+	private Integer isLogin = 0;
+	
 	@Column(name="user_name")
 	@NotEmpty(message="用户名不能为空")
 	private String userName;	//登录用户名
@@ -145,7 +148,13 @@ public class User {
 	private Set<Attends> aSet;
 	
 	
-	
+	public Integer getIsLogin() {
+		return isLogin;
+	}
+
+	public void setIsLogin(Integer isLogin) {
+		this.isLogin = isLogin;
+	}
 	
 	public String getPinyin() {
 		return pinyin;

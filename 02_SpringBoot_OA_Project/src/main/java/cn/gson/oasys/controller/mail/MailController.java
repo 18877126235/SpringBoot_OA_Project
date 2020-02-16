@@ -94,7 +94,8 @@ public class MailController {
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
 		//查找用户
-		User user=udao.findOne(userId);
+		User user=udao.findOne(userId); 
+		
 		//查找未读邮件
 		List<Mailreciver> noreadlist=mrdao.findByReadAndDelAndReciverId(false, false, user);
 		//查找创建了但是却没有发送的邮件
@@ -106,9 +107,13 @@ public class MailController {
 		//分页及查找
 		Page<Pagemail> pagelist=mservice.recive(page, size, user, null,"收件箱");
 		List<Map<String, Object>> maillist=mservice.mail(pagelist);
+
+		for (Map<String, Object> map : maillist) {
+			System.out.println(map);
+		}
 		
 		model.addAttribute("page", pagelist);
-		model.addAttribute("maillist",maillist);
+		model.addAttribute("maillist",maillist); //显示的邮件集合
 		model.addAttribute("url","mailtitle");
 		model.addAttribute("noread", noreadlist.size());
 		model.addAttribute("nopush", nopushlist.size());
@@ -116,6 +121,7 @@ public class MailController {
 		model.addAttribute("rubbish", rubbish.size());
 		model.addAttribute("mess", "收件箱");
 		model.addAttribute("sort", "&title=收件箱");
+		
 		return "mail/mail";
 	}
 	
@@ -425,17 +431,22 @@ public class MailController {
 	}
 	
 	/**
-	 * 账号管理
+	 * 账号管理（显示我的邮件？？？？）
 	 */
 	@RequestMapping("accountmanage")
 	public String account(@SessionAttribute("userId") Long userId, Model model,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size){
+		
 		// 通过邮箱建立用户id找用户对象
 		User tu = udao.findOne(userId);
 		
 		Page<Mailnumber> pagelist=mservice.index(page, size, tu, null,model);
 		List<Map<String, Object>> list=mservice.up(pagelist);
+		
+		for (Map<String, Object> map : list) {
+			System.out.println("该死的王八蛋："+map);
+		}
 		
 		model.addAttribute("account", list);
 		model.addAttribute("page", pagelist);
@@ -761,6 +772,9 @@ public class MailController {
 	public  String index3(HttpServletRequest req,@SessionAttribute("userId") Long userId,Model model,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
+		
+		//System.out.println("我的妈呀，你跑来这里干嘛************************");
+		
 		Pageable pa=new PageRequest(page, size);
 		User mu=udao.findOne(userId);
 		String mess=req.getParameter("title");

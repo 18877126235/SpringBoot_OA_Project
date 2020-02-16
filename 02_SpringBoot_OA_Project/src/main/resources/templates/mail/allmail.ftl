@@ -1,4 +1,3 @@
-
 <div class="yuan">
 	<div class="bgc-w box box-primary">
 		<!--盒子头-->
@@ -54,6 +53,7 @@ $(function(){
     	})
     	
     	$(".chec").click(function(e){
+    		//alert("你大爷的");
     		e.preventDefault();
     		var $this=$(".chec span");
     		if($this.hasClass("glyphicon-unchecked")){

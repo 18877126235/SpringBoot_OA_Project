@@ -137,6 +137,8 @@ public class MailServices {
 			Map<String,Object> result=new HashMap<>();
 			String typename=tydao.findname(maillist.get(i).getMailType());
 			SystemStatusList status=sdao.findOne(maillist.get(i).getMailStatusid());
+			
+			//封装map集合数据
 			result.put("typename", typename);
 			result.put("statusname", status.getStatusName());
 			result.put("statuscolor", status.getStatusColor());
@@ -147,6 +149,14 @@ public class MailServices {
 			result.put("title", maillist.get(i).getMailTitle());
 			result.put("mailid", maillist.get(i).getMailId());
 			result.put("fileid", maillist.get(i).getMailFileid());
+			
+			//再添加一个发件人的信息如何
+			Inmaillist findOne = imdao.findOne(maillist.get(i).getMailId()); //根据邮件名称查找一个邮件
+			System.out.println("查找这封邮件看看是什么东西发件人"+findOne.getMailUserid().getUserName());
+			result.put("sender", findOne.getMailUserid().getUserName());
+			
+			
+			
 			list.add(result);
 			
 		}
@@ -213,6 +223,11 @@ public class MailServices {
 			result.put("title", maillist.get(i).getMailTitle());
 			result.put("mailid", maillist.get(i).getMailId());
 			result.put("fileid", maillist.get(i).getMailFileid());
+			//封装发件人信息
+			Inmaillist findOne = imdao.findOne(maillist.get(i).getMailId()); //根据邮件名称查找一个邮件
+			//System.out.println("查找这封邮件看看是什么东西发件人"+findOne.getMailUserid().getUserName());
+			result.put("sender", findOne.getMailUserid().getUserName());
+			
 			list.add(result);
 			
 		}
@@ -232,10 +247,13 @@ public class MailServices {
 		List<Order> orders = new ArrayList<>();
 		Pageable pa=new PageRequest(page, size);
 		if(StringUtil.isEmpty(val)){
-			orders.addAll(Arrays.asList(new Order(Direction.ASC, "status"), new Order(Direction.DESC, "mailCreateTime")));
+			orders.addAll(  Arrays.asList(new Order(Direction.ASC, "status"), new Order(Direction.DESC, "mailCreateTime"))  );
 			Sort sort = new Sort(orders);
 			pa=new PageRequest(page, size, sort);
 			account=mdao.findByMailUserId(tu,pa);
+			//System.out.println("打印账号信息？？？"+account);
+			
+			
 		}else if (("类型").equals(val)) {
 			account=mdao.findByMailUserIdOrderByMailType(tu,pa);
 			model.addAttribute("sort", "&val="+val);

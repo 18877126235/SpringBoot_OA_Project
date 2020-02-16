@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /*
  *  经过该拦截器为获取当前登录登陆对象的属性
  */
@@ -34,11 +35,11 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		
-		
+		System.out.println("都来这里吗？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？");
 		HttpSession session=request.getSession(); //先判断是否处在登录状态
-		
-		if(!StringUtils.isEmpty(session.getAttribute("userId"))){ //判断是否空
+		System.out.println("难道为空？？？？？"+session.getAttribute("userId")); //这王八蛋不见了null我去
+		System.out.println("难道为空真的去都没有了？？？？？"+session); //这家会还在哈哈哈哈哈
+		if(!StringUtils.isEmpty(session.getAttribute("userId"))){ //判断是否空(为空就进去)
 		//导入用户dao类
 		UserDao udao=tool.getBean(UserDao.class, request); //获取userDao
 		//角色权限中间表dao（应该是通过这个对象获取权限所对应的全部功能）
@@ -80,9 +81,9 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		}
 			
 		}else{
-//			System.out.println("没有登录，滚开*******************************************************"
-//					+ "\n**************************************************"
-//					+ "\n**************************************");
+			System.out.println("没有登录，滚开*******************************************************"
+					+ "\n**************************************************"
+					+ "\n**************************************");
 			response.sendRedirect("/login");
 			return false;
 		}

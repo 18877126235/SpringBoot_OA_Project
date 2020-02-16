@@ -29,7 +29,10 @@ maximum-scale=1, user-scalable=no">
 			}
 		});
 	</script>
+	
+	
 <script>
+	
 	function changepath(path){
 		$('iframe').attr('src',path);
 	}

@@ -37,6 +37,7 @@ import cn.gson.oasys.model.entity.role.Role;
 import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.Position;
 import cn.gson.oasys.model.entity.user.User;
+import cn.gson.oasys.session.SessionListener;
 
 @Controller
 @RequestMapping("/")
@@ -56,6 +57,71 @@ public class UserController {
 		return "user/userlogmanage";
 	}
 	
+	
+	
+	
+	/*
+	 * 点击关闭浏览器执行方法
+	 */
+	@RequestMapping("closeWindow")
+	public void closeWindow() {
+		
+		System.out.println("我操你妈逼的哈哈哈哈哈/*//////////////////////*/////////////////////////////////");
+		
+	}
+	
+	
+	/*
+	 * 显示在线用户
+	 */
+	@RequestMapping("zaixianyonghu")
+	public String zaixianyonghu(Model model,@RequestParam(value="page",defaultValue="0") int page,
+			@RequestParam(value="size",defaultValue="10") int size
+			) {
+		
+		
+		//System.out.println("来了老弟在校用户");
+		
+//		List<User> findByIsLogin = udao.findByIsLogin();
+//		
+//		for (User user : findByIsLogin) {
+//			System.out.println("当前在线用户"+user.getUserName());
+//		}
+		
+		Sort sort=new Sort(new Order(Direction.ASC,"dept")); //一个排序对象
+		Pageable pa=new PageRequest(page, size,sort);
+		
+		
+		
+		
+		
+		
+		Page<User> userspage = udao.findByIsLogin(pa);  //查询在线用户
+		
+		
+		
+		
+		
+		
+		List<User> users=userspage.getContent();
+		model.addAttribute("users",users);
+		model.addAttribute("page", userspage);
+		model.addAttribute("url", "usermanagepaging");
+//		for (User user : users) {
+//			System.out.println(user);
+//		}
+		
+		
+		
+		
+		
+		return "user/usermanage_login";
+		
+		
+		
+		//return "847494979";
+		
+	}
 	
 	//上传头像
 	/*
@@ -85,9 +151,6 @@ public class UserController {
 			//创建文件夹
 			file.mkdirs();
 		}
-		
-		
-		
 		//获取上传文件名
 		String filename = upload.getOriginalFilename();
 		//把文件名称设置成唯一值
@@ -284,10 +347,7 @@ public class UserController {
 		File file = new File("static/test1");
 
 		file.mkdirs();
-		
-		
 
-		
 	}
 
 }

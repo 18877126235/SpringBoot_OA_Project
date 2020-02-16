@@ -13,11 +13,11 @@
 
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">邮件管理</h1>
+		<h1 style="font-size: 24px; margin: 0;" class="">系统邮件管理</h1>
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
-			disabled="disabled">邮件管理</a>
+			disabled="disabled">系统邮件管理</a>
 	</div>
 </div>
 <div class="row" style="padding-top: 15px;">
@@ -35,7 +35,7 @@
 			</div>
 			<ul class="nav nav-pills nav-stacked files ">
 				<li style="border-left: 3px solid blue;" class="getmail"><span
-					class="glyphicon glyphicon-inbox le"> 收件箱</span>
+					class="glyphicon glyphicon-inbox le"> 收件箱 </span>
 					<#if noread==0>
 					<#else>
 					 <span class="pull-right uncheck"><i class="btn btn-xs btn-primary">${noread}</i></span>
@@ -44,6 +44,7 @@
 				<li class="setmail"><span class="glyphicon glyphicon-envelope le"> 发件箱</span>
 					<#if push==0>
 					<#else>
+					<#-- 显示邮件条目数字 -->
 					<span class="pull-right uncheck"><i class="btn btn-xs btn-primary">${push}</i></span>
 					</#if>
 				
@@ -84,6 +85,9 @@
 		</div>
 	</div>
 	<div class="col-md-9 set ">
+	
+		<#-- 右侧显示邮件列表 -->
+		
 		<#include "/mail/allmail.ftl">
 		
 	</div>
@@ -94,7 +98,9 @@
 			$('.set').load('amail',{title:"收件箱"});
 		});	
 		$('.setmail').on('click',function(){
+		
 			$('.set').load('amail',{title:"发件箱"});
+			
 		});
 		$('.caogao').on('click',function(){
 			$('.set').load('amail',{title:"草稿箱"});

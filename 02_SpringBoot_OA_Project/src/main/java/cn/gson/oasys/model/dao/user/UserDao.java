@@ -14,6 +14,10 @@ import cn.gson.oasys.model.entity.user.User;
 
 public interface UserDao extends JpaRepository<User, Long>{
     
+	//查询在线用户
+	@Query("select u from User u where u.isLogin=1 ")
+	Page<User> findByIsLogin(Pageable pa);
+	
 	User  findByUserId(Long id);  //妈的根据id查找还用list接收，智障
 	
 	List<User>  findByFatherId(Long parentid);
@@ -55,7 +59,7 @@ public interface UserDao extends JpaRepository<User, Long>{
 	 * @param pa
 	 * @return
 	 */
-	Page<User> findByIsLock(Integer isLock,Pageable pa);
+	Page<User> findByIsLock( Integer isLogin , Pageable pa );
 	
 	
 	@Query("from User u where u.dept.deptName like %?1% or u.userName like %?1% or u.realName like %?1% or u.userTel like %?1% or u.role.roleName like %?1%")

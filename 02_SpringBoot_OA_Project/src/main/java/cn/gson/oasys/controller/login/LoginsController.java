@@ -47,12 +47,24 @@ public class LoginsController {
 	 */
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public String login(){
+		
+		
+		
 		return "login/login";
 	}
-	
+	/*
+	 * 退出登录
+	 */
 	@RequestMapping("loginout") //退出登录
 	public String loginout(HttpSession session){
+		
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		User user = uDao.findOne(userId);
+		user.setIsLogin(0); //设置为离线状态
+		
+		uDao.save(user); //保存
 		session.removeAttribute("userId");
+		
 		return "redirect:/login";
 	}
 	
@@ -107,6 +119,9 @@ public class LoginsController {
 			return "login/login";
 		}else{
 			session.setAttribute("userId", user.getUserId()); //放置域对象
+			
+			
+			
 			Browser browser = UserAgent.parseUserAgentString(req.getHeader("User-Agent")).getBrowser();
 			Version version = browser.getVersion(req.getHeader("User-Agent"));
 			String info = browser.getName() + "/" + version.getVersion();
@@ -114,11 +129,22 @@ public class LoginsController {
 			/*新增登录记录*/
 			ulService.save(new LoginRecord(ip, new Date(), info, user));
 		}
+		
+		
+		user.setIsLogin(1); //设置在线状态为1
+		uDao.save(user);
+
 		return "redirect:/index";
 	}
 	
 	@RequestMapping("handlehas")
 	public String handleHas(HttpSession session){
+		
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		User user1 = uDao.findOne(userId);
+		user1.setIsLogin(0); //设置为离线状态
+		uDao.save(user1); //保存
+		
 		if(!StringUtils.isEmpty(session.getAttribute("thisuser"))){
 			User user=(User) session.getAttribute("thisuser");
 			System.out.println(user);
@@ -128,6 +154,9 @@ public class LoginsController {
 			System.out.println("有问题！");
 			return "login/login";
 		}
+		
+		
+		
 		return "redirect:/index";
 		
 	}

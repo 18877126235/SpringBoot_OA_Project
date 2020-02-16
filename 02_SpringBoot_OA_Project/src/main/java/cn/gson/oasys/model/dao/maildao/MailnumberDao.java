@@ -12,6 +12,7 @@ import cn.gson.oasys.model.entity.mail.Mailnumber;
 import cn.gson.oasys.model.entity.user.User;
 
 public interface MailnumberDao extends PagingAndSortingRepository<Mailnumber, Long>{
+	
 	//根据状态和user来找account
 	Page<Mailnumber> findByMailUserId(User user,Pageable page);
 
