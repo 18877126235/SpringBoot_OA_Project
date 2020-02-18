@@ -1,10 +1,13 @@
 package cn.gson.oasys.controller.user;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,49 +79,46 @@ public class UserController {
 	 */
 	@RequestMapping("zaixianyonghu")
 	public String zaixianyonghu(Model model,@RequestParam(value="page",defaultValue="0") int page,
-			@RequestParam(value="size",defaultValue="10") int size
+			@RequestParam(value="size",defaultValue="10") int size, HttpServletRequest request
 			) {
 		
+		//先获取
 		
-		//System.out.println("来了老弟在校用户");
+		Set<HttpSession> attribute =(Set<HttpSession>)request.getSession().getServletContext().getAttribute("sessionList"); //获取集合
 		
-//		List<User> findByIsLogin = udao.findByIsLogin();
-//		
-//		for (User user : findByIsLogin) {
-//			System.out.println("当前在线用户"+user.getUserName());
-//		}
+		//System.out.println("被清空了呀："+attribute);
 		
-		Sort sort=new Sort(new Order(Direction.ASC,"dept")); //一个排序对象
+		List<User> users = new ArrayList<User>();
+		//遍历试试看
+		for (HttpSession httpSession : attribute) {
+			if( httpSession != null ) {
+				Object obj = httpSession.getAttribute("userId");
+				
+				if(obj == null) { //说明该用户已离线
+					continue;
+				}else {
+					Long userId = Long.parseLong(httpSession.getAttribute("userId")+"");
+					users.add(udao.findOne(userId)); //加入集合
+				}	
+			}
+			
+		}	
+		
+
+		
+		/*Sort sort=new Sort(new Order(Direction.ASC,"dept")); //一个排序对象
+		
 		Pageable pa=new PageRequest(page, size,sort);
-		
-		
-		
-		
-		
-		
+
 		Page<User> userspage = udao.findByIsLogin(pa);  //查询在线用户
-		
-		
-		
-		
-		
-		
-		List<User> users=userspage.getContent();
+
+		List<User> users = userspage.getContent();*/
+
 		model.addAttribute("users",users);
-		model.addAttribute("page", userspage);
-		model.addAttribute("url", "usermanagepaging");
-//		for (User user : users) {
-//			System.out.println(user);
-//		}
-		
-		
-		
-		
-		
+		//model.addAttribute("page", userspage);
+		//model.addAttribute("url", "usermanagepaging");
 		return "user/usermanage_login";
-		
-		
-		
+
 		//return "847494979";
 		
 	}

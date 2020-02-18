@@ -88,5 +88,9 @@
 		</div>
 	</div>
 	<!--盒子尾-->
+	
+	<#-- 分页页脚 
 	<#include "/common/paging.ftl"/>
+	-->
+	
 </div>

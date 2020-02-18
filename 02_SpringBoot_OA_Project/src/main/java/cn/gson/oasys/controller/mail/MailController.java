@@ -577,21 +577,23 @@ public class MailController {
 	}
 	
 	/**
-	 * 写信
+	 * 写信（显示编辑邮箱的窗口）
 	 */
 	@RequestMapping("wmail")
 	public  String index2(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
 		
-		User mu=udao.findOne(userId);
+		
+		
+		User mu=udao.findOne(userId); //获取当前用户id
 		//得到编辑过来的id
 		String id=null;
-		if(!StringUtil.isEmpty(request.getParameter("id"))){
+		if(!StringUtil.isEmpty(request.getParameter("id"))){ //这应该是用来编辑已经建立的邮件
 			id=request.getParameter("id");
 		}
 		//回复那边过来的
-		String huifu=null;
+		String huifu=null; //回复邮箱
 		
 		if(!StringUtil.isEmpty(id)){
 			Long lid=Long.parseLong(id);
@@ -610,7 +612,7 @@ public class MailController {
 			model.addAttribute("type", tydao.findOne(mail.getMailType()));
 			model.addAttribute("id", "回复");
 			
-		}else{
+		}else{ //否则就是新发的邮件
 		
 		List<SystemTypeList> typelist=tydao.findByTypeModel("aoa_in_mail_list");
 		List<SystemStatusList>  statuslist=sdao.findByStatusModel("aoa_in_mail_list");
@@ -619,6 +621,7 @@ public class MailController {
 		model.addAttribute("id", "新发");
 		
 		}
+		
 		//查看该用户所创建的有效邮箱账号
 		List<Mailnumber> mailnum=mndao.findByStatusAndMailUserId(1L, mu);
 		proservice.user(page, size, model);

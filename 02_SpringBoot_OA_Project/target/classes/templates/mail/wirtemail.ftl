@@ -112,15 +112,21 @@ border-radius: 5px;
 			<textarea name="content" class="form-control tent" style="width: 100%; height: 300px; visibility: hidden; font-size: 20px;">${(content)!''}</textarea>
 			</#if>
 		</div>
-
+		
+		<#-- 增加附件****************************** -->
 		<div class="form-group">
-			<div class="btn btn-default ">
-				<span class="glyphicon glyphicon-paperclip">增加附件</span> <input
-					type="file" name="file"
-					id="ctl00_cphMain_fuAttachment" />
+			<div class="btn btn-default" >
+				
+				<span class="glyphicon glyphicon-paperclip" id="choocefile" >增加附件</span> 
+				
+				<input onchange="changepic(this)" type="file" name="file" id="ctl00_cphMain_fuAttachment" />
+				
 			</div>
 			<p class="help-block">5MB以内</p>
+			<#-- 显示问价你名称 -->
+			<p  id="showfilename" class="help-block"></p>
 		</div>
+		<#-- 增加附件****************************** -->
 
 	</div>
 	<!--盒子尾-->
@@ -137,6 +143,37 @@ border-radius: 5px;
 	</form>
 </div>
 <script type="text/javascript">
+
+		//检测到上传文件的标签内容变化
+		function changepic() {
+		
+			
+			var filename = document.getElementById('ctl00_cphMain_fuAttachment').files[0].name;
+
+			//alert(filename);
+			//接着将文件名称显示出来
+			$("#showfilename").val("");
+			
+			$("#showfilename").append('附件名称:'+filename);
+			
+			/* var reads = new FileReader();
+			 
+			 f = document.getElementById('file').files[0];
+			 
+			 reads.readAsDataURL(f); //读取文件到暂存区
+			 
+			 //获取成功后执行代码
+			 reads.onload = function(e) {  //配置显示路径
+				 
+			 	document.getElementById('img3').src = this.result;
+				
+			 	 $('#shangchuan').css('display','block');
+			 };*/
+			 
+			 
+		}
+
+
 $(function(){
 	$("#account").change(function(){
 		console.log("qq");
@@ -149,6 +186,16 @@ $(function(){
 			$("#recive_list").removeAttr("readonly");
 		}
 	});
+	
+	
+	<#-- 文件上传显示文件的名称 -->
+	//点击选择附件
+	$("#choocefile").click(function(){
+		//alert("哈哈哈");
+		$("#ctl00_cphMain_fuAttachment").click(); //打开文件
+	});
+	
+	
 });
 //验证邮箱
 function isMailNo(mail){
@@ -236,6 +283,9 @@ function check() {
 	}
 //	return false;
 }
+
+
+
 
 
 </script>

@@ -108,9 +108,14 @@
 		$('.rubbish').on('click',function(){
 			$('.set').load('amail',{title:"垃圾箱"});
 		});
+		
 		$('.write').on('click',function(){
+		
+			//alert("哈哈");
 			$('.set').load('wmail');
+			
 		});
+		
 		 $(".mail").click(function(){
 				var title=$(".titles").text();
 			   $(".thistable").load("mailtitle",{val:"邮件",title:title});

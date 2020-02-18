@@ -15,8 +15,8 @@ import cn.gson.oasys.model.entity.user.User;
 public interface UserDao extends JpaRepository<User, Long>{
     
 	//查询在线用户
-	@Query("select u from User u where u.isLogin=1 ")
-	Page<User> findByIsLogin(Pageable pa);
+	/*@Query("select u from User u where u.isLogin=1 ")
+	Page<User> findByIsLogin(Pageable pa);*/
 	
 	User  findByUserId(Long id);  //妈的根据id查找还用list接收，智障
 	

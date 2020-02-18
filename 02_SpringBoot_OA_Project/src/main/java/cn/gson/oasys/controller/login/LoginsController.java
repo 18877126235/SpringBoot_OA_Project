@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -39,6 +43,8 @@ public class LoginsController {
 	
 	public static final String CAPTCHA_KEY = "session_captcha";
 
+	public Set<HttpSession> sessionList =  new HashSet<HttpSession>();  //用于记录在线用户
+	
 	private Random rnd = new Random();
 	
 	/**
@@ -47,9 +53,7 @@ public class LoginsController {
 	 */
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public String login(){
-		
-		
-		
+
 		return "login/login";
 	}
 	/*
@@ -82,8 +86,14 @@ public class LoginsController {
 		String ca=req.getParameter("code").toLowerCase(); //验证码
 		
 		model.addAttribute("userName", userName); //代表登录
+		
 		//System.out.println("来了老弟******************************************************");
-		//判断验证码是否正确
+		
+		
+		
+		/*
+		 * //判断验证码是否正确
+		 */
 		//String sesionCode = (String) req.getSession().getAttribute(CAPTCHA_KEY); //获取系统生成的验证码
 		/*if(!ca.equals(sesionCode.toLowerCase())){
 			System.out.println("验证码输入错误!");
@@ -94,6 +104,10 @@ public class LoginsController {
 		/*
 		 * 将用户名分开查找；用户名或者电话号码；
 		 * */
+		
+		
+		
+		
 		//接下来验证用户是否存在
 		User user=uDao.findOneUser(userName, password); //根据用户名和密码寻找用户
 		
@@ -117,9 +131,23 @@ public class LoginsController {
 			model.addAttribute("hasmess", "当前用户已经登录了；不能重复登录");
 			session.setAttribute("thisuser", user);
 			return "login/login";
-		}else{
+		}else{  //没有登录呢，重新登录
 			session.setAttribute("userId", user.getUserId()); //放置域对象
 			
+			/*
+			 * 将session放入context对象中
+			 */
+			sessionList.add(session); //登录，放置session到session集合中
+			//System.out.println("大小："+sessionList.size());
+			ServletContext servletContext = session.getServletContext();//获取全局域对象
+			servletContext.setAttribute("sessionList", sessionList); //把集合放置到全局域对象
+			//再把全局域对象放置到管理员的session中
+//			Long userId = Long.parseLong(session.getAttribute("userId") + "");
+//			User userSup = uDao.findOne(userId);
+//			if(userSup.getSuperman() == true) { //如果是超级管理员
+//				//再把全局域对象放置到禅机管理员的session中去
+//				session.setAttribute("SessionListContext", servletContext);
+//			}		
 			
 			
 			Browser browser = UserAgent.parseUserAgentString(req.getHeader("User-Agent")).getBrowser();
@@ -129,13 +157,15 @@ public class LoginsController {
 			/*新增登录记录*/
 			ulService.save(new LoginRecord(ip, new Date(), info, user));
 		}
-		
-		
-		user.setIsLogin(1); //设置在线状态为1
-		uDao.save(user);
 
+		/*
+		 * 在此启动定时器查询在线用户
+		 */
+		
 		return "redirect:/index";
 	}
+	
+	
 	
 	@RequestMapping("handlehas")
 	public String handleHas(HttpSession session){

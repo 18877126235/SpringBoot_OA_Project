@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <property name="context-root" value="02_SpringBoot_OA_Project"/>
         <property name="java-output-path" value="/02_SpringBoot_OA_Project/target/classes"/>
+        <property name="context-root" value="02_SpringBoot_OA_Project"/>
     </wb-module>
 </project-modules>

@@ -35,10 +35,10 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		System.out.println("都来这里吗？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？");
+		//System.out.println("都来这里吗？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？");
 		HttpSession session=request.getSession(); //先判断是否处在登录状态
-		System.out.println("难道为空？？？？？"+session.getAttribute("userId")); //这王八蛋不见了null我去
-		System.out.println("难道为空真的去都没有了？？？？？"+session); //这家会还在哈哈哈哈哈
+		//System.out.println("难道为空？？？？？"+session.getAttribute("userId")); //这王八蛋不见了null我去
+		//System.out.println("难道为空真的去都没有了？？？？？"+session); //这家会还在哈哈哈哈哈
 		if(!StringUtils.isEmpty(session.getAttribute("userId"))){ //判断是否空(为空就进去)
 		//导入用户dao类
 		UserDao udao=tool.getBean(UserDao.class, request); //获取userDao
@@ -81,9 +81,9 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		}
 			
 		}else{
-			System.out.println("没有登录，滚开*******************************************************"
-					+ "\n**************************************************"
-					+ "\n**************************************");
+//			System.out.println("没有登录，滚开*******************************************************"
+//					+ "\n**************************************************"
+//					+ "\n**************************************");
 			response.sendRedirect("/login");
 			return false;
 		}
