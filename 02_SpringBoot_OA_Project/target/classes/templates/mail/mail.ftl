@@ -84,7 +84,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="col-md-9 set ">
+	<div class="col-md-9 set">
 	
 		<#-- 右侧显示邮件列表 -->
 		
@@ -92,6 +92,9 @@
 		
 	</div>
 </div>
+
+<#include "/common/modalTip.ftl"/> 
+
 <script>
 	$(function(){
 		$('.getmail').on('click',function(){

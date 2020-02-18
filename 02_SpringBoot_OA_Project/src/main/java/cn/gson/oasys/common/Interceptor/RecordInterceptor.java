@@ -59,6 +59,9 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		
 		//获取当前访问的路径
 		String url = request.getRequestURL().toString();
+		
+		System.out.println("当前访问路径是："+url);
+		
 		String zhuan="notlimit";
 		
 		
@@ -70,11 +73,11 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		//此处有点看不懂。。。。待定
-		for (Rolemenu rolemenu : all) {
+		for (Rolemenu rolemenu : all) { //当前访问的路径中有和某个菜单中的路径相同，然后放行
 			
 			if(!rolemenu.getMenuUrl().equals(url)){
 				return true; //放行
-			}else{
+			}else{ //否则跳转到无权限页面
 				request.getRequestDispatcher(zhuan).forward(request, response); //转发？？跳转页面？？
 			}
 			

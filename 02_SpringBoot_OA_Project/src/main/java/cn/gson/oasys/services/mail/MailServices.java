@@ -77,7 +77,7 @@ public class MailServices {
 
 	private String rootpath;
 
-	@PostConstruct
+	@PostConstruct //该注解下的方法在服务器加载servlet的时候会执行
 	public void UserpanelController(){
 		try {
 			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","/static/attachment");
@@ -152,7 +152,7 @@ public class MailServices {
 			
 			//再添加一个发件人的信息如何
 			Inmaillist findOne = imdao.findOne(maillist.get(i).getMailId()); //根据邮件名称查找一个邮件
-			System.out.println("查找这封邮件看看是什么东西发件人"+findOne.getMailUserid().getUserName());
+			//System.out.println("查找这封邮件看看是什么东西发件人"+findOne.getMailUserid().getUserName());
 			result.put("sender", findOne.getMailUserid().getUserName());
 			
 			
@@ -294,30 +294,61 @@ public class MailServices {
 	 * @throws IllegalStateException 
 	 */
 	public Attachment upload(MultipartFile file,User mu) throws IllegalStateException, IOException{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
-		File root = new File(rootpath,simpleDateFormat.format(new Date()));
-		File savepath = new File(root,mu.getUserName());
 		
-		if (!savepath.exists()) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM"); //获取当前日期(只获取了年份和月份)
+		System.out.println("这个路径是啥玩意：************"+rootpath);
+		File root = new File(rootpath,simpleDateFormat.format(new Date()));  //文件的路径（问价下再创建年份和月份子文件夹）
+		System.out.println("打印这个文件信息看看："+root);
+	
+		File savepath = new File(root,mu.getUserName()); //然后再在路径后面创建用户名文件夹
+		
+		if (!savepath.exists()) { //如果文件不存在就创建
 			savepath.mkdirs();
 		}
-		String fileName=file.getOriginalFilename();
-		if(!StringUtil.isEmpty(fileName)){
-			String suffix=FilenameUtils.getExtension(fileName);
-			String newFileName = UUID.randomUUID().toString().toLowerCase()+"."+suffix;
-			File targetFile = new File(savepath,newFileName);
-			file.transferTo(targetFile);
+		
+		System.out.println("用户目录："+savepath);
+		
+		String fileName=file.getOriginalFilename(); //获取上传的文件名称
+		
+		System.out.println("文件名称？？？："+fileName);
+		
+		if(!StringUtil.isEmpty(fileName)){ //如果文件名称不为空
+			//以下是获取文件的扩展名
+			String suffix=FilenameUtils.getExtension(fileName); 
 			
-			Attachment attachment=new Attachment();
+			//为文件创建新名称我可不喜欢新的文件名称，上传的文件别人得知道是啥才行呀
+			//String newFileName = UUID.randomUUID().toString().toLowerCase()+"."+suffix;
+			
+			//File targetFile = new File(savepath,newFileName);
+			File targetFile = new File(savepath,fileName);
+			
+			System.out.println("最终的文件路径："+targetFile);
+			
+			file.transferTo(targetFile); //将文件存储到服务器
+			
+			Attachment attachment=new Attachment(); //新建邮箱附件对象
+			
+			
+			
+			//System.out.println("这个路径让人头大："+targetFile.getAbsolutePath().replace("\\", "/").replace(rootpath, ""));
+			
+			
 			attachment.setAttachmentName(file.getOriginalFilename());
-			attachment.setAttachmentPath(targetFile.getAbsolutePath().replace("\\", "/").replace(rootpath, ""));
-			attachment.setAttachmentShuffix(suffix);
-			attachment.setAttachmentSize(file.getSize());
-			attachment.setAttachmentType(file.getContentType());
-			attachment.setUploadTime(new Date());
-			attachment.setUserId(mu.getUserId()+"");
 			
-			return attachment;
+			//设置图片存放路径(分隔符替换)
+			String pathfile = targetFile.getAbsolutePath().replace("\\", "/").replace(rootpath, "");
+			String pathfile1 = (pathfile.substring(pathfile.indexOf("attachment")));
+			String pathfile2 = pathfile1.substring(pathfile1.indexOf("/"));
+			System.out.println("这个路径让人头大："+pathfile2);
+			attachment.setAttachmentPath(pathfile2); //设置附件的存储路径
+			
+
+			attachment.setAttachmentShuffix(suffix); //设置文件扩展名
+			attachment.setAttachmentSize(file.getSize()); //文件大小
+			attachment.setAttachmentType(file.getContentType()); //文件的类型
+			attachment.setUploadTime(new Date()); //上传时间
+			attachment.setUserId(mu.getUserId()+""); //设置文件的上传者
+			return attachment;//返回附件对象
 		}
 		return null;
 	}

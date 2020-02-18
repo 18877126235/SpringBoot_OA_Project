@@ -11,6 +11,11 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
+		
+		<!-- 换个版本试试看 
+		
+		 <version>2.0.6.RELEASE</version>
+		-->
 		<version>1.5.6.RELEASE</version>
 		<relativePath />
 	</parent>

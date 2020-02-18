@@ -8,6 +8,9 @@ import java.util.Map;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+/*
+ * 表单数据校验类
+ */
 public class BindingResultVOUtil {
     /**
      * 表单验证，返回形式ResultVO
@@ -15,7 +18,7 @@ public class BindingResultVOUtil {
      * @param br
      * @return
      */
-    public static ResultVO hasErrors(BindingResult br) {
+    public static ResultVO hasErrors(BindingResult br) {  //传入一个校验对象
         if (br.hasErrors()) {
             List<FieldError> fieldErrors = br.getFieldErrors();
             List<String> messagge;

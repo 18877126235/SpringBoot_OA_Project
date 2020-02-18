@@ -42,7 +42,7 @@ public class Attachment {
 	@Column(name="upload_time")
 	private Date uploadTime;     //附件上传时间
 	
-	private String model;          //所属模块
+	private String model;          //所属模块（邮箱模块）
 	
 	@Column(name="attachment_shuffix")
 	private String attachmentShuffix; //附件后缀

@@ -149,11 +149,10 @@ border-radius: 5px;
 		
 			
 			var filename = document.getElementById('ctl00_cphMain_fuAttachment').files[0].name;
-
+			//alert(filename);
 			//alert(filename);
 			//接着将文件名称显示出来
-			$("#showfilename").val("");
-			
+			$("#showfilename").empty();  //清除子元素
 			$("#showfilename").append('附件名称:'+filename);
 			
 			/* var reads = new FileReader();

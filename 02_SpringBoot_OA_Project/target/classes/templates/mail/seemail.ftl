@@ -11,11 +11,12 @@
 			<div class="box-body">
 				<div class=" mailbox-read-info">
 					<h3>
+						<#-- 邮件标题 -->
 						<span id="ctl00_cphMain_lblTitle">主题： ${mail.mailTitle}</span>
 					</h3>
 					<h5 class="fonts">
 						<span id="ctl00_cphMain_lblFrom" class="mailbox-read-time">发送：<i>${pushname}</i>
-							&nbsp;&nbsp;接收：<i>${(mail.inReceiver)!''}</i></span> <span id="ctl00_cphMain_lblDate"
+							<br/><br/><i><b>接收：${(mail.inReceiver)!''}</b></i></span> <span id="ctl00_cphMain_lblDate"
 							class="mailbox-read-time pull-right">${mail.mailCreateTime}</span>
 					</h5>
 				</div>
@@ -29,13 +30,16 @@
 					<span id="ctl00_cphMain_lblDescription">附件信息：</span> 
 					<span id="ctl00_cphMain_lblFeedback">
 						<div style="padding-left: 64px;">
-							<p><#if mail.mailFileid??>
-							<#if filetype=="img">
+							<p><#if mail.mailFileid??> <#-- 如果存在附件 -->
+							<#if filetype=="img"> <#-- 如果是imag类型 -->
 							<a href="javacript:void(0);" class="label xiugai yulan" title="图片预览">
 							<span class="glyphicon glyphicon-search"></span> 预览</a>
+							
+							
 							</#if>
 							<a href="file?fileid=${(mail.mailFileid.attachmentId)!''}" class="label xiugai">
 							<span class="glyphicon glyphicon-download-alt"></span> 下载</a>
+							<#-- <img src="/image/test.jpg" height="50" width="50" /> -->
 							</#if></p>
 						</div>
 					</span>
@@ -73,9 +77,13 @@
     		placement:'auto right',
 				trigger: 'hover click',
     		template:'<div class="popover" role="tooltip"><div class="arrow"></div>'
-    		+'<h3 class="popover-title"></h3><div><img src="show/${(filepath)!''}"style="max-width: 200px;"/></div><div class="popover-content"></div></div>'
+    		+'<h3 class="popover-title"></h3><div><img src="/image/刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg" style="max-width: 200px;"/></div><div class="popover-content"></div></div>'
     	})
-		//回复
+    	
+    	////E:/WEB-workPath/02_SpringBoot_OA_Project/
+    	//       /attachment/2020/02/刘大庆/QQ图片20191126114906.jpg
+    	///attachment${(filepath)!''}
+		//回复  
 		$(".huifu").click(function(){
 			var id=${mail.mailId};
 			var $huifu="【回复】";

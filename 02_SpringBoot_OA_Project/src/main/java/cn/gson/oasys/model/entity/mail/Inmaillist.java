@@ -50,7 +50,7 @@ public class Inmaillist {
 	
 	@ManyToOne
 	@JoinColumn(name="mail_file_id")
-	private Attachment mailFileid;//邮件附件id文件id
+	private Attachment mailFileid;//邮件附件id文
 	
 	@Column(name="mail_create_time")
 	private Date mailCreateTime;//邮件创建时间
@@ -59,17 +59,17 @@ public class Inmaillist {
 	@JoinColumn(name="mail_number_id")
 	private Mailnumber mailNumberid;//外部邮件账号id
 	
-	@Column(name="mail_del")
+	@Column(name="mail_del")  //是否从发信人的发信箱列表删除
 	private Boolean del=false;
 	
-	@Column(name="mail_push")
+	@Column(name="mail_push") //是否存为草稿
 	private Boolean push=false;
 	
-	@Column(name="mail_star")
+	@Column(name="mail_star")//标记
 	private Boolean star=false;
 	
 	@Transient 
-	private Long inmail;
+	private Long inmail;  //该属性？？？？？？？？
 	
 	@Transient 
 	private String huizhuan;

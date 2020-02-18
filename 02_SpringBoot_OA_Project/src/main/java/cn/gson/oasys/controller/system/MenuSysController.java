@@ -114,10 +114,10 @@ public class MenuSysController {
 	 */
 	@RequestMapping("menuedit")
 	public String newpage(HttpServletRequest req) {
-		if(!StringUtils.isEmpty(req.getAttribute("errormess"))){
+		if(!StringUtils.isEmpty(req.getAttribute("errormess"))){ //错误信息不为空
 			req.setAttribute("errormess", req.getAttribute("errormess"));
 		}
-		if(!StringUtils.isEmpty(req.getAttribute("success"))){
+		if(!StringUtils.isEmpty(req.getAttribute("success"))){ //正确信息不为空
 			req.setAttribute("success", req.getAttribute("success"));
 		}
 		
@@ -198,6 +198,7 @@ public class MenuSysController {
 			//执行业务代码
 			
 			System.out.println("此操作是正确的");
+			
 			req.setAttribute("success", "后台验证成功");
 		}
 		System.out.println("是否进入最后的实体类信息：" + menu);

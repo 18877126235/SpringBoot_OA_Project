@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,9 +91,23 @@ public class MailController {
 	 * @return
 	 */
 	@RequestMapping("mail")
-	public  String index(@SessionAttribute("userId") Long userId, Model model,
+	public  String index(HttpServletRequest req,@SessionAttribute("userId") Long userId, Model model,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
+		//验证上一条请求是否成功
+		if(!StringUtils.isEmpty(req.getAttribute("errormess"))){ //错误信息不为空
+			req.setAttribute("errormess", req.getAttribute("errormess"));
+		}
+		
+		System.out.println("我就不信了："+req.getAttribute("success"));
+		
+		if(!StringUtils.isEmpty(req.getAttribute("success"))){ //正确信息不为空
+			System.out.println("请求成功了呀******************************************");
+			req.setAttribute("success", req.getAttribute("success"));
+		}
+		
+		
+		
 		//查找用户
 		User user=udao.findOne(userId); 
 		
@@ -108,9 +123,9 @@ public class MailController {
 		Page<Pagemail> pagelist=mservice.recive(page, size, user, null,"收件箱");
 		List<Map<String, Object>> maillist=mservice.mail(pagelist);
 
-		for (Map<String, Object> map : maillist) {
-			System.out.println(map);
-		}
+//		for (Map<String, Object> map : maillist) {
+//			System.out.println("打印邮件数据看啊可能："+map);
+//		}
 		
 		model.addAttribute("page", pagelist);
 		model.addAttribute("maillist",maillist); //显示的邮件集合
@@ -629,6 +644,7 @@ public class MailController {
 		
 		return "mail/wirtemail";
 	}
+	
 	/**
 	 * 发送邮件
 	 * @throws IOException 
@@ -639,62 +655,89 @@ public class MailController {
 		User tu=udao.findOne(userId);
 		
 		String name=null;
-		Attachment attaid=null;
-		Mailnumber number=null;
-		StringTokenizer st =null;
-		ResultVO res = BindingResultVOUtil.hasErrors(br);
-		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
+		Attachment attaid=null; //附件文件对象
+		Mailnumber number=null; //外部邮箱账号对象
+		StringTokenizer st =null;  //用于处理和分隔字符串
+		ResultVO res = BindingResultVOUtil.hasErrors(br); //校验表单数据是否正确
+		System.out.println("打印这封邮件看看:"+mail);
+		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {  //如果校验不通过出错了（非正确SUCCESS）
 			List<Object> list = new MapToList<>().mapToList(res.getData());
 			request.setAttribute("errormess", list.get(0).toString());
-		}else{
-			if(!StringUtil.isEmpty(request.getParameter("fasong"))){
-				name=request.getParameter("fasong");
+		}else{ //表单数据校验通过
+			
+			if(!StringUtil.isEmpty(request.getParameter("fasong"))){ //如果是点击了发送按钮
+				
+				System.out.println("这是点击了发送按钮？？？***********");
+				
+				name=request.getParameter("fasong");  
 			}
 			
-			
-			if(!StringUtil.isEmpty(name)){
-				if(!StringUtil.isEmpty(file.getOriginalFilename())){
-					attaid=mservice.upload(file, tu);
-					attaid.setModel("mail");
-					AttDao.save(attaid);
+			//执行发送邮箱逻辑
+			if(!StringUtil.isEmpty(name)){ 
+				System.out.println("执行发送逻辑******************");
+				
+				//如果存在附件
+				if(!StringUtil.isEmpty(file.getOriginalFilename())){  
+					
+					System.out.println("附件存在*****************");
+					
+					attaid=mservice.upload(file, tu); //上传文件到服务器然后返回附件对象
+					
+					attaid.setModel("mail"); //设置文件的所属模块
+					AttDao.save(attaid);  //保存记录到附件表中
+					
 				}
 				//发送成功
-				mail.setPush(true);
+				mail.setPush(true); //设置非草稿
 				
-			}else{
+			}else{  //否则就是要存草稿的哈
 				//存草稿
-				mail.setInReceiver(null);
+				System.out.println("存为草稿哈哈哈哈*********************");
+				mail.setInReceiver(null); //接收人为空
 			}
-			mail.setMailFileid(attaid);
-			mail.setMailCreateTime(new Date());
-			mail.setMailUserid(tu);
-			if(!mail.getInmail().equals(0)){
-				number=mndao.findOne(mail.getInmail());
+			
+			mail.setMailFileid(attaid); //为该邮件设置附件属性
+			mail.setMailCreateTime(new Date()); //邮件创建时间
+			mail.setMailUserid(tu); //发送者
+			
+			//这是干啥呀
+			//判断是外部邮箱还是内部邮箱？？？
+			if(!mail.getInmail().equals(0)){ //如果是发送外部邮件
+				number=mndao.findOne(mail.getInmail()); //设置外部邮件账号属性
 				mail.setMailNumberid(number);
 			}
-			//存邮件
-			Inmaillist imail=imdao.save(mail);
 			
+			//存邮件!
+			Inmaillist imail=imdao.save(mail);  //保存这封邮件到发信箱里先
+			
+			//接下来发送给相对应的用户
 			if(!StringUtil.isEmpty(name)){
-				if(mservice.isContainChinese(mail.getInReceiver())){
+				
+				//获取到这封邮件的接收者的名字
+				if(mservice.isContainChinese(mail.getInReceiver())){ //如果名称是中文的
 					// 分割任务接收人
-					StringTokenizer st2 = new StringTokenizer(mail.getInReceiver(), ";");
+					StringTokenizer st2 = new StringTokenizer(mail.getInReceiver(), ";"); //将接收人各自分割出来
+					//遍历联系人
 					while (st2.hasMoreElements()) {
-						User reciver = udao.findid(st2.nextToken());
-						Mailreciver mreciver=new Mailreciver();
-						mreciver.setMailId(imail);
-						mreciver.setReciverId(reciver);
-						mrdao.save(mreciver);
+						User reciver = udao.findid(st2.nextToken()); //根据用户名称查找用户
+						Mailreciver mreciver=new Mailreciver(); //接收者对象
+						mreciver.setMailId(imail); //设置要发送的邮箱
+						mreciver.setReciverId(reciver); //设置发给的那个人的用户id
+						mrdao.save(mreciver); //保存到邮箱和接收人中间表中
 					}
-				}else{
-					if(mail.getInReceiver().contains(";")){
+				}else{ //否则如果是2468282708@qq.com的名称
+					
+					//那就是发送到用户的外部邮箱了
+					
+					if(mail.getInReceiver().contains(";")){ //否则就是英文名称的用户名
 						st = new StringTokenizer(mail.getInReceiver(), ";");
 					}else{
 						st = new StringTokenizer(mail.getInReceiver(), "；");
 					}
-					
+						//与上述类似
 						while (st.hasMoreElements()) {
 							if(!StringUtil.isEmpty(file.getOriginalFilename())){
+								
 								mservice.pushmail(number.getMailAccount(),
 										number.getPassword(),
 										st.nextToken(),
@@ -713,7 +756,10 @@ public class MailController {
 			}
 		}
 		
-		return "redirect:/mail";
+		//让前台弹出操作成功的窗口？？
+		request.setAttribute("success", "后台验证成功");
+		
+		return "forward:/mail";//使用转发的形式来共享request域对象
 	}
 	
 	/**
@@ -821,40 +867,50 @@ public class MailController {
 	 */
 	@RequestMapping("smail")
 	public  String index4(HttpServletRequest req,@SessionAttribute("userId") Long userId,Model model) {
-		User mu=udao.findOne(userId);
+		User mu=udao.findOne(userId); //获取当前用户
 		//邮件id
 		Long id=Long.parseLong(req.getParameter("id"));
-		//title
+		//title(是收信箱来的还是发信箱来的)
 		String title=req.getParameter("title");
+		
+		//System.out.println("打印这个title看看是什么东西"+title);
+		
 		//找到中间表信息
 		if(("收件箱").equals(title)||("垃圾箱").equals(title)){
 			Mailreciver	mailr=mrdao.findbyReciverIdAndmailId(mu,id);
-			mailr.setRead(true);
-			mrdao.save(mailr);
+			mailr.setRead(true); //设置为已读
+			mrdao.save(mailr); //保存到中间表
 		}
 		
 		//找到该邮件信息
-		Inmaillist mail=imdao.findOne(id);
+		Inmaillist mail=imdao.findOne(id); 
 		String filetype=null;
-		if(!Objects.isNull(mail.getMailFileid())){
+		if(!Objects.isNull(mail.getMailFileid())){ //如果附件不为空
+			//获取文件对象的存储路径属性
 			String filepath= mail.getMailFileid().getAttachmentPath();
-			System.out.println(filepath);
-				if(mail.getMailFileid().getAttachmentType().startsWith("image")){
-					
-					filetype="img";
-				}else{
-					filetype="appli";
-					
-				}
-		model.addAttribute("filepath", filepath);
-		model.addAttribute("filetype", filetype);
-		}
+			
+			
+			System.out.println("这是邮箱的附件路径："+filepath);
+			
+			System.out.println("是不是image类型呀："+mail.getMailFileid().getAttachmentType().startsWith("image"));
+			
+			if(mail.getMailFileid().getAttachmentType().startsWith("image")){ //如果附件的类型是image
+				filetype="img";
+			}else{
+				filetype="appli"; //其他的
+			}
+				
+		//存入域对象
+		model.addAttribute("filepath", filepath); //文件路径
+		model.addAttribute("filetype", filetype); //文件类型
 		
+		}
+		//获取发件人对象
 		User pushuser=udao.findOne(mail.getMailUserid().getUserId());
-		model.addAttribute("pushname", pushuser.getUserName());
-		model.addAttribute("mail", mail);
-		model.addAttribute("mess", title);
-		model.addAttribute("file", mail.getMailFileid());
+		model.addAttribute("pushname", pushuser.getUserName()); //设置发件人
+		model.addAttribute("mail", mail); //邮件
+		model.addAttribute("mess", title); //收信箱还是发件箱
+		model.addAttribute("file", mail.getMailFileid()); //附件文件对象
 		
 		return "mail/seemail";
 	}

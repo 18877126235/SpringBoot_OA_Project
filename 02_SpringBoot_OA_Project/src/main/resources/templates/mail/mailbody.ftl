@@ -40,21 +40,29 @@
 						<td >
 						<span class="labels"><label><input name="items" type="checkbox"><i>✓</i></label></span>
 						</td>
+						
+						
 						<#if mail.star==true>			
 							<td class="em"><span class="glyphicon glyphicon-star"
 								style="width: 25px;"></span></td>
 							<#else>
 								<td>&nbsp;</td>
 						</#if>
+						
+						
 						<#if mail.typename=="公告">
 						<td><span style="color:red;">${(mail.typename)!''}</span></td>
 						<#else>
 						<td><span>${(mail.typename)!''}</span></td>
 						</#if>
+						
+						
 						<#-- 发件人 -->
 						<td><span>${(mail.sender)!''}</span></td>
 						<#-- 收件人 -->
 						<td><span>${(mail.reciver)!''}</span></td>
+						
+						<#-- 邮件标题 -->
 						<#if mail.read==true>
 						<td><span>${(mail.title)!''}</span></td>
 						<#else>
@@ -75,7 +83,7 @@
 						<td class="mailid" style="display:none;"><span>${mail.mailid}</span></td>
 						
 						
-						<td >
+						<td>
 							<#if mail.read==true>
 								<span class="label label-success">已读</span>
 								<#else>
@@ -186,11 +194,20 @@
 		 });
 		 //查看
 		 $('.lab').on('click',function(){
+		 
+		 	 //alert("来了老弟");
+		 	 //获取当前邮件的id值
 			 var $mailid=$(this).parents("td").siblings(".mailid").children("span").text();
+			 //alert($mailid);
+			 
+			 //得到当前查看的邮件是属于哪个邮件模块
 			 var title=$(".titles").text();
+			 //alert(title);
 			 var $mail=$(this).parents("td").siblings().find(".read").text();
+			 //alert($mail);
+			 
 			 if($mail!=""){
-				 parent.changeemail();
+				 parent.changeemail(); //暂时不知道这里用来干嘛的
 			 }
 			
 				$('.set').load('smail',{id:$mailid,title:title});
