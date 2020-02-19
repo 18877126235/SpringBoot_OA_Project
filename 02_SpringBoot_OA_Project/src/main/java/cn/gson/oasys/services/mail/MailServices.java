@@ -338,9 +338,9 @@ public class MailServices {
 			//设置图片存放路径(分隔符替换)
 			String pathfile = targetFile.getAbsolutePath().replace("\\", "/").replace(rootpath, "");
 			String pathfile1 = (pathfile.substring(pathfile.indexOf("attachment")));
-			String pathfile2 = pathfile1.substring(pathfile1.indexOf("/"));
-			System.out.println("这个路径让人头大："+pathfile2);
-			attachment.setAttachmentPath(pathfile2); //设置附件的存储路径
+			//String pathfile2 = pathfile1.substring(pathfile1.indexOf("/"));
+			//System.out.println("这个路径让人头大："+pathfile2);
+			attachment.setAttachmentPath(pathfile1); //设置附件的存储路径
 			
 
 			attachment.setAttachmentShuffix(suffix); //设置文件扩展名

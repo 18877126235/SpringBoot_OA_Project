@@ -70,7 +70,7 @@ public class UserpanelController {
 	@PostConstruct
 	public void UserpanelController(){
 		try {
-			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","/static/image");
+			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","/static/");
 			System.out.println(rootpath);
 
 		}catch (IOException e){
@@ -232,16 +232,30 @@ public class UserpanelController {
 		return "forward:/userpanel";
 		
 	}
-	@RequestMapping("image/**")
+	//{            "/request1",            "/request2",            "/request3"    }
+	//当用户访问static/image/**下的资源
+	@RequestMapping({"image/**","attachment/**","file/**"})
 	public void image(Model model, HttpServletResponse response, @SessionAttribute("userId") Long userId, HttpServletRequest request)
 			throws Exception {
+		System.out.println("可以访问*******************");
 		String projectPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
-		System.out.println(projectPath);
-		String startpath = new String(URLDecoder.decode(request.getRequestURI(), "utf-8"));
 		
-		String path = startpath.replace("/image", "");
+		//   /E:/WEB-workPath/02_SpringBoot_OA_Project/target/classes/
+		System.out.println("王八蛋终于找到你了:"+projectPath);
+		
+//	    /image/刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
+		String startpath = new String(URLDecoder.decode(request.getRequestURI(), "utf-8")); //设置编码
+		System.out.println("你特么又来干嘛:"+startpath);
+		
+		
+		//  /刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
+		String path =   startpath;    //startpath.replace("", "");
+		System.out.println("这个家会很复杂："+path);
 		
 		File f = new File(rootpath, path);
+		
+		//    E:\WEB-workPath\02_SpringBoot_OA_Project\static\image\刘大庆\fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
+		System.out.println("最终的访问路径吗："+f);
 		
 		ServletOutputStream sos = response.getOutputStream();
 		FileInputStream input = new FileInputStream(f.getPath());

@@ -119,7 +119,11 @@ public class ProcessService {
 		ServletOutputStream sos = null;
 		FileInputStream aa = null;
 		try {
+			
+			/*****/
 			aa = new FileInputStream(file);
+			
+			
 			sos = response.getOutputStream();
 			// 读取文件问字节码
 			byte[] data = new byte[(int) file.length()];

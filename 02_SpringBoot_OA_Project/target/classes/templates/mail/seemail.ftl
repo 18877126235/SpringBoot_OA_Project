@@ -77,12 +77,9 @@
     		placement:'auto right',
 				trigger: 'hover click',
     		template:'<div class="popover" role="tooltip"><div class="arrow"></div>'
-    		+'<h3 class="popover-title"></h3><div><img src="/image/刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg" style="max-width: 200px;"/></div><div class="popover-content"></div></div>'
+    		+'<h3 class="popover-title"></h3><div><img src="/${(filepath)!''}" style="max-width: 200px;"/></div><div class="popover-content"></div></div>'
     	})
     	
-    	////E:/WEB-workPath/02_SpringBoot_OA_Project/
-    	//       /attachment/2020/02/刘大庆/QQ图片20191126114906.jpg
-    	///attachment${(filepath)!''}
 		//回复  
 		$(".huifu").click(function(){
 			var id=${mail.mailId};

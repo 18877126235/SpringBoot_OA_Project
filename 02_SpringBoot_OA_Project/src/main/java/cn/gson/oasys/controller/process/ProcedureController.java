@@ -122,8 +122,8 @@ public class ProcedureController {
 	@PostConstruct
 	public void UserpanelController(){
 		try {
-			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","");
-			System.out.println(rootpath);
+			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","/static");
+			System.out.println("答应这个路径看卡你什么："+rootpath);
 
 		}catch (IOException e){
 			System.out.println("获取项目路径异常");
@@ -918,24 +918,35 @@ public class ProcedureController {
 			
 		}
 		
+		
+		
 		/**
-		 * 下载文件
+		 * 下载附件(这是下载附件用的)
 		 * @param response
 		 * @param fileid
 		 */
 		@RequestMapping("file")
 		public void downFile(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
 			try {
+				//获取附件对象
 				Attachment attd = AttDao.findOne(fileid);
+				//获取附件存储路径
 				File file = new File(rootpath,attd.getAttachmentPath());
+				System.out.println("需要下载的文件的路径："+file);
+				
+				//设置respons相关配置
 				response.setContentLength(attd.getAttachmentSize().intValue());
 				response.setContentType(attd.getAttachmentType());
 				response.setHeader("Content-Disposition","attachment;filename=" + new String(attd.getAttachmentName().getBytes("UTF-8"), "ISO8859-1"));
+				
 				proservice.writefile(response, file);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
+		
 		/**
 		 * 图片预览
 		 * @param response
