@@ -8,6 +8,7 @@
 		<div style="padding: 10px 0 20px 6px;">
 			<img src="/image/${(user.imgPath)!'/timg.jpg'}"
 				style="width: 32px; height: 32px; border-radius: 50%;" />
+
 		</div>
 		<ul class="list-group">
 			<li><a href="#"><span class="glyphicon glyphicon-asterisk"></span></a>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <link href="images/favicon1.ico" rel="icon" type="image/x-icon"/>
 <link href="images/favicon1.ico" rel="shortcut icon" type="image/x-icon"/>
-<title>OA办公自动化系统</title>
+<title>OA办公自动化系统-注册</title>
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/login.css">
  <style>
@@ -103,11 +103,11 @@
 				color: #f27474;
 				border: 3px solid #f27474;
 				}
-				
-			.cotn_principal {
+		.cotn_principal {
   position: absolute;
   width: 100%;
   height: 100%;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cfd8dc+0,607d8b+100,b0bec5+100 */
 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', endColorstr='#b0bec5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
@@ -115,71 +115,59 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     </style>
 </head>
 
-<body style="background-image: url(images/tupian01.jpg);" >
+<body  style="background-image: url(images/bg1.jpg);" >
 <div class="cotn_principal">
   <div class="cont_centrar" style="top:5%;">
     <div class="cont_login">
-      <div class="cont_forms cont_forms_active_login" style="height: 480px;width: 400px;border-radius: 15px;">
-        <div class="cont_img_back_"> <img src="images/tupian01.jpg" alt="背景图片" /> </div>
-        <form action="logins" method="post" onsubmit="return check();">
+      <div class="cont_forms cont_forms_active_login" style=" background:#FAF0E6 ; height: 520px;width: 400px;border-radius: 15px;">
+        <div   class="cont_img_back_"> <img src="images/tupian02.jpg" alt="背景图片" /> </div>
+        
+        
+        <!-- 这里要注意，资源会被拦截哦，要记得配置不拦截 -->
+        <form action="registrations"  method="post" onsubmit="return check();">
         <div class="cont_form_login" style="display: block;opacity: 1;width: 400px;">
+        
+        
+        	<!-- 校验数据格式 -->
         	 <div class="alert alert-danger alert-dismissible"  role="alert" style="position: absolute;padding: 11px;display: none">
 	          	错误信息: <span class="error-mess"></span>
 	          	<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="right:0px;"><span aria-hidden="true">&times;</span></button>
 	          </div>
-          <h2>LOGIN</h2>
-          <input type="text" placeholder="UserName/TeL" autofocus="autofocus" value="${(userName)!''}" name="userName" class="userName test"/>
-          <input type="password" placeholder="Password" value="" name="password" class="password test"/>
-           <input type="text" placeholder="Code" style="margin-bottom: 20px;width:152px" name="code" class="code test"/>
+	          
+	          
+	          
+          <h2>REGISTRATION</h2>
+          
+      	  <input  type="text" placeholder="You-UserName/TeL" autofocus="autofocus"  name="userName" class="userName test"/>
+          <input  type="password" placeholder="You-Password" value="" name="password" class="password test"/>
+          <input type="password" placeholder="Again-Password" value=""  class="passwordAgain test"/>
+          <input type="text" placeholder="You-Mailboxes" autofocus="autofocus"  name="mailboxes" class="mailboxes test"/>
+          
+          <!--  
+          <input type="text" placeholder="Code" style="margin-bottom: 20px;width:152px" name="code" class="code test"/>
            <div class="login-img" style="display:inline-block">
 					<img class="thisimg" onclick="this.src='captcha?r'+Date.now()" src="captcha" alt="验证码" style="width: 100px;height: 42px;border-radius: 3px;">
 				</div>
-		    <br>
-		 <div><button class="btn_login btn" type="submit" >LOGIN</button></div>
-      	 <div style="width: 50px; float: left;" ><a href="registration"> 注册 </a></div>
-      	<div style="width:80px; float: right;" ><a href="#"><p>忘记密码？</p></a></div>
+		    <br>-->
+		 <div><button class="btn_login btn" type="submit" >SUBMIT-GO</button></div>
+      	 <div style="width: 50px; float: left;" ><a href="login"> 返回 </a></div>
+      	<div style="width:80px; float: right;" ><a href="#"><p>系统简介</p></a></div>
         </div>
         </form>
       </div>
+      <br>
      <div style="border: 1px solid transparent;">
-      	<p style="margin-top: 550px;font-weight: 400;color: #757575;font-size: 22px;letter-spacing:1px ;">欢迎使用OA办公自动化系统</p>
+      	<p style=" margin-top: 550px;font-weight: 400;color: white ;font-size: 22px;letter-spacing:1px ;">欢迎使用OA办公自动化系统</p>
       </div>
     </div>
     
   </div>
 </div>
-<div class="modal fade in" id="mymodal" data-backdrop="static" >
-			<div class="modal-dialog" style="top: 20%;">
-				<div class="modal-content">
-					<div class="modal-body modal-error">
-						<div class="icon">
-							<span class="glyphicon">!</span>
-						</div>
-						<div class="modal-p">
-							<!--<h2 style="text-align: center;">提示信息</h2>-->
-							<p class="modal-error-mess">该用户已经登录了，是否继续 ？</p>
-							<div class="modal-p">
-								<button type="button" class="btn btn-default" data-dismiss="modal" >取消</button>
-								<button type="button" class="btn btn-primary contiue" data-dismiss="modal">继续</button>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
 		<!-- /.modal -->
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<#if hasmess??>
-<script type="text/javascript">
-	$(function(){
-		$('#mymodal').modal('show');
-	})
-</script>
-</#if>
+
+<!-- 错误信息提示，校验表单数据用 -->
 <#if errormess??>
 <script>
 $(function(){
@@ -189,48 +177,14 @@ $(function(){
 })
 </script>
 </#if>
+
+
+
 <script type="text/javascript">
- $('.test').on('click',function(){
-	$(this).css('border',"1px solid transparent");
-}) 
-$('.contiue').on('click',function(){
-		location.href="/handlehas";
-})
-
-
-function check() {
-	var userName=$('.userName').val().trim();
-	var password=$('.password').val().trim();
-	var code=$('.code').val().trim();
-	console.log(userName);
-	console.log(password);
-	console.log(code);
-	var count=1;
-	if(userName==null || userName==""){
-		$('.error-mess').text("登录账号不能为空!");
-		$('.alert-danger').css('display','block');
-		$('.userName').css('border-color',"#a94442");
-		count=0;
-		return false;
-	}
-	if(password==null || password==""){
-		$('.error-mess').text("登录密码不能为空!");
-		$('.alert-danger').css('display','block');
-		$('.password').css('border-color',"#a94442");
-		count=0;
-		return false;
-	}
-	if(code==null || code==""){
-		$('.error-mess').text("验证码不能为空!");
-		$('.alert-danger').css('display','block');
-		$('.code').css('border-color',"#a94442");
-		count=0;
-		return false;
-	}
-	console.log(count);
-	return true;
-}
 	
+	
+	
+
 </script>
 </body>
 </html>

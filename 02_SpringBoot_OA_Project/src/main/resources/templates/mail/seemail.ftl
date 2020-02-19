@@ -80,6 +80,9 @@
     		+'<h3 class="popover-title"></h3><div><img src="/${(filepath)!''}" style="max-width: 200px;"/></div><div class="popover-content"></div></div>'
     	})
     	
+    	     
+    	
+    	
 		//回复  
 		$(".huifu").click(function(){
 			var id=${mail.mailId};

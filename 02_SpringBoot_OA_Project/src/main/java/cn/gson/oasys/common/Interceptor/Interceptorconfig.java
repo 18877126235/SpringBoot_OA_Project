@@ -10,7 +10,7 @@ public class Interceptorconfig extends WebMvcConfigurerAdapter{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
     	//配置拦截所有登录地址，除了login和captcha
-    	 registry.addInterceptor(new RecordInterceptor()).addPathPatterns("/**").excludePathPatterns("/login").excludePathPatterns("/captcha").excludePathPatterns("/logins");
+    	 registry.addInterceptor(new RecordInterceptor()).addPathPatterns("/**").excludePathPatterns("/login").excludePathPatterns("/registration").excludePathPatterns("/captcha").excludePathPatterns("/logins");
     	 //registry.addInterceptor(new recordInterceptor()).addPathPatterns("/**").excludePathPatterns("/logins").excludePathPatterns("/index").excludePathPatterns("/test2");
     
     }

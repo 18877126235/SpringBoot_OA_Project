@@ -232,7 +232,7 @@ public class UserpanelController {
 		return "forward:/userpanel";
 		
 	}
-	//{            "/request1",            "/request2",            "/request3"    }
+
 	//当用户访问static/image/**下的资源
 	@RequestMapping({"image/**","attachment/**","file/**"})
 	public void image(Model model, HttpServletResponse response, @SessionAttribute("userId") Long userId, HttpServletRequest request)
@@ -258,7 +258,9 @@ public class UserpanelController {
 		System.out.println("最终的访问路径吗："+f);
 		
 		ServletOutputStream sos = response.getOutputStream();
-		FileInputStream input = new FileInputStream(f.getPath());
+		
+		System.out.println("这个fgetpath是干嘛的:"+f.getPath());
+		FileInputStream input = new FileInputStream(f.getPath()); ///////???????????
 		byte[] data = new byte[(int) f.length()];
 		IOUtils.readFully(input, data);
 		// 将文件流输出到浏览器

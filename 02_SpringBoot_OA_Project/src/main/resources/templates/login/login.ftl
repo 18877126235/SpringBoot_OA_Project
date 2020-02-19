@@ -102,15 +102,25 @@
 			.modal-error .icon{
 				color: #f27474;
 				border: 3px solid #f27474;
+				}
+				
+			.cotn_principal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', endColorstr='#b0bec5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
     </style>
 </head>
 
-<body>
+<body style="background-image: url(images/tupian01.jpg);" >
 <div class="cotn_principal">
   <div class="cont_centrar" style="top:5%;">
     <div class="cont_login">
       <div class="cont_forms cont_forms_active_login" style="height: 480px;width: 400px;border-radius: 15px;">
-        <div class="cont_img_back_"> <img src="images/timg.jpeg" alt="背景图片" /> </div>
+        <div class="cont_img_back_"> <img src="images/tupian01.jpg" alt="背景图片" /> </div>
         <form action="logins" method="post" onsubmit="return check();">
         <div class="cont_form_login" style="display: block;opacity: 1;width: 400px;">
         	 <div class="alert alert-danger alert-dismissible"  role="alert" style="position: absolute;padding: 11px;display: none">
@@ -125,8 +135,9 @@
 					<img class="thisimg" onclick="this.src='captcha?r'+Date.now()" src="captcha" alt="验证码" style="width: 100px;height: 42px;border-radius: 3px;">
 				</div>
 		    <br>
-       <button class="btn_login btn" type="submit" >LOGIN</button>
-       
+		 <div><button class="btn_login btn" type="submit" >LOGIN</button></div>
+      	 <div style="width: 50px; float: left;" ><a href="registration"> 注册 </a></div>
+      	<div style="width:80px; float: right;" ><a href="#"><p>忘记密码？</p></a></div>
         </div>
         </form>
       </div>

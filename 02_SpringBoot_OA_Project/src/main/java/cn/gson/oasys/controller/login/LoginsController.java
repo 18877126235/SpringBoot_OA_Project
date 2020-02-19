@@ -56,6 +56,17 @@ public class LoginsController {
 
 		return "login/login";
 	}
+	
+	/*
+	 * 注册页面的显示  
+	 */
+	@RequestMapping(value="registration",method=RequestMethod.GET)
+	public String registration(){
+
+		return "login/Registration";
+	}
+	
+	
 	/*
 	 * 退出登录
 	 */
