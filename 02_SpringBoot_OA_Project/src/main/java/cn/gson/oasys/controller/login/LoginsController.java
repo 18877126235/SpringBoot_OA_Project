@@ -19,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.user.LoginRecord;
@@ -115,10 +117,6 @@ public class LoginsController {
 		/*
 		 * 将用户名分开查找；用户名或者电话号码；
 		 * */
-		
-		
-		
-		
 		//接下来验证用户是否存在
 		User user=uDao.findOneUser(userName, password); //根据用户名和密码寻找用户
 		
@@ -174,6 +172,25 @@ public class LoginsController {
 		 */
 		
 		return "redirect:/index";
+	}
+	
+	
+	/*
+	 * 判断用户名是否存在
+	 */
+	@RequestMapping(value = "findUserName")
+	public  @ResponseBody String findUserName(String username) {
+		
+		//System.out.println("看看能否获取用户名："+username);
+		
+		User user = uDao.findByUserName(username);
+		//System.out.println(user);
+		
+		if(user == null) { //如果没有这个用户名
+			return "success"; //返回成功
+		}
+
+		return "error"; //返回显示错误信息
 	}
 	
 	

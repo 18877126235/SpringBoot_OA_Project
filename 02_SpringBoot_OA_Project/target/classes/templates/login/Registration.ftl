@@ -123,8 +123,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
         <div   class="cont_img_back_"> <img src="images/tupian02.jpg" alt="背景图片" /> </div>
         
         
-        <!-- 这里要注意，资源会被拦截哦，要记得配置不拦截 -->
-        <form action="registrations"  method="post" onsubmit="return check();">
+        <!-- 这里要注意，资源会被拦截哦，要记得配置不拦截  registrations-->
+        <form   method="post" onsubmit="return check();">
         <div class="cont_form_login" style="display: block;opacity: 1;width: 400px;">
         
         
@@ -139,9 +139,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
           <h2>REGISTRATION</h2>
           
       	  <input  type="text" placeholder="You-UserName/TeL" autofocus="autofocus"  name="userName" class="userName test"/>
-          <input  type="password" placeholder="You-Password" value="" name="password" class="password test"/>
+          <input  type="password" placeholder="You-Password" value="" name="password" class="passWord test"/>
           <input type="password" placeholder="Again-Password" value=""  class="passwordAgain test"/>
-          <input type="text" placeholder="You-Mailboxes" autofocus="autofocus"  name="mailboxes" class="mailboxes test"/>
+          <input type="text" placeholder="You-Mailboxes" autofocus="autofocus"  name="mailboxes" class="mailBoxes test"/>
           
           <!--  
           <input type="text" placeholder="Code" style="margin-bottom: 20px;width:152px" name="code" class="code test"/>
@@ -181,8 +181,116 @@ $(function(){
 
 
 <script type="text/javascript">
+
+//定时器执行方法
+//function hello(){
+	 
+	//alert("定时器执行了哦");
+	//$('.alert-danger').css('display','none');
+	
+
+//}
+
+//错误提示函数
+function error(errormasage){
+	//显示错误提示框
+	$('.error-mess').text(errormasage);
+	$('.alert-danger').css('display','block');
+	$('.alert-danger').fadeOut(4000);
+}
+	
+//验证邮箱的函数
+function fChkMail(emailAddress){ 
+	
+	var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); 
+	var bChk=reg.test(emailAddress); 
+	
+	return bChk; 
+
+}
+	
+//表单提交校验
+function check() {
+	
+	var flag = 0;
+	//alert("哈哈哈哈，不给提交");
+	
+	//获取所有的输入框，查看有没有未填写的
+	var inputs = $("input");
+	inputs.each(function(){
+		var isEmpty= $(this).val();
+        if(isEmpty == ''){
+        	//显示错误提示框
+        	$('.error-mess').text('请完善数据填写!');
+        	$('.alert-danger').css('display','block');
+        	//然后缓慢隐藏错误提示框
+        	$('.alert-danger').fadeOut(4000);
+        	flag = 1; //标记
+        	return false; //这他妈是中断循环呀。。。。。。
+        }
+
+    });
+	if( flag == 1 ){
+		return false;
+	}
+	//然后校验用户名看看是否已经存在
+	//然后校验用户名看看是否已经存在
+	var username = $(".userName").val();
+	//alert(username);
+	$.ajax({
+		
+        url:"findUserName?username="+username,
+        dataType:"text", //预期服务器返回的数据类型
+        type:"get",
+        data:null, //发送到服务器的数据
+        success:function(data){
+        	//alert("成功"+data);
+        	
+        	if(data=='error'){ //如果返回错误信息
+        		error("用户名已存在,请更改！");
+        		flag = 1;
+        	}
+        },
+        error:function(data){
+        	alert("失败"+data);
+        }
+        
+    });
 	
 	
+	
+	if( flag == 1 ){
+		return false;
+	}
+	
+	//接下来判断两次密码是否一至
+	//首先判断密码是否大于六位
+	var passWord = $(".passWord").val();
+	//alert();
+	if(passWord.length<6){
+		
+		error("密码长度必须大于或等于6位！");
+		return false;
+	}
+	//接着判断两次密码是否一致
+	var passwordAgain = $(".passwordAgain").val();
+	if( !(passwordAgain == passWord)){ //如果不相等
+		error("两次输入的密码不一致！");
+		return false;
+	}
+	
+	//最后判断邮箱格式是否正确
+	var emailInput = $(".mailBoxes").val();
+	if( !fChkMail(emailInput) ){//如果邮箱格式不正确
+		
+		error("请输入正确的邮箱，邮箱格式错误！");
+	
+		return false;
+		
+	}
+	
+	return true;
+}
 	
 
 </script>
