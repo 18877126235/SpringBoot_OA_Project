@@ -99,10 +99,10 @@ public class MailController {
 			req.setAttribute("errormess", req.getAttribute("errormess"));
 		}
 		
-		System.out.println("我就不信了："+req.getAttribute("success"));
+		//System.out.println("我就不信了："+req.getAttribute("success"));
 		
 		if(!StringUtils.isEmpty(req.getAttribute("success"))){ //正确信息不为空
-			System.out.println("请求成功了呀******************************************");
+			//System.out.println("请求成功了呀******************************************");
 			req.setAttribute("success", req.getAttribute("success"));
 		}
 		
@@ -667,14 +667,14 @@ public class MailController {
 			
 			if(!StringUtil.isEmpty(request.getParameter("fasong"))){ //如果是点击了发送按钮
 				
-				System.out.println("这是点击了发送按钮？？？***********");
+				//System.out.println("这是点击了发送按钮？？？***********");
 				
 				name=request.getParameter("fasong");  
 			}
 			
 			//执行发送邮箱逻辑
 			if(!StringUtil.isEmpty(name)){ 
-				System.out.println("执行发送逻辑******************");
+				//System.out.println("执行发送逻辑******************");
 				
 				//如果存在附件
 				if(!StringUtil.isEmpty(file.getOriginalFilename())){  
@@ -692,7 +692,7 @@ public class MailController {
 				
 			}else{  //否则就是要存草稿的哈
 				//存草稿
-				System.out.println("存为草稿哈哈哈哈*********************");
+				//System.out.println("存为草稿哈哈哈哈*********************");
 				mail.setInReceiver(null); //接收人为空
 			}
 			

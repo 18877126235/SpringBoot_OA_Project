@@ -64,12 +64,15 @@ public class FileServices {
 		}
 	}
 	/**
-	 * 根据父	ID 查询 显示的 路径
+	 * 根据父	ID 查询 显示的 路径（就是说当前文件夹下会有多级子文件夹文件等例如我的图片，我的视频等等。。。，把这些路径查出来显示出来）
 	 * @param parentId
 	 * @return
 	 */
 	public List<FilePath> findpathByparent(Long parentId){
+		
+		System.out.println("开始执行文件夹业务层****************");
 		return fpdao.findByParentIdAndPathIstrash(parentId, 0L);
+		
 	}
 	
 	/**
@@ -104,28 +107,56 @@ public class FileServices {
 	 * @throws IOException
 	 */
 	public Object savefile(MultipartFile file,User user,FilePath nowpath,boolean isfile) throws IllegalStateException, IOException{
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM"); //设置日期格式
+		
+		//   2020/02
 		File root = new File(this.rootPath,simpleDateFormat.format(new Date()));
 		
-		File savepath = new File(root,user.getUserName());
+		String path2 = simpleDateFormat.format(new Date()) ;
+		
+		
+		
+		
+		//System.out.println("打印这个日期文件对象：*******************"+root);
+		
+		//（  路径：2020/02/刘大庆   ）
+		File savepath = new File(root,user.getUserName()); //获取用户名（罗密欧   刘大庆）
+		
 		//System.out.println(savePath.getPath());
 		
+		//如果不存在就创建
 		if (!savepath.exists()) {
 			savepath.mkdirs();
 		}
 		
+		//设置文件新名称
 		String shuffix = FilenameUtils.getExtension(file.getOriginalFilename());
 		log.info("shuffix:{}",shuffix);
 		String newFileName = UUID.randomUUID().toString().toLowerCase()+"."+shuffix;
 		File targetFile = new File(savepath,newFileName);
-		file.transferTo(targetFile);
 		
+		//将文件上传到服务器的指定路径         参数：路径，文件名称
+		file.transferTo(targetFile); //允许文件上传到指定路径
+		//E:/WEB-workPath/02_SpringBoot_OA_Project/static/file/2020/02/罗密欧/
+		
+		//在服务器中存储的文件路径
+		String path3 = path2 + "/" +user.getUserName() + "/"+ newFileName;
+		
+		//System.out.println("在服务器中存储的文件路径:*************"+path3);
+		
+		// true 表示从当前文件使用上传
 		if(isfile){
+			
 			FileList filelist = new FileList();
 			String filename = file.getOriginalFilename();
 			filename = onlyname(filename,nowpath,shuffix,1,true);
 			filelist.setFileName(filename);
-			filelist.setFilePath(targetFile.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+			
+			//filelist.setFilePath(targetFile.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+			filelist.setFilePath(path3); //设置文件存储路径
+			
+			
 			filelist.setFileShuffix(shuffix);
 			filelist.setSize(file.getSize());
 			filelist.setUploadTime(new Date());
@@ -137,7 +168,12 @@ public class FileServices {
 		}else{
 			Attachment attachment=new Attachment();
 			attachment.setAttachmentName(file.getOriginalFilename());
-			attachment.setAttachmentPath(targetFile.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+			
+			//attachment.setAttachmentPath(targetFile.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+			attachment.setAttachmentPath(path3);
+			
+			
+			
 			attachment.setAttachmentShuffix(shuffix);
 			attachment.setAttachmentSize(file.getSize());
 			attachment.setAttachmentType(file.getContentType());

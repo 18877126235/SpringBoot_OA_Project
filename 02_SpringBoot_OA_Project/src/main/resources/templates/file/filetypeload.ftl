@@ -23,49 +23,65 @@
 	</ul>
 </div>
 <div class="bgc-w box box-primary" style="height: 695px;">
+
 	<!--盒子头-->
 	<div class="box-header">
+		
 		<#if isload??>
+		
 			<#if type=="picture">
-				<h3 class="box-title" style="font-size: 12px;">图片</h3>
+				<h3 class="box-title" style="font-size: 20px;">图片</h3>
+				<!-- 隐藏的input用于处理特定的请求 -->
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="document">
-				<h3 class="box-title" style="font-size: 12px;">文档</h3>
+				<h3 class="box-title" style="font-size: 20px;">文档</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="music">
-				<h3 class="box-title" style="font-size: 12px;">音乐</h3>
+				<h3 class="box-title" style="font-size: 20px;">音乐</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="video">
-				<h3 class="box-title" style="font-size: 12px;">视频</h3>
+				<h3 class="box-title" style="font-size: 20px;">视频</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="yasuo">
-				<h3 class="box-title" style="font-size: 12px;">压缩包</h3>
+				<h3 class="box-title" style="font-size: 20px;">压缩包</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="trash">
-				<h3 class="box-title" style="font-size: 12px;">回收站</h3>
+				<h3 class="box-title" style="font-size: 20px;">回收站</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="share">
-				<h3 class="box-title" style="font-size: 12px;">分享文件</h3>
+				<h3 class="box-title" style="font-size: 20px;">分享文件</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			<#elseif type=="all">
-				<h3 class="box-title" style="font-size: 12px;">全部文件查找</h3>
+				<h3 class="box-title" style="font-size: 20px;">全部文件查找</h3>
 				<input class="loadfilestype" name="type" type="hidden" value="${type}"/>
 			</#if>
+			
 		<#else>
+			<!-- 否则就是默认显示全部文件页面了 -->
+			<!-- 当前路径的父路径是1说明是根路径 -->
 			<#if nowpath.parentId == 1>
-				<h3 class="box-title" style="font-size: 12px;">${nowpath.pathName}</h3>
+				<!-- 以下显示用户名 -->
+				<h3 class="box-title" style="font-size: 20px;">${nowpath.pathName}</h3> 
+				<!-- 否则就是点开某个文件夹 -->
 			<#else>
-				<h3 class="box-title" style="font-size: 12px;">
+				<h3 class="box-title" style="font-size: 20px;">
 					<a style="font-size: 12px;" href="filetest?pathid=${nowpath.parentId}">返回上一层 </a>
 					>
+					<!-- 遍历打印当前文件的所有父级目录 放在a标签中可以点击-->
 					<#list allparentpaths as allparenth>
 					<a style="font-size: 12px;" href="filetest?pathid=${allparenth.id}">${allparenth.pathName}</a>
 					>
 					</#list>
-					${nowpath.pathName}
+					<!-- 当前所在文件夹名称 -->
+					${nowpath.pathName} 
+					
 				</h3>
 			</#if>
+			
+			
 		</#if>
+		
+		<!-- 搜索栏 -->
 		<div class="box-tools">
 			<div class="input-group" style="width: 150px;">
 				<input type="text" class="form-control input-sm findfileandpath"
@@ -76,16 +92,25 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		
 	</div>
-	<!--盒子身体-->
+	
+	
+	
+	<!-- 盒子身体   以下就是显示相对应的文件和文件夹了 -->
 	<div class="box-body no-padding">
 	
 		<div style="padding: 5px;">
+			<!-- 全选和反选按钮 -->
 			<a class="btn btn-sm btn-default allcheck"
 				href="javascript:void(0);" title="全选/反选"><span
 				class="iconfont icon-xuanze1"></span></a>
 			<div class="btn-group">
+				<!-- 如果存在isload  说明点击了左侧相关的文件菜单选项  比如：图片，文档，音乐等  不会显示新建文件夹的图标 -->
 				<#if isload??>
+				
 					<#if istrash??>
 						<a onclick="{return confirm('文件将无法复原，确定删除吗？');};" class="btn btn-sm btn-default loaddelete" title="删除">
 							<span class="iconfont icon-lajitong"></span>
@@ -97,6 +122,8 @@
 							<span class="iconfont icon-lajitong"></span>
 						</a> 
 					</#if>
+					
+				<!-- 否则就是文件总体目录的显示  会显示出新建文件夹按钮-->
 				<#else>
 					<a onclick="{return confirm('文件将放入回收站，确定删除吗？');};"  class="btn btn-sm btn-default topdelete" href="deletefile?pathid=${nowpath.id}&checkpathids=&checkfileids=" title="删除">
 						<span class="iconfont icon-lajitong"></span>

@@ -89,6 +89,9 @@ li.activee>a {
 </head>
 
 <body style="background-color: #ecf0f5;">
+	<!-- 操作后信息提示弹窗 -->
+	<#include "/common/modalTip.ftl"/>
+	
 	<div class="row" style="padding-top: 10px;">
 		<div class="col-md-2">
 			<h1 style="font-size: 24px; margin: 0;" class="">文件管理</h1>
@@ -99,6 +102,9 @@ li.activee>a {
 		</div>
 	</div>
 	<div class="row" style="padding-top: 15px;">
+	
+	
+		<!-- 左侧显示文件菜单 -->
 		<div class="col-md-3">
 			<form class = "fileuploadform" action="fileupload" method="post" enctype="multipart/form-data">
 			<!-- <a class="btn btn-primary" href="##"
@@ -140,12 +146,17 @@ li.activee>a {
 				</ul>
 			</div>
 		</div>
+		
+		
+		<!-- 右侧显示文件夹和文件列表 -->
 		<div class="col-md-9">
 			<!--id="container"-->
 			<div class="loadfiletype">
 				<#include "/file/filetypeload.ftl"/>
 			</div>
 		</div>
+		
+		
 	</div>
 	
 	<div class="modal">
@@ -255,12 +266,20 @@ li.activee>a {
 			</div>
 		</div>
 	</div>
+	
+	
+	
 </body>
+
+<!-- 弹出操作后提示信息
 <#if message??>
+
 	<script type="text/javascript">
 		alert("${message}");
 	</script>
-</#if>
+	
+</#if> -->
+
 <script src="js/common/iconfont.js"></script>
 <script src="js/file/filejs.js"></script>
 <script src="js/file/fileajax.js"></script>
@@ -294,12 +313,18 @@ li.activee>a {
 				}
 			});
 			
+			//点击云盘下面的菜单标签
 			$(".nav.mm").on("click", "li", function() {
+				//alert("来了老弟");
+				//删除原来的背景色
 				$(this).parent().children(".activee").removeClass("activee");
+				//将背景色替换成灰色
 				$(this).addClass("activee");
 			});
 			
+			//检测到上传文件的组件发生变化
 			$(".uploadfile input").bind("change",function(){
+				//执行上传文件的功能
 				$(".fileuploadform").submit();
 			});
 			

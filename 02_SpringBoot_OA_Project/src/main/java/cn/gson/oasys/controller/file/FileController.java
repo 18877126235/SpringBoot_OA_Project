@@ -43,11 +43,11 @@ import cn.gson.oasys.services.file.FileServices;
 @RequestMapping("/")
 public class FileController {
 	@Autowired
-	private FileServices fs;
+	private FileServices fs; //文件业务层处理对象
 	@Autowired
-	private FilePathdao fpdao;
+	private FilePathdao fpdao; //文件路径对象的dao层
 	@Autowired
-	private FileListdao fldao;
+	private FileListdao fldao; //
 	@Autowired
 	private UserDao udao;
 
@@ -57,32 +57,54 @@ public class FileController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("filemanage")
+	@RequestMapping("filemanage") //点击文件管理
 	public String usermanage(@SessionAttribute("userId")Long userid,Model model) {
-		System.out.println(userid);
-		User user = udao.findOne(userid);
 		
+		//System.out.println("打印用户id**********："+userid);
+		
+		User user = udao.findOne(userid); //查找用户
+		
+		//获取该用户的文件夹对象
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
 		
-		System.out.println(filepath);
+		//System.out.println("打印这个文件夹对象："+filepath);
 		
-		if(filepath == null){
-			FilePath filepath1 = new FilePath();
+		if(filepath == null){ //如果用户第一次点击
+			//System.out.println("用户文件夹不存在************创建哈");
+			FilePath filepath1 = new FilePath(); //为用户创建文件夹
+			//设置上级文件夹id根路径
 			filepath1.setParentId(1L);
+			//设置文件夹名称
 			filepath1.setPathName(user.getUserName());
+			//设置文件夹对应的用户id
 			filepath1.setPathUserId(user.getUserId());
+			//保存
 			filepath = fpdao.save(filepath1);
 		}
 		
-		model.addAttribute("nowpath", filepath);
+		//查询相关的文集集合，放置到域对象中
+		model.addAttribute("nowpath", filepath); //文件夹对象放置
+		
+
+		//这里是查询当前目录下的子文件夹然后放到域对象中
 		model.addAttribute("paths", fs.findpathByparent(filepath.getId()));
+	
+		//这里应该是查询当前目录下的子文件，然后放置到域对象中
 		model.addAttribute("files", fs.findfileBypath(filepath));
 		
+		
+		//这里待定（用户文件根目录）
 		model.addAttribute("userrootpath",filepath);
-		model.addAttribute("mcpaths",fs.findpathByparent(filepath.getId()));
+		
+		//这里获取当前文件夹的上级文件夹
+		model.addAttribute("mcpaths",fs.findpathByparent(filepath.getId())); 
+
 		return "file/filemanage";
 	}
 
+	
+	
+	
 	/**
 	 * 进入指定文件夹 的controller方法
 	 * 
@@ -104,6 +126,8 @@ public class FileController {
 		Collections.reverse(allparentpaths);
 
 		model.addAttribute("allparentpaths", allparentpaths);
+		
+		
 		model.addAttribute("nowpath", filepath);
 		model.addAttribute("paths", fs.findpathByparent(filepath.getId()));
 		model.addAttribute("files", fs.findfileBypath(filepath));
@@ -127,14 +151,20 @@ public class FileController {
 	@RequestMapping("fileupload")
 	public String uploadfile(@RequestParam("file") MultipartFile file, @RequestParam("pathid") Long pathid,
 			HttpSession session, Model model) throws IllegalStateException, IOException {
-		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		User user = udao.findOne(userid);
-		FilePath nowpath = fpdao.findOne(pathid);
-		// true 表示从文件使用上传
-		FileList uploadfile = (FileList) fs.savefile(file, user, nowpath, true);
-		System.out.println(uploadfile);
 		
-		model.addAttribute("pathid", pathid);
+		Long userid = Long.parseLong(session.getAttribute("userId") + ""); //上传者
+		
+		User user = udao.findOne(userid);
+		
+		FilePath nowpath = fpdao.findOne(pathid); //当前文件夹对象
+		// true 表示从当前文件使用上传
+		FileList uploadfile = (FileList) fs.savefile(file, user, nowpath, true);
+		//System.out.println("打印上传的文件对象：*************************"+uploadfile);
+		
+		
+		
+		model.addAttribute("pathid", pathid); //当前文件夹对象id
+		model.addAttribute("success","上传成功");
 		return "forward:/filetest";
 	}
 	
@@ -273,15 +303,23 @@ public class FileController {
 	}
 	
 	/**
-	 * 图片预览
+	 * 文件图片预览
 	 * @param response
 	 * @param fileid
 	 */
 	@RequestMapping("imgshow")
 	public void imgshow(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
-		FileList filelist = fldao.findOne(fileid);
+		
+		//System.out.println("来到图片预览功能：***********************");
+		
+		//获取图片文件对象
+		FileList filelist = fldao.findOne(fileid); 
+		
 		File file = fs.getFile(filelist.getFilePath());
-		writefile(response, file);
+		
+		//System.out.println("获取图片路径对象"+file);
+		
+		writefile(response, file); //然后输出到浏览器显示
 	}
 	
 	/**

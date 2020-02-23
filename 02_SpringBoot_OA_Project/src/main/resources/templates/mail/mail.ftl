@@ -87,12 +87,12 @@
 	<div class="col-md-9 set">
 	
 		<#-- 右侧显示邮件列表 -->
-		
 		<#include "/mail/allmail.ftl">
 		
 	</div>
 </div>
 
+<!-- 弹窗提示 -->
 <#include "/common/modalTip.ftl"/> 
 
 <script>

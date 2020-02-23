@@ -56,7 +56,9 @@
 					<span class="glyphicon glyphicon-ok"></span>
 				</div>
 				<div class="modal-p">
-					<h2>操作成功</h2>
+				
+					<h2>${(success)!'操作成功'}</h2>
+
 					<!--<p style="">已回复</p>-->
 					<div class="modal-p">
 						<button type="button" class="btn btn-primary successToUrl" data-dismiss="modal">确定</button>

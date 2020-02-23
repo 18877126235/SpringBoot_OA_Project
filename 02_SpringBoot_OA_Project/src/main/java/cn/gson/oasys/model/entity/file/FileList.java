@@ -17,6 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import cn.gson.oasys.model.entity.user.User;
 
+/*
+ * 文件实体类
+ */
+
 @Entity
 @Table(name = "aoa_file_list")
 public class FileList {
@@ -45,21 +49,21 @@ public class FileList {
 	@Column(name = "file_shuffix")
 	private String fileShuffix;	//文件后缀名
 	
-	@Column(name = "file_istrash")
+	@Column(name = "file_istrash") //文件是否被删除
 	private Long fileIstrash = 0L;
 	
-	@Column(name = "file_isshare")
+	@Column(name = "file_isshare") //文件是否被分享
 	private Long fileIsshare = 0L;
-
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "file_user_id")
 	private User user;			//外键关联用户表  -文件上传者
 	
 	@ManyToOne
-	@JoinColumn(name = "path_id")
+	@JoinColumn(name = "path_id") //文件
 	@JsonIgnore
-	private FilePath fpath;
+	private FilePath fpath;  //文件属于哪个文件夹
 	
 	public FileList() {
 		

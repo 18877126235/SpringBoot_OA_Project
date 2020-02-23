@@ -60,19 +60,19 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		//获取当前访问的路径
 		String url = request.getRequestURL().toString();
 		
-		System.out.println("当前访问路径是："+url);
+		//System.out.println("当前访问路径是："+url);
 		
-		String zhuan="notlimit";
+		String zhuan="notlimit"; //弹出权限不足
 		
 		
 		if(oneMenuAll.size()>0){ //存在父菜单（除非实习生除外）
 				all.addAll(oneMenuAll); //在集合里面又加入一个集合
-			}
+		}
 		if(twoMenuAll.size()>0){ //如果子菜单存在
 			all.addAll(twoMenuAll); //子菜单赋值
 		}
 		
-		//此处有点看不懂。。。。待定
+		//查看用户有无权限访问相对应的路径
 		for (Rolemenu rolemenu : all) { //当前访问的路径中有和某个菜单中的路径相同，然后放行
 			
 			if(!rolemenu.getMenuUrl().equals(url)){
@@ -83,7 +83,7 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 			
 		}
 			
-		}else{
+		}else{ //没有登录就滚
 //			System.out.println("没有登录，滚开*******************************************************"
 //					+ "\n**************************************************"
 //					+ "\n**************************************");

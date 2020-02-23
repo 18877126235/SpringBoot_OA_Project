@@ -41,85 +41,88 @@ public class FileAjaxController {
 		return "file/mcpathload";
 	}
 
+	
 	/**
-	 * 文件类型筛选显示load
+	 * 发送aja的load请求  以完成文件类型筛选显示
 	 * @param userid
 	 * @param type
 	 * @param model
 	 * @return
 	 */
+	//点击图片，视频，音乐等显示相关内容
 	@RequestMapping("filetypeload")
 	public String filetypeload(@SessionAttribute("userId")Long userid,
-			@RequestParam("type") String type,
+			@RequestParam("type") String type, //获取json请求参数
 			Model model){
 		User user = udao.findOne(userid);
 		String contenttype;
-		List<FileList> fileLists = null;
-		List<FilePath> filePaths = null;
+		List<FileList> fileLists = null; //对应的类型的文件集合
+		List<FilePath> filePaths = null; //以及对应的路径
 		switch (type) {
 		
-		case "document":
-			fileLists = fldao.finddocument(user);
-			System.out.println(fileLists);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isload",1);
-			break;
-			
-		case "picture":
-			contenttype = "image/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
-			System.out.println(fileLists);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isload",1);
-			break;
-			
-		case "music":
-			contenttype = "audio/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
-			System.out.println(fileLists);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isload",1);
-			break;
-			
-		case "video":
-			contenttype = "video/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
-			System.out.println(fileLists);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isload",1);
-			break;
-		case "yasuo":
-			contenttype = "application/x%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
-			System.out.println(fileLists);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isload",1);
-			break;
-			
-		case "trash":
-			filePaths = fpdao.findByPathUserIdAndPathIstrash(userid, 1L);
-			fileLists = fldao.findByUserAndFileIstrash(user, 1L);
-			
-			model.addAttribute("paths", filePaths);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("istrash", 1);
-			model.addAttribute("isload",1);
-			break;
-			
-		case "share":
-			fileLists = fldao.findByFileIsshareAndFileIstrash(1L, 0L);
-			model.addAttribute("files", fileLists);
-			model.addAttribute("isshare", 1);
-			model.addAttribute("isload",1);
-			model.addAttribute("userid",userid);
-			break;
-			
-
-		default:
-			break;
+			case "document": //文档
+				fileLists = fldao.finddocument(user);
+				System.out.println(fileLists);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isload",1);
+				break;
+				
+			case "picture":
+				contenttype = "image/%";
+				fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+				System.out.println(fileLists);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isload",1);
+				break;
+				
+			case "music":
+				contenttype = "audio/%";
+				fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+				System.out.println(fileLists);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isload",1);
+				break;
+				
+			case "video":
+				contenttype = "video/%";
+				fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+				System.out.println(fileLists);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isload",1);
+				break;
+			case "yasuo":
+				contenttype = "application/x%";
+				fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+				System.out.println(fileLists);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isload",1);
+				break;
+				
+			case "trash":
+				filePaths = fpdao.findByPathUserIdAndPathIstrash(userid, 1L);
+				fileLists = fldao.findByUserAndFileIstrash(user, 1L);
+				
+				model.addAttribute("paths", filePaths);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("istrash", 1);
+				model.addAttribute("isload",1);
+				break;
+				
+			case "share":
+				fileLists = fldao.findByFileIsshareAndFileIstrash(1L, 0L);
+				model.addAttribute("files", fileLists);
+				model.addAttribute("isshare", 1);
+				model.addAttribute("isload",1);
+				model.addAttribute("userid",userid);
+				break;
+				
+	
+			default:
+				break;
 		}
 		
-		model.addAttribute("type", type);
+		model.addAttribute("type", type); //类型传入域对象
+		
 		return "file/filetypeload";
 	
 	}

@@ -12,6 +12,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+/*
+ * 用户文件夹对象
+ */
+
 @Entity
 @Table(name = "aoa_file_path")
 public class FilePath {
@@ -19,23 +24,25 @@ public class FilePath {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "path_id")
-	private Long id;	//路径id
+	private Long id;	//路径id 文件夹id吧
 	
-	@Column(name = "parent_id")
+	@Column(name = "parent_id") //上级文件夹
 	private Long parentId;
 	
-	@Column(name = "path_name")
+	@Column(name = "path_name")   //文件夹名称
 	private String pathName;
 	
-	@Column(name = "path_istrash")
+	@Column(name = "path_istrash")  //该文件夹是否已经被删除
 	private Long pathIstrash = 0L;
 	
-	@Column(name = "path_user_id")
+	@Column(name = "path_user_id")  //该文件夹对应的用户
 	private Long pathUserId;
 	
-	@OneToMany(mappedBy = "fpath")
+	@OneToMany(mappedBy = "fpath")  //外键连接（一个文件夹对应多个文件对象）
 	@JsonIgnore
 	private List<FileList> fileList;
+	
+	
 
 	public FilePath() {
 
