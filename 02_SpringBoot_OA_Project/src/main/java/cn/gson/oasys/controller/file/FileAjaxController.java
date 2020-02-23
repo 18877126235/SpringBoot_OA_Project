@@ -49,7 +49,7 @@ public class FileAjaxController {
 	 * @param model
 	 * @return
 	 */
-	//点击图片，视频，音乐等显示相关内容
+	//点击左侧菜单栏 中的图片，视频，音乐等显示相关内容
 	@RequestMapping("filetypeload")
 	public String filetypeload(@SessionAttribute("userId")Long userid,
 			@RequestParam("type") String type, //获取json请求参数
@@ -127,11 +127,13 @@ public class FileAjaxController {
 	
 	}
 	
-	
+	/*
+	 * 这里是----搜索用的，好强大的搜索程序
+	 */
 	@RequestMapping("findfileandpath")
 	public String findfileandpath(@SessionAttribute("userId") Long userid,
 			@RequestParam(value = "findfileandpath",required=false) String findfileandpath,
-			@RequestParam(value = "type",defaultValue="all") String type,
+			@RequestParam(value = "type",defaultValue="all") String type, //defaultValue的含义，如果参数为空，就赋值默认值，如果不为空就不理会
 			Model model){
 		System.out.println("查找！~~~~~~");
 		String findlike = "%" +findfileandpath+ "%";
@@ -179,6 +181,10 @@ public class FileAjaxController {
 			
 		case "trash":
 			filePaths = fpdao.findByPathUserIdAndPathIstrashAndPathNameLikeAndParentIdNot(userid, 1L, findlike, 1L);
+			
+			for (FilePath filePath : filePaths) {
+				System.out.println("这个路径集合是啥：*****"+filePath);
+			}
 			fileLists = fldao.findByUserAndFileIstrashAndContentTypeLikeAndFileNameLike(user, 1L, "%%", findlike);
 			model.addAttribute("istrash", 1);
 			model.addAttribute("isload",1);
@@ -195,7 +201,13 @@ public class FileAjaxController {
 			
 		default:
 			System.out.println("什么都不是");
+			//应该是查找文件的夫级目录
 			filePaths = fpdao.findByPathUserIdAndPathIstrashAndPathNameLikeAndParentIdNot(userid, 0L, findlike, 1L);
+			
+			for (FilePath filePath : filePaths) {
+				System.out.println("这个路径集合是啥：*****"+filePath);
+			}
+			
 			fileLists = fldao.findByUserAndFileIstrashAndFileNameLike(user, 0L,findlike);
 			model.addAttribute("files", fileLists);
 			model.addAttribute("paths", filePaths);

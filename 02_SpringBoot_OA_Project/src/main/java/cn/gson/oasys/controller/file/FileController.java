@@ -99,6 +99,7 @@ public class FileController {
 		//这里获取当前文件夹的上级文件夹
 		model.addAttribute("mcpaths",fs.findpathByparent(filepath.getId())); 
 
+		//model.addAttribute("filebyusername",user.getUserName());
 		return "file/filemanage";
 	}
 
@@ -113,7 +114,8 @@ public class FileController {
 	 * @return
 	 */
 	@RequestMapping("filetest")
-	public String text(@SessionAttribute("userId")Long userid,@RequestParam("pathid") Long pathid, Model model) {
+	public String text(@SessionAttribute("userId")Long userid,@RequestParam("pathid") Long pathid, HttpServletRequest request, Model model) {
+		
 		User user = udao.findOne(userid);
 		FilePath userrootpath = fpdao.findByPathName(user.getUserName());
 		
@@ -134,7 +136,8 @@ public class FileController {
 		//复制移动显示 目录
 		model.addAttribute("userrootpath",userrootpath);
 		model.addAttribute("mcpaths",fs.findpathByparent(userrootpath.getId()));
-		return "file/filemanage";
+
+		return "file/filemanage"; //返回页面显示当前文件夹下的文件和文件夹
 	}
 
 	/**
@@ -203,6 +206,9 @@ public class FileController {
 			@RequestParam("pathid") Long pathid,
 			@RequestParam("checkpathids") List<Long> checkpathids,
 			@RequestParam("checkfileids") List<Long> checkfileids, Model model) {
+		
+		
+		System.out.println("这是啥意思****************************");
 		System.out.println(checkfileids);
 		System.out.println(checkpathids);
 
@@ -220,6 +226,7 @@ public class FileController {
 		}
 
 		model.addAttribute("pathid", pathid);
+		
 		return "forward:/filetest";
 	}
 	

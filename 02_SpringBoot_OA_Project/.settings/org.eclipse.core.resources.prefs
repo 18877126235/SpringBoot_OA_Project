@@ -11,6 +11,7 @@ encoding//src/main/resources/templates/index/index.ftl=UTF-8
 encoding//src/main/resources/templates/login/Registration.ftl=UTF-8
 encoding//src/main/resources/templates/login/login.ftl=UTF-8
 encoding//src/main/resources/templates/mail/mail.ftl=UTF-8
+encoding//src/main/resources/templates/mail/seemail.ftl=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

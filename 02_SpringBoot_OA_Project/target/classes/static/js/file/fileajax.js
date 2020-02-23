@@ -92,26 +92,36 @@ $(".filetypeshare").click(function(){
  */
 $(".loadfiletype").on("click",".findfileandpathgo",function(){
 	var findfileandpath = $(".loadfiletype .box-header .findfileandpath").val();
-	var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
-	alert(findfileandpath+loadtype);
+	var loadtype = $(".loadfiletype .box-header .loadfilestype").val(); 
+	//var loadtype = 'picture';
+	//alert(findfileandpath+loadtype);
+	//ajax访问findfileandpath，参数是type 和 输入框的内容
 	$(".loadfiletype").load("findfileandpath",{type:loadtype,findfileandpath:findfileandpath});
 });
 
 /**
- * 删除load js
+ * 删除load js （这里是真正的删除掉了，连同数据库和服务器中删除）
  */
 $(".loadfiletype").on("click",".loaddelete",function(){
+	
+		
 		var checkpathids = new Array();
 		var checkfileids = new Array();
+		//获取选中的文件夹和文件
 		checkedpaths2(checkpathids,checkfileids);
-		
 		var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
 		
-		console.log(checkpathids);
-		console.log(checkfileids);
-		console.log(loadtype);
+		//alert("这个对象有点复杂了："+loadtype);
 		
-		$(".loadfiletype").load("fileloaddeletefile",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
+		if( checkpathids.length == 0 && checkfileids.length == 0 ){
+			
+		}else{
+			if( confirm('文件将彻底删除无法复原，确定删除吗？') ){
+				$(".loadfiletype").load("fileloaddeletefile",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
+			}
+		}
+		
+		
 	
 });
 $(".loadfiletype").on("click",".loadokshare",function(){
@@ -124,16 +134,36 @@ $(".loadfiletype").on("click",".loadokshare",function(){
 	
 });
 /**
- * 回收战load js
+ * 回收战load js(点击删除把文件放入回收站)
  */
 $(".loadfiletype").on("click",".loadtrash",function(){
+	
+	//alert("哈哈哈哈哈放入回收站");
+	
+	//注意new了之后就不会为空了哦
 	var checkpathids = new Array();
 	var checkfileids = new Array();
+	
+	//获取选中的文件和文件夹
 	checkedpaths2(checkpathids,checkfileids);
 	
-	var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
+	//如果什么都没选那就啥也不做
+	if(checkfileids.length == 0 && checkpathids.length == 0){
+		
+	}else{ //否则执行放入回收站，从页面删除
+		
+		if(confirm('文件将放入回收站，确定删除吗？')){
+			//因为是从左侧边栏的菜单点击过来的嘛，所以这里获取点击删除的文件类型（也就是从那个菜单来的）
+			var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
+			//alert("这是什么东西："+loadtype);
+			$(".loadfiletype").load("fileloadtrashfile",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
+		}
+		
+		
+	}
+//	
+//	
 	
-	$(".loadfiletype").load("fileloadtrashfile",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
 });
 
 $(".loadfiletype").on("click",".filereturnback",function(){

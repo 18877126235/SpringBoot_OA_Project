@@ -119,29 +119,31 @@ li.activee>a {
 			</form>
 			<div class="bgc-w box box-solid">
 				<div class="box-header">
-					<h3 class="box-title">云盘</h3>
-					<span class="btn btn-default pull-right btn-xs des mm"> <i
-						class="glyphicon glyphicon-minus"></i>
+					
+					<h3 style="color: #000000 ;" class="box-title">我的系统云盘</h3>
+					<span class="btn btn-default pull-right btn-xs des mm"> 
+					<i class="glyphicon glyphicon-minus"></i>
 					</span>
+					
 				</div>
 				<ul class="nav nav-pills nav-stacked mm">
 					<li class="activee filetypedocument"><a href="filemanage"> <span
 							class="iconfont icon-suoyougongneng"></span> 全部文件</a></li>
 					<li><a href="##" class="filetypedocument"><span class="iconfont icon-icon4"></span>
-							文档</a></li>
+							我的文档</a></li>
 					<li><a href="##" class="filetypeimage"><span class="iconfont icon-tupian"></span>
-							图片</a></li>
+							我的图片</a></li>
 					<li><a href="##" class="filetypemusic"><span class="iconfont icon-yinyue"></span>
-							音乐</a></li>
+							我的音乐</a></li>
 					<li><a href="##" class="filetypevedio"><span
-							class="iconfont icon-shipin"></span> 视频</a></li>
+							class="iconfont icon-shipin"></span> 我的视频</a></li>
 					<li><a href="##" class="filetypeyasuo"><span
-							class="iconfont icon-yasuobao"></span> 压缩包</a></li>
+							class="iconfont icon-yasuobao"></span> 压缩文件</a></li>
 					<li><a href="##" class="filetypeshare"><span class="iconfont icon-fenxiang"></span>
 							共享文件</a></li>
 					<li>
 						<a href="##" class="filetypetrash"><span
-							class="iconfont icon-lajitong"></span> 回收战</a>
+							class="iconfont icon-lajitong"></span> 垃圾回收</a>
 					</li>
 				</ul>
 			</div>

@@ -227,13 +227,19 @@ function checkedpaths(pathids,fileids){
 }
 
 /**
- * 改变删除a得href值
+ * 改变  a标签的  href值（在点击选中之后来到这里）
  * @returns
  */
 function changedeletehref(){
+	
+	//alert("来了老弟改变了哈哈哈");
+	
 	var checkpathids = new Array();
 	var checkfileids = new Array();
+	//获取当前页面中选中的文件和文件夹
 	checkedpaths(checkpathids,checkfileids);
+	
+	
 	console.log("checkpathids:"+checkpathids);
 	console.log("checkfileids:"+checkfileids);
 	
