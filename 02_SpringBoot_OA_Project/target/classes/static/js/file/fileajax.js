@@ -65,6 +65,11 @@ $("#thismodal .box-body").on("click",".openpath",function(){
 	}
 });
 
+
+
+
+
+
 $(".filetypedocument").click(function(){
 	$(".loadfiletype").load("filetypeload",{type:"document"});
 });

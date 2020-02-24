@@ -13,13 +13,17 @@
 				<li><a onclick="{return confirm('文件将放入回收站，确定删除吗？');};" class="loadtrash">删除</a></li>
 			</#if>
 		<#else>
+		
 			<li><a class="open">打开</a></li>
 			<li><a class="downloadfile">下载</a></li>
 			<li><a class="doshare" href="doshare?pathid=${nowpath.id}&">分享</a></li>
 			<li><a class="movefile">移动到</a></li>
 			<li><a class="copyfile">复制到</a></li>
 			<li><a class="menurename">重命名</a></li>
-			<li><a onclick="{return confirm('文件将放入回收站，确定删除吗？');};" class="delete">删除</a></li>
+			<!--  原来的写的太渣，我才不看的
+			<li><a onclick="{return confirm('文件将放入回收站，确定删除吗？');};" class="delete">删除</a></li>-->
+			<li><a class="delete">删除</a></li>
+			
 		</#if>
 	</ul>
 	
@@ -107,17 +111,24 @@
 	<div class="box-body no-padding">
 	
 		<div style="padding-left: 10px;">
-			<!-- 全选和反选按钮 -->
-			<a class="btn btn-sm btn-default allcheck"
-				href="javascript:void(0);" title="全选/反选"><span
-				class="iconfont icon-xuanze1"></span></a>
+			
+
 			<div class="btn-group">
+				<!-- 全选和反选按钮 -->
+				<a  class="btn btn-sm btn-default allcheck"
+					href="javascript:void(0);" title="全选/反选"><span
+					class="iconfont icon-xuanze"></span></a>
+					
+				<a style="background: #FFCC66;" class="btn btn-sm btn-default allnocheck"
+					href="javascript:void(0);" title="取消选中"><span
+					class="iconfont icon-xuanze1"></span></a>
+				
 				<!-- 如果存在isload  说明点击了左侧相关的文件菜单选项  比如：图片，文档，音乐等  不会显示新建文件夹的图标 -->
 				<#if isload??>
 
 					<!-- 如果此时是在回收站目录下 这可是真正的把文件彻底的删除掉了 -->
 					<#if istrash??>
-						<a  class="btn btn-sm btn-default loaddelete" title="删除">
+						<a style="background: #FFFFFF;" class="btn btn-sm btn-default loaddelete" title="删除">
 							<span class="iconfont icon-lajitong"></span>
 						</a>
 						<!-- 分享目录下不存在删除按钮 什么都不写-->
@@ -125,7 +136,7 @@
 					
 					<!-- 其他菜单下的删除按钮 -->
 					<#else>
-						 <a  class="btn btn-sm btn-default loadtrash" title="删除">
+						 <a style="background: #FFFFFF;" class="btn btn-sm btn-default loadtrash" title="删除">
 							<span class="iconfont icon-lajitong"></span> 
 							
 						<!--  onclick="{return confirm('文件将放入回收站其他菜单啦啦啦，确定删除吗？');};"     <a onclick="fundelete()" class="btn btn-sm btn-default loadtrash" title="删除">
@@ -143,27 +154,29 @@
 					-->
 					<!-- 修改称ajax方式来删除有点难 -->
 					
-					<a class="btn btn-sm btn-default topdelete"  title="删除">
+					<a style="background: #FFFFFF;" class="btn btn-sm btn-default topdelete"  title="删除">
 						<span class="iconfont icon-lajitong"></span>
 					</a>
 				
 					
 					<!-- 新建文件夹按钮 -->
-					<a class="btn btn-sm btn-default topcreatepath" href="javascript:void(0);" title="新建文件夹">
+					<a style="background: #FFFF00;" class="btn btn-sm btn-default topcreatepath" href="javascript:void(0);" title="新建文件夹">
 						<span class="iconfont icon-xinzengwenjian"></span>
 					</a>
 					
 				</#if>
+				
+				<!-- 刷新按钮 -->
+				<a  class="btn btn-sm btn-default" href="filemanage" title="刷新"><span
+					class="iconfont icon-shuaxin"></span></a>
+				
 			</div>
-			
-			<!-- 刷新按钮 -->
-			<a class="btn btn-sm btn-default" href="filemanage" title="刷新"><span
-				class="iconfont icon-shuaxin"></span></a>
-			<div style=" vertical-align:center; height:35px; float: right;" class="col-md-10">
+			<!-- 显示文件名称 -->
+			<div style=" vertical-align:center; height:35px; float: right;" class="col-md-9">
 				<p id="showfilename" style="display: none;line-height:35px;" ></p>
 			</div>
 		</div>
-			
+		
 		
 		<div class="file-box" style="overflow-y: auto;">
 			<div class = "boxcontain" style="height: auto;">
@@ -254,7 +267,7 @@
 								</div>
 							</div>
 							
-							<!--  -->
+							<!-- 右上角的选中按钮 -->
 							<input type="hidden" class = "pathmessage" value="${path.id}">
 							
 							<span class="file-check"> 
@@ -380,26 +393,10 @@
 	
 	<script type="text/javascript">
 		
-		//全部文件中的删除
-		function fun1(){
-			
-			alert("哈哈哈哈哈");
-			return false;
-			
-		}
-	
-		//显示文件全名函数
-		function setshowname(filename){
-			$("#showfilename").css('display','block');
-			$("#showfilename").text('文件名称: '+filename)
-		}
-		
 		$(function(){
 			
-			
-			
-			//使用ajax请求异步删除测试
-			$(".topdelete").click(function(){
+			//使用ajax请求异步删除测试 "delete"
+			$(".topdelete,.delete").click(function(){
 
 				//pathid=${nowpath.id}
 				var pathId = ${nowpath.id};
@@ -441,22 +438,7 @@
 					}
 				}
 			});
-			
-			
 
-			//鼠标放入显示文件名称
-			$(".FILENAMEHOVER").hover(function(){
-				
-				//alert("你大爷哈");
-				//alert($(this).text());
-				var text1 = $(this).text();
-				setshowname(text1);
-
-			},function(){
-				$("#showfilename").css('display','none');
-			});
-			
-	
 		});
 	
 	

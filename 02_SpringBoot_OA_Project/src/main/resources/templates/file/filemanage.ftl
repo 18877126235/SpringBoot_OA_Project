@@ -283,9 +283,13 @@ li.activee>a {
 </#if> -->
 
 <script src="js/common/iconfont.js"></script>
-<script src="js/file/filejs.js"></script>
+<script src="js/file/filejs.js">
+
+
+</script>
 <script src="js/file/fileajax.js"></script>
 <script type="text/javascript">
+	
 		$(function() {
 			
 			/*

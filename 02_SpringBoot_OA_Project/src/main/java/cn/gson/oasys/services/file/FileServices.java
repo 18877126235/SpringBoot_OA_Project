@@ -288,16 +288,16 @@ public class FileServices {
 	@Transactional
 	public void trashfile(List<Long> fileids,Long setistrashhowmany,Long userid){
 		for (Long fileid : fileids) {
+			//获取文件对象
 			FileList fileList = fldao.findOne(fileid);
+			//设置放入回收站标志
 			fileList.setFileIstrash(setistrashhowmany);
 			
-			
-			if(userid != null){ //如果userid存在
+			//把夫文件夹设置称根路径？？？
+			/*if(userid != null){ //如果userid存在
 				fileList.setFpath(null);
-			}
-			
-			
-			
+			}*/
+
 			fldao.save(fileList);
 		}
 		
@@ -366,11 +366,15 @@ public class FileServices {
 		for (Long checkfileid : checkfileids) {
 			FileList fileList = fldao.findOne(checkfileid);
 			
-			if (userid != null) {
+			//这里有点懵
+			/*if (userid != null) {
 				String name = onlyname(fileList.getFileName(), fpath, fileList.getFileShuffix(), 1, true);
-				fileList.setFpath(fpath);
+				
+				fileList.setFpath(fpath); 
+				
 				fileList.setFileName(name);
-			}
+			}*/
+			
 			fileList.setFileIstrash(0L);
 			fldao.save(fileList);
 		}

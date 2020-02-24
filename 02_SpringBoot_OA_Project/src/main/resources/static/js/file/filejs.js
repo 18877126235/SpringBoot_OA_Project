@@ -17,6 +17,9 @@ $(".loadfiletype").on("mouseover mouseout",".file-one",function(event){
  * .file-box .file-check"
  */
 $(".loadfiletype").on("click",".file-check",function(){
+	
+	//alert("哈哈哈哈哈选中了呢");
+	
 	console.log("ssss");
 	if($(this).parent(".file-one").hasClass("file-one-check")){
 		$(this).parent(".file-one").removeClass("file-one-check");
@@ -26,6 +29,50 @@ $(".loadfiletype").on("click",".file-check",function(){
 	changedeletehref();
 	changesharehref();
 });
+
+
+//点击选中文件
+$(".loadfiletype").on("click",".file-one",function(){
+	
+	//寻找下面的file-check
+	if($(this).hasClass("file-one-check")){
+		
+		$(this).removeClass("file-one-check");
+		
+	}else{
+		
+		$(this).addClass("file-one-check");
+		
+	}
+	changedeletehref();
+	changesharehref();
+	
+});
+
+
+
+
+
+//鼠标放入显示文件名称  
+$(".loadfiletype").on("mouseover mouseout",".FILENAMEHOVER",function(event){
+	
+	//alert("你大爷哈鼠标放入");
+	//alert($(this).text());
+	var text1 = $(this).text();
+	if(event.type == "mouseover"){
+		$("#showfilename").css('display','block');
+		$("#showfilename").text('文件名称: '+text1)
+		  //鼠标悬浮
+	}else if(event.type == "mouseout"){
+		  //鼠标离开
+		$("#showfilename").css('display','none');
+	}
+	
+});
+
+
+
+
 
 /**
  * 全选文件JS
@@ -45,6 +92,17 @@ $(".loadfiletype").on("click",".allcheck",function(){
 	}
 	changedeletehref();
 	changesharehref();
+});
+
+/*
+ * 全部取消选中
+ */
+$(".loadfiletype").on("click",".allnocheck",function(){
+
+	$(".file-one").each(function(){
+		$(".file-one").removeClass("file-one-check");
+	});
+	$(".allcheck").removeClass("allchecked");
 });
 
 /**
