@@ -136,22 +136,22 @@
 					
 				<!-- 否则就是文件总体目录的显示  会显示出新建文件夹按钮-->
 				<#else>
-					
+					<!--  
 					<a onclick="{return confirm('文件将放入回收站，确定删除吗？');};"  class="btn btn-sm btn-default topdelete" href="deletefile?pathid=${nowpath.id}&checkpathids=&checkfileids=" title="删除">
 						<span class="iconfont icon-lajitong"></span>
 					</a>
+					-->
+					<!-- 修改称ajax方式来删除有点难 -->
 					
-					 <!-- 修改称ajax方式来删除 -->
-					<!-- <a class="btn btn-sm btn-default topdelete"  title="删除">
+					<a class="btn btn-sm btn-default topdelete"  title="删除">
 						<span class="iconfont icon-lajitong"></span>
-					</a> -->
+					</a>
 				
 					
 					<!-- 新建文件夹按钮 -->
 					<a class="btn btn-sm btn-default topcreatepath" href="javascript:void(0);" title="新建文件夹">
 						<span class="iconfont icon-xinzengwenjian"></span>
 					</a>
-					
 					
 				</#if>
 			</div>
@@ -253,10 +253,15 @@
 									</#if>
 								</div>
 							</div>
+							
+							<!--  -->
 							<input type="hidden" class = "pathmessage" value="${path.id}">
+							
 							<span class="file-check"> 
 								<span class = "iconfont icon-xuanze" style="height:1.5em;width:1.5em"></span>
+								
 							</span>
+							
 						</div>
 					</#list>
 				</#if>
@@ -316,7 +321,6 @@
 						<div class="file-name">
 							<div class="filename">
 								<!-- 鼠标放置时显示全名 -->
-								
 								<!-- 显示文件名称 -->
 								<a class="FILENAMEHOVER" >${file.fileName}</a>
 								<input type="hidden" class="fileuserid" id="${(file.user.userId)!''}"/>
@@ -358,13 +362,16 @@
 							
 						</div>
 						
-						<!-- 这里待定了 -->
+						<!-- 这里是文件左上角的选中按钮  -->
+						<!-- hidden隐藏看不见 -->
 						<input type="hidden" class = "filemessage" value="${file.fileId}">
-						<span class="file-check"> 
+						<span class="file-check">  
 							<span class = "iconfont icon-xuanze" style="height:1.5em;width:1.5em"></span>
+							<!--  
+							<input class = "iconfont icon-xuanze"  type="checkbox" style="height:1.5em;width:1.5em" >
+							-->
 						</span>
-						
-						
+
 					</div>
 				</#list>
 			</div>
@@ -388,6 +395,52 @@
 		}
 		
 		$(function(){
+			
+			
+			
+			//使用ajax请求异步删除测试
+			$(".topdelete").click(function(){
+
+				//pathid=${nowpath.id}
+				var pathId = ${nowpath.id};
+				//注意new了之后就不会为空了哦
+				var checkpathids = new Array();
+				var checkfileids = new Array();
+				//获取选中文件的文件号id赋值到两个集合中
+				checkedpaths2(checkpathids,checkfileids);
+
+				//首先把选中的文件从页面中删除   icon-xuanze
+				//获取选中的div
+				var checkedpaths =$(".file-one.file-one-check");
+				
+				if( checkedpaths.length == 0 ){
+					
+				}else{
+					//是否删除
+					if( confirm('文件将被放入回收站，确定删除吗？') ){
+						//遍历从页面删除
+						checkedpaths.each(function(){
+							//把整个div删除掉就行了吧
+							$(this).remove(); //删除掉吧	
+						});
+
+						//然后再使用zjax异步删除
+						//发送ajax测试
+						$.ajax({
+							//  请求参数传过去
+					        url:"deletefileajax?"+'pathid='+pathId + '&checkpathids='+ checkpathids + '&checkfileids='+checkfileids,
+					        dataType:"text", //预期服务器返回的数据类型
+					        type:"post", //请求方式
+					        data:null, //发送到服务器的数据
+					        success:function(data){
+					        },
+					        error:function(data){
+					        }
+					        
+					    });
+					}
+				}
+			});
 			
 			
 

@@ -133,40 +133,36 @@ $(".loadfiletype").on("click",".loadokshare",function(){
 	$(".loadfiletype").load("fileloadshare",{type:loadtype,'checkfileids[]':checkfileids});
 	
 });
+
 /**
  * 回收战load js(点击删除把文件放入回收站)
  */
 $(".loadfiletype").on("click",".loadtrash",function(){
-	
 	//alert("哈哈哈哈哈放入回收站");
-	
 	//注意new了之后就不会为空了哦
 	var checkpathids = new Array();
 	var checkfileids = new Array();
-	
 	//获取选中的文件和文件夹
 	checkedpaths2(checkpathids,checkfileids);
-	
 	//如果什么都没选那就啥也不做
-	if(checkfileids.length == 0 && checkpathids.length == 0){
-		
+	if(checkfileids.length == 0 && checkpathids.length == 0){	
 	}else{ //否则执行放入回收站，从页面删除
-		
 		if(confirm('文件将放入回收站，确定删除吗？')){
 			//因为是从左侧边栏的菜单点击过来的嘛，所以这里获取点击删除的文件类型（也就是从那个菜单来的）
 			var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
 			//alert("这是什么东西："+loadtype);
 			$(".loadfiletype").load("fileloadtrashfile",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
 		}
-		
-		
 	}
-//	
-//	
-	
 });
 
+
+
+/*
+ * 这里干嘛的 不知道
+ */
 $(".loadfiletype").on("click",".filereturnback",function(){
+	
 	var checkpathids = new Array();
 	var checkfileids = new Array();
 	checkedpaths2(checkpathids,checkfileids);
@@ -174,6 +170,7 @@ $(".loadfiletype").on("click",".filereturnback",function(){
 	var loadtype = $(".loadfiletype .box-header .loadfilestype").val();
 	
 	$(".loadfiletype").load("filereturnback",{type:loadtype,'checkpathids[]':checkpathids,'checkfileids[]':checkfileids});
+	
 	
 });
 

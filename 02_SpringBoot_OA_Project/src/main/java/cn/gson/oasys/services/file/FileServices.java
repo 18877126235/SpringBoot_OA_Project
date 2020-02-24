@@ -290,9 +290,13 @@ public class FileServices {
 		for (Long fileid : fileids) {
 			FileList fileList = fldao.findOne(fileid);
 			fileList.setFileIstrash(setistrashhowmany);
-			if(userid != null){
+			
+			
+			if(userid != null){ //如果userid存在
 				fileList.setFpath(null);
 			}
+			
+			
 			
 			fldao.save(fileList);
 		}

@@ -204,8 +204,11 @@ public class FileController {
 	@RequestMapping("deletefile")
 	public String deletefile(@SessionAttribute("userId") Long userid,
 			@RequestParam("pathid") Long pathid,
+			
 			@RequestParam("checkpathids") List<Long> checkpathids,
-			@RequestParam("checkfileids") List<Long> checkfileids, Model model) {
+			@RequestParam("checkfileids") List<Long> checkfileids, 
+			
+			Model model) {
 		
 		
 		System.out.println("这是啥意思****************************");
@@ -229,6 +232,97 @@ public class FileController {
 		
 		return "forward:/filetest";
 	}
+	
+	
+	/*
+	 *	测试ajax方式删除
+	 */
+	@RequestMapping("deletefileajax")
+	public void deletefileajax(@SessionAttribute("userId") Long userid,
+			//把当前路径的id传过来先呀
+			@RequestParam("pathid") Long pathid,
+			
+			@RequestParam(value="checkpathids",required=false) List<Long> checkpathids, //requied=true，不传值报错，即抛出异常
+			@RequestParam(value="checkfileids",required=false) List<Long> checkfileids, //requied=true，不传值报错，即抛出异常
+			
+			
+			Model model) { 
+		
+		//先测试能不能获取到选中的文件和文件夹
+		//System.out.println("请求有效**************************"+pathid+checkfileids);
+		//接着执行放入回收站功能
+		if (checkfileids!=null) { //如果文件列表不为空
+			// 文件放入回收站
+			fs.trashfile(checkfileids, 1L,userid);
+		}
+		if (checkpathids!=null) {
+			// 删除文件夹也是放入回收站
+			fs.trashpath(checkpathids,1L,true);
+			//fs.trashPath(checkpathids);
+		}
+
+		//return "forward:/filetest";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * 重命名

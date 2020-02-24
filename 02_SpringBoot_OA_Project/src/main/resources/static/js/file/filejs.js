@@ -227,8 +227,9 @@ function checkedpaths(pathids,fileids){
 }
 
 /**
- * 改变  a标签的  href值（在点击选中之后来到这里）
- * @returns
+ * 改变  删除a标签的  href值（在点击选中之后来到这里）
+ * @returnss(checkpathids,checkfileids);
+	
  */
 function changedeletehref(){
 	
@@ -237,21 +238,28 @@ function changedeletehref(){
 	var checkpathids = new Array();
 	var checkfileids = new Array();
 	//获取当前页面中选中的文件和文件夹
+	//这里怎么会改变的
 	checkedpaths(checkpathids,checkfileids);
-	
 	
 	console.log("checkpathids:"+checkpathids);
 	console.log("checkfileids:"+checkfileids);
 	
 	var href = $(".box-body .topdelete").attr("href");
 	
+	//alert("这个是什么呀："+href);
+	
 	if(href!=undefined){
+		
+		//
+		alert("这个有定义");
+		
 		href = href.split("&");
 		console.log(href);
 		newhref = href[0]+"&checkpathids="+checkpathids+"&checkfileids="+checkfileids;
 		console.log(newhref);
 		$(".box-body .topdelete").attr("href",newhref);
 		$(".menu .delete").attr("href",newhref);
+		
 	}
 
 }

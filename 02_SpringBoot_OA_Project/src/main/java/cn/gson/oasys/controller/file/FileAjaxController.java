@@ -261,6 +261,7 @@ public class FileAjaxController {
 		model.addAttribute("type", type);
 		return "forward:/filetypeload";
 	}
+	
 	/**
 	 * 将文件放入回收战
 	 * @param userid
@@ -272,13 +273,17 @@ public class FileAjaxController {
 	 */
 	@RequestMapping("fileloadtrashfile")
 	public String fileloadtrashfile(@SessionAttribute("userId") Long userid,
+			
 			@RequestParam("type") String type,
+			
 			@RequestParam(value="checkpathids[]",required=false) List<Long> checkpathids,
 			@RequestParam(value="checkfileids[]",required=false) List<Long> checkfileids,
+			
+
 			Model model){
 		
-		System.out.println(type+checkpathids+checkfileids);
-		if (checkfileids!=null) {
+		System.out.println(type+checkpathids+checkfileids+"*************************");
+		if (checkfileids!=null) { //如果文件列表不为空
 			// 文件放入回收站
 			fs.trashfile(checkfileids, 1L,userid);
 		}
@@ -289,6 +294,7 @@ public class FileAjaxController {
 		}
 		
 		model.addAttribute("type", type);
+		//转发到
 		return "forward:/filetypeload";
 	}
 	
