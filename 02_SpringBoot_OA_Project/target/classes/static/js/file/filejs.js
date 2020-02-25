@@ -19,20 +19,19 @@ $(".loadfiletype").on("mouseover mouseout",".file-one",function(event){
 $(".loadfiletype").on("click",".file-check",function(){
 	
 	//alert("哈哈哈哈哈选中了呢");
-	
-	console.log("ssss");
 	if($(this).parent(".file-one").hasClass("file-one-check")){
+		//alert("有了");
 		$(this).parent(".file-one").removeClass("file-one-check");
 	}else{
+		//alert("没有");
 		$(this).parent(".file-one").addClass("file-one-check");
 	}
 	changedeletehref();
 	changesharehref();
 });
 
-
-//点击选中文件
-$(".loadfiletype").on("click",".file-one",function(){
+//点击选中文件 自创版本
+/*$(".loadfiletype").on("click",".file-one",function(){
 	
 	//寻找下面的file-check
 	if($(this).hasClass("file-one-check")){
@@ -44,14 +43,13 @@ $(".loadfiletype").on("click",".file-one",function(){
 		$(this).addClass("file-one-check");
 		
 	}
+	
+	//$(this).children(".file-check").click();
+	
 	changedeletehref();
 	changesharehref();
 	
-});
-
-
-
-
+});*/
 
 //鼠标放入显示文件名称  
 $(".loadfiletype").on("mouseover mouseout",".FILENAMEHOVER",function(event){
@@ -190,12 +188,16 @@ $(".loadfiletype").on("click",".cansalcreate",function(){
  * 这里是移动
  */
 $(".menu .movefile").click(function(){
+	
+	//alert("移动？？");
+	
 	console.log("进入移动模态框点击！~~");
 	$("#thismodal").modal("toggle");
 	$('#thismodal .modal-body').css('display', 'block');
 	$("#thismodal .mc-title").html("移动到");
 	$("#thismodal .morc").val(true);
 	
+	//获取选中的文件和文件夹
 	var checkfileids = new Array();
 	var checkpathids = new Array();
 	checkedpaths(checkpathids,checkfileids);

@@ -89,8 +89,7 @@ li.activee>a {
 </head>
 
 <body style="background-color: #ecf0f5;">
-	<!-- 操作后信息提示弹窗 -->
-	<#include "/common/modalTip.ftl"/>
+	
 	
 	<div class="row" style="padding-top: 10px;">
 		<div class="col-md-2">
@@ -185,85 +184,70 @@ li.activee>a {
 						<h3 class="box-title mc-title" style="font-size:15px;"></h3>
 					</div>
 					<div class="box-body no-padding">
+					
 						<div class="box-header" style="padding:3px 0 3px 0;">
 							<span class="btn btn-default btn-xs des mm"> 
 								<i class="glyphicon-minus"></i>
 							</span>
 							<!-- <img class="mcfloorimg" src="images/fileimg/Folder.png" /> -->
 							<div class="mcflooropen"></div>
-							<h3 class="box-title" style="font-size:12px;">${userrootpath.pathName}</h3>
+							<!-- 显示根路径名称 -->
+							<h3 class="box-title  rootname " style="font-size:12px;">${userrootpath.pathName}(根目录)</h3>
 							<input class="mctopathid" type="hidden" value="${userrootpath.id}" />
 						</div>
-						<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;">
+						
+						<ul class="nav nav-pills nav-stacked mm filepathname " style="padding-left:15px;">
 							<#list mcpaths as path>
 								<div class="pathidcompare" pathId="${path.id}">
 									<div class="box-header no-padding">
+									
+										<!-- 加减号 -->
 										<span class="btn btn-default btn-xs des mm"> 
 											<i class="jiajian glyphicon-plus"></i>
 										</span>
-										<span class="openpath modalajax">
+										
+										<!-- 显示文件夹名称  openpath   之前是由这个类属性的：modalajax-->
+										<span  class="openpath ">
 											<div class="mcflooropen"></div>
-											<h3 class="box-title" style="font-size:12px;">${path.pathName}</h3>
+											<h3 class="box-title"   style="font-size:12px;">${path.pathName}</h3>
 											<input class="mctopathid" type="hidden" value="${path.id}" />
 										</span>
+										
 									</div>
+									<!-- 这个的作用是当点击上面的文件夹名称时，把当前文件夹下的子文件夹显示出来 -->
 									<ul class="nav nav-pills nav-stacked mm modalajaxdata" style="padding-left:15px;display:none;">
 										
 									</ul>
 								</div>
 							</#list>
-							<!-- <li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									<li>xxx</li>
-								</ul>
-							</li>
-							<li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									
-								</ul>
-							</li>
-							<li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									<li>yeah</li>
-								</ul>
-							</li> -->
 						</ul>
 					</div>
+					<!-- 数据渲染到表单中，以便提交 （在这）-->
 					<div class="box-footer" style="text-align:right;">
 						<input class="userrootpath" type="hidden" name="userrootpath" value="${userrootpath.id}"/>
+						
+						
 						<form action="mcto" method="get">
+							<!-- 存储当前选择的文件夹的id传入后台 -->
 							<input class="mctoid" type="hidden" name="mctoid" value="${userrootpath.id}"/>
+							
 							<input class="mcfileids" type="hidden" name="mcfileids" value=""/>
+							
 							<input class="mcpathids" type="hidden" name="mcpathids" value=""/>
+							
 							<input type="hidden" name="pathid" value="${nowpath.id}"/>
+							
 							<input class="morc" type="hidden" name="morc" value=""/>
+							
+							
+							<!-- 确定和取消 -->
 							<button type="submit" class="btn btn-primary"
 								>确定</button>
 							<button type="button" class="btn btn-default mcmodalcancle"
 								data-dismiss="modal">取消</button>
 						</form>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -291,6 +275,32 @@ li.activee>a {
 <script type="text/javascript">
 	
 		$(function() {
+			
+			/*
+			 * 点击根目录的名称  妈的类型重复了，害我搞了半天
+			 */
+			$("body").on("click",".rootname",function(){
+				//alert("有效");
+				//先把背景色给设置成灰色
+				$(".filepathname").find(".openpath").each(function(){
+					$(this).css("background-color","#ffffff");
+					//$('#test').css('display', null);
+				});
+				$(this).css("background-color","#E0E0E0");
+				
+				var pathid = ${userrootpath.id};
+				
+				//然后设置表单中的要提交的文件夹id
+				$(".box-footer .mctoid").val(pathid);				
+				
+				
+				
+			});
+				
+				
+			
+			
+			
 			
 			/*
 			 * 收縮

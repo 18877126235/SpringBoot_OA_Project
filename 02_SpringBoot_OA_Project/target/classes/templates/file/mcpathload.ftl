@@ -17,5 +17,5 @@
 		</div>
 	</#list>
 <#else>
-	<div style="padding-left:15px;">此文件夹为空</div>
+	<div style="padding-left:15px;">此文件夹下没有子文件夹</div>
 </#if>

@@ -1,6 +1,11 @@
+<!-- 操作后信息提示弹窗 -->
+<#include "/common/modalTip.ftl"/>
 <div class = "menu">
+
+	
 	<!-- ***********************以下是点击右键显示内容****************************** -->
 	<ul class="nav nav-pills nav-stacked" style="padding:5px 0 5px 0;">
+		<!-- 如果是左侧边栏的菜单中点击 -->
 		<#if isload??>
 			<#if istrash??>
 				<li><a class="filereturnback">还原</a></li>
@@ -12,6 +17,7 @@
 				<li><a class="menurename">重命名</a></li>
 				<li><a onclick="{return confirm('文件将放入回收站，确定删除吗？');};" class="loadtrash">删除</a></li>
 			</#if>
+		<!-- 否则就是在文件夹中查看 -->
 		<#else>
 		
 			<li><a class="open">打开</a></li>
@@ -394,7 +400,7 @@
 	<script type="text/javascript">
 		
 		$(function(){
-			
+
 			//使用ajax请求异步删除测试 "delete"
 			$(".topdelete,.delete").click(function(){
 

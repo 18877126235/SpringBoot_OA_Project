@@ -1,5 +1,6 @@
 ///**
 // *  ajax
+
 // */
 // $(".box-body").on("click", ".path", function(){
 //	 var pathid = $(this).siblings(".pathmessage").val();
@@ -43,29 +44,100 @@
 // });
 
 /**
- * 复制移动选择目标文件文件夹并ajax加载选择文件加下的文件夹
+ * 复制移动选择目标文件文件夹并ajax加载选择文件夹下的文件夹(点击文件夹名称会显示该文件夹下的子文件夹)
  */
-$("#thismodal .box-body").on("click",".openpath",function(){
+/*$("#thismodal .box-body").on("click",".openpath",function(){
 	
-	var mctoid = $(this).find(".mctopathid").val();
+	//alert("哈哈");
 	
+	//点击后设置背景颜色为灰色  是不是应该先删除其他区的所有的css属性
+	$(".filepathname").find(".openpath").each(function(){
+		$(this).css("background-color","#ffffff");
+		//$('#test').css('display', null);
+	});
+	$(this).css("background-color","#E0E0E0");
+	//还要把其他文件夹下的展开的目录给缩起来
+	
+	//以下是原文
+	var mctoid = $(this).find(".mctopathid").val(); //这里是获取当前文件夹的在数据库中id
+	
+	//获取提交表单的这个对象来干嘛的
 	var mcpathids = $("#thismodal .box-footer .mcpathids").val();
 	
+	//此时表单提交数据中的文件夹id就变成了点击的那个文件夹（默认是根路径）
 	$(".box-footer .mctoid").val(mctoid);
 	
-	if($(this).hasClass("modalajax")){
-		console.log("modalajax");
+	//如果此时文件夹已经有了这个属性类（一至都有哈）
+	if($(this).hasClass("modalajax")){   //可不可以做判断，如果第一次点击就展示目录，再次点击就收起目录（如果有类型，说明已经打开？？）
+		
+		//alert("卧槽，怎么执行了");
+		//这里是获取夫元素同级别的下一个元素（ul标签）
 		var $ul = $(this).parents(".box-header").next();
+		
+		//设置为减号删除加号
 		$(this).parents(".box-header").find(".jiajian").addClass("glyphicon-minus").removeClass("glyphicon-plus");
+		
 		$ul.css("display","block");
 		
-		$ul.load("mcloadpath",{mctoid:mctoid,mcpathids:mcpathids});
-	}else{
-		console.log("box-header");
+		$ul.load("mcloadpath",{mctoid:mctoid,mcpathids:mcpathids}); //这是什么造型呀
+		
+	}else{ //否则什么也不干
+		
+		alert("没有呢");
+		
+	}
+	
+	
+});*/
+
+/*
+ * 改进上述方法
+ */
+$("#thismodal .box-body").on("click",".openpath",function(){
+	//alert("哈哈");
+	
+	//先把根目录的背景颜色去掉rootname
+	$(".rootname").css("background-color","#ffffff");
+	
+	//点击后设置背景颜色为灰色  是不是应该先删除其他区的所有的css属性
+	$(".filepathname").find(".openpath").each(function(){
+
+		$(this).css("background-color","#ffffff");
+		//$(this).css("display")="none
+		//$('#test').css('display', null);
+	});
+	$(this).css("background-color","#E0E0E0");
+	
+	
+	//还要把其他文件夹下的展开的目录给缩起来
+	//如果此时文件夹已经有了这个属性类（一至都有哈）
+	if($(this).hasClass("modalajax")){   //可不可以做判断，如果第一次点击就展示目录，再次点击就收起目录（如果有类型，说明已经打开？？）
+		//alert("卧槽，怎么执行了");
+		//已经打开过了，那就关闭
+		$(this).removeClass("modalajax"); //标记关闭
+		//设置减号编程加号
+		$(this).parents(".box-header").find(".jiajian").addClass("glyphicon-plus").removeClass("glyphicon-minus");
+		var $ul = $(this).parents(".box-header").next();
+		$ul.css("display","none"); //隐藏
+	}else{ //说明没打开
+		//alert("没有呢");
+		$(this).addClass("modalajax"); //标记已经打开
+		//以下是原文
+		var mctoid = $(this).find(".mctopathid").val(); //这里是获取当前文件夹的在数据库中id
+		//获取提交表单的这个对象来干嘛的
+		var mcpathids = $("#thismodal .box-footer .mcpathids").val();
+		//此时表单提交数据中的文件夹id就变成了点击的那个文件夹（默认是根路径）
+		$(".box-footer .mctoid").val(mctoid);
+		//这里是获取夫元素同级别的下一个元素（ul标签）
+		var $ul = $(this).parents(".box-header").next();
+		//设置为减号删除加号
+		$(this).parents(".box-header").find(".jiajian").addClass("glyphicon-minus").removeClass("glyphicon-plus");
+		//显示文件夹下的文件
+		$ul.css("display","block");
+		//发送请求显示数据
+		$ul.load("mcloadpath",{mctoid:mctoid,mcpathids:mcpathids}); //这是什么造型呀
 	}
 });
-
-
 
 
 

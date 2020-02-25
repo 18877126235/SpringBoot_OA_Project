@@ -30,6 +30,10 @@ public class FileAjaxController {
 	@Autowired
 	UserDao udao;
 	
+	
+	/*
+	 * 待定
+	 */
 	@RequestMapping("mcloadpath")
 	public String mcloadpath(@RequestParam("mctoid") Long mctoid,@RequestParam("mcpathids") List<Long> mcpathids,Model model){
 		System.out.println("进来了是吧！~~");

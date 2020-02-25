@@ -439,6 +439,7 @@ public class FileServices {
 	 */
 	@Transactional
 	public void moveAndcopy(List<Long> mcfileids,List<Long> mcpathids,Long topathid,boolean fromwhere,Long userid){
+		//根据路径id查找目的路径
 		FilePath topath = fpdao.findOne(topathid);
 		if(fromwhere){
 			System.out.println("这里是移动！！~~");
@@ -467,6 +468,7 @@ public class FileServices {
 			if(!mcfileids.isEmpty()){
 				System.out.println("fileid is not null");
 				for (Long mcfileid : mcfileids) {
+					//查找这个文件
 					FileList filelist = fldao.findOne(mcfileid);
 					copyfile(filelist,topath,true);
 				}
@@ -515,33 +517,65 @@ public class FileServices {
 	 * @param filelist
 	 */
 	public void copyfile(FileList filelist,FilePath topath,boolean isfilein){
-		File s = getFile(filelist.getFilePath());
-		User user = filelist.getUser();
+		
+		//获取文件原来的路径
+		File s = getFile(  filelist.getFilePath());
+		
+		//System.out.println("这是文件原来的路径：***************"+s);
+		
+		
+		
+		User user = filelist.getUser(); //获取当前用户
+		//获取日期
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
+		
 		File root = new File(this.rootPath,simpleDateFormat.format(new Date()));
+		
+		File root1 = new File(simpleDateFormat.format(new Date()));
+		
+		
 		File savepath = new File(root,user.getUserName());
 		
+		File savepath1 = new File(root1,user.getUserName());
+		
+		//这里有点多余
 		if (!savepath.exists()) {
 			savepath.mkdirs();
 		}
 		
-		String shuffix = filelist.getFileShuffix();
+		String shuffix = filelist.getFileShuffix(); //文件后缀名
+		//日志？？
 		log.info("shuffix:{}",shuffix);
-		String newFileName = UUID.randomUUID().toString().toLowerCase()+"."+shuffix;
-		File t = new File(savepath,newFileName);
 		
-		copyfileio(s,t);
+		String newFileName = UUID.randomUUID().toString().toLowerCase()+"."+shuffix;
+		
+		File t = new File(savepath,newFileName); //为赋值的文件起一个新名称
+		//服务器中的文件名称
+		String filepath = savepath1+"/"+newFileName;
+		
+		//System.out.println("这是拷贝的文件的新路径："+t);
+		
+		copyfileio(s,t); //复制文件 s 是原来的路径  t是新
+		
+		
 		
 		FileList filelist1 = new FileList();
+		
+		
+		
 		String filename="";
-		if(isfilein){
+		
+		if(isfilein){ //如果是复制选择
 			filename = "拷贝 "+filelist.getFileName().replace("拷贝 ", "");
 		}else{
 			filename = filelist.getFileName();
 		}
 		filename = onlyname(filename,topath,shuffix,1,true);
 		filelist1.setFileName(filename);
-		filelist1.setFilePath(t.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+		//这里出问题filepath
+		//filelist1.setFilePath(t.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+		filelist1.setFilePath(filepath); //保存文件路径
+		
 		filelist1.setFileShuffix(shuffix);
 		filelist1.setSize(filelist.getSize());
 		filelist1.setUploadTime(new Date());

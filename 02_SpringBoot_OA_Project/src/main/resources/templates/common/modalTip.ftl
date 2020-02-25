@@ -48,7 +48,7 @@
 }
 </style>
 
-<div class="modal fade in" id="thismodal" data-backdrop="static">
+<div class="modal fade in" id="thismodal1" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body modal-success" style="display: none;">

@@ -188,7 +188,9 @@ public class FileController {
 			fs.doshare(checkfileids);
 		}
 		model.addAttribute("pathid", pathid);
-		model.addAttribute("message","分享成功");
+		
+		model.addAttribute("success","分享成功");
+		
 		return "forward:/filetest";
 	}
 	
@@ -235,7 +237,7 @@ public class FileController {
 	
 	
 	/*
-	 *	测试ajax方式删除
+	 *	使用ajax的方式删除
 	 */
 	@RequestMapping("deletefileajax")
 	public void deletefileajax(@SessionAttribute("userId") Long userid,
@@ -264,66 +266,7 @@ public class FileController {
 		//return "forward:/filetest";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * 重命名
 	 * @param name
@@ -347,6 +290,7 @@ public class FileController {
 		return "forward:/filetest";
 		
 	}
+	
 	/**
 	 * 移动和复制
 	 * @param mctoid
@@ -361,7 +305,8 @@ public class FileController {
 			@RequestParam("mcfileids")List<Long> mcfileids,
 			@RequestParam("mcpathids")List<Long> mcpathids,
 			Model model){
-		System.out.println("--------------------");
+		
+		System.out.println("---------来了老弟************************-----------");
 		System.out.println("mcfileids"+mcfileids);
 		System.out.println("mcpathids"+mcpathids);
 	
@@ -374,6 +319,8 @@ public class FileController {
 		}
 		
 		model.addAttribute("pathid", pathid);
+		model.addAttribute("success","操作成功");
+		//转发
 		return "forward:/filetest";
 	}
 
