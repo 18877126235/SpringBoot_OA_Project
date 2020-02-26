@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import cn.gson.oasys.model.entity.role.Rolemenu;
 import cn.gson.oasys.model.entity.role.Rolepowerlist;
+import cn.gson.oasys.model.entity.system.SystemMenu;
 
 public interface RolepowerlistDao extends JpaRepository<Rolepowerlist, Long>{
 	//找所有的父菜单
@@ -43,6 +44,10 @@ public interface RolepowerlistDao extends JpaRepository<Rolepowerlist, Long>{
 				+ "and menu.parentId=?1 and role.roleId.roleId=?2 and menu.show=?3 and role.check=?4 and menu.menuName like %?5% order by menu.sortId")
 		List<Rolemenu> findname(Long id,Long roleid,Boolean bo,Boolean le,String name);
 		
+		
+		//条件查询，查询菜单id为76的中间表数据(用来快速删除菜单和权限中间表的数据，测试用的)
+		//@Query("select Rolepowerlist from Rolepowerlist where Rolepowerlist.menuId.menuId=?1")
+		List<Rolepowerlist> findByMenuId(SystemMenu menuId);  //传入菜单id
 		
 
 }

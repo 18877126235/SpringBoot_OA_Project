@@ -10,7 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,12 +25,16 @@ import cn.gson.oasys.model.dao.attendcedao.AttendceService;
 import cn.gson.oasys.model.dao.informdao.InformDao;
 import cn.gson.oasys.model.dao.informdao.InformRelationDao;
 import cn.gson.oasys.model.dao.processdao.NotepaperDao;
+import cn.gson.oasys.model.dao.roledao.RolepowerlistDao;
+import cn.gson.oasys.model.dao.system.SystemMenuDao;
 import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.PositionDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.dao.user.UserLogRecordDao;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
+import cn.gson.oasys.model.entity.role.Rolepowerlist;
+import cn.gson.oasys.model.entity.system.SystemMenu;
 import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.LoginRecord;
 import cn.gson.oasys.model.entity.user.Position;
@@ -162,11 +168,51 @@ public class Test1 {
 		
 	}
 	
+	@Autowired  //数据库操作对象
+	private RolepowerlistDao rolepowerlistDao;
+	
+	private SystemMenuDao systemMenuDao; //菜单实体类操作对象
 	
 	
 	
+	//测试删除角色和菜单中间表数据
+	//开启事务
+	
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void test06() {
+		
+//		List<Rolepowerlist> findAll = rolepowerlistDao.findAll();
+//		
+//		for (Rolepowerlist rolepowerlist : findAll) {
+//			
+//			System.out.println(rolepowerlist.getMenuId());
+//			
+//		}
+		
+		/*List<Rolepowerlist> findByMesuId = rolepowerlistDao.findByMesuId(76l);
+		System.out.println(findByMesuId);*/
+	
+		//SystemMenu menu = systemMenuDao.findOne(76l);
+		
+		SystemMenu menu = new SystemMenu();
+		
+		menu.setMenuId(82l);
+		
+		//System.out.println(menu);
+		
+		List<Rolepowerlist> findByMenuId = rolepowerlistDao.findByMenuId(menu);
+		
+		for (Rolepowerlist rolepowerlist : findByMenuId) {
+			
+			rolepowerlistDao.delete(rolepowerlist.getPkId()); //删除掉中间表这条数据
+			//System.out.println(rolepowerlist.getPkId());
+		}
+		
+		
 
-	
+	}
 	
 	
 	
