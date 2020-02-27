@@ -49,12 +49,12 @@ public class Discuss {
 	private Date createTime; //创建时间
 	
 	@Column(name="modify_time")
-	private Date modifyTime=new Date(); //创建时间
+	private Date modifyTime=new Date(); //修改时间
 	
 	@Column(name="visit_num")
 	private Integer visitNum; //访问量
 	
-	@Column(name="attachment_id")
+	@Column(name="attachment_id")  //附件？？
 	private Integer attachmentId;  //附件id没有外键为了查找方便
 	
 	@NotEmpty(message="标题不能为空")
@@ -64,7 +64,7 @@ public class Discuss {
 	
 	@ManyToOne
 	@JoinColumn(name = "discuss_user_id")
-	private User user;		//讨论归属人
+	private User user;		//谁发表的归属人
 	
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	@JoinColumn(name = "vote_id")
@@ -73,7 +73,7 @@ public class Discuss {
 	@OneToMany(mappedBy="discuss",fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	private Set<Reply> replys;
 	
-	@ManyToMany
+	@ManyToMany  //多对多
 	@JoinTable(
 		name = "aoa_love_discuss_user",
 		joinColumns = {

@@ -17,4 +17,6 @@ public interface DiscussDao extends JpaRepository<Discuss, Long>{
 	
 	//根据标题来找
 	Page<Discuss> findByTitleLike(String title,Pageable pa);
+	//按照类型查找
+	Page<Discuss> findByTypeId(Long typeid, Pageable pa);
 }

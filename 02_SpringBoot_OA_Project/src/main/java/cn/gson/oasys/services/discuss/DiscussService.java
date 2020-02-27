@@ -66,33 +66,40 @@ public class DiscussService {
 	}
 	
 
-	// 分页处理
-	public Page<Discuss> paging(int page, String baseKey, Long userId, String type, String time, String visitnum) {
+	// 分页处理 page分页参数
+	public Page<Discuss> paging(int page, String baseKey, Long userId, String type, String time, String visitnum,Long typeid) {
 		List<Order> orders = new ArrayList<>();
-		Pageable pa = setPageable(page, type, time, visitnum, orders);
-		if(StringUtils.isEmpty(userId)){
-			if (!StringUtils.isEmpty(baseKey)) {
-				System.out.println("查找关键字不为空");
-				return discussDao.findByTitleLike("%"+baseKey+"%",pa);
-			}
-			System.out.println("userid是空的");
-			return discussDao.findAll(pa);
-		}else{
-			User user=uDao.findOne(userId);
-			if(user.getSuperman()){
+		Pageable pa = setPageable(page, type, time, visitnum, orders); //设置查询规则
+		if(StringUtils.isEmpty(userId)){ //如果用户id为空？？？
+			if(typeid == null) {  //如果类型id为空
 				if (!StringUtils.isEmpty(baseKey)) {
 					System.out.println("查找关键字不为空");
 					return discussDao.findByTitleLike("%"+baseKey+"%",pa);
 				}
+				System.out.println("userid是空的");
+				return discussDao.findAll(pa); //查询全部公告
+			}else { //否则就是按照类型查找帖子
+				System.out.println("按类型查找******************");
+				return discussDao.findByTypeId(typeid,pa);
+			}
+			
+		}else{ //如果用户id不为空
+			User user=uDao.findOne(userId);
+			if(user.getSuperman()){ //如果是超级管理员
+				if (!StringUtils.isEmpty(baseKey)) {
+					System.out.println("查找关键字不为空");
+					return discussDao.findByTitleLike("%"+baseKey+"%",pa); //模糊查询  pa代表排序或者一些查询规则
+				}
 				System.out.println("是超级管理员");
 				return discussDao.findAll(pa);
-			}else{
+			}else{ //如果不是超级管理员
 				if (!StringUtils.isEmpty(baseKey)) {
 					System.out.println("查找关键字不为空");
 					return discussDao.findByUserAndTitleLike(user,"%"+baseKey+"%",pa);
 				}
 				System.out.println("只能看自己的");
-				return discussDao.findByUser(user, pa);
+				//只是查看自己的
+				return discussDao.findByUser(user, pa); //根据用户查找
 			}
 		}
 	}
@@ -252,6 +259,8 @@ public class DiscussService {
 			result.put("id", list.get(i).getDiscussId());
 			result.put("typeName", typeDao.findOne(list.get(i).getTypeId()).getTypeName());
 			result.put("userName", list.get(i).getUser().getUserName());
+			//放置用户头像
+			result.put("userimage", list.get(i).getUser().getImgPath()); 
 			if(list.get(i).getUsers()==null){
 				result.put("likeNum", 0);
 			}else{

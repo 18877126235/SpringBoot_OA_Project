@@ -51,41 +51,20 @@
 <!-- 引入header文件 -->
 <#include "header.ftl">
 
+<!-- 盒子主题 
+<div class="panel panel-default" id="main" style="width: 70%;margin:1% 2% 5% 5%;float: left;">-->
 
-<!-- 盒子主题 -->
-<div class="panel panel-default" id="main" style="width: 70%;margin:1% 2% 5% 5%;float: left;">
-    <div class="panel-heading" style="background-color: white">
-        <a style="margin-right: 2%">活跃</a><a style="margin-right: 2%">精华</a><a style="margin-right: 2%">最近</a>
-    </div>
-
-<ul class="list-group" style="width: 100%">
- 
-    <li class="list-group-item">
-        <div style="height: 50px">
-            <div style="float: left;width: 6%;margin-bottom: 5px">
-            	<!-- 用户头像 -->
-                <img width="50px" height="50px" src="" class="img-rounded">
-            </div>
-            <div style="width: 89%;float: left">
-                <!--点击该条帖子查看详情-->
-                <a href="">关于本次一起是否影响就业形势</a><br/>
-                <div>
-                    <a><span class="label label-default" >技术</span></a>&nbsp;&nbsp;&nbsp;
-                    <a href=""><span ><strong>罗密欧</strong></span></a>&nbsp;&nbsp;&nbsp;
-                    <small class="text-muted">2020.02.26</small>
-                </div>
-            </div>
-            <!-- 回复数量 -->
-            <div style="width: 5%;float: right;text-align: center">
-                <span class="badge">999</span>
-            </div>
-        </div>
-    </li>
-    
-
-</ul>
-
+<!-- 盒子主体 -->
+<div class="box-body no-padding" id="main" style="width: 70%;margin:1% 2% 5% 5%;float: left;">
+	<div class="table-responsive thistable">
+		<!--id="container"-->
+		<!-- 包含论坛主体身体 -->
+		<#include "ForumCentertable.ftl"/>
+	</div>
+	
 </div>
+	
+
 
 
 <!-- 引入右边侧边栏文件 -->

@@ -27,9 +27,12 @@ a:hover {
 	</div>
 </div>
 
+<!-- 盒子主体 -->
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-12 thistable">
 		<!--id="container"-->
 		<#include "chattable.ftl"/>
 	</div>
 </div>
+
+

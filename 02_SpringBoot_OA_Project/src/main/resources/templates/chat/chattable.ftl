@@ -21,6 +21,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!--盒子身体-->
 	<div class="box-body no-padding">
 		<div class="table-responsive">
@@ -76,7 +77,7 @@
 			</table>
 		</div>
 	</div>
-	<!--盒子尾-->
+	<!--盒子尾  分页条-->
 	<#include "/common/paging.ftl"/>
 </div>
 <script>

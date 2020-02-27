@@ -59,7 +59,9 @@
 				 $('.thistable').load('${url}?page=${(page.number)-1}${(sort)!''}');
 			 }
 		});
+		//点击下一页
 		$('.tabledown').on('click',function(){
+			
 			if(${page.last?string('true','false')}==false){
 				$('.thistable').load('${url}?page=${(page.number)+1}${(sort)!''}');
 			 }

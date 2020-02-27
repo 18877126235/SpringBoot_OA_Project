@@ -80,7 +80,7 @@ public class ChatManageController {
 	@RequestMapping("adminmanage")
 	public String adminManage(@RequestParam(value="page",defaultValue="0") int page,HttpSession session,
 			@SessionAttribute("userId") Long userId,Model model){
-		Page<Discuss> page2=disService.paging(page, null, 1L,null,null,null);
+		Page<Discuss> page2=disService.paging(page, null, 1L,null,null,null,null);
 		setPagintMess(model, page2,"/chattable","manage","超级管理员");
 		session.removeAttribute("returnUrl");
 		session.setAttribute("returnUrl", "adminmanage");
@@ -101,6 +101,7 @@ public class ChatManageController {
 		session.setAttribute("returnUrl", "chatmanage");
 		return "chat/chatmanage";
 	}
+	
 	/**
 	 * 讨论区列表
 	 * @param page
@@ -109,8 +110,10 @@ public class ChatManageController {
 	 */
 	@RequestMapping("chatlist")
 	public String chatList(@RequestParam(value="page",defaultValue="0") int page,Model model,HttpSession session){
-		Page<Discuss> page2=disService.paging(page, null, null,null,null,null);
+		Page<Discuss> page2=disService.paging(page, null, null,null,null,null,null);
+		
 		setPagintMess(model, page2,"/seetable",null,"讨论列表");
+		
 		session.removeAttribute("returnUrl");
 		session.setAttribute("returnUrl", "chatlist");
 		return "chat/chatmanage";
@@ -148,9 +151,14 @@ public class ChatManageController {
 		}
 		return "";
 	}
-
+	
+	/*
+	 * 这里是查找所有帖子？？
+	 */
 	private void setPagintMess(Model model, Page<Discuss> page2,String url,String manage,String name) {
+		
 		model.addAttribute("list",disService.packaging(page2.getContent()));
+		
 		model.addAttribute("page", page2);
 		model.addAttribute("url", url);
 		model.addAttribute("name", name);
@@ -171,7 +179,7 @@ public class ChatManageController {
 			@RequestParam(value="icon",required=false) String icon,
 			@SessionAttribute("userId") Long userId,Model model){
 		setSomething(baseKey, type, time, visitnum,  icon, model);
-		Page<Discuss> page2=disService.paging(page, baseKey, 1L,type,time,visitnum);
+		Page<Discuss> page2=disService.paging(page, baseKey, 1L,type,time,visitnum,null);
 		setPagintMess(model, page2,"/chattable","manage","超级管理员");
 		return "chat/chattable";
 	}
@@ -208,7 +216,7 @@ public class ChatManageController {
 			@SessionAttribute("userId") Long userId,Model model){
 		setSomething(baseKey, type, time, visitnum,  icon, model);
 		//传过去的userid为null；
-		Page<Discuss> page2=disService.paging(page, baseKey, null,type,time,visitnum);
+		Page<Discuss> page2=disService.paging(page, baseKey, null,type,time,visitnum,null);
 		setPagintMess(model, page2,"/seetable",null,"讨论列表");
 		return "chat/chattable";
 	}
