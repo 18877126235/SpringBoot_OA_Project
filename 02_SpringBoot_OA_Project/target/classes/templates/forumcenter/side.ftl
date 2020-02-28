@@ -6,7 +6,7 @@
             <a href=""><b style="size: 20px" >个人中心</b></a>
         </div>
         <ul class="list-group" style="width: 100%">
-            <li style="text-align: center;" class="list-group-item"><a href="/new">发表创作新主题</a></li>
+            <li style="text-align: center;" class="list-group-item"><a href="new">发表创作新主题</a></li>
             <li style="text-align: center;" class="list-group-item"><a href="">0条未读提醒</a></li>
             <li style="text-align: center;" class="list-group-item"><a href="">论坛积分:0</a></li>
         </ul>

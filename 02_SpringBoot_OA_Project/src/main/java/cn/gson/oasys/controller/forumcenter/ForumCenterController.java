@@ -3,6 +3,7 @@ package cn.gson.oasys.controller.forumcenter;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,31 @@ public class ForumCenterController {
 	
 	
 	/*
-	 * 新建帖子 待续
+	 * 新建帖子 待续 //显示新建帖子页面
 	 */
+	@RequestMapping("new")
+	public String newforumcenter() {
+		
+		return "forumcenter/new";
+		
+	}
+	
+	/*
+	 * 发送新帖子
+	 */
+	@RequestMapping("newtiezi")
+	public String newtiezi(HttpServletRequest request) {
+		
+		System.out.println("执行成功*****************************");
+		
+		
+		
+		
+		request.setAttribute("success", "操作成功");
+		//使用转发
+		return "forward:ForumCenter";
+	}
+	
 	
 	/*
 	 * 这里是封装帖子集合数据

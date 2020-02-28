@@ -1,10 +1,10 @@
 <style type="text/css">
-#thismodal .modal-dialog {
+#thismodal1 .modal-dialog {
 	width: 500px;
 	top:20%;
 }
 
-#thismodal .modal-body .icon {
+#thismodal1 .modal-body .icon {
 	height: 80px;
 	width: 80px;
 	margin: 20px auto;
@@ -15,20 +15,20 @@
 	font-size: 44px;
 }
 
-#thismodal .modal-body .icon .glyphicon {
+#thismodal1 .modal-body .icon .glyphicon {
 	font-size: 46px;
 	top: 14px;
 }
 
-#thismodal .modal-p {
+#thismodal1 .modal-p {
 	margin: 20px auto;
 }
 
-#thismodal .modal-body .modal-p h2 {
+#thismodal1 .modal-body .modal-p h2 {
 	text-align: center;
 }
 
-#thismodal .modal-body .modal-p p {
+#thismodal1 .modal-body .modal-p p {
 	text-align: center;
 	color: #666;
 	font-size: 16px;
@@ -36,13 +36,13 @@
 	font-weight: 300;
 }
 
-#thismodal .modal-p .btn {
+#thismodal1 .modal-p .btn {
 	margin-left: 40%;
 	width: 100px;
 	height: 40px;
 }
 
-#thismodal .modal-error .icon {
+#thismodal1 .modal-error .icon {
 	color: #f27474;
 	border: 3px solid #f27474;
 }
@@ -108,8 +108,8 @@
 		 // 提示框的错误信息显示
 		$('.error-mess').text(errormess);
 		// 模态框的错误信息显示
-		$('#thismodal .modal-error-mess').text(errormess); 
-		console.log("errormess+thismodal:"+$('#thismodal .modal-error-mess').text());
+		$('#thismodal1 .modal-error-mess').text(errormess); 
+		console.log("errormess+thismodal1:"+$('#thismodal1 .modal-error-mess').text());
 	</script>
 
 </#if>

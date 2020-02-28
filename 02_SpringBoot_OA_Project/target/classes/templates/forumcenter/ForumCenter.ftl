@@ -48,6 +48,17 @@
     </style>
 </head>
 <body>
+
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-2">
+		<h1 style="font-size: 24px; margin: 0;" class="">讨论区</h1>
+	</div>
+	<div class="col-md-10 text-right">
+		<a href="index"><span class="glyphicon glyphicon-home"></span> 首页</a>
+		> <a disabled="disabled">${name}</a>
+	</div>
+</div>
+<br>
 <!-- 引入header文件 -->
 <#include "header.ftl">
 
@@ -69,5 +80,7 @@
 
 <!-- 引入右边侧边栏文件 -->
 <#include "side.ftl">
+<!-- 成功提示框 -->
+<#include "/common/modalTip.ftl"/>
 </body>
 </html>

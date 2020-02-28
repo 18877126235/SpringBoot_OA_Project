@@ -1,9 +1,23 @@
 <#include "/common/commoncss.ftl" />
-<script charset="utf-8" src="plugins/kindeditor/kindeditor-min.js"></script>
+
+
+<!-- 必要 -->
 <script charset="utf-8" src="plugins/kindeditor/lang/zh_CN.js"></script>
+<!-- 必要 -->
+<script charset="utf-8" src="plugins/kindeditor/kindeditor-min.js"></script>
+
+<!-- 这里可能实在js代码中授予富文本的权限 -->
 <script type="text/javascript" src="js/mail/mail.js" ></script>
+
+
+<!-- 排除 -->
 <link rel="stylesheet" href="plugins/kindeditor/themes/default/default.css" />
+<!-- 不是 -->
 <link rel="stylesheet" href="css/mail/mail.css" />
+
+
+
+
 <style>
 .box{
 	width: 98%;
@@ -70,6 +84,7 @@ border-radius: 5px;
 				</#list>
 				</select>
 			</div>
+			<!-- 当前日期？？？ -->
 			<div class="form-group addvote" style="display:none;">
 				<label class="control-label">开始日期</label> 
 				<#if voteList??>
@@ -78,10 +93,12 @@ border-radius: 5px;
 					<input id="starTime" value="${(voteList.startTime)!''}" 	name="startTime" class="form-control" />
 				</#if>
 			</div>
+			
 			<div class="form-group addvote" style="display:none;">
 				<label class="control-label">截止日期</label> <input id="endTime" value="${(voteList.endTime)!''}"
 					name="endTime" class="form-control" />
 			</div>
+			
 			<div class="form-group addvote" style="display:none;">
 				<#if voteList??>
 					<select name="selectone" class="form-control" style="margin-bottom: 15px;" disabled="disabled">
@@ -108,6 +125,7 @@ border-radius: 5px;
 					data-toggle="modal" data-target="#myModal">增加投票</span>
 			</div>
 		</div>
+		
 		<div style="background:#eee; overflow:auto">
 			<div id="addtable">
 			<#if voteList??>
@@ -139,9 +157,13 @@ border-radius: 5px;
 		<div class="form-group" style="margin-top:10px;">
 			<input name="title" type="text"	class="form-control title" placeholder="标题：" value="${(discuss.title)!''}"/>
 		</div>
+		
 		<div class="form-group">
+		
 			<textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px; visibility: hidden; font-size: 20px;">${(discuss.content)!''}</textarea>
+		
 		</div>
+		
 		<!-- <div class="form-group">
 			<div class="btn btn-default ">
 				<span class="glyphicon glyphicon-paperclip">增加附件</span> 

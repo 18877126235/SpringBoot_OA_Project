@@ -107,8 +107,8 @@ $(function(){
 				});
 			
 	          
-		})
-
+		});
+			//开启富文本
 			var editor;
 			KindEditor.ready(function(K) {
 				editor = K.create('textarea[name="content"]', {
@@ -141,7 +141,6 @@ $(function(){
 				K('input[name=clear]').click(function(e) {
 					editor.html('');
 				});
-				
-				
+
 			});
 			
