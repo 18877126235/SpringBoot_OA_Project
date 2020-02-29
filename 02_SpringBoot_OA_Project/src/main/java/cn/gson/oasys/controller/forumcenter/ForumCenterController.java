@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.discuss.Discuss;
+import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.discuss.DiscussService;
 
 @Controller
@@ -23,6 +27,9 @@ public class ForumCenterController {
 
 	@Autowired
 	DiscussService disService;
+	
+	@Autowired
+	private UserDao uDao;
 	
 	/*
 	 * 论坛首页和根据类型访问显示
@@ -82,13 +89,21 @@ public class ForumCenterController {
 	/*
 	 * 发送新帖子
 	 */
-	@RequestMapping("newtiezi")
-	public String newtiezi(HttpServletRequest request) {
+	@RequestMapping(value="newtiezi", method=RequestMethod.POST) //接收post请求
+	public String newtiezi(HttpServletRequest request,@SessionAttribute("userId") String userid) {
 		
-		System.out.println("执行成功*****************************");
+		//System.out.println("执行成功*****************************"+userid);
+		//根据id查找用户
+		User findid = uDao.findid(userid);
 		
+		//获取表单请求参数
+		/*String title = request.getParameter("title"); //标题
 		
+		String content = request.getParameter("content"); //正文
 		
+		String tytle = request.getParameter("tab"); //类型*/
+		System.out.println("请求参数获取："+request.getParameter("content"));
+
 		
 		request.setAttribute("success", "操作成功");
 		//使用转发

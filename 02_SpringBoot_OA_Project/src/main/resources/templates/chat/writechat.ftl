@@ -63,7 +63,7 @@ border-radius: 5px;
 		<span class="error-mess"></span>
 	</div>
 	<!--盒子身体-->
-	<form action="adddiscuss" method="post" enctype="multipart/form-data" onsubmit="return check();">
+	<form action="adddiscuss1" method="post" enctype="multipart/form-data" onsubmit="return check();">
 	<div class="box-body">
 		<!--错误信息提示  -->
 			<div class="form-group">

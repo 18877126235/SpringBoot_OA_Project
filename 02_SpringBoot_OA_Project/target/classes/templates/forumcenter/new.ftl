@@ -11,8 +11,9 @@
 	<!-- 必要 -->
 	<script charset="utf-8" src="plugins/kindeditor/kindeditor-min.js"></script>
 	
-	<!-- 这里可能实在js代码中授予富文本的权限 <script type="text/javascript" src="js/mail/mail.js" ></script>-->
-	
+	<!-- 这里可能实在js代码中授予富文本的权限-->
+	<!-- 这里可能实在js代码中授予富文本的权限 -->
+	 <script type="text/javascript" src="js/mail/mail.js" ></script>
 
 </head>
 <body>
@@ -27,7 +28,7 @@
         </div>
 
         <div class="panel-body">
-            <form action="newtiezi" method="post" id="replyForm">
+            <form action="newtiezi" method="post" enctype="multipart/form-data" id="replyForm">
                 <div class="form-group">
                     <label for="title">主题标题</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="请输入主题标题，如果标题能够表达完整内容，则正文可以为空" required="required">
@@ -38,33 +39,37 @@
                     <textarea class="form-control" rows="10" id="content" name="content"></textarea>
                 </div>-->
 				
+				  <label>正文</label>
 				  <div class="form-group">
-					<label for="content">正文</label>
-					<textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px; visibility: hidden; font-size: 20px;"></textarea>
-				</div>
+		
+						<textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px;  font-size: 20px;"></textarea>
+					
+					</div>
 				
 				
                 <div class="form-group">
                 	
                    
                     <div class="col-sm-10" style="width: 40%">
-                     <label for="tab">板块</label>
-                        <select style="margin-left: 0px;" class="form-control" id="tab" name="tab">
-                            <option value="">技术</option>
-                            <option value="">工作</option>
-                            <option value="">创意</option>
-                            <option value="">生活</option>
-                            <option value="">好玩</option>
+                     <label for="tab">板块类型</label>
+                        <select style="margin-left: 0px;" class="form-control" id="tab" name="typeId">
+                            <option value="48">技术</option>
+                            <option value="49">工作</option>
+                            <option value="52">创意</option>
+                            <option value="51">生活</option>
+                            <option value="50">好玩</option>
                             <option value="">其他</option>
                         </select>
                     </div>
                 </div><br/>
                 <!-- <input type="submit" class="btn btn-default btn-sm" value="发布主题"> -->
- 
+ 				<button style="display: none;" id="btn_03" type="submit">提交03</button>
+ 				
 			</form>
+			
 			<div class="row">
 				
-				<button style="margin-top: 6px;" id="btn_01" class="btn btn-default btn-sm">确定</button>
+				<button style="margin-top: 6px;" id="btn_01" class="btn btn-success btn-default btn-sm">确定发布</button>
 			</div>
 			
         </div>
@@ -131,7 +136,8 @@
     
    //点击弹出模态框测试$("#btn_motai").on("click",function(){ alert("哈哈哈");  });
    $(function(){
-	  
+	 
+	   
 	   $("#btn_01").click(function(){
 		   //swal("操作成功！","666","success");
 		   //alert("哈哈哈");
@@ -159,7 +165,8 @@
 						
 						
 						swal.close();//关闭窗口
-						$("#replyForm").submit();//提交表单
+						//$("#replyForm").submit();//提交表单
+						 $("#btn_03").click();//提交表单
 						
 					} else { 
 						
@@ -176,41 +183,7 @@
    });
     
  	//开启富文本
-	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="content"]', {
-			allowFileManager: true
-		});
-		K('input[name=getHtml]').click(function(e) {
-			alert(editor.html());
-		});
-		K('input[name=isEmpty]').click(function(e) {
-			alert(editor.isEmpty());
-		});
-		K('input[name=getText]').click(function(e) {
-			alert(editor.text());
-		});
-		K('input[name=selectedHtml]').click(function(e) {
-			alert(editor.selectedHtml());
-		});
-		K('input[name=setHtml]').click(function(e) {
-			editor.html('<h3>Hello KindEditor</h3>');
-		});
-		K('input[name=setText]').click(function(e) {
-			editor.text('<h3>Hello KindEditor</h3>');
-		});
-		K('input[name=insertHtml]').click(function(e) {
-			editor.insertHtml('<strong>插入HTML</strong>');
-		});
-		K('input[name=appendHtml]').click(function(e) {
-			editor.appendHtml('<strong>添加HTML</strong>');
-		});
-		K('input[name=clear]').click(function(e) {
-			editor.html('');
-		});
-
-	});
-    
+	
     
 </script>
 </body>

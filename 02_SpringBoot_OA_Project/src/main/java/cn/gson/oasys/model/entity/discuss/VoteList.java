@@ -1,6 +1,7 @@
 package cn.gson.oasys.model.entity.discuss;
 
 import java.util.Date;
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;

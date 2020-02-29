@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import cn.gson.oasys.model.entity.user.User;
 /**
-
+	帖子表
  * 用户id
  * 投票id
  * 没有外键

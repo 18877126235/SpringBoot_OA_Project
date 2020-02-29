@@ -15,6 +15,7 @@ encoding//src/main/resources/templates/forumcenter/header.ftl=UTF-8
 encoding//src/main/resources/templates/forumcenter/new.ftl=UTF-8
 encoding//src/main/resources/templates/forumcenter/side.ftl=UTF-8
 encoding//src/main/resources/templates/index/index.ftl=UTF-8
+encoding//src/main/resources/templates/mail/wirtemail.ftl=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

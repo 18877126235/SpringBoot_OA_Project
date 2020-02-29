@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -294,12 +295,22 @@ public class ChatManageController {
 	/**
 	 * 新增+修改
 	 */
-	@RequestMapping("adddiscuss")
-	public String addDiscuss(HttpServletRequest req, @Valid Discuss menu,VoteList voteList,BindingResult br){
+	@RequestMapping(value="adddiscuss1",method=RequestMethod.POST)
+	public String addDiscuss(HttpServletRequest req,  Discuss menu/*,VoteList voteList,  这个是啥校验数据？？BindingResult br*/){
 		
-		HttpSession session=req.getSession();
-		Long userId=Long.parseLong(session.getAttribute("userId")+"");
-		User user=uDao.findOne(userId);
+		HttpSession session=req.getSession(); //获取session
+		
+		//------------------------------
+		String parameter = req.getParameter("content");
+		System.out.println("大打印输入的内容："+parameter);
+		
+		
+		
+		
+		
+		
+		/*Long userId=Long.parseLong(session.getAttribute("userId")+"");//获取当前用户id
+		User user=uDao.findOne(userId); //查找用户
 		System.out.println(menu);
 		ResultVO res = BindingResultVOUtil.hasErrors(br);
 		// 校验失败
@@ -354,7 +365,8 @@ public class ChatManageController {
 				return "forward:/chatmanage";
 			}
 		}
-		return null;
+		return null;*/
+		return "forward:/chatmanage";
 	}
 
 	private void setSomething(String baseKey, String type, String time, String visitnum,String icon,
