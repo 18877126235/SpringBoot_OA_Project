@@ -7,12 +7,21 @@
         					
             <div class="navbar-header">
             	
-            	<#if typeid??>
-            		<!-- 正常显示 -->
-            		<a class="navbar-brand" href="ForumCenter">论坛首页</a>
-            		<!-- 设置背景 -->
-            		<#else>
-            			<a style="background: #FFCCCC; " class="navbar-brand" href="ForumCenter">论坛首页</a>
+            	<#if isindex??>
+            		<#if typeid??> <!-- 如果存在类型id -->
+            			<!-- 正常显示 -->
+            			<a class="navbar-brand" href="ForumCenter">论坛首页</a>
+            			<#else>
+            				<!-- 设置背景 -->
+            				<a style="background: #FFCCCC; " class="navbar-brand" href="ForumCenter">论坛首页</a>
+            				
+            			
+            		</#if>
+					
+					<#else>
+						<!-- 正常显示 -->
+            			<a class="navbar-brand" href="ForumCenter">论坛首页</a>
+					
             	</#if>
             
                 
@@ -37,7 +46,7 @@
                     <li <#if typeid==51>   class="active"  </#if> ><a href="ForumCenter?typeid=51">生活</a></li>
                     <li><a href="ForumCenter?typeid=51">其他</a></li>
                 	
-                	<#else>
+                	<#else> <!-- 正常显示 -->
                 		<li ><a href="ForumCenter?typeid=48">技术</a></li>
 	                    <li><a href="ForumCenter?typeid=50">好玩</a></li>
 	                    <li><a href="ForumCenter?typeid=52">创意</a></li>

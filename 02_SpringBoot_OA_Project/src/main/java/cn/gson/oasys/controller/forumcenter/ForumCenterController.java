@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import cn.gson.oasys.model.dao.discuss.DiscussDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.discuss.Discuss;
 import cn.gson.oasys.model.entity.user.User;
@@ -33,6 +34,10 @@ public class ForumCenterController {
 	
 	@Autowired
 	private UserDao uDao;
+	
+	
+	@Autowired
+	private DiscussDao discussDao; //直接去数据库找了
 	
 	/*
 	 * 论坛首页和根据类型访问显示
@@ -66,10 +71,16 @@ public class ForumCenterController {
 		/*for (Discuss discuss : page2) {
 			System.out.println("帖子内容"+discuss);
 		}*/
+		
 		//封装查询数据
 		setPagintMess(model, page2,"/seetable1",null,"讨论列表");
 		session.removeAttribute("returnUrl");
 		session.setAttribute("returnUrl", "ForumCenter");
+		
+		//查询一周内最热门的五条帖子
+		request.setAttribute("fiveremen", discussDao.selectfiveremen());
+		request.setAttribute("isindex", 1); //首页标记
+		
 		return "forumcenter/ForumCenter"; //返回显示论坛首页视图
 	}
 	

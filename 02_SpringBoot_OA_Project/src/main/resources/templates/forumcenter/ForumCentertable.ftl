@@ -13,7 +13,11 @@
             </div>
             <div style="width: 89%;float: left">
                 <!--点击该条帖子查看详情  标题-->
-                <a style="color: #696969 ;" href=""><b style="color:black;" >标题：</b> <font color="#FF6600" >${(this.title)!''}</font> </a><br/>
+                <a style="color: #696969 ;" href="seediscuss?id=${this.id}&pageNumber=${page.number}" >
+                	<b style="color:black;" >标题：</b> 
+                		<font color="#FF6600" >${(this.title)!''}</font> 
+                </a>
+                <br/>
                 <div>
                 	<!-- 这里要加上判断类型 -->
                     <a><span class="label ${this.typecolor}">${(this.typeName)!''}</span></a>&nbsp;&nbsp;&nbsp;
@@ -26,7 +30,7 @@
             </div>
             <!-- 回复数量 -->
             <div style="width: 5%;float: right;text-align: center">
-                <span style="background:#ffffff; color: #D3D3D3 ;" class="badge">评论：${(this.commentsNum)!''}</span>
+                <span style="background: #ffffff ; color: #31b0d5 ;" class="badge">评论：${(this.commentsNum)!''}</span>
             </div>
              <!-- 回复数量 -->
             <div style="width: 5%;float: right;text-align: center">

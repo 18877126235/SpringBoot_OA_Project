@@ -68,10 +68,10 @@ public class DiscussService {
 
 	// 分页处理 page分页参数
 	public Page<Discuss> paging(int page, String baseKey, Long userId, String type, String time, String visitnum,Long typeid) {
-		//？？不详
+		//？？不详 //设置查询规则 参数是用来设置排序的
 		List<Order> orders = new ArrayList<>();
 		//page是第几页，
-		Pageable pa = setPageable(page, type, time, visitnum, orders); //设置查询规则
+		Pageable pa = setPageable(page, type, time, visitnum, orders); 
 		
 		if(StringUtils.isEmpty(userId)){ //如果用户id为空？？？
 			if(typeid == null) {  //如果类型id为空
@@ -80,8 +80,13 @@ public class DiscussService {
 					return discussDao.findByTitleLike("%"+baseKey+"%",pa);
 				}
 				System.out.println("userid是空的");
-				return discussDao.findAll(pa); //查询全部公告
-			}else { //否则就是按照类型查找帖子
+				//查询全部帖子
+				//在这里改写，我暂时不要投票先，我只要帖子
+				//return discussDao.findAll(pa); 
+				return discussDao.findByVoteListIsNull(pa); 
+				
+				
+				}else { //否则就是按照类型查找帖子
 				System.out.println("按类型查找******************");
 				return discussDao.findByTypeId(typeid,pa);
 			}

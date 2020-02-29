@@ -22,6 +22,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 
 import cn.gson.oasys.mappers.NoticeMapper;
 import cn.gson.oasys.model.dao.attendcedao.AttendceService;
+import cn.gson.oasys.model.dao.discuss.DiscussDao;
 import cn.gson.oasys.model.dao.informdao.InformDao;
 import cn.gson.oasys.model.dao.informdao.InformRelationDao;
 import cn.gson.oasys.model.dao.processdao.NotepaperDao;
@@ -31,6 +32,7 @@ import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.PositionDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.dao.user.UserLogRecordDao;
+import cn.gson.oasys.model.entity.discuss.Discuss;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.role.Rolepowerlist;
@@ -214,6 +216,27 @@ public class Test1 {
 
 	}
 	
+	
+	
+	//查询访问数量最多的5条论坛帖子
+	
+	@Autowired
+	private DiscussDao discussDao; //直接去数据库找了
+	@Test  //别他妈忘记加上注解呀
+	public void test07() {
+		
+		
+		
+		//查询全部测试
+		List<Discuss> findAll = discussDao.selectfiveremen();
+
+		for (Discuss discuss : findAll) {
+			
+			System.out.println(discuss);
+			
+		}
+		
+	}
 	
 	
 }
