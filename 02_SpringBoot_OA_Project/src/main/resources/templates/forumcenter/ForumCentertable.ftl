@@ -13,11 +13,12 @@
             </div>
             <div style="width: 89%;float: left">
                 <!--点击该条帖子查看详情  标题-->
-                <a style="color: #696969 ;" href=""><b style="color:black;" >标题：</b>${(this.title)!''}</a><br/>
+                <a style="color: #696969 ;" href=""><b style="color:black;" >标题：</b> <font color="#FF6600" >${(this.title)!''}</font> </a><br/>
                 <div>
                 	<!-- 这里要加上判断类型 -->
                     <a><span class="label ${this.typecolor}">${(this.typeName)!''}</span></a>&nbsp;&nbsp;&nbsp;
                     <a href=""><span ><strong>${(this.userName)!''}</strong></span></a>&nbsp;&nbsp;&nbsp;
+                    <!-- 日期类型转换 -->
                     <small class="text-muted">${this.createTime?string('yyyy-MM-dd HH:mm:ss')}</small>&nbsp;&nbsp;&nbsp;
                     <small class="text-muted">访问量：${(this.visitNum)!''}</small>
                     

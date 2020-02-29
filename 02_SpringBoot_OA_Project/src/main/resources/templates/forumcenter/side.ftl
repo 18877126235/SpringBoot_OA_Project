@@ -32,7 +32,7 @@
     扫码下载系统APP即可享受手机在线论坛
     </div>
     <div style="width: 100%;" >
-    		<img style="margin-left: auto;" width="100%" height="260px" alt="" src="images/erweima.png">
+    		<img style="margin-left: auto;" width="100%"  alt="" src="images/erweima.png">
     
     </div>
    

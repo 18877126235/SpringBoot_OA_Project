@@ -68,8 +68,11 @@ public class DiscussService {
 
 	// 分页处理 page分页参数
 	public Page<Discuss> paging(int page, String baseKey, Long userId, String type, String time, String visitnum,Long typeid) {
+		//？？不详
 		List<Order> orders = new ArrayList<>();
+		//page是第几页，
 		Pageable pa = setPageable(page, type, time, visitnum, orders); //设置查询规则
+		
 		if(StringUtils.isEmpty(userId)){ //如果用户id为空？？？
 			if(typeid == null) {  //如果类型id为空
 				if (!StringUtils.isEmpty(baseKey)) {
@@ -120,15 +123,18 @@ public class DiscussService {
 		return discussDao.findByUser(user, pa);
 	}
 	
+	//这里注意排序规则在此设置
 	private Pageable setPageable(int page, String type, String time, String visitnum, List<Order> orders) {
-		int size=10;
-		if (!StringUtils.isEmpty(type)) {
+		
+		int size=10; //每次查询几条数据
+		
+		/*if (!StringUtils.isEmpty(type)) { //不为空
 			if ("1".equals(type)) {
 				orders.add(new Order(Direction.ASC, "typeId"));
 			} else {
 				orders.add(new Order(Direction.DESC, "typeId"));
 			}
-		} else if (!StringUtils.isEmpty(time)) {
+		} else if (!StringUtils.isEmpty(time)) { //如果时间不为空
 			if ("1".equals(time)) {
 				orders.add(new Order(Direction.DESC, "modifyTime"));
 			} else {
@@ -143,8 +149,13 @@ public class DiscussService {
 		}else {
 			orders.add(new Order(Direction.ASC, "typeId"));
 			orders.add(new Order(Direction.DESC, "modifyTime"));
-		}
-		Sort sort = new Sort(orders);
+		}*/
+		
+		//统一设置为按照发布时间排序
+		orders.add(new Order(Direction.DESC, "modifyTime"));
+		
+		//排序类
+		Sort sort = new Sort(orders); //排序规则
 		Pageable pa = new PageRequest(page, size, sort);
 		return pa;
 	}
@@ -170,6 +181,7 @@ public class DiscussService {
 		model.addAttribute("discussContain", discussContain);
 		model.addAttribute("discussLikeNum", discussLikeNum);
 		model.addAttribute("setUsers", setUsers);
+		
 		//这句是关键代码，从数据库拿到所有数据，也进行排序，只要在这进行判断
 		if(!StringUtils.isEmpty(selectType)){
 			User user2=uDao.findOne(selectType);
@@ -196,10 +208,11 @@ public class DiscussService {
 		model.addAttribute("user", discuss.getUser());
 	}
 	
-	//根据讨论区获取到它的评论数
+	//根据讨论区获取到它的评论数（获取评论数目）
 	private Integer getComments(Discuss discuss){
 		int chatNum=0;
-		List<Reply> replyCols=replyDao.findByDiscuss(discuss);
+		//根据帖子对象去评论表中查找有多少条评论和帖子有关，该数量就是帖子的评论数
+		List<Reply> replyCols=replyDao.findByDiscuss(discuss); 
 		if(replyCols.size()>0){
 			Long[] replyLong=new Long[replyCols.size()];							//用数组来结束所有回复表的id
 			for (int i = 0; i < replyCols.size(); i++) {
@@ -229,7 +242,7 @@ public class DiscussService {
 			
 			result.put("replyId",replyList.get(i).getReplyId());
 			result.put("replayTime",replyList.get(i).getReplayTime());
-			result.put("content",replyList.get(i).getContent());
+			result.put("content",replyList.get(i).getContent()); //获取评论数
 			result.put("user",replyList.get(i).getUser());
 			result.put("discuss",replyList.get(i).getDiscuss());
 			replyMap.add(result);
@@ -251,21 +264,25 @@ public class DiscussService {
 		}
 		return commentMap;
 	}
-
+	//封装帖子数据（点赞，评论等）
 	public List<Map<String, Object>> packaging(List<Discuss> list) {
 		List<Map<String, Object>> listMap = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> result = new HashMap<>();
 			result.put("id", list.get(i).getDiscussId());
-			result.put("typeName", typeDao.findOne(list.get(i).getTypeId()).getTypeName());
+			
+			result.put("typeName", typeDao.findOne(list.get(i).getTypeId()).getTypeName()); //根据类型名称查找？？？
+			
 			result.put("userName", list.get(i).getUser().getUserName());
 			//放置用户头像
 			result.put("userimage", list.get(i).getUser().getImgPath()); 
+			
 			if(list.get(i).getUsers()==null){
-				result.put("likeNum", 0);
+				result.put("likeNum", 0);  //点赞
 			}else{
-				result.put("likeNum", list.get(i).getUsers().size());
+				result.put("likeNum", list.get(i).getUsers().size()); //获取点赞集合大小
 			}
+			//设置评论数
 			result.put("commentsNum",getComments(list.get(i)));
 			result.put("title", list.get(i).getTitle());
 			result.put("createTime", list.get(i).getCreateTime());

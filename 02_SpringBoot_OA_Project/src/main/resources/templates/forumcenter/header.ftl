@@ -6,7 +6,18 @@
         	
         					
             <div class="navbar-header">
-                <a class="navbar-brand" href="ForumCenter">论坛首页</a>
+            	
+            	<#if typeid??>
+            		<!-- 正常显示 -->
+            		<a class="navbar-brand" href="ForumCenter">论坛首页</a>
+            		<!-- 设置背景 -->
+            		<#else>
+            			<a style="background: #FFCCCC; " class="navbar-brand" href="ForumCenter">论坛首页</a>
+            	</#if>
+            
+                
+                
+                
             </div>
             
             <div>
@@ -15,12 +26,27 @@
                             class="active" </c:if> 用来实现标记当前所属模块-->
                 <ul class="nav navbar-nav navbar-left">
                 
-                    <li><a href="ForumCenter?typeid=48">技术</a></li>
-                    <li><a href="ForumCenter?typeid=50">好玩</a></li>
-                    <li><a href="ForumCenter?typeid=52">创意</a></li>
-                    <li><a href="ForumCenter?typeid=49">工作</a></li>
-                    <li><a href="ForumCenter?typeid=51">生活</a></li>
+                <#if typeid??> <!-- 如果是从类型上点击加载过来的 -->
+                
+                	<li  
+                		<#if typeid==48>   class="active"  </#if>   
+                			><a href="ForumCenter?typeid=48">技术</a></li>
+                    <li <#if typeid==50>   class="active"  </#if>  ><a href="ForumCenter?typeid=50">好玩</a></li>
+                    <li <#if typeid==52>   class="active"  </#if> ><a href="ForumCenter?typeid=52">创意</a></li>
+                    <li  <#if typeid==49>   class="active"  </#if>  ><a href="ForumCenter?typeid=49">工作</a></li>
+                    <li <#if typeid==51>   class="active"  </#if> ><a href="ForumCenter?typeid=51">生活</a></li>
                     <li><a href="ForumCenter?typeid=51">其他</a></li>
+                	
+                	<#else>
+                		<li ><a href="ForumCenter?typeid=48">技术</a></li>
+	                    <li><a href="ForumCenter?typeid=50">好玩</a></li>
+	                    <li><a href="ForumCenter?typeid=52">创意</a></li>
+	                    <li><a href="ForumCenter?typeid=49">工作</a></li>
+	                    <li><a href="ForumCenter?typeid=51">生活</a></li>
+	                    <li><a href="ForumCenter?typeid=51">其他</a></li>
+                </#if>
+                
+                    
 
                 </ul>
 				

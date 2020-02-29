@@ -21,7 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -295,30 +294,20 @@ public class ChatManageController {
 	/**
 	 * 新增+修改
 	 */
-	@RequestMapping(value="adddiscuss1",method=RequestMethod.POST)
-	public String addDiscuss(HttpServletRequest req,  Discuss menu/*,VoteList voteList,  这个是啥校验数据？？BindingResult br*/){
+	@RequestMapping("adddiscuss")
+	public String addDiscuss(HttpServletRequest req, @Valid Discuss menu,VoteList voteList,  /*这个是啥*/BindingResult br){
 		
-		HttpSession session=req.getSession(); //获取session
-		
-		//------------------------------
-		String parameter = req.getParameter("content");
-		System.out.println("大打印输入的内容："+parameter);
-		
-		
-		
-		
-		
-		
-		/*Long userId=Long.parseLong(session.getAttribute("userId")+"");//获取当前用户id
-		User user=uDao.findOne(userId); //查找用户
+		HttpSession session=req.getSession(); 
+		Long userId=Long.parseLong(session.getAttribute("userId")+"");
+		User user=uDao.findOne(userId);
 		System.out.println(menu);
 		ResultVO res = BindingResultVOUtil.hasErrors(br);
 		// 校验失败
 		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
 			System.out.println("输入信息有误！");
-		}else{
+		}else{ //执行裂成
 			//修改处理
-			if(!StringUtils.isEmpty(session.getAttribute("id"))){
+			if(!StringUtils.isEmpty(session.getAttribute("id"))){ //如果是修改帖子过来的
 				Long disId=Long.parseLong(session.getAttribute("id")+"");
 				Discuss discuss=discussDao.findOne(disId);
 				//在此处判断一下是哪种类型，投票又不一样；
@@ -335,7 +324,7 @@ public class ChatManageController {
 				req.setAttribute("success", "成功了");
 				System.out.println("成功了");
 				return "forward:/chatmanage";
-			}else{
+			}else{ //否则就是修发布的帖子过来的
 			    //新增处理
 				Long typeId=Long.parseLong(req.getParameter("typeId"));
 				if(menu.getTypeId()==21){
@@ -356,17 +345,17 @@ public class ChatManageController {
 					menu.setVoteList(voteList);				//将投票对象保存到讨论表中；
 					System.out.println("要开始进行投票处理了");
 				}
+				
 				menu.setVisitNum(0);
 				menu.setUser(user);
-				menu.setCreateTime(new Date());
+				menu.setCreateTime(new Date()); //设置时间
 				disService.save(menu);
 				req.setAttribute("success", "成功了");
 				System.out.println("成功了");
 				return "forward:/chatmanage";
 			}
 		}
-		return null;*/
-		return "forward:/chatmanage";
+		return null;
 	}
 
 	private void setSomething(String baseKey, String type, String time, String visitnum,String icon,

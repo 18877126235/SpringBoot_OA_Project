@@ -70,6 +70,7 @@ public class Discuss {
 	@JoinColumn(name = "vote_id")
 	private VoteList voteList;	// 投票id
 	
+	//关联评论表
 	@OneToMany(mappedBy="discuss",fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	private Set<Reply> replys;
 	
@@ -83,7 +84,7 @@ public class Discuss {
 				@JoinColumn(name = "user_id")
 		}
 			)
-	private Set<User> users;
+	private Set<User> users;//用来存放点赞信息
 	
 	public Set<User> getUsers() {
 		return users;
