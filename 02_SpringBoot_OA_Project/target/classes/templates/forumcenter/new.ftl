@@ -15,6 +15,7 @@
 	<!-- 这里可能实在js代码中授予富文本的权限 -->
 	 <script type="text/javascript" src="js/mail/mail.js" ></script>
 
+
 </head>
 <body>
 

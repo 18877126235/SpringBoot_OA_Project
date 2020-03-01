@@ -221,13 +221,18 @@ public class ChatManageController {
 		return "chat/chattable";
 	}
 	
-	//专门使用一个controller来转发到查看界面，在这个controller中加访问数加1，这样就不会再刷新当前界面使得访问数+1
+	//专门使用一个controller来重定向到查看界面，在这个controller中加访问数加1，这样就不会再刷新当前界面使得访问数+1
 	@RequestMapping("seediscuss")
 	public String seeDiscuss(@RequestParam(value="id") Long id,@RequestParam(value="pageNumber") Integer pageNumber,HttpSession session){
+		//访问数量加一
 		disService.addOneDiscuss(id);
-		session.removeAttribute("id");
-		session.setAttribute("id", id);
+		
+		session.removeAttribute("id"); //原来的帖子id删除
+		
+		session.setAttribute("id", id);//设置新查看帖子
+		//待定？？？
 		session.setAttribute("pageNumber", pageNumber);
+		//重定向到查看帖子页面
 		return "redirect:/replymanage";
 	}
 	
@@ -237,22 +242,30 @@ public class ChatManageController {
 	 */
 	@RequestMapping("replymanage")
 	public String replyManage(Model model,HttpSession session,
-			@RequestParam(value="page",defaultValue="0") int page,
-			@RequestParam(value="size",defaultValue="5") int size,
-			@SessionAttribute("userId") Long userId){
+			@RequestParam(value="page",defaultValue="0") int page, //分页的吧
+			@RequestParam(value="size",defaultValue="5") int size, //这个待定
+			@SessionAttribute("userId") Long userId){ //获取当前用户id
+		//获取当前要查看的帖子的id
 		Long id=Long.parseLong(session.getAttribute("id")+"");
 		User user=uDao.findOne(userId);
-		Discuss discuss=discussDao.findOne(id);
-		//用来处理vote相关的数据
+		Discuss discuss=discussDao.findOne(id); //获取当前帖子对象
+		//用来处理vote相关的数据（处理投票的帖子）
 		voteService.voteServiceHandle(model, user, discuss);
-		if(user.getSuperman()){
+		
+		if(user.getSuperman()){ //如果当前用户是超级管理员
+			//信息提示
 			model.addAttribute("manage", "具有管理权限");
-		}else{
+			
+		}else{//否则就是普通用户查看了
+			//如果是自己的帖子，那也可以管理（放置一个manage标记）
 			if(Objects.equals(user.getUserId(), discuss.getUser().getUserId())){
 				model.addAttribute("manage", "具有管理权限");
 			}
+			
 		}
+		//封装数据显示出来
 		disService.setDiscussMess(model, id,userId,page,size);
+		
 		return "chat/replaymanage";
 	}
 

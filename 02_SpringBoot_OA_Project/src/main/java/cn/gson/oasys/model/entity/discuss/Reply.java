@@ -57,7 +57,7 @@ public class Reply {
 				@JoinColumn(name = "user_id")
 		}
 			)
-	private Set<User> users;
+	private Set<User> users; //多个用户也可以回复我
 	
 	@OneToMany(mappedBy="reply",fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	private Set<Comment> comments;

@@ -1,8 +1,13 @@
+<!-- 这是针对帖子的 -->
 <ul class="list-inline" style="margin-left: 6px;">
-	<li><a href="#" class="label xinzeng thisreply" id="thisreply"
-		replyId="${discuss.discussId}" replyModule="discuss"> <span
-			class="glyphicon glyphicon-share-alt"></span>回复
-	</a></li>
+	<li>
+		<a href="#" class="label xinzeng thisreply" id="thisreply"
+			replyId="${discuss.discussId}" replyModule="discuss"> 
+			<span
+				class="glyphicon glyphicon-share-alt">
+			</span>回复
+		</a>
+	</li>
 	<li><a href="#"> <span class="glyphicon glyphicon-fire"
 			style="color: red;"></span> 访问数<span>(${discuss.visitNum})</span>
 	</a></li>
@@ -22,6 +27,8 @@
 		</a>
 	</li>
 </ul>	
+<!-- 显示谁点过赞的 -->
+<!-- 下面是具体点赞人员的名字显示 -->
 <ul class="list-inline" style="margin-left: 10px;">
 	<#if discussLikeNum gt 0>
 		<li>
@@ -42,4 +49,5 @@
 		</li>
 	</#if>
 </ul>
+
 <script type="text/javascript" src="js/usershow.js"></script>

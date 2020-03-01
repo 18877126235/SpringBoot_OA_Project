@@ -72,6 +72,7 @@ a:hover {
 			}
 </style>
 
+<!-- 顶部信息 -->
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
 		<h1 style="font-size: 24px; margin: 0;">主题查看</h1>
@@ -82,33 +83,37 @@ a:hover {
 	</div>
 </div>
 
+
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-12">
 		<!--id="container"-->
 		<div class="bgc-w box box-primary"
 			style="border-top: 3px solid #d2d6de; color: #5f5f5f;">
+			
 			<!--盒子头-->
 			<div class="box-header">
 				<h3 class="box-title">
 					<a href="${returnUrl}?page=${pageNumber}" class="label label-default"
 						style="padding: 6px;"> <span
 						class="glyphicon glyphicon-chevron-left">返回</span>
-					</a> <a href="" class="label label-success"
+					</a> 
+					<a href="" class="label label-success"
 						style="padding: 5px; margin-left: 5px;"> <span
 						class="glyphicon glyphicon-refresh"></span> 刷新
 					</a>
-					<!-- <a href="#" class="label label-success"
+					<a href="#" class="label label-success"
 						style="padding: 6px; margin-left: 8px;"> <span
 						class="glyphicon glyphicon-share-alt">回复</span>
-					</a> -->
+					</a>
 				</h3>
-
 			</div>
+			
 			<!--盒子身体-->
 			<div class="box-body no-padding chat-box">
+				<!-- 标题和发布者 -->
 				<div class="chat-title">
 					<h4>
-						<span>${discuss.title}</span>
+						<span>主题：<font color="#9900CC">${discuss.title}</font></span>
 					</h4>
 					<h5>
 						<small> <span>发布：${user.userName}</span> <span
@@ -116,45 +121,60 @@ a:hover {
 						</small>
 					</h5>
 				</div>
+				<!-- 内容吧 -->
 				<div style="padding: 10px;">
-				<div class="voteload">
-					<#include "votetable.ftl"/>
-				</div>
+					<!-- 如果是投票就显示以下内容 -->
+					<div class="voteload">
+						<#include "votetable.ftl"/>
+					</div>
+					
+					<!-- 内容 -->
 					<div class="chat-content" style="padding: 10px;">
 						<p>${discuss.content}</p>
 					</div>
+					<!-- 回复和点赞操作栏 -->
 					<div>
+						<!-- 这里放置的是点赞和评论相关信息 -->
 						<div class="discusschange">
 							<#include "discusslike.ftl"/>
 						</div>
-						<input type="hidden" class="replyId" /> <input type="hidden"
-							class="replyModule" /> <input type="hidden" class="replyName" />
+						<!-- 三个隐藏   -->
+						<input type="hidden" class="replyId" /> 
+						<input type="hidden" class="replyModule" /> 
+						<input type="hidden" class="replyName" />	
 					</div>
+					<!-- 显示所有评论  （评论表） -->
 					<div>
 						<table class="table" style="margin-bottm: 0px;">
-						<#if replyList?? &&replyList?size gt 0>
-							<tr>
-								<th scope="col" style="background-color: #EEEEEE;">
-								<span style="line-height: 35px;">回复</span>
-								<div class="pull-right" style="display: inline-block;margin-right:50px;font-weight: 400;">
-								<select name="selecttype" id="selecttype" class="selectthis  form-control" style="display: inline-block;margin-right: 10px;width: 115px;font-size: 13px;">
-									<option value="">查看所有</option>
-									<option value="${discuss.user.userId}">只看楼主</option>
-									<option value="${userId}">只看我的</option>
-								</select>
-								<select name="selectsort" id="selectsort" class="selectthis  form-control" style="display: inline-block;width: 115px;font-size: 13px;">
-									<option value="0">时间升序</option>
-									<option value="1">时间降序</option>
-								</select>
-								</div>
-								</th>
+							<!-- 显示排序规则 和选择  <if replyList?? &&replyList?size gt 0>-->
+								<tr>
+									<th scope="col" style="background-color: #EEEEEE;">
+										<span style="line-height: 35px;">评论</span>
+										<div class="pull-right" style="display: inline-block;margin-right:50px;font-weight: 400;">
+											<select name="selecttype" id="selecttype" class="selectthis  form-control" style="display: inline-block;margin-right: 10px;width: 115px;font-size: 13px;">
+												<option value="">查看所有</option>
+												<option value="${discuss.user.userId}">只看楼主</option>
+												<option value="${userId}">只看我的</option>
+											</select>
+											<select name="selectsort" id="selectsort" class="selectthis  form-control" style="display: inline-block;width: 115px;font-size: 13px;">
+												<option value="0">时间升序</option>
+												<option value="1">时间降序</option>
+											</select>
+										</div>
+									</th>
+									<tr> <hr size="100px" /> </tr>
+								</tr>
 								
-							</tr>
-						</#if>
+							
+							<!-- 显示所有评论内容 -->
 							<tbody class="repay">
-							<#include "replytable.ftl"/>
+							
+								<#include "replytable.ftl"/>
+							
 							</tbody>
+							
 						</table>
+						<!-- 这两个隐藏input -->
 						<input type="hidden" id="hiddenreplyId"/>
 						<input type="hidden" id="hiddenreplyModule"/>
 					</div>
@@ -220,18 +240,27 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 			$('.repay').load('replydelete',{replyId:replyId,module:module,num:num,size:size});
 		}
 	});
-/* 回复与评论的处理，模态框显示，假如是点击评论进入的，则在前面加@那个的名字 */	
+/* 回复与评论的处理，模态框显示，假如是点击回复进入的，则在前面加@那个的名字 */	
 	$("#thisreply").on('click',function(){
+		
+		
+		
+		//获取自定义的连个属性，然后复制到以下的两个inout中
 		$("#hiddenreplyId").val($(this).attr('replyId'));
 		$("#hiddenreplyModule").val($(this).attr('replyModule'));
-		var name = $(this).attr('replyName');
-		$('.replyName').val(name);
-		if(typeof(name) != 'undefined' ){
-			$("#comment").val("@"+name);
-		}
+		
+		//var name = $(this).attr('replyName'); //这东西没用的呀
+		//alert(name);
+		//$('.replyName').val(name);
+		//if(typeof(name) != 'undefined' ){
+			//$("#comment").val("@"+name);
+		//}
+		
 		$("#myModal").modal("toggle");
+		
 	});
-/*  */
+	
+/* 待定了哈 */
 	$('.repay').on('click', '.thisreply',function() {
 		$("#hiddenreplyId").val($(this).attr('replyId'));
 		$("#hiddenreplyModule").val($(this).attr('replyModule'));

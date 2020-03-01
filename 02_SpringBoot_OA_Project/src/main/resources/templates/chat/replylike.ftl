@@ -1,8 +1,14 @@
+<!-- 这是针对评论的 -->
 <ul class="list-inline">
-	<li><a href="#" class="thisreply"
-		replyId="${reply.replyId}" replyModule="reply"> <span
-			class="glyphicon glyphicon-share-alt"></span> 回复
-	</a></li>
+
+	<li>
+		<a href="#" class="thisreply" replyId="${reply.replyId}" replyModule="reply"> 
+			<span
+				class="glyphicon glyphicon-share-alt">
+			</span> 回复
+		</a>
+	</li>
+	
 	<li><a href="#" class="likethis" replyId="${reply.replyId}" module="reply"> <span
 			class="glyphicon glyphicon-thumbs-up"></span> 
 			<span class="likenum">

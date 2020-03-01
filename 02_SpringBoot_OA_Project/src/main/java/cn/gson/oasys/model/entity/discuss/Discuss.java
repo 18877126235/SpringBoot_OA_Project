@@ -87,7 +87,9 @@ public class Discuss {
 	private Set<User> users;//用来存放点赞信息
 	
 	public Set<User> getUsers() {
+		
 		return users;
+		
 	}
 
 	public void setUsers(Set<User> users) {
