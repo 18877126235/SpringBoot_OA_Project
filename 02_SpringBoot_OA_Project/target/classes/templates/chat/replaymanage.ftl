@@ -296,13 +296,14 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		var size=${page.size};
 		var replyId = $("#hiddenreplyId").val();
 		var module = $("#hiddenreplyModule").val();
+		
 		//获取富文本的内容
 		editor.sync(); 
 		var comment =  $(".contentfuwenben").val();
 		//打印输入框的内容嗯嗯
 		//alert(comment);
 		
-		$('.repay').load('/replyhandle?size='+size, {
+		$('.repay').load('/replyhandle?size='+size, { //重新去加载这个div的内容
 			replyId : replyId,
 			module : module,
 			comment : comment,
@@ -344,11 +345,8 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	});
 	
 	
-	
-	
-	
+//////////////////////////////////////////////////////////////////////////
 	//点击回复显示输入框  repay
-	
 	$(".repay").on("click",".thisreply1",function(){
 
 		//隐藏其他一打开的输入框
@@ -387,6 +385,80 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		 return false ;
 	});
 
+
+	//点击回复执行
+	$(".repay").on("click",".quedinghuifu",function(){
+		
+		alert("呃呃呃呃");
+		
+		//获取你的fomr表单
+
+		//alert("点击了呢");
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "testhhhh" ,//url
+                data: $(this).prev().serialize(),
+                success: function (result) {
+                   
+                    if (result.resultCode == 200) {
+                        alert("SUCCESS");
+                    }
+                    ;
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//alert("点击了怕");
+		
+		
+		//先获取关键内容
+		//获取富文本的内容
+		//editor.sync(); 
+		//var comment =  $(".contenthuifuclass");
+		
+		//comment.html("哈哈哈");
+		
+		//var zhi = editor.util.getData(".contenthuifuclass");
+		
+		
+		
+		//var comment;
+		
+		//var shurukuang01 = $(this).prev();
+		
+		
+		
+		//alert(shurukuang01.html());
+		//alert(comment);
+		//alert(comment);
+		//发送ajax请求,重新加载
+		
+		//alert(editor.html());
+		
+		//隐藏输入框
+		var huifu = $(this).closest("#huifu");
+		huifu.hide();
+	});
+	
+	
 	//点击取消隐藏输入框
 	$(".repay").on("click","#quxiaoyincang",function(){
 		var huifu = $(this).closest("#huifu");
@@ -400,6 +472,51 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	});
 
 	
+	
+	//开启回复的富文本
+
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="contenthuifu"]', {
+			allowFileManager: true,
+			
+			afterBlur: function(){
+				this.sync();//假如没有这一句，获取到的id为content的值空白
+			}
+		
+		
+		});
+		K('input[name=getHtml]').click(function(e) {
+			alert(editor.html());
+		});
+		K('input[name=isEmpty]').click(function(e) {
+			alert(editor.isEmpty());
+		});
+		K('input[name=getText]').click(function(e) {
+			alert(editor.text());
+		});
+		K('input[name=selectedHtml]').click(function(e) {
+			alert(editor.selectedHtml());
+		});
+		K('input[name=setHtml]').click(function(e) {
+			editor.html('<h3>Hello KindEditor</h3>');
+		});
+		K('input[name=setText]').click(function(e) {
+			editor.text('<h3>Hello KindEditor</h3>');
+		});
+		K('input[name=insertHtml]').click(function(e) {
+			editor.insertHtml('<strong>插入HTML</strong>');
+		});
+		K('input[name=appendHtml]').click(function(e) {
+			editor.appendHtml('<strong>添加HTML</strong>');
+		});
+		K('input[name=clear]').click(function(e) {
+			editor.html('');
+		});
+
+	});
+	KindEditor.sync();
+
 	
 	
 </script>

@@ -57,6 +57,30 @@ public class ReplyController {
 	private VoteService voteService;
 	@Autowired
 	private VoteTitlesUserDao voteUserDao;
+	
+	
+	
+	
+	
+	//测试获取富文本的值
+	@RequestMapping("/testhhhh")
+	public void testhhhhh(HttpServletRequest request) {
+		
+		String parameter = request.getParameter("contenthuifu");
+		
+		System.out.println(parameter);
+		
+		System.out.println("可以放的加共和国汉语官话耶夫hi55555555555555555555555555555555555555");
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 回复处理
 	 * @param req

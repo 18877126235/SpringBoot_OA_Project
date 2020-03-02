@@ -30,15 +30,22 @@
 			</#if>
 			</span>
 	</a></li>
-	<li><a  href="#comment${reply.replyId}"
+	<li>
+		<!-- 	<a  href="#comment${reply.replyId}" -->
+
+	<a  
 		class="label xiugai toggle" data-toggle="collapse"><span
-			class="glyphicon glyphicon-triangle-bottom"></span>查看回复(
+			class="glyphicon glyphicon-triangle-bottom"></span>
+			<font size="25px">
+				回复信息如下(
 			<#if comments??>
 				${comments}
 			<#else>
 				${reply.count}
 			</#if>
 			)
+			</font>
+			
 			<span></span>
 			</a>
 	</li>
@@ -105,16 +112,19 @@
     </div>
     <div class="panel-body">
         <div class="form-group">
-            <form action="" method="post">
+           
+           <!-- 不需要form表单 -->
+            <form action="testhhhh" class="form01" method="post">
             
-                <input  type="hidden" name="topicId" value="">
-                <input type="hidden" name="replyUserId" value="">
-                 <textarea class="form-control contenthuifuclass"  style="width: 100%; height: 150px;" rows="8" cols="78" rows="3" name="contenthuifu" required="required"></textarea><br/>
-                
-            <input type="submit" class="btn btn-default btn-sm" value="回复">
-            <input type="button"  id="quxiaoyincang" class="btn btn-default btn-sm" value="取消">
+             <input  type="hidden" name="topicId" value="">
+             <input type="hidden" name="replyUserId" value="">
+             
+             <textarea class="form-control contenthuifuclass"  style="width: 100%; height: 150px;" rows="8" cols="78" rows="3" name="contenthuifu" required="required"> </textarea><br/>
+
             </form>
-            
+            <!-- onclick="login()" -->
+           	<input type="button"    class="btn btn-default btn-sm quedinghuifu" value="回复"> 
+            <input type="button"  id="quxiaoyincang" class="btn btn-default btn-sm" value="取消">
         </div>
 
     </div>
@@ -125,12 +135,47 @@
 
 <script type="text/javascript">
 
-//开启回复的富文本
 
+	//使用ajax方式提交form表单
+	function login() {
+		
+		//获取你的fomr表单
+
+		//alert("点击了呢");
+            $.ajax({
+            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "testhhhh" ,//url
+                data: $(this).prev().serialize(),
+                success: function (result) {
+                   
+                    if (result.resultCode == 200) {
+                        alert("SUCCESS");
+                    }
+                    ;
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+     }
+
+
+
+
+
+//开启回复的富文本
 var editor;
 KindEditor.ready(function(K) {
 	editor = K.create('textarea[name="contenthuifu"]', {
-		allowFileManager: true
+		allowFileManager: true,
+		
+		afterBlur: function(){
+			this.sync();//假如没有这一句，获取到的id为content的值空白
+		}
+	
+	
 	});
 	K('input[name=getHtml]').click(function(e) {
 		alert(editor.html());
@@ -161,8 +206,6 @@ KindEditor.ready(function(K) {
 	});
 
 });
+	KindEditor.sync();
 
-
-KindEditor.sync();
-	
 </script>
