@@ -245,13 +245,22 @@ public class ReplyController {
 		
 		//Integer Size=Integer.parseInt(req.getParameter("size"));
 		//System.out.println("大小:"+size); //查询几条
-		System.out.println(page); //从第几条开始
+		//System.out.println(page); //从第几条开始
 		
 		System.out.println("selecttype:"+selecttype);
 		System.out.println("selectsort:"+selectsort);
 		Long num=Long.parseLong(req.getParameter("num"));
 		
 		disService.discussHandle(model, num,userId,page,size,selecttype,selectsort);
+		
+		
+		
+		//获取当前用户
+		User user=uDao.findOne(userId);
+		if(user.getSuperman()){ //如果当前用户是超级管理员
+			//设置可以删除当前回复和评论
+			model.addAttribute("manage", "具有管理权限");
+		}
 		
 		return "chat/replytable";
 	}
