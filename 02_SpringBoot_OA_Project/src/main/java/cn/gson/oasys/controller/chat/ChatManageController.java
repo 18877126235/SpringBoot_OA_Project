@@ -263,9 +263,13 @@ public class ChatManageController {
 			}
 			
 		}
+		
+		
+		
 		//封装数据显示出来
 		disService.setDiscussMess(model, id,userId,page,size);
-		
+		System.out.println(user.getUserName()+"明明经过这里了呀********************************************");
+		model.addAttribute("user",user); //放置用户对象
 		return "chat/replaymanage";
 	}
 

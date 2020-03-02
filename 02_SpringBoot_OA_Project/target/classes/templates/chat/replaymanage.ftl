@@ -356,6 +356,9 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 				
 			});
 		
+		//让文本框获取焦点
+		
+		
 		//.show()  再显示当前输入框  tishixinxi
 		var huifu = $(this).closest(".list-inline").next().next();
 		//回复提示div
@@ -375,8 +378,9 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		tishineirong.text(usernametishi.val()); //设置文本值
 		
 		if( huifu.css("display")=="none" ){
-			huifu.show();
 			
+			huifu.show();
+	
 		}else{
 			huifu.hide(); //隐藏
 		}
@@ -385,44 +389,149 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		 return false ;
 	});
 
-
+	
 	//点击回复执行
 	$(".repay").on("click",".quedinghuifu",function(){
 		
-		alert("呃呃呃呃");
+		//获取用户头像
+    	var imageuser = '${user.imgPath}';
+    	//用户明
+		var username = '${user.userName}';
 		
-		//获取你的fomr表单
-
+		//当前日期
+		var mydate = new Date();
+	    var strdata = "" + mydate.getFullYear() + "-";
+	    var yue = mydate.getMonth()+1;
+	    if(yue < 10){
+	    	yue = '0' + yue;
+	    }
+	    strdata += yue + "-";
+		var ri = mydate.getDate();
+		if(ri<10){
+			ri = '0' + ri;	
+		}
+	    strdata += ri + " ";
+	    var xiaoshi = mydate.getHours();
+	    if(xiaoshi < 10){
+	    	xiaoshi = '0'+xiaoshi;
+	    }
+	    strdata += xiaoshi + ":";
+	    var fenzhong = mydate.getMinutes();
+	    if(fenzhong < 10){
+	    	fenzhong = '0'+fenzhong;
+	    }
+	    strdata += fenzhong + ":";
+	    var miao = mydate.getSeconds();
+	    if(miao<10){
+	    	miao = '0' + miao;
+	    }
+	    strdata += miao;
+  		
+	    
+	    var str;
+	    //判断有没有删除权限
+	    var manage = '';
+		
+	    
+	    
+	    
+	    //获取输入框的div，用来控制隐藏
+		var huifu = $(this).closest("#huifu");
+			
+			//添加子結點
+             var fatherchaoji = $(this).closest(".post").find(".tianjiahuifuneirong");//.find(".table");
+             	
+             //alert( fatherchaoji.text() );
+		
 		//alert("点击了呢");
             $.ajax({
             //几个参数需要注意一下
                 type: "POST",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
+                dataType: "text",//预期服务器返回的数据类型
                 url: "testhhhh" ,//url
                 data: $(this).prev().serialize(),
                 success: function (result) {
                    
-                    if (result.resultCode == 200) {
-                        alert("SUCCESS");
+                    //alert(result);
+                    if(result != 'error'){
+                    	
+                    	
+                    	//输入的回复内容
+                    	var content = result; 
+                    	
+                    	
+                    	//设置要添加的子节点代码
+                	   	<#if manage??>
+                			str = "<tr>" + 
+                			"								<td class='comment-td'><a href='#'> <img " + 
+                			"										src='/image/" + imageuser + "' class='big-img' />\n" + 
+                			"								</a></td>" + 
+                			"								<td>" + 
+                			"									<div class='user-block'>" + 
+                			"										<a href='' class='raply-name'>"+username+": </a> " +
+                													 content + 
+                			"										<ul class='list-inline pull-right' " + 
+                			"											style='display: block;'> " + 
+                			"											<li>" +strdata+"</li> " + 
+                			"											<li> " + 
+                			"												<a href='#' class='label xinzeng thisreply' " + 
+                			"													replyId='1' replyModule='reply' replyName='2'><span " + 
+                			"														class='glyphicon glyphicon-share-alt'></span>回复 " + 
+                			"												</a> " + 
+                			"											</li> " + 
+                			"											<li><a href='javascript:void(0);' class='label shanchu deletethis' replyId='' replyModule='comment'><span "+       
+                			"													class='glyphicon glyphicon-remove'></span>删除</a> " +
+                			"											</li>		"+	
+                			"										</ul>" + 
+                			"									</div>" + 
+                			"								</td>" + 
+                			"							</tr>";
+                	   	
+                	   		<#else>
+                				str = "<tr>" + 
+                				"								<td class='comment-td'><a href='#'> <img " + 
+                				"										src='/image/" + imageuser + "' class='big-img' />\n" + 
+                				"								</a></td>" + 
+                				"								<td>" + 
+                				"									<div class='user-block'>" + 
+                				"										<a href='' class='raply-name'>"+username+": </a> " +
+                				content + 
+                				"										<ul class='list-inline pull-right' " + 
+                				"											style='display: block;'> " + 
+                				"											<li>" +strdata+"</li> " + 
+                				"											<li> " + 
+                				"												<a href='#' class='label xinzeng thisreply' " + 
+                				"													replyId='1' replyModule='reply' replyName='2'><span " + 
+                				"														class='glyphicon glyphicon-share-alt'></span>回复 " + 
+                				"												</a> " + 
+                				"											</li> " + 
+                				"										</ul>" + 
+                				"									</div>" + 
+                				"								</td>" + 
+                				"							</tr>";
+                	   	
+                	   	</#if>
+                    	
+                    	//添加子节点
+                    	fatherchaoji.append(str);
+                    	
+                    	
+                    	
+                    	//隐藏输入框
+                		huifu.hide();
+                		//swal("操作成功！","666","success");
+                		
+                    	
+                    }else{
+                    	swal("请填写回复内容！","内容不能为空","warning");
+                    	//alert("请三山数据填写");
                     }
-                    ;
+                    
                 },
-                error : function() {
-                    alert("异常！");
+                error : function(data) {
+                    alert(data);
                 }
             });
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -453,9 +562,7 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		
 		//alert(editor.html());
 		
-		//隐藏输入框
-		var huifu = $(this).closest("#huifu");
-		huifu.hide();
+	
 	});
 	
 	

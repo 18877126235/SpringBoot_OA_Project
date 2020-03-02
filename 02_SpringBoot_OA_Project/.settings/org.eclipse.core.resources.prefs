@@ -9,6 +9,7 @@ encoding//src/main/resources/templates/chat/replaymanage.ftl=UTF-8
 encoding//src/main/resources/templates/chat/replylike.ftl=UTF-8
 encoding//src/main/resources/templates/chat/replytable.ftl=UTF-8
 encoding//src/main/resources/templates/common/comment.ftl=UTF-8
+encoding//src/main/resources/templates/forumcenter/new.ftl=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

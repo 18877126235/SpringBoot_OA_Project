@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import cn.gson.oasys.model.dao.discuss.CommentDao;
@@ -64,13 +65,44 @@ public class ReplyController {
 	
 	//测试获取富文本的值
 	@RequestMapping("/testhhhh")
-	public void testhhhhh(HttpServletRequest request) {
+	@ResponseBody
+	public String testhhhhh(HttpServletRequest request) {
 		
 		String parameter = request.getParameter("contenthuifu");
+		String result = null;
+
+		//System.out.println("获取到内容："+result);
+	
 		
-		System.out.println(parameter);
 		
-		System.out.println("可以放的加共和国汉语官话耶夫hi55555555555555555555555555555555555555");
+		if(parameter == null || parameter.equals("")||parameter.equals(" ")) { //前台提示不能为空
+			System.out.println("为空"+parameter.length());
+
+			return "error";
+		}else {
+			//字符串截取
+			if(parameter.contains("<br />")) {
+				result = parameter.substring(0,parameter.length()-6);
+			}else {
+				result = parameter;
+			}
+			//然后执行业务逻辑
+			
+			
+			
+			System.out.println("不为空，去吧"+result);
+			return result; //将输入框的内容返回去
+			
+
+			////////////////////////////////////
+		
+			
+		}
+		
+		
+		//System.out.println("可以放的加共和国汉语官话耶夫hi55555555555555555555555555555555555555");
+		
+		
 		
 		
 	}

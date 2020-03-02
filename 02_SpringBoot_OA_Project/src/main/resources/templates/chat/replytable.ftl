@@ -79,7 +79,9 @@
 				-->
 				<div id="comment${reply.replyId}" class="jiazaihuifuxinxi" style="margin-left: 80px;">
 					<table class="table table-hover" style="margin-bottom: 0;">
-						<tbody>
+					
+						<tbody  class="tianjiahuifuneirong" >
+							
 							<#list commentList as comment>
 							 <#if comment.reply == reply.replyId>
 							<tr>

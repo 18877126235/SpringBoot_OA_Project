@@ -107,6 +107,7 @@
 
 <!-- 评论框 -->
 <div  class="panel panel-default huifu2" id="huifu" style="display: none;">
+
     <div class="panel-heading tishixinxi" style="background-color: white">
         	回复：@<font class="tishineirong" color="blue"></font>
     </div>
@@ -115,11 +116,10 @@
            
            <!-- 不需要form表单 -->
             <form action="testhhhh" class="form01" method="post">
-            
              <input  type="hidden" name="topicId" value="">
              <input type="hidden" name="replyUserId" value="">
              
-             <textarea class="form-control contenthuifuclass"  style="width: 100%; height: 150px;" rows="8" cols="78" rows="3" name="contenthuifu" required="required"> </textarea><br/>
+             <textarea class="form-control contenthuifuclass" value="" style="width: 100%; height: 150px;" rows="8" cols="78" rows="3" name="contenthuifu" required="required"> </textarea><br/>
 
             </form>
             <!-- onclick="login()" -->
