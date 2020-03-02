@@ -145,12 +145,13 @@ a:hover {
 					</div>
 					<!-- 显示所有评论  （评论表） -->
 					<div>
-						<table class="table" style="margin-bottm: 0px;">
+						<table class="table" style="margin-bottm: 10px;  ">
 							<!-- 显示排序规则 和选择  <if replyList?? &&replyList?size gt 0>-->
 								<tr>
 									<th scope="col" style="background-color: #EEEEEE;">
-										<span style="line-height: 35px;">评论</span>
+										<span style="line-height: 35px;">共  ${page.totalElements } 条评论</span>
 										<div class="pull-right" style="display: inline-block;margin-right:50px;font-weight: 400;">
+											<span style="line-height: 35px; margin-right: 10px;"> <b>请选择查看方式</b> </span>
 											<select name="selecttype" id="selecttype" class="selectthis  form-control" style="display: inline-block;margin-right: 10px;width: 115px;font-size: 13px;">
 												<option value="">查看所有</option>
 												<option value="${discuss.user.userId}">只看楼主</option>
@@ -184,12 +185,20 @@ a:hover {
 		</div>
 	</div>
 <script type="text/javascript" src="js/usershow.js"></script>
+
+
 <!-- 存在 -->
 <script type="text/javascript">
 /*查看类型和时间排序的select选择的改变事件  */
 $('.selectthis').on('change',function(){
-	var selecttype=$("#selecttype option:selected").val();
-	var selectsort=$("#selectsort option:selected").val();
+	
+	//alert("来了老弟");
+	var selecttype=$("#selecttype option:selected").val(); //查看方式
+	var selectsort=$("#selectsort option:selected").val(); //排序方式
+	
+	//alert(selecttype);
+	//alert(selectsort);
+	
 	var num=${discuss.discussId};
 	$('.repay').load('/replypaging',{num:num,selecttype:selecttype,selectsort:selectsort}); 
 });
@@ -230,6 +239,8 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	}
 	
 });
+
+
 /*回复表的删除  */
 	$('.repay').on('click','.deletethis',function(){
 		var num=${discuss.discussId};
@@ -240,36 +251,155 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 			$('.repay').load('replydelete',{replyId:replyId,module:module,num:num,size:size});
 		}
 	});
-/* 回复与评论的处理，模态框显示，假如是点击回复进入的，则在前面加@那个的名字 */	
+	
+
+/* 点击评论评论模态框，模态框显示，假如是点击回复进入的，则在前面加@那个的名字 */	
 	$("#thisreply").on('click',function(){
 		
-		
+		//alert("这是啥");
 		
 		//获取自定义的连个属性，然后复制到以下的两个inout中
 		$("#hiddenreplyId").val($(this).attr('replyId'));
 		$("#hiddenreplyModule").val($(this).attr('replyModule'));
 		
-		//var name = $(this).attr('replyName'); //这东西没用的呀
+		var name = $(this).attr('replyName'); //这东西没用的呀
 		//alert(name);
-		//$('.replyName').val(name);
-		//if(typeof(name) != 'undefined' ){
-			//$("#comment").val("@"+name);
-		//}
-		
-		$("#myModal").modal("toggle");
-		
-	});
-	
-/* 待定了哈 */
-	$('.repay').on('click', '.thisreply',function() {
-		$("#hiddenreplyId").val($(this).attr('replyId'));
-		$("#hiddenreplyModule").val($(this).attr('replyModule'));
-		var name = $(this).attr('replyName');
 		$('.replyName').val(name);
-		console.log(typeof(name));
 		if(typeof(name) != 'undefined' ){
 			$("#comment").val("@"+name);
 		}
 		$("#myModal").modal("toggle");
+		
 	});
+	
+/* 回复评论显示模态框  这个废弃掉 */
+	$('.repay').on('click', '.thisreply',function() {
+		//alert("哈哈哈");
+		$("#hiddenreplyId").val($(this).attr('replyId'));
+		$("#hiddenreplyModule").val($(this).attr('replyModule'));
+		var name = $(this).attr('replyName');
+		$('.replyName').val(name);
+		
+		//alert(name);
+		
+		//editor.sync(); 
+		//$(".contentfuwenben").val("@"+name);
+		if(typeof(name) != 'undefined' ){
+			//editor.html("@"+name);
+			$("#comment").val("@"+name);
+		}
+		$("#myModal").modal("toggle"); //打开模态框
+	});
+	
+	/*回复与评论的提交 */
+	$('#commentsave').on('click',function() {
+		var size=${page.size};
+		var replyId = $("#hiddenreplyId").val();
+		var module = $("#hiddenreplyModule").val();
+		//获取富文本的内容
+		editor.sync(); 
+		var comment =  $(".contentfuwenben").val();
+		//打印输入框的内容嗯嗯
+		//alert(comment);
+		
+		$('.repay').load('/replyhandle?size='+size, {
+			replyId : replyId,
+			module : module,
+			comment : comment,
+		});
+		
+		$("#comment").val("");
+	});
+	
+	/* 点击加载更多 */
+	$('.table').on('click','.addmore',function(){
+		var selecttype=$("#selecttype option:selected").val();	//获得查看类型select中的值
+		var selectsort=$("#selectsort option:selected").val();	//获得时间排序select中的值
+		var num=${discuss.discussId};
+		var page=${page.number};
+		var shengyu = $("#input_shengyu").val(); //剩余条数
+		var size_input = $("#input_size").val();
+		var size =parseInt(size_input); //当前显示条数
+		//alert(shengyu);
+		//alert(input_size);
+		var flag = 0;
+		if( shengyu >= 5 ){
+			size = size + 5;
+		}else if(shengyu < 5){
+			size = size + shengyu;	
+		}else{ //如果到底了
+			flag = 1;
+		}
+		//alert(size);
+		//向后台请求数据
+		if(flag){
+		}else{
+			$('.repay').load('/replypaging',{num:num,size:size,selecttype:selecttype,selectsort:selectsort}); 	
+		}
+		<#--if(${page.size}<=${page.totalElements}){
+			
+			$('.repay').load('/replypaging',{num:num,size:size,selecttype:selecttype,selectsort:selectsort}); 
+		}-->
+		
+	});
+	
+	
+	
+	
+	
+	//点击回复显示输入框  repay
+	
+	$(".repay").on("click",".thisreply1",function(){
+
+		//隐藏其他一打开的输入框
+		$(".huifu2").not(this).each(function(){
+				
+				$(this).hide();
+				
+			});
+		
+		//.show()  再显示当前输入框  tishixinxi
+		var huifu = $(this).closest(".list-inline").next().next();
+		//回复提示div
+		var tishixinxi = huifu.find(".tishixinxi");
+		
+		//设置提示内容
+		var tishineirong = tishixinxi.find(".tishineirong");
+		
+		//获取当前评论是谁发布的   
+		var granfather = $(this).closest(".post");
+		
+		var usernametishi = granfather.find(".usernametishi");
+		
+		//alert(usernametishi.val());
+		
+		//设置回复提示
+		tishineirong.text(usernametishi.val()); //设置文本值
+		
+		if( huifu.css("display")=="none" ){
+			huifu.show();
+			
+		}else{
+			huifu.hide(); //隐藏
+		}
+		
+		//alert(huifu);
+		 return false ;
+	});
+
+	//点击取消隐藏输入框
+	$(".repay").on("click","#quxiaoyincang",function(){
+		var huifu = $(this).closest("#huifu");
+		huifu.hide();
+	}); 
+
+	//防止页面后退
+	history.pushState(null, null, document.URL);
+	window.addEventListener('popstate', function () {
+	        history.pushState(null, null, document.URL);
+	});
+
+	
+	
+	
 </script>

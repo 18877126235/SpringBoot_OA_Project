@@ -69,7 +69,7 @@ public class ReplyController {
 			@SessionAttribute("userId") Long userId,Model model){
 		System.out.println(size);
 		Long num=null;
-		
+		System.out.println("来了老弟/*/*/*/*/*///////////////////////////////////");
 		Long discussId=Long.parseLong(req.getParameter("replyId"));
 		String module=req.getParameter("module");	//用来判断是保存在哪个表
 		
@@ -178,16 +178,23 @@ public class ReplyController {
 	//回复分页处理
 	@RequestMapping("/replypaging")
 	public String  replyPaging(HttpServletRequest req,
+			
 			@RequestParam(value="selecttype") Long selecttype,
 			@RequestParam(value="selectsort") Long selectsort,
-			@RequestParam(value="page",defaultValue="0") int page,
+			@RequestParam(value="page",defaultValue="0") int page,  
+			
 			@RequestParam(value="size",defaultValue="5") int size,
+			
 			@SessionAttribute("userId") Long userId,Model model){
-		System.out.println(size);
-		System.out.println(page);
+		
+		//Integer Size=Integer.parseInt(req.getParameter("size"));
+		//System.out.println("大小:"+size); //查询几条
+		System.out.println(page); //从第几条开始
+		
 		System.out.println("selecttype:"+selecttype);
 		System.out.println("selectsort:"+selectsort);
 		Long num=Long.parseLong(req.getParameter("num"));
+		
 		disService.discussHandle(model, num,userId,page,size,selecttype,selectsort);
 		
 		return "chat/replytable";

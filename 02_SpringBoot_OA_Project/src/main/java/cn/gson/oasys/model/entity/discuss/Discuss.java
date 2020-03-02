@@ -74,6 +74,7 @@ public class Discuss {
 	@OneToMany(mappedBy="discuss",fetch=FetchType.LAZY,cascade=CascadeType.REMOVE)
 	private Set<Reply> replys;
 	
+	
 	@ManyToMany  //多对多
 	@JoinTable(
 		name = "aoa_love_discuss_user",

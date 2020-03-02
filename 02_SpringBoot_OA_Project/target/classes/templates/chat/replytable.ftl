@@ -7,6 +7,7 @@
 <tr>
 	<td>
 		<div class="post">
+		
 			<div class="user-block">
 				<!-- 显示用户头像 -->
 				<span> 
@@ -16,6 +17,7 @@
 				</span> 
 				<!-- 显示评论的用户的名称 -->
 				<span class="username"> 
+					<input class="usernametishi" type="hidden" value="${(reply.user.userName)!''}">
 					<a href="#" class="raply-name">${(reply.user.userName)!''}</a> 
 					<!-- 如果是超级管理员或者本人可以有权删除该条评论-->
 					<#if manage??> 
@@ -34,15 +36,48 @@
 				<!-- 显示评论内容 -->
 				<p style="padding-top: 10px;">${reply.content}</p>
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				<!-- 显示回复和点赞按钮和具体的点赞人员的名称 -->
 				<div class="replyrefresh">
+				
 					<#include "replylike.ftl"/>
+					
 				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				<!-- 如果存在回复那就将回复内容封装到下面的容器中，先不显示 -->
 				<#if commentList??>
-				<!-- 为容器设定唯一的id -->
-				<div id="comment${reply.replyId}" class="comment collapse" style="margin-left: 80px;">
+				<!-- 为容器设定唯一的id 
+				class="comment collapse"
+				-->
+				<div id="comment${reply.replyId}" class="collapse" style="margin-left: 80px;">
 					<table class="table table-hover" style="margin-bottom: 0;">
 						<tbody>
 							<#list commentList as comment>
@@ -85,15 +120,24 @@
 	</td>
 </tr>
 </#list>
+
+<!-- 点击加载更多 -->
 <tr>
 	<th scope="col" style="background-color: #EEEEEE;text-align: center;padding:16px;" class="addmore">
+	
 		<#if page.totalElements gt page.size>
 			还有${page.totalElements-page.size}条，点击加载更多~~~
+			<!-- 隐藏用来存储剩余条数 -->
+			<input type="hidden" id="input_shengyu" value="${page.totalElements-page.size}">
+			<!-- 当前显示的条数 -->
+			<input type="hidden" id="input_size" value="${page.size}">
 		<#else> 
 			<span class="nomore">已经没有更多了~~~</span>
 		</#if>
+		
 	</th>
 </tr>
+
 <#else>
 	<tr>
 		<th scope="col" style="background-color: #EEEEEE;text-align: center;">还没有评论，快来坐沙发~~~</th>
@@ -102,45 +146,10 @@
 			
 <#include "/common/comment.ftl"/> <!--class nothing 完毕-->
 <script>
-/* 点击加载更多 */
-$('.addmore').on('click',function(){
-	var selecttype=$("#selecttype option:selected").val();	//获得查看类型select中的值
-	var selectsort=$("#selectsort option:selected").val();	//获得时间排序select中的值
-	var num=${discuss.discussId};
-	var page=${page.number};
-	var size=${page.size+5};
-	if(${page.size}<=${page.totalElements}){
-		$('.repay').load('/replypaging',{num:num,size:size,selecttype:selecttype,selectsort:selectsort}); 
-	}
-});
 
-/* 回复与评论的提交 */
-$('#commentsave').on('click',function() {
-	console.log($("#hiddenreplyId").val());
-	console.log($("#hiddenreplyModule").val());
-	console.log($("#comment").val());
-	var size=${page.size};
-	console.log("size:"+size);
-	var replyId = $("#hiddenreplyId").val();
-	var module = $("#hiddenreplyModule").val();
-	
-	//var comment = $("#comment").val();
-	
-	//测试获取富文本内容
-	//var content = $.trim($(".contentfuwenben").val());
-	editor.sync(); 
-	var comment =  $(".contentfuwenben").val();
 
-	//alert(content);
-	
-	$('.repay').load('/replyhandle?size='+size, {
-		replyId : replyId,
-		module : module,
-		comment : comment,
-	});
-	
-	$("#comment").val("");
-});
+
+
 /*查看更多评论的小图标变化  */
 $('.toggle').on('click',function() {
 	if ($(this).children().hasClass('glyphicon-triangle-bottom')) {
@@ -153,4 +162,52 @@ $('.toggle').on('click',function() {
 				"glyphicon-triangle-bottom");
 	}
 });
+
+
+//开启回复的富文本
+
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="contenthuifu"]', {
+		allowFileManager: true
+	});
+	K('input[name=getHtml]').click(function(e) {
+		alert(editor.html());
+	});
+	K('input[name=isEmpty]').click(function(e) {
+		alert(editor.isEmpty());
+	});
+	K('input[name=getText]').click(function(e) {
+		alert(editor.text());
+	});
+	K('input[name=selectedHtml]').click(function(e) {
+		alert(editor.selectedHtml());
+	});
+	K('input[name=setHtml]').click(function(e) {
+		editor.html('<h3>Hello KindEditor</h3>');
+	});
+	K('input[name=setText]').click(function(e) {
+		editor.text('<h3>Hello KindEditor</h3>');
+	});
+	K('input[name=insertHtml]').click(function(e) {
+		editor.insertHtml('<strong>插入HTML</strong>');
+	});
+	K('input[name=appendHtml]').click(function(e) {
+		editor.appendHtml('<strong>添加HTML</strong>');
+	});
+	K('input[name=clear]').click(function(e) {
+		editor.html('');
+	});
+
+});
+
+KindEditor.sync();
+
+
+//防止页面后退
+history.pushState(null, null, document.URL);
+window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+});
+
 </script>

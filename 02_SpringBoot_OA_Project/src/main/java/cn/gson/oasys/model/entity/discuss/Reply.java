@@ -23,7 +23,7 @@ import cn.gson.oasys.model.entity.user.User;
  * 用户id
  * 讨论id
  * @author admin
- * 回复表
+ * 评论表
  */
 @Entity
 @Table(name="aoa_reply_list")

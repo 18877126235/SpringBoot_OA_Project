@@ -177,12 +177,14 @@ public class DiscussService {
 		Page<Reply> replyPage = null; //用于存储查询的回复结果集
 		
 		//如果想按照发布时间倒序排序
-		/*if(!StringUtils.isEmpty(selectSort)&& selectSort == 1){
+		if(!StringUtils.isEmpty(selectSort)&& selectSort == 1){
 			pa=new PageRequest(page, size,new Sort(Direction.DESC,"replayTime")); //根据replayTime属性倒序排序
 		}else{
 			pa=new PageRequest(page, size,new Sort(Direction.ASC,"replayTime"));
-		}*/
-		pa=new PageRequest(page, size,new Sort(Direction.DESC,"replayTime"));
+		}
+		//事件降序排序
+		//pa=new PageRequest(page, size,new Sort(Direction.DESC,"replayTime"));
+		
 		
 		
 		//获取帖子对象
@@ -222,6 +224,11 @@ public class DiscussService {
 		
 		//对回复表字段进行封装，主要是为了获取到评论数
 		List<Map<String, Object>> replys=this.replyPackaging(replyList,userId);		
+		
+		for (Map<String, Object> map : replys) {
+			System.out.println("输出评论内容:"+map.get("content")); 
+		}
+		
 		
 		if(replyCols.size()>0){ //如果有人评论
 			Long[] replyLong=new Long[replyCols.size()];//用数组来存储所有回复表的id

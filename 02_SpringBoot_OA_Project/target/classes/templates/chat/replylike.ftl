@@ -1,12 +1,15 @@
 <!-- 这是针对评论的 -->
 <ul class="list-inline">
-
+	
 	<li>
-		<a href="#" class="thisreply" replyId="${reply.replyId}" replyModule="reply"> 
+		<!-- <a  style=" cursor:pointer;" class="lable thisreply" replyId="${reply.replyId}" replyModule="reply">  -->
+		<a href="#" class="thisreply1" replyId="${reply.replyId}" replyModule="reply">
+		
 			<span
 				class="glyphicon glyphicon-share-alt">
 			</span> 回复
 		</a>
+	
 	</li>
 	
 	<li><a href="#" class="likethis" replyId="${reply.replyId}" module="reply"> <span
@@ -27,15 +30,17 @@
 			</#if>
 			</span>
 	</a></li>
-	<li><a href="#comment${reply.replyId}"
+	<li><a  href="#comment${reply.replyId}"
 		class="label xiugai toggle" data-toggle="collapse"><span
-			class="glyphicon glyphicon-triangle-bottom"></span>评论次数(
+			class="glyphicon glyphicon-triangle-bottom"></span>查看回复(
 			<#if comments??>
 				${comments}
 			<#else>
 				${reply.count}
 			</#if>
-			)</a>
+			)
+			<span></span>
+			</a>
 	</li>
 	<li class="pull-right">
 		<span class="rightNum">
@@ -47,6 +52,9 @@
 		</span>楼
 	</li>
 </ul>
+
+
+
 <!-- 下面是具体点赞人员的名字显示 -->
 <ul class="list-inline">
 	<#if likeNum??>
@@ -89,4 +97,72 @@
 		</#if>
 	</#if>
 </ul>
+
+<!-- 评论框 -->
+<div  class="panel panel-default huifu2" id="huifu" style="display: none;">
+    <div class="panel-heading tishixinxi" style="background-color: white">
+        	回复：@<font class="tishineirong" color="blue"></font>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <form action="" method="post">
+            
+                <input  type="hidden" name="topicId" value="">
+                <input type="hidden" name="replyUserId" value="">
+                 <textarea class="form-control contenthuifuclass"  style="width: 100%; height: 150px;" rows="8" cols="78" rows="3" name="contenthuifu" required="required"></textarea><br/>
+                
+            <input type="submit" class="btn btn-default btn-sm" value="回复">
+            <input type="button"  id="quxiaoyincang" class="btn btn-default btn-sm" value="取消">
+            </form>
+            
+        </div>
+
+    </div>
+</div>
+
+
 <script type="text/javascript" src="js/usershow.js"></script>
+
+<script type="text/javascript">
+
+//开启回复的富文本
+
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="contenthuifu"]', {
+		allowFileManager: true
+	});
+	K('input[name=getHtml]').click(function(e) {
+		alert(editor.html());
+	});
+	K('input[name=isEmpty]').click(function(e) {
+		alert(editor.isEmpty());
+	});
+	K('input[name=getText]').click(function(e) {
+		alert(editor.text());
+	});
+	K('input[name=selectedHtml]').click(function(e) {
+		alert(editor.selectedHtml());
+	});
+	K('input[name=setHtml]').click(function(e) {
+		editor.html('<h3>Hello KindEditor</h3>');
+	});
+	K('input[name=setText]').click(function(e) {
+		editor.text('<h3>Hello KindEditor</h3>');
+	});
+	K('input[name=insertHtml]').click(function(e) {
+		editor.insertHtml('<strong>插入HTML</strong>');
+	});
+	K('input[name=appendHtml]').click(function(e) {
+		editor.appendHtml('<strong>添加HTML</strong>');
+	});
+	K('input[name=clear]').click(function(e) {
+		editor.html('');
+	});
+
+});
+
+
+KindEditor.sync();
+	
+</script>

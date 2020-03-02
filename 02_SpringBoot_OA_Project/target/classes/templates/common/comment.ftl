@@ -24,8 +24,9 @@
 				</h4>
 			</div>
 			
-			<!--  
-			<textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px;  font-size: 20px;"></textarea>
+			<!--  <textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px;  font-size: 20px;"></textarea>
+			
+				<textarea class="contentfuwenben" style="width: 100%; height: 360px; rows="8" cols="78" id="comment"></textarea>
 			-->	
 			
 			

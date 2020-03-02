@@ -18,7 +18,7 @@ import cn.gson.oasys.model.entity.user.User;
  * 用户id
  * 回复id
  * 没有连接外键
- * 评论评论的评论表（回复别人的评论表）
+ * 回复表（回复别人的评论表）
  * @author admin
  *
  */

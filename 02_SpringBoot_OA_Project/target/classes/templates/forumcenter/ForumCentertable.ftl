@@ -30,7 +30,7 @@
             </div>
             <!-- 回复数量 -->
             <div style="width: 5%;float: right;text-align: center">
-                <span style="background: #ffffff ; color: #31b0d5 ;" class="badge">评论：${(this.commentsNum)!''}</span>
+                <span style="background: #ffffff ; color: #31b0d5 ;" class="badge">讨论：${(this.commentsNum)!''}</span>
             </div>
              <!-- 回复数量 -->
             <div style="width: 5%;float: right;text-align: center">

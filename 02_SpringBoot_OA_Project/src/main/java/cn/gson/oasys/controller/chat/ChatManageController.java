@@ -259,7 +259,7 @@ public class ChatManageController {
 		}else{//否则就是普通用户查看了
 			//如果是自己的帖子，那也可以管理（放置一个manage标记）
 			if(Objects.equals(user.getUserId(), discuss.getUser().getUserId())){
-				model.addAttribute("manage", "具有管理权限");
+				model.addAttribute("manage", "具有管理权限"); //可以删除评论
 			}
 			
 		}

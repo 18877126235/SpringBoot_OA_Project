@@ -22,7 +22,9 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 
 import cn.gson.oasys.mappers.NoticeMapper;
 import cn.gson.oasys.model.dao.attendcedao.AttendceService;
+import cn.gson.oasys.model.dao.discuss.CommentDao;
 import cn.gson.oasys.model.dao.discuss.DiscussDao;
+import cn.gson.oasys.model.dao.discuss.ReplyDao;
 import cn.gson.oasys.model.dao.informdao.InformDao;
 import cn.gson.oasys.model.dao.informdao.InformRelationDao;
 import cn.gson.oasys.model.dao.processdao.NotepaperDao;
@@ -219,7 +221,6 @@ public class Test1 {
 	
 	
 	//查询访问数量最多的5条论坛帖子
-	
 	@Autowired
 	private DiscussDao discussDao; //直接去数据库找了
 	@Test  //别他妈忘记加上注解呀
@@ -238,5 +239,19 @@ public class Test1 {
 		
 	}
 	
+	//查看该条帖子有多少用户参与评论和回复 Comment Reply
+	@Autowired
+	private ReplyDao replyDao;
+	
+	@Autowired
+	private CommentDao commentDao;
+	
+	@Test
+	public void test08() {
+		
+		//首先根据当前帖子id查找有多少个用户参与评论
+		
+		
+	}
 	
 }

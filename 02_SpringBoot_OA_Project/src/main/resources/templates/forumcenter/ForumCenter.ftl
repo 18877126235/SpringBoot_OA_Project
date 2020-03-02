@@ -58,7 +58,7 @@
 		> <a disabled="disabled">论坛中心</a>
 	</div>
 </div>
-<br>
+
 <!-- 引入header文件 -->
 <#include "header.ftl">
 

@@ -5,7 +5,7 @@
 			replyId="${discuss.discussId}" replyModule="discuss"> 
 			<span
 				class="glyphicon glyphicon-share-alt">
-			</span>回复
+			</span><font size="25px">添加评论</font> 
 		</a>
 	</li>
 	<li><a href="#"> <span class="glyphicon glyphicon-fire"
