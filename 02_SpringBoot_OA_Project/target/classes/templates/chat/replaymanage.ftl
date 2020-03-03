@@ -179,6 +179,7 @@ a:hover {
 						<!-- 这两个隐藏input -->
 						<input type="hidden" id="hiddenreplyId"/>
 						<input type="hidden" id="hiddenreplyModule"/>
+						<input type="hidden" id="duiyingdeyonghumingchneg">
 					</div>
 				</div>
 				<!--盒子尾-->
@@ -260,9 +261,9 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		//获取自定义的连个属性，然后复制到以下的两个inout中
 		
 		$("#hiddenreplyId").val($(this).attr('replyId')); //这里是获取当前评论的 对象 的id
-		alert( $(this).attr('replyId') );
+		///alert( $(this).attr('replyId') );
 		$("#hiddenreplyModule").val($(this).attr('replyModule')); //这里是获取当前回复的是什么，（是帖子还是评论）
-		alert($(this).attr('replyModule'));
+		//alert($(this).attr('replyModule'));
 		//var name = $(this).attr('replyName'); //这东西没用的呀
 		//alert(name);
 		//$('.replyName').val(name);
@@ -386,6 +387,9 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		//设置回复提示
 		tishineirong.text(usernametishi.val()); //设置文本值
 		
+		//设置要回复的对象
+		$("#duiyingdeyonghumingchneg").val(usernametishi.val());
+		
 		if( huifu.css("display")=="none" ){
 			
 			huifu.show();
@@ -419,7 +423,9 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		//alert(yaohuifudeduxiang);
 		//设置提示信息，显示要回复谁
 		$(this).closest(".post").find(".tishixinxi").find(".tishineirong").text(yaohuifudeduxiang);
-
+		
+		//设置要回复的对象
+		$("#duiyingdeyonghumingchneg").val(yaohuifudeduxiang);
 		//alert(tishixinxi);
 		
 		//显示富文本
@@ -482,19 +488,28 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
            	var replyId = $("#hiddenreplyId").val();
 			//当前回复的是别人的是评论还是帖子
 			var module = $("#hiddenreplyModule").val();
-			var duiyingusername = '';
-			//获取当前回复对应的用户名称
-			if(module == 'reply'){ //如果是回复评论的
-				duiyingusername = duiyingusername + $(this).closest(".post").find(".usernametishi").val();
+			var duiyingusername = $("#duiyingdeyonghumingchneg").val();
+			
+			
+			//alert(duiyingusername);
+			
+			
+			
+			//获取当前回复对应的用户名称  以下没有看清楚dom树结构导致个错误不过影响不大
+			<#--if(module == 'reply'){ //如果是回复评论的
+				duiyingusername =$(this).closest(".post").find(".usernametishi").val();
 				//alert(duiyingusername);
 			}else{ //否则就是回复回复的 //待定
-				duiyingusername = duiyingusername + $(this).closest(".post").find(".yaohuifudeyonghu").val();
-				//alert(duiyingusername);
-			}
+				duiyingusername =$(this).closest(".post").find(".yaohuifudeyonghu").val();
+			
+				alert(duiyingusername);
+			}-->
+			
+			
 			
 			//alert(replyId+module);
 			
-            $.ajax({
+           $.ajax({
             //几个参数需要注意一下
                 type: "POST",//方法类型
                 contentType:"application/x-www-form-urlencoded",
@@ -527,10 +542,6 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 			"											<li>" +strdata+"</li> " + 
                 			"										</ul>" + 
 							"			                			<div>"+
-							"											<a href='#' class='label xinzeng thisreply2'"+
-							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
-							"													class='glyphicon glyphicon-share-alt'></span>回复"+
-							"											</a>"+
 							"											<a href='javascript:void(0);' class='label shanchu deletethis' replyId='待定' replyModule='comment'><span " +
 							"													class='glyphicon glyphicon-remove'></span>删除</a>"+										
 							"										</div>"+
@@ -553,12 +564,6 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 				"											style='display: block;'> " + 
                 				"											<li>" +strdata+"</li> " + 
                 				"										</ul>" + 
-                				"			                			<div>"+
-    							"											<a href='#' class='label xinzeng thisreply2'"+
-    							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
-    							"													class='glyphicon glyphicon-share-alt'></span>回复"+
-    							"											</a>"+									
-    							"										</div>"+
                 				"									</div>" + 
                 				"								</td>" + 
                 				"							</tr>";
@@ -654,3 +659,40 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	
 	
 </script>
+
+
+
+<!-- 数据备份 -->
+<#-- 
+	str = "<tr  class='zheshiyaozhaode' >" + 
+                			"	<input class='cunfanghuifuid' type='hidden' value='" + cunfangid + "' />"+
+                			"								<td class='comment-td'><a href='#'> <img " + 
+                			"										src='/image/" + imageuser + "' class='big-img' />\n" + 
+                			"								</a></td>" + 
+                			"								<td>" + 
+                			"									<div class='user-block'>" + 
+            				"										<input type='hidden' class='yaohuifudeyonghu' value='" + username + "'>"+
+            				"										<a href='' class='raply-name'>"+ username +'->回复 @ ' +"<font color='#C71585'>" +duiyingusername+" ： </font>"+ "</a> " +
+                													 content + 
+                			"										<ul class='list-inline pull-right' " + 
+                			"											style='display: block;'> " + 
+                			"											<li>" +strdata+"</li> " + 
+                			"										</ul>" + 
+							"			                			<div>"+
+							"											<a href='#' class='label xinzeng thisreply2'"+
+							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
+							"													class='glyphicon glyphicon-share-alt'></span>回复"+
+							"											</a>"+
+							"											<a href='javascript:void(0);' class='label shanchu deletethis' replyId='待定' replyModule='comment'><span " +
+							"													class='glyphicon glyphicon-remove'></span>删除</a>"+										
+							"										</div>"+
+                			"									</div>" + 
+                			"								</td>" + 
+                			"							</tr>";
+
+ -->
+
+
+
+
+

@@ -105,10 +105,15 @@
 
 										</ul>
 										<div>
+											<#if user.userName == comment.user.userName>
+												
+												<#else>
 												<a href="#" class="label xinzeng thisreply2"
 													replyId="${reply.replyId}" replyModule="comment" replyName="${comment.user.userName}"><span
 														class="glyphicon glyphicon-share-alt"></span>回复
 												</a>
+											</#if>
+												
 												<#if manage??>
 											<a href="javascript:void(0);" class="label shanchu deletethis" replyId="${comment.commentId}" replyModule="comment"><span
 													class="glyphicon glyphicon-remove"></span>删除</a>
