@@ -64,7 +64,7 @@ public class ReplyController {
 	
 	
 	
-	//测试获取富文本的值
+	//ajax提交form获取富文本的值
 	@RequestMapping("/testhhhh")
 	@ResponseBody
 	public JsonHuifuUtil testhhhhh(HttpServletRequest request
@@ -120,7 +120,15 @@ public class ReplyController {
 		
 	}
 	
-	
+	@RequestMapping("/tijiaohuixianshuju")
+	@ResponseBody
+	public void zhinengzheyangzile( HttpServletRequest request ) {
+		
+		
+		
+		System.out.println("去你妈的富文本，*******************************下次再也不用:"+request.getParameter("gaisidefuwenben"));
+		
+	}
 	
 	
 	
@@ -189,14 +197,20 @@ public class ReplyController {
 			num=reply.getDiscuss().getDiscussId(); //获取帖子id
 		}
 		
+		
+		
 		Discuss discuss=discussDao.findOne(num);
+		
+		
+		model.addAttribute("manage", null);
 		//是否拥有权限
-		if(user.getSuperman()){
+		if(user.getSuperman()){ //只有管理员才有权限
+
 			model.addAttribute("manage", "具有管理权限");
 		}else{
-			if(Objects.equals(user.getUserId(), discuss.getUser().getUserId())){
-				model.addAttribute("manage", "具有管理权限");
-			}
+//			if(Objects.equals(user.getUserId(), discuss.getUser().getUserId())){
+//				model.addAttribute("manage", "具有管理权限");
+//			}
 		}
 		
 		} //如果内容不为空
@@ -263,7 +277,7 @@ public class ReplyController {
 		}
 	}
 	
-	//回复分页处理
+	//评论分页处理
 	@RequestMapping("/replypaging")
 	public String  replyPaging(HttpServletRequest req,
 			
@@ -293,6 +307,8 @@ public class ReplyController {
 			//设置可以删除当前回复和评论
 			model.addAttribute("manage", "具有管理权限");
 		}
+		model.addAttribute("user", user);
+		
 		
 		return "chat/replytable";
 	}

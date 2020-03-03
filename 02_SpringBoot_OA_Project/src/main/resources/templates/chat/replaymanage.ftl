@@ -1,4 +1,5 @@
 <#include "/common/commoncss.ftl"/>
+
 <style type="text/css">
 a {
 	color: black;
@@ -116,7 +117,7 @@ a:hover {
 						<span>主题：<font color="#9900CC">${discuss.title}</font></span>
 					</h4>
 					<h5>
-						<small> <span>发布：${user.userName}</span> <span
+						<small> <span>发布：${discuss.user.userName}</span> <span
 							class="pull-right">${discuss.createTime}</span>
 						</small>
 					</h5>
@@ -256,12 +257,13 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	
 
 /* 点击评论评论模态框，模态框显示，假如是点击回复进入的，则在前面加@那个的名字 */	
-	$("#thisreply").on('click',function(){
-
+	//$("#thisreply").on('click',function(){
+	$(".discusschange").on("click","#thisreply",function(){
+		
 		//获取自定义的连个属性，然后复制到以下的两个inout中
 		
 		$("#hiddenreplyId").val($(this).attr('replyId')); //这里是获取当前评论的 对象 的id
-		///alert( $(this).attr('replyId') );
+		
 		$("#hiddenreplyModule").val($(this).attr('replyModule')); //这里是获取当前回复的是什么，（是帖子还是评论）
 		//alert($(this).attr('replyModule'));
 		//var name = $(this).attr('replyName'); //这东西没用的呀
@@ -272,6 +274,8 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		//}
 		//显示模态框
 		$("#myModal").modal("toggle");
+		
+		//alert( $("#myModal").text() );
 		
 	});
 	
@@ -298,24 +302,23 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	
 	/*回复与评论的提交 */
 	$('#commentsave').on('click',function() {
-		
+		//alert("又来呀");
 		var size=${page.size}; //当前显示的评论条数
 		//当前回复的对象id
 		var replyId = $("#hiddenreplyId").val();
 		//当前回复的是别人的评论还是帖子
 		var module = $("#hiddenreplyModule").val();
 		
-		//获取模态框中富文本的内容
-		editor.sync(); 
-		var comment =  $(".contentfuwenben").val();
+		//获取模态框中文本的内容
+		var comment = $("#comment").val();
 
 		$('.repay').load('/replyhandle?size='+size, { //ajax重新去加载这个div的内容
 			replyId : replyId,
 			module : module,
 			comment : comment,
 		});
-		
-		$("#comment").val(""); //清空富文本的内容
+		//alert("发生了什么");
+		$("#comment").val(""); //清空输入框文本的内容
 	});
 	
 	/* 点击加载更多 */
@@ -398,6 +401,8 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 			huifu.hide(); //隐藏
 		}
 		
+		$(this).closest(".replyrefresh").next().css("display","block");
+		
 		//alert(huifu);
 		 return false ;
 	});
@@ -434,7 +439,24 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		return false;
 	});
 	
-
+	//点击显示回复信息
+	$(".repay").on("click",".dianjixianshihuifu",function(){
+		//alert("来了老弟");
+		//$(this).css("display","none");
+		
+		//alert();
+		
+		//$(this).closest(".replyrefresh").next().css("display","block ");
+		
+		var shifouyijingxianshi = $(this).closest(".replyrefresh").next().css("display");
+		
+		if( shifouyijingxianshi == 'none' ){
+			$(this).closest(".replyrefresh").next().css("display","block");
+		}else{
+			$(this).closest(".replyrefresh").next().css("display","none");
+		}
+		
+	});
 	
 	//点击回复执行
 	$(".repay").on("click",".quedinghuifu",function(){
@@ -613,7 +635,6 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	
 	
 	//开启回复的富文本
-
 	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('textarea[name="contenthuifu"]', {
@@ -656,6 +677,20 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	});
 	KindEditor.sync();
 
+	
+	//开启评论富文本
+	var editor1;
+	KindEditor.ready(function(K) {
+		editor1 = K.create('textarea[class="contentfuwenben"]', {
+			allowFileManager: true
+		});
+		
+
+	});
+
+
+	KindEditor.sync();
+	
 	
 	
 </script>

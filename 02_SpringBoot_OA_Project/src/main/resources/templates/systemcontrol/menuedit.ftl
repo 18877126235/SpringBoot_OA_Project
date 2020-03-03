@@ -66,9 +66,11 @@ a:hover {
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>父级</span></label> 
 								 <select class="form-control" name="parentId">
-								 <#if menuObj??>
-								 	<option value="${menuObj.menuId}" selected="selected">${menuObj.menuName}</option>
+								 <!-- 显示父菜单 -->
+								 <#if fatherMesu??>
+								 	<option value="${fatherMesu.menuId}" selected="selected">${fatherMesu.menuName}</option>
 								 </#if>
+								 <!-- 显示所有的父菜单选项 -->
 								 <#list parentList as list>
 								 	<option value="${list.menuId}">${list.menuName}</option>
 								 </#list>

@@ -24,66 +24,24 @@
 				</h4>
 			</div>
 			
-			<!--  <textarea name="content" placeholder="在此处填写内容...." class="form-control tent" style="width: 100%; height: 360px;  font-size: 20px;"></textarea>
-			
-				<textarea class="contentfuwenben" style="width: 100%; height: 360px; rows="8" cols="78" id="comment"></textarea>
-			-->	
-			
-			
 			<div class="modal-body" >
-				<textarea class="contentfuwenben" style="width: 100%; height: 360px; rows="8" cols="78" id="comment"></textarea>
+			
+				<textarea name="content" placeholder="在此处填写内容...." id="comment" class="form-control tent" style="width: 100%; height: 360px;  font-size: 20px;"></textarea>
+			
 			</div>
 			
-			<input type="hidden" id="commentid"/>
+			
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" id="commentsave" data-dismiss="modal">提交	</button>
+				<button type="button" class="btn btn-primary motaikuangtijiao" id="commentsave" data-dismiss="modal">提交	</button>
 			</div>
+			<input type="hidden" id="commentid"/>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
 
 <script type="text/javascript">
 
-//开启富文本
-var editor;
-KindEditor.ready(function(K) {
-	editor = K.create('textarea[class="contentfuwenben"]', {
-		allowFileManager: true
-	});
-	K('input[name=getHtml]').click(function(e) {
-		alert(editor.html());
-	});
-	K('input[name=isEmpty]').click(function(e) {
-		alert(editor.isEmpty());
-	});
-	K('input[name=getText]').click(function(e) {
-		alert(editor.text());
-	});
-	K('input[name=selectedHtml]').click(function(e) {
-		alert(editor.selectedHtml());
-	});
-	K('input[name=setHtml]').click(function(e) {
-		editor.html('<h3>Hello KindEditor</h3>');
-	});
-	K('input[name=setText]').click(function(e) {
-		editor.text('<h3>Hello KindEditor</h3>');
-	});
-	K('input[name=insertHtml]').click(function(e) {
-		editor.insertHtml('<strong>插入HTML</strong>');
-	});
-	K('input[name=appendHtml]').click(function(e) {
-		editor.appendHtml('<strong>添加HTML</strong>');
-	});
-	K('input[name=clear]').click(function(e) {
-		editor.html('');
-	});
 
-});
-
-
-KindEditor.sync();
 
 </script>
-
-

@@ -82,7 +82,7 @@
 				<!-- 为容器设定唯一的id 
 				class="comment collapse"
 				-->
-				<div id="comment${reply.replyId}" class="jiazaihuifuxinxi" style="margin-left: 80px;">
+				<div id="comment${reply.replyId}" class="jiazaihuifuxinxi" style="margin-left: 80px; display:none;  margin-bottom: 20px;  ">
 					<table class="table table-hover" style="margin-bottom: 0;">
 					
 						<tbody  class="tianjiahuifuneirong" >

@@ -36,7 +36,7 @@
 		<!-- 	<a  href="#comment${reply.replyId}" -->
 
 	<a  
-		class="label xiugai toggle" data-toggle="collapse"><span
+		class="dianjixianshihuifu label xiugai toggle" data-toggle="collapse"><span
 			class="glyphicon glyphicon-triangle-bottom"></span>
 			<font size="25px">
 				回复信息如下(

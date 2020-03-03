@@ -110,36 +110,58 @@ public class MenuSysController {
 	/**
 	 * 菜单管理的编辑界面
 	 * @param req
-	 * @return
+	 * @return //点击修改菜单显示视图
 	 */
 	@RequestMapping("menuedit")
 	public String newpage(HttpServletRequest req) {
+		
+		//前台消息提示
 		if(!StringUtils.isEmpty(req.getAttribute("errormess"))){ //错误信息不为空
 			req.setAttribute("errormess", req.getAttribute("errormess"));
 		}
 		if(!StringUtils.isEmpty(req.getAttribute("success"))){ //正确信息不为空
 			req.setAttribute("success", req.getAttribute("success"));
 		}
-		
+		//获取所有的父菜单
 		List<SystemMenu> parentList=iDao.findByParentIdOrderBySortId(0L);
+		
+//		for (SystemMenu systemMenu : parentList) {
+//			
+//			System.out.println("这里获取的是啥："+systemMenu);
+//			
+//		}
+		//父菜单放置域对象
 		req.setAttribute("parentList", parentList);
+		
 		HttpSession session = req.getSession();
-		session.removeAttribute("getId");
-		if (!StringUtils.isEmpty(req.getParameter("id"))) {
-			Long getId = Long.parseLong(req.getParameter("id"));
-			SystemMenu menuObj = iDao.findOne(getId);
-			if (!StringUtils.isEmpty(req.getParameter("add"))) {
+		
+		session.removeAttribute("getId"); //把原来放置的菜单id删除
+		
+		if (!StringUtils.isEmpty(req.getParameter("id"))) { //如果传递过来的菜单id不为空
+			
+			Long getId = Long.parseLong(req.getParameter("id")); //获取要修改的菜单id
+			SystemMenu menuObj = iDao.findOne(getId); //根据id查找菜单
+			
+			//获取父菜单测试
+			SystemMenu fatherMesu = iDao.findOne(menuObj.getParentId());
+			
+			
+			//如果是添加菜单的
+			if (!StringUtils.isEmpty(req.getParameter("add"))) { //如果是添加菜单？？？
 				Long getAdd = menuObj.getMenuId();
 				String getName=menuObj.getMenuName();
 				req.setAttribute("getAdd", getAdd);
 				req.setAttribute("getName", getName);
 				log.info("getAdd:{}", getAdd);
-			} else {
+			} else { //否则就是修改的
 				session.setAttribute("getId", getId);
 				log.info("getId:{}", getId);
-				req.setAttribute("menuObj", menuObj);
+				req.setAttribute("menuObj", menuObj); //当前菜单对象
+				req.setAttribute("fatherMesu", fatherMesu);
 			}
+			
 		}
+		
 		return "systemcontrol/menuedit";
 	}
 	
