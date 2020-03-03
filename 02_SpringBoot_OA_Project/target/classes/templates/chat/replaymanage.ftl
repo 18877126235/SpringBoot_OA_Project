@@ -351,7 +351,7 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	
 	
 //////////////////////////////////////////////////////////////////////////
-	//点击回复显示输入框  repay
+	//点击回复显示输入框  repay （回复评论的）
 	$(".repay").on("click",".thisreply1",function(){
 		
 		//先赋值
@@ -397,6 +397,37 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		//alert(huifu);
 		 return false ;
 	});
+
+	//点击回复显示评论框（这是回复别人的回复）
+	$(".repay").on("click",".thisreply2",function(){
+		//alert("来了");
+		
+		//首先获取内容对象id和类型（这里搞错了，获取的应该是对应的评论的id）
+		//var commentid = $(this).closest(".zheshiyaozhaode").find(".cunfanghuifuid").val();
+		
+		var commentid = $(this).closest(".post").find(".huoqupinglunid").val();
+		
+		//获取回复的类型
+		var huifudeleixing = $(this).attr('replyModule');
+		
+		//报错到输入隐藏框
+		$("#hiddenreplyId").val(commentid);
+		$("#hiddenreplyModule").val(huifudeleixing);
+		
+		//获取显示要回复谁
+		var yaohuifudeduxiang = $(this).closest(".user-block").find(".yaohuifudeyonghu").val();
+		//alert(yaohuifudeduxiang);
+		//设置提示信息，显示要回复谁
+		$(this).closest(".post").find(".tishixinxi").find(".tishineirong").text(yaohuifudeduxiang);
+
+		//alert(tishixinxi);
+		
+		//显示富文本
+		$(this).closest(".post").find(".replyrefresh").find(".huifu2").show(); 
+
+		return false;
+	});
+	
 
 	
 	//点击回复执行
@@ -457,7 +488,8 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 				duiyingusername = duiyingusername + $(this).closest(".post").find(".usernametishi").val();
 				//alert(duiyingusername);
 			}else{ //否则就是回复回复的 //待定
-				
+				duiyingusername = duiyingusername + $(this).closest(".post").find(".yaohuifudeyonghu").val();
+				//alert(duiyingusername);
 			}
 			
 			//alert(replyId+module);
@@ -465,27 +497,29 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
             $.ajax({
             //几个参数需要注意一下
                 type: "POST",//方法类型
-                dataType: "text",//预期服务器返回的数据类型
+                contentType:"application/x-www-form-urlencoded",
+                dataType: "json",//预期服务器返回的数据类型
                 url: "testhhhh?"+"duiyingusername="+duiyingusername+"&replyId="+replyId+"&module="+module ,//url
                 data: $(this).prev().serialize(), //这里提交form表单
                 success: function (result) {
-                   
-                    //alert(result);
-                    if(result != 'error'){
-                    	
-                    	
-                    	//输入的回复内容
-                    	var content = result; 
-                    	
+                	
+
+                    if(result.comment != null){
+                    	//存放评论的id
+                    	var cunfangid = result.id;
+                    	//回复的内容
+                    	var content = result.comment;  
                     	
                     	//设置要添加的子节点代码
                 	   	<#if manage??>
-                			str = "<tr>" + 
+                			str = "<tr  class='zheshiyaozhaode' >" + 
+                			"	<input class='cunfanghuifuid' type='hidden' value='" + cunfangid + "' />"+
                 			"								<td class='comment-td'><a href='#'> <img " + 
                 			"										src='/image/" + imageuser + "' class='big-img' />\n" + 
                 			"								</a></td>" + 
                 			"								<td>" + 
                 			"									<div class='user-block'>" + 
+            				"										<input type='hidden' class='yaohuifudeyonghu' value='" + username + "'>"+
             				"										<a href='' class='raply-name'>"+ username +'->回复 @ ' +"<font color='#C71585'>" +duiyingusername+" ： </font>"+ "</a> " +
                 													 content + 
                 			"										<ul class='list-inline pull-right' " + 
@@ -493,7 +527,7 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 			"											<li>" +strdata+"</li> " + 
                 			"										</ul>" + 
 							"			                			<div>"+
-							"											<a href='#' class='label xinzeng thisreply'"+
+							"											<a href='#' class='label xinzeng thisreply2'"+
 							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
 							"													class='glyphicon glyphicon-share-alt'></span>回复"+
 							"											</a>"+
@@ -505,12 +539,14 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 			"							</tr>";
                 	   	
                 	   		<#else>
-                				str = "<tr>" + 
+                				str = "<tr   class='zheshiyaozhaode'  >" + 
+                				"	<input class='cunfanghuifuid' type='hidden' value='" +cunfangid + "' />"+
                 				"								<td class='comment-td'><a href='#'> <img " + 
                 				"										src='/image/" + imageuser + "' class='big-img' />\n" + 
                 				"								</a></td>" + 
                 				"								<td>" + 
                 				"									<div class='user-block'>" + 
+                				"										<input type='hidden' class='yaohuifudeyonghu' value='" + username + "'>"+
                 				"										<a href='' class='raply-name'>"+ username +'->回复 @ ' +"<font color='#C71585'>" +duiyingusername+" ： </font>"+ "</a> " +
                 				content + 
                 				"										<ul class='list-inline pull-right' " + 
@@ -518,7 +554,7 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 				"											<li>" +strdata+"</li> " + 
                 				"										</ul>" + 
                 				"			                			<div>"+
-    							"											<a href='#' class='label xinzeng thisreply'"+
+    							"											<a href='#' class='label xinzeng thisreply2'"+
     							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
     							"													class='glyphicon glyphicon-share-alt'></span>回复"+
     							"											</a>"+									
@@ -546,11 +582,15 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                     
                 },
                 error : function(data) {
+                	//原来是每次都去执行error方法了
                     alert(data);
                 }
             });
 		
 	});
+	
+	
+	
 	
 	
 	//点击取消隐藏输入框

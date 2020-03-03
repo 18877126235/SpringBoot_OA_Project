@@ -59,7 +59,7 @@
 				
 				<!-- 显示回复和点赞按钮和具体的点赞人员的名称 -->
 				<div class="replyrefresh">
-				
+					
 					<#include "replylike.ftl"/>
 					
 				</div>
@@ -89,12 +89,15 @@
 							
 							<#list commentList as comment>
 							 <#if comment.reply == reply.replyId>
-							<tr>
+							<tr class="zheshiyaozhaode" >
+								<input class="cunfanghuifuid" type="hidden"  value="${comment.commentId}" />
 								<td class="comment-td"><a href="#"> <img
 										src="/image/${(comment.user.imgPath)!'/timg.jpg'}" class="big-img" />
 								</a></td>
 								<td>
 									<div class="user-block">
+										<!-- 存着备用 -->
+										<input type="hidden" class="yaohuifudeyonghu" value="${(comment.user.userName)!''}">
 										<a href="" class="raply-name">${(comment.user.userName)!''}->回复 @ <font color="#C71585 ">${comment.duiyingUserName} ： </font></a>${comment.comment}
 										<ul class="list-inline pull-right"
 											style="display: block;">
@@ -102,8 +105,8 @@
 
 										</ul>
 										<div>
-												<a href="#" class="label xinzeng thisreply"
-													replyId="${reply.replyId}" replyModule="reply" replyName="${comment.user.userName}"><span
+												<a href="#" class="label xinzeng thisreply2"
+													replyId="${reply.replyId}" replyModule="comment" replyName="${comment.user.userName}"><span
 														class="glyphicon glyphicon-share-alt"></span>回复
 												</a>
 												<#if manage??>

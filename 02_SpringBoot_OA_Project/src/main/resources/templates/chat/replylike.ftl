@@ -107,7 +107,7 @@
 	</#if>
 </ul>
 
-<!-- 弹出的模态回复框 -->
+<!-- 弹出的富文本回复框 -->
 <div  class="panel panel-default huifu2" id="huifu" style="display: none;">
 
     <div class="panel-heading tishixinxi" style="background-color: white">

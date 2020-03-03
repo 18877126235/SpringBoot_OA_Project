@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import cn.gson.oasys.controller.forumcenter.JsonHuifuUtil;
 import cn.gson.oasys.model.dao.discuss.CommentDao;
 import cn.gson.oasys.model.dao.discuss.DiscussDao;
 import cn.gson.oasys.model.dao.discuss.ReplyDao;
@@ -66,7 +67,7 @@ public class ReplyController {
 	//测试获取富文本的值
 	@RequestMapping("/testhhhh")
 	@ResponseBody
-	public String testhhhhh(HttpServletRequest request
+	public JsonHuifuUtil testhhhhh(HttpServletRequest request
 			,@SessionAttribute("userId") Long userId
 			) {
 		
@@ -86,7 +87,8 @@ public class ReplyController {
 		if(parameter == null || parameter.equals("")||parameter.equals(" ")) { //前台提示不能为空
 			System.out.println("为空"+parameter.length());
 
-			return "error";
+			//return "error";
+			return new JsonHuifuUtil();
 		}else {
 			//字符串截取
 			if(parameter.contains("<br />")) {
@@ -101,15 +103,17 @@ public class ReplyController {
 			Reply reply=replyDao.findOne(Long.parseLong(replyId) ); //获取你要回复的评论对象
 			//创建一个回复对象
 			Comment comment2=new Comment(new Date(),result , user, reply);
-			comment2.setDuiyingUserName(duiyingusername); //该条回复对应的用户明称
-			commentservice.save(comment2); //保存
+			comment2.setDuiyingUserName(duiyingusername); //该条回复对应的用户明称(就是要回复谁)
 			
-			//num=reply.getDiscuss().getDiscussId(); //获取帖子id
+			Comment comment3 =  commentservice.save(comment2); //保存
 			
-			
-
 			System.out.println("不为空，去吧"+result);
-			return result; //将输入框的内容返回去
+			
+			JsonHuifuUtil huifuUtil = new JsonHuifuUtil();
+			huifuUtil.setId(comment3.getCommentId());
+			huifuUtil.setComment(result);
+			
+			return huifuUtil; //将输入框的内容返回去
 			
 
 		}
