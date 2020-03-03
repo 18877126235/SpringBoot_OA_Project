@@ -257,14 +257,16 @@ public class DiscussService {
 	
 	//根据讨论区获取到它的评论数（获取评论数目）
 	private Integer getComments(Discuss discuss){
+		
 		int chatNum=0;
 		//根据帖子对象去评论表中查找有多少条评论和帖子有关，该数量就是帖子的评论数
 		List<Reply> replyCols=replyDao.findByDiscuss(discuss); 
-		if(replyCols.size()>0){
-			Long[] replyLong=new Long[replyCols.size()];							//用数组来结束所有回复表的id
+		if(replyCols.size()>0){ //如果该帖子有评论
+			Long[] replyLong=new Long[replyCols.size()];							//用数组来存储所有回复表的id
 			for (int i = 0; i < replyCols.size(); i++) {
 				replyLong[i]=replyCols.get(i).getReplyId();
 			}						
+			//System.out.println("监控中心****************************************4");
 			List<Comment> commentList=commentDao.findComments(replyLong);			//in 查找所有回复id的所有评论
 			chatNum=commentList.size()+replyCols.size();
 		}
@@ -321,6 +323,7 @@ public class DiscussService {
 			map.put("time", commentList.get(i).getTime());
 			map.put("user", commentList.get(i).getUser());
 			map.put("reply", commentList.get(i).getReply().getReplyId());
+			map.put("duiyingUserName", commentList.get(i).getDuiyingUserName());
 			commentMap.add(map);
 		}
 		return commentMap;
@@ -345,6 +348,7 @@ public class DiscussService {
 			}
 			//设置评论数
 			result.put("commentsNum",getComments(list.get(i)));
+			
 			result.put("title", list.get(i).getTitle());
 			result.put("createTime", list.get(i).getCreateTime());
 			result.put("visitNum", list.get(i).getVisitNum());

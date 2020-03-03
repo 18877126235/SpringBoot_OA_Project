@@ -7,7 +7,7 @@
 <tr>
 	<td>
 		<div class="post">
-		
+			<input type="hidden" class="huoqupinglunid" value="${reply.replyId}" >
 			<div class="user-block">
 				<!-- 显示用户头像 -->
 				<span> 
@@ -21,11 +21,16 @@
 					<a href="#" class="raply-name">${(reply.user.userName)!''}</a> 
 					<!-- 如果是超级管理员或者本人可以有权删除该条评论-->
 					<#if manage??> 
-						<a replyId="${reply.replyId}" replyModule="reply" href="javascript:void(0);"
+						<!-- <a replyId="${reply.replyId}" replyModule="reply" href="javascript:void(0);"
 						 	class="deletethis pull-right " style="font-size: 12px;"> 
 							<font  color="#FF6600">删除该评论</font> 
 							<span style="font-size: 26px;" >&times;</span>
-						</a>
+						</a> -->
+						
+						
+						<a href="javascript:void(0);" class="label pull-right shanchu deletethis" replyId="${reply.replyId}" replyModule="reply"><span
+						class="glyphicon glyphicon-remove"></span>删除</a>
+						
 					</#if>
 					
 				</span> 
@@ -90,22 +95,24 @@
 								</a></td>
 								<td>
 									<div class="user-block">
-										<a href="" class="raply-name">${(comment.user.userName)!''}: </a>${comment.comment}
+										<a href="" class="raply-name">${(comment.user.userName)!''}->回复 @ <font color="#C71585 ">${comment.duiyingUserName} ： </font></a>${comment.comment}
 										<ul class="list-inline pull-right"
 											style="display: block;">
 											<li>${comment.time?string('yyyy-MM-dd HH:mm:ss')}</li>
-											<li>
+
+										</ul>
+										<div>
 												<a href="#" class="label xinzeng thisreply"
 													replyId="${reply.replyId}" replyModule="reply" replyName="${comment.user.userName}"><span
 														class="glyphicon glyphicon-share-alt"></span>回复
 												</a>
-											</li>
-											<#if manage??>
-											<li><a href="javascript:void(0);" class="label shanchu deletethis" replyId="${comment.commentId}" replyModule="comment"><span
+												<#if manage??>
+											<a href="javascript:void(0);" class="label shanchu deletethis" replyId="${comment.commentId}" replyModule="comment"><span
 													class="glyphicon glyphicon-remove"></span>删除</a>
-											</li>
+											
 											</#if>
-										</ul>
+										</div>
+										
 									</div>
 								</td>
 							</tr>

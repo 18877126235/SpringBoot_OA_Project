@@ -3,6 +3,8 @@
 	
 	<li>
 		<!-- <a  style=" cursor:pointer;" class="lable thisreply" replyId="${reply.replyId}" replyModule="reply">  -->
+		
+		<!-- 点击回复弹出输入富文本框 -->
 		<a href="#" class="thisreply1" replyId="${reply.replyId}" replyModule="reply">
 		
 			<span
@@ -105,7 +107,7 @@
 	</#if>
 </ul>
 
-<!-- 评论框 -->
+<!-- 弹出的模态回复框 -->
 <div  class="panel panel-default huifu2" id="huifu" style="display: none;">
 
     <div class="panel-heading tishixinxi" style="background-color: white">

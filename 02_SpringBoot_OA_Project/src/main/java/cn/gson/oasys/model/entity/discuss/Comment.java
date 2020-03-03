@@ -26,7 +26,7 @@ import cn.gson.oasys.model.entity.user.User;
 @Table(name="aoa_comment_list")
 public class Comment {
 	@Id
-	@Column(name="comment_id")
+	@Column(name="comment_id") //主键id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long commentId; 
 	
@@ -36,15 +36,25 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name = "comment_user_id")
-	private User user;
+	private User user; //这条回复是谁回复的
 	
 	
 	@ManyToOne
 	@JoinColumn(name = "reply_id")
-	private Reply reply;
+	private Reply reply; //实在哪一条评论下
 	
+	//这条回复和谁有关(显示名称就行了，不必太复杂)
+	@Column(name = "duiying_user_name")
+	private String duiyingUserName;
 	
-	
+	public String getDuiyingUserName() {
+		return duiyingUserName;
+	}
+
+	public void setDuiyingUserName(String duiyingUserName) {
+		this.duiyingUserName = duiyingUserName;
+	}
+
 	public Reply getReply() {
 		return reply;
 	}

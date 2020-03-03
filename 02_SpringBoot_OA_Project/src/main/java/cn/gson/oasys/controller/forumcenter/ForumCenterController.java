@@ -60,6 +60,8 @@ public class ForumCenterController {
 		}
 		session.setAttribute("typeId", typeId);
 		
+		
+		
 		//默认是按类型排序嗯嗯
 		Page<Discuss> page2=disService.paging(page, null, null,null,null,null, typeId); //类型id传过去，如果是从类型去的化就根据类型查询且分页
 		
@@ -73,8 +75,10 @@ public class ForumCenterController {
 		}*/
 		
 		//封装查询数据
-		setPagintMess(model, page2,"/seetable1",null,"讨论列表");
+		setPagintMess(model, page2,"/seetable1",null,"讨论列表"); //这里出问题
+		System.out.println("监控中心*****************************************2");
 		session.removeAttribute("returnUrl");
+		System.out.println("监控中心*****************************************3");
 		session.setAttribute("returnUrl", "ForumCenter");
 		
 		//查询一周内最热门的五条帖子

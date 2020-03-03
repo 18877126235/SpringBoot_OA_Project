@@ -143,6 +143,7 @@ a:hover {
 						<input type="hidden" class="replyModule" /> 
 						<input type="hidden" class="replyName" />	
 					</div>
+					
 					<!-- 显示所有评论  （评论表） -->
 					<div>
 						<table class="table" style="margin-bottm: 10px;  ">
@@ -255,24 +256,25 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 
 /* 点击评论评论模态框，模态框显示，假如是点击回复进入的，则在前面加@那个的名字 */	
 	$("#thisreply").on('click',function(){
-		
-		//alert("这是啥");
-		
+
 		//获取自定义的连个属性，然后复制到以下的两个inout中
-		$("#hiddenreplyId").val($(this).attr('replyId'));
-		$("#hiddenreplyModule").val($(this).attr('replyModule'));
 		
-		var name = $(this).attr('replyName'); //这东西没用的呀
+		$("#hiddenreplyId").val($(this).attr('replyId')); //这里是获取当前评论的 对象 的id
+		alert( $(this).attr('replyId') );
+		$("#hiddenreplyModule").val($(this).attr('replyModule')); //这里是获取当前回复的是什么，（是帖子还是评论）
+		alert($(this).attr('replyModule'));
+		//var name = $(this).attr('replyName'); //这东西没用的呀
 		//alert(name);
-		$('.replyName').val(name);
-		if(typeof(name) != 'undefined' ){
-			$("#comment").val("@"+name);
-		}
+		//$('.replyName').val(name);
+		//if(typeof(name) != 'undefined' ){
+		//	$("#comment").val("@"+name);
+		//}
+		//显示模态框
 		$("#myModal").modal("toggle");
 		
 	});
 	
-/* 回复评论显示模态框  这个废弃掉 */
+/* 回复评论显示模态框  这个废弃掉   仅作为参考 */
 	$('.repay').on('click', '.thisreply',function() {
 		//alert("哈哈哈");
 		$("#hiddenreplyId").val($(this).attr('replyId'));
@@ -290,26 +292,29 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		}
 		$("#myModal").modal("toggle"); //打开模态框
 	});
+	/* 回复评论显示模态框  这个废弃掉 */
+	
 	
 	/*回复与评论的提交 */
 	$('#commentsave').on('click',function() {
-		var size=${page.size};
+		
+		var size=${page.size}; //当前显示的评论条数
+		//当前回复的对象id
 		var replyId = $("#hiddenreplyId").val();
+		//当前回复的是别人的评论还是帖子
 		var module = $("#hiddenreplyModule").val();
 		
-		//获取富文本的内容
+		//获取模态框中富文本的内容
 		editor.sync(); 
 		var comment =  $(".contentfuwenben").val();
-		//打印输入框的内容嗯嗯
-		//alert(comment);
-		
-		$('.repay').load('/replyhandle?size='+size, { //重新去加载这个div的内容
+
+		$('.repay').load('/replyhandle?size='+size, { //ajax重新去加载这个div的内容
 			replyId : replyId,
 			module : module,
 			comment : comment,
 		});
 		
-		$("#comment").val("");
+		$("#comment").val(""); //清空富文本的内容
 	});
 	
 	/* 点击加载更多 */
@@ -348,7 +353,11 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 //////////////////////////////////////////////////////////////////////////
 	//点击回复显示输入框  repay
 	$(".repay").on("click",".thisreply1",function(){
-
+		
+		//先赋值
+		$("#hiddenreplyId").val($(this).attr('replyId'));
+		$("#hiddenreplyModule").val($(this).attr('replyModule'));
+		
 		//隐藏其他一打开的输入框
 		$(".huifu2").not(this).each(function(){
 				
@@ -430,10 +439,6 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 	    
 	    var str;
 	    //判断有没有删除权限
-	    var manage = '';
-		
-	    
-	    
 	    
 	    //获取输入框的div，用来控制隐藏
 		var huifu = $(this).closest("#huifu");
@@ -441,15 +446,28 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 			//添加子結點
              var fatherchaoji = $(this).closest(".post").find(".tianjiahuifuneirong");//.find(".table");
              	
-             //alert( fatherchaoji.text() );
-		
-		//alert("点击了呢");
+			//获取当前回复的对象id
+			//var huoqupinglunid = $(this).closest(".post").find(".huoqupinglunid");
+           	var replyId = $("#hiddenreplyId").val();
+			//当前回复的是别人的是评论还是帖子
+			var module = $("#hiddenreplyModule").val();
+			var duiyingusername = '';
+			//获取当前回复对应的用户名称
+			if(module == 'reply'){ //如果是回复评论的
+				duiyingusername = duiyingusername + $(this).closest(".post").find(".usernametishi").val();
+				//alert(duiyingusername);
+			}else{ //否则就是回复回复的 //待定
+				
+			}
+			
+			//alert(replyId+module);
+			
             $.ajax({
             //几个参数需要注意一下
                 type: "POST",//方法类型
                 dataType: "text",//预期服务器返回的数据类型
-                url: "testhhhh" ,//url
-                data: $(this).prev().serialize(),
+                url: "testhhhh?"+"duiyingusername="+duiyingusername+"&replyId="+replyId+"&module="+module ,//url
+                data: $(this).prev().serialize(), //这里提交form表单
                 success: function (result) {
                    
                     //alert(result);
@@ -468,21 +486,20 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 			"								</a></td>" + 
                 			"								<td>" + 
                 			"									<div class='user-block'>" + 
-                			"										<a href='' class='raply-name'>"+username+": </a> " +
+            				"										<a href='' class='raply-name'>"+ username +'->回复 @ ' +"<font color='#C71585'>" +duiyingusername+" ： </font>"+ "</a> " +
                 													 content + 
                 			"										<ul class='list-inline pull-right' " + 
                 			"											style='display: block;'> " + 
                 			"											<li>" +strdata+"</li> " + 
-                			"											<li> " + 
-                			"												<a href='#' class='label xinzeng thisreply' " + 
-                			"													replyId='1' replyModule='reply' replyName='2'><span " + 
-                			"														class='glyphicon glyphicon-share-alt'></span>回复 " + 
-                			"												</a> " + 
-                			"											</li> " + 
-                			"											<li><a href='javascript:void(0);' class='label shanchu deletethis' replyId='' replyModule='comment'><span "+       
-                			"													class='glyphicon glyphicon-remove'></span>删除</a> " +
-                			"											</li>		"+	
                 			"										</ul>" + 
+							"			                			<div>"+
+							"											<a href='#' class='label xinzeng thisreply'"+
+							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
+							"													class='glyphicon glyphicon-share-alt'></span>回复"+
+							"											</a>"+
+							"											<a href='javascript:void(0);' class='label shanchu deletethis' replyId='待定' replyModule='comment'><span " +
+							"													class='glyphicon glyphicon-remove'></span>删除</a>"+										
+							"										</div>"+
                 			"									</div>" + 
                 			"								</td>" + 
                 			"							</tr>";
@@ -494,18 +511,18 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 				"								</a></td>" + 
                 				"								<td>" + 
                 				"									<div class='user-block'>" + 
-                				"										<a href='' class='raply-name'>"+username+": </a> " +
+                				"										<a href='' class='raply-name'>"+ username +'->回复 @ ' +"<font color='#C71585'>" +duiyingusername+" ： </font>"+ "</a> " +
                 				content + 
                 				"										<ul class='list-inline pull-right' " + 
                 				"											style='display: block;'> " + 
                 				"											<li>" +strdata+"</li> " + 
-                				"											<li> " + 
-                				"												<a href='#' class='label xinzeng thisreply' " + 
-                				"													replyId='1' replyModule='reply' replyName='2'><span " + 
-                				"														class='glyphicon glyphicon-share-alt'></span>回复 " + 
-                				"												</a> " + 
-                				"											</li> " + 
                 				"										</ul>" + 
+                				"			                			<div>"+
+    							"											<a href='#' class='label xinzeng thisreply'"+
+    							"												replyId='待定' replyModule='comment' replyName='待定'><span" +
+    							"													class='glyphicon glyphicon-share-alt'></span>回复"+
+    							"											</a>"+									
+    							"										</div>"+
                 				"									</div>" + 
                 				"								</td>" + 
                 				"							</tr>";
@@ -519,7 +536,7 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                     	
                     	//隐藏输入框
                 		huifu.hide();
-                		//swal("操作成功！","666","success");
+                		swal("操作成功！","666","success");
                 		
                     	
                     }else{
@@ -533,36 +550,6 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
                 }
             });
 		
-		
-		
-		//alert("点击了怕");
-		
-		
-		//先获取关键内容
-		//获取富文本的内容
-		//editor.sync(); 
-		//var comment =  $(".contenthuifuclass");
-		
-		//comment.html("哈哈哈");
-		
-		//var zhi = editor.util.getData(".contenthuifuclass");
-		
-		
-		
-		//var comment;
-		
-		//var shurukuang01 = $(this).prev();
-		
-		
-		
-		//alert(shurukuang01.html());
-		//alert(comment);
-		//alert(comment);
-		//发送ajax请求,重新加载
-		
-		//alert(editor.html());
-		
-	
 	});
 	
 	

@@ -1,6 +1,7 @@
 <!-- 这是针对帖子的 -->
 <ul class="list-inline" style="margin-left: 6px;">
 	<li>
+		<!-- 点击弹出模态框 -->
 		<a href="#" class="label xinzeng thisreply" id="thisreply"
 			replyId="${discuss.discussId}" replyModule="discuss"> 
 			<span

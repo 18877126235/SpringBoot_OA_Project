@@ -66,15 +66,23 @@ public class ReplyController {
 	//测试获取富文本的值
 	@RequestMapping("/testhhhh")
 	@ResponseBody
-	public String testhhhhh(HttpServletRequest request) {
+	public String testhhhhh(HttpServletRequest request
+			,@SessionAttribute("userId") Long userId
+			) {
 		
 		String parameter = request.getParameter("contenthuifu");
 		String result = null;
 
 		//System.out.println("获取到内容："+result);
 	
+		String duiyingusername = request.getParameter("duiyingusername");
+		//System.out.println("湖区测试："+duiyingusername);
+		String replyId = request.getParameter("replyId");
+		//System.out.println("对象id："+replyId);
+		String module = request.getParameter("module");
+		//System.out.println("回复类型："+module);
 		
-		
+		//前台弹窗提示内容不能为空
 		if(parameter == null || parameter.equals("")||parameter.equals(" ")) { //前台提示不能为空
 			System.out.println("为空"+parameter.length());
 
@@ -86,24 +94,25 @@ public class ReplyController {
 			}else {
 				result = parameter;
 			}
+			
+			
 			//然后执行业务逻辑
+			User user = uDao.findOne(userId);
+			Reply reply=replyDao.findOne(Long.parseLong(replyId) ); //获取你要回复的评论对象
+			//创建一个回复对象
+			Comment comment2=new Comment(new Date(),result , user, reply);
+			comment2.setDuiyingUserName(duiyingusername); //该条回复对应的用户明称
+			commentservice.save(comment2); //保存
+			
+			//num=reply.getDiscuss().getDiscussId(); //获取帖子id
 			
 			
-			
+
 			System.out.println("不为空，去吧"+result);
 			return result; //将输入框的内容返回去
 			
 
-			////////////////////////////////////
-		
-			
 		}
-		
-		
-		//System.out.println("可以放的加共和国汉语官话耶夫hi55555555555555555555555555555555555555");
-		
-		
-		
 		
 	}
 	
@@ -120,31 +129,46 @@ public class ReplyController {
 	 */
 	@RequestMapping("replyhandle")
 	public String reply(HttpServletRequest req,
-			@RequestParam(value="page",defaultValue="0") int page,
-			@RequestParam(value="size",defaultValue="5") int size,
-			@SessionAttribute("userId") Long userId,Model model){
+			
+			@RequestParam(value="page",defaultValue="0") int page, //第几页
+			
+			@RequestParam(value="size",defaultValue="5") int size, //每页显示几条
+			
+			@SessionAttribute("userId") Long userId,//当前用户
+			
+			Model model){
+		
 		System.out.println(size);
 		Long num=null;
+		
 		System.out.println("来了老弟/*/*/*/*/*///////////////////////////////////");
-		Long discussId=Long.parseLong(req.getParameter("replyId"));
+		
+		Long discussId=Long.parseLong(req.getParameter("replyId")); //获取当前回复对象的id
+		
+		//是回复帖子还是评论的
 		String module=req.getParameter("module");	//用来判断是保存在哪个表
 		
 		User user=uDao.findOne(userId);
+		
 		System.out.println(discussId);
 		System.out.println(module);
+		
 		Discuss dis=null;
-		if("discuss".equals(module)){
+		
+		if("discuss".equals(module)){ //如果是回复帖子的
 			dis=discussDao.findOne(discussId);
 			num=dis.getDiscussId();
-		}else{
-			Reply replyyy=replyDao.findOne(discussId);
-			dis=replyyy.getDiscuss();
-			num=dis.getDiscussId();
-		}
+		}else{ //否则就是回复评论的（这里要加上个判断，判断你要回复的是谁，根据传过来的评论id获取）
+			Reply replyyy=replyDao.findOne(discussId); //查找这条评论
+			dis=replyyy.getDiscuss(); //获取这条评论对应的帖子
+			num=dis.getDiscussId(); //帖子id
+		}//
+		
+		//如果内容不为空
 		if(!StringUtils.isEmpty(req.getParameter("comment"))){
 		String comment=req.getParameter("comment");
 		System.out.println(comment);
-		
+		//说明是评论帖子
 		if("discuss".equals(module)){
 			//说明是回复-楼主
 			System.out.println("回复-楼主");
@@ -152,14 +176,17 @@ public class ReplyController {
 			Reply reply=new Reply(new Date(), comment, user, discuss);
 			num=discuss.getDiscussId();
 			replyService.save(reply);
-		}else{ //说明是回复-评论
+		}else{ //说明是回复别人的-评论
 			System.out.println("回复-评论");
-			Reply reply=replyDao.findOne(discussId);
+			Reply reply=replyDao.findOne(discussId); //获取你要回复的评论的id
+			//创建一个回复对象
 			Comment comment2=new Comment(new Date(), comment, user, reply);
-			commentservice.save(comment2);
-			num=reply.getDiscuss().getDiscussId();
+			commentservice.save(comment2); //保存
+			num=reply.getDiscuss().getDiscussId(); //获取帖子id
 		}
+		
 		Discuss discuss=discussDao.findOne(num);
+		//是否拥有权限
 		if(user.getSuperman()){
 			model.addAttribute("manage", "具有管理权限");
 		}else{
@@ -167,9 +194,10 @@ public class ReplyController {
 				model.addAttribute("manage", "具有管理权限");
 			}
 		}
-		}
-		disService.setDiscussMess(model, num,userId,page,size);
-		return "chat/replytable";
+		
+		} //如果内容不为空
+		disService.setDiscussMess(model, num,userId,page,size); //设置分页参数和显示
+		return "chat/replytable"; //ajax加载页面
 	}
 	
 	//点赞处理
