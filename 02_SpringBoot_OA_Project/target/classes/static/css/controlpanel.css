@@ -1,4 +1,4 @@
-/*四个栅格系统，签到管理等*/
+/*鍥涗釜鏍呮牸绯荤粺锛岀鍒扮鐞嗙瓑*/
 .jichu {
 	position: relative;
 	border-radius: 3px;
@@ -14,11 +14,11 @@
 }
 
 .tongxun {
-	background-color: #f39c12 !important;
+	background-color: #9900FF !important;
 }
 
 .chat {
-	background-color: #dd4b39 !important;
+	background-color: #FF9900 !important;
 }
 
 .wenzi {
@@ -48,7 +48,7 @@
 .moreduo:hover {
 	text-decoration: none;
 }
-/*盒子模型基本css*/
+/*鐩掑瓙妯″瀷鍩烘湰css*/
 .right-btn-group {
 	color: white;
 	border-color: #367fa9;
@@ -125,7 +125,7 @@
 .btn-color button:hover {
 	background: #adadad;
 }
-/*右边五个格子的盒子，我的便签*/
+/*鍙宠竟浜斾釜鏍煎瓙鐨勭洅瀛愶紝鎴戠殑渚跨*/
 .list-group-item-li {
 	position: relative;
 	margin-bottom: -26px;
@@ -214,15 +214,15 @@
 			 padding-left: 13px !important;
     		padding-right: 10px !important;
 			}
-			/*当前天*/
+			/*褰撳墠澶�*/
 			.today{
 				color:red;
 			}
-			/*本月 文字颜色*/
+			/*鏈湀 鏂囧瓧棰滆壊*/
 			.currentday{
 				color: white;
 			}
-			/*其他月颜色*/
+			/*鍏朵粬鏈堥鑹�*/
 			.lastMonth{
 				color: black;
 			}

@@ -318,7 +318,13 @@ public class InformManageController {
 		
 		String isnew = req.getParameter("isnew");
 		
-		model.addAttribute("isnew",isnew);  //放置判断是否从最新公告来了哈哈
+		if( isnew== null ) {
+			model.addAttribute("isnew","");  //放置判断是否从最新公告来了哈哈
+		}else {
+			model.addAttribute("isnew",isnew);  //放置判断是否从最新公告来了哈哈
+		}
+		
+		
 		
 		System.out.println("打印测试看看对不对：***********************"+isnew);
 		

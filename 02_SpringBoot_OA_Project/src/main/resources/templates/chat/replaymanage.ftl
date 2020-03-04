@@ -311,14 +311,24 @@ $('.chat-box').off('click','.likethis').on('click','.likethis',function(){
 		
 		//获取模态框中文本的内容
 		var comment = $("#comment").val();
-
-		$('.repay').load('/replyhandle?size='+size, { //ajax重新去加载这个div的内容
-			replyId : replyId,
-			module : module,
-			comment : comment,
-		});
-		//alert("发生了什么");
-		$("#comment").val(""); //清空输入框文本的内容
+		
+		if( comment == '' || comment == 'undefined'){
+			swal("请填写评论内容！","内容不能为空","warning");
+			
+			return false;
+			
+		}else{
+			
+			$('.repay').load('/replyhandle?size='+size, { //ajax重新去加载这个div的内容
+				replyId : replyId,
+				module : module,
+				comment : comment,
+			});
+			//alert("发生了什么");
+			$("#comment").val(""); //清空输入框文本的内容
+		}
+		
+		
 	});
 	
 	/* 点击加载更多 */

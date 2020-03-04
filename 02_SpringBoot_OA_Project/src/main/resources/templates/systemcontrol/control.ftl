@@ -70,7 +70,7 @@
 		<li class="active">控制面板</li>
 	</ol>
 </div>
-<!--四个面板-->
+<!--五个面板-->
 <div class="container-fluid">
 	<div class="row">
 		<!--考勤签到-->
@@ -87,7 +87,7 @@
 					<p>文件管理</p>
 				</div>
 				<div class="iconfont">
-					<span class="glyphicon glyphicon-folder-open" style="margin-left: 130px;"></span>
+					<span class="glyphicon glyphicon-folder-open" style=" color: #FFCC00"></span>
 				</div>
 				<a href="filemanage" class="moreduo"> 更多 <span
 					class="glyphicon glyphicon-circle-arrow-right"></span>
@@ -102,7 +102,7 @@
 					<p>通讯录</p>
 				</div>
 				<div class="iconfont">
-					<span class="glyphicon glyphicon-earphone"></span>
+					<span style="color: #ffffff" class="glyphicon glyphicon-earphone"></span>
 				</div>
 				<a href="addrmanage" class="moreduo"> 更多 <span
 					class="glyphicon glyphicon-circle-arrow-right"></span>
@@ -114,12 +114,12 @@
 			<div class="jichu chat">
 				<div class="wenzi">
 					<h2>${discussnum}</h2>
-					<p>讨论区</p>
+					<p>论坛中心</p>
 				</div>
 				<div class="iconfont">
-					<span class="glyphicon glyphicon-comment"></span>
+					<span style="color: #ffffff;" class="glyphicon glyphicon-comment"></span>
 				</div>
-				<a href="chatlist" class="moreduo"> 更多 <span
+				<a href="ForumCenter" class="moreduo"> 更多 <span
 					class="glyphicon glyphicon-circle-arrow-right"></span>
 				</a>
 			</div>
@@ -131,7 +131,8 @@
 	style="margin-top: 20px;  margin-bottom: 50px;">
 	<div class="row ">
 		<div class="col-md-7 gridly">
-		<!-- 统计
+		
+		<!-- 
 		<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
@@ -158,10 +159,62 @@
 				</div>
 				
 				<div id="line" class="shrink" style="min-width: 100px; height: 280px; border-top:solid 1px #eee; margin: 0 auto">
+				
 				</div>
 			</div>
-		 -->
-		
+			-->
+			
+			<!-- 轮播图 -->
+			<div style="height: 350px ;" class="panel panel-default box-show green-box">
+				<div id="carousel-example-generic" style="height:100% ;" class="carousel slide" data-ride="carousel">
+				  <!-- Indicators -->
+				  <ol class="carousel-indicators">
+				    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+				    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+				    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				  </ol>
+				
+				  <!-- Wrapper for slides -->
+				  <div class="carousel-inner" role="listbox">
+				    <div class="item active">
+				      <img style="height: 100%; width: 100%" src="/image/nanyuan1.png" alt="...">
+				      <div class="carousel-caption">
+				     	   <h3>美丽南院</h3>
+					    <p>2019年荣获国家级景区称号，更多美丽等你来看</p>
+				      </div>
+				    </div>
+				    <div class="item">
+				      <img style="height: 100%; width: 100%" src="/image/nanyuan2.jpg" alt="...">
+				      <div class="carousel-caption">
+				      <h3>邕水傅文</h3>
+					    <p>第八届科技艺术文化节火热报名中，赶紧去挑战自己吧</p>
+				      </div>
+				    </div>
+				    
+
+				 	<div class="item">
+				      <img style="height: 100%; width: 100%" src="/image/nanyuan3.png" alt="...">
+				      <div class="carousel-caption">
+				        		<h3>南宁大学</h3>
+					    <p>恭喜我校成功申请改名南宁大学，祝贺祝贺</p>
+				      </div>
+				    </div>
+
+				  </div>
+				
+				  <!-- Controls -->
+				  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+				    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				    <span class="sr-only">Previous</span>
+				  </a>
+				  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+				    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				  </a>
+				</div>
+			</div>
+			
+			
 			<!--第一个公告通知-->
 			<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
@@ -332,7 +385,7 @@
 
 		<!--内容右侧5个格子；-->
 		<div class="rightcolmd">
-		<!-- 任务完成排行 
+		<!--  
 		<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
@@ -364,11 +417,11 @@
 				 
 				</div>
 				
-			</div>-->
-		
+			</div>
+		-->
 			<!--第四个格子-->
 			<!-- 行事历 -->
-			<div class="panel" style="background-color: #00c86c;color: white;">
+			<div class="panel" style=" height:350px; background-color: #00c86c;color: white;">
 				<div class="" style="border-bottom: 1px solid #94d294;;">
 					<div class="panel-title" style="display: inline-block;">
 						<h4><span class="glyphicon glyphicon-calendar"></span> 行事历</h4>
