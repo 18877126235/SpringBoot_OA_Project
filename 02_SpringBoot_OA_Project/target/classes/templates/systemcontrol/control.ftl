@@ -84,7 +84,8 @@
 			<div class="jichu filecolor">
 				<div class="wenzi">
 					<h2>${filenum}</h2>
-					<p>文件管理</p>
+					
+					<h4>文件管理</h4>
 				</div>
 				<div class="iconfont">
 					<span class="glyphicon glyphicon-folder-open" style=" color: #FFCC00"></span>
@@ -99,7 +100,7 @@
 			<div class="jichu tongxun">
 				<div class="wenzi">
 					<h2>${directornum}</h2>
-					<p>通讯录</p>
+					<h4>通讯录</h4>
 				</div>
 				<div class="iconfont">
 					<span style="color: #ffffff" class="glyphicon glyphicon-earphone"></span>
@@ -114,7 +115,7 @@
 			<div class="jichu chat">
 				<div class="wenzi">
 					<h2>${discussnum}</h2>
-					<p>论坛中心</p>
+					<h4>论坛中心</h4>
 				</div>
 				<div class="iconfont">
 					<span style="color: #ffffff;" class="glyphicon glyphicon-comment"></span>
@@ -216,7 +217,7 @@
 			
 			
 			<!--第一个公告通知-->
-			<div class="panel panel-default box-show green-box">
+			<div  style="height: 325px ;" class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
 					<div class="panel-title" style="display: inline-block;">
@@ -263,7 +264,14 @@
 						
 					</table>
 				</div>
+				<div class="panel-title" style="display: inline-block;">
+						<h4>更多内容请到公告管理中心查看</h4>
+					</div>
+			
 			</div>
+			
+			
+			
 			<!--第二个box；流程管理-->
 			<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
@@ -386,38 +394,7 @@
 		<!--内容右侧5个格子；-->
 		<div class="rightcolmd">
 		<!--  
-		<div class="panel panel-default box-show green-box">
-				<div class="panel-heading box-show-heading"
-					style="background: white;">
-					<div class="panel-title" style="display: inline-block;">
-						<h4>
-							任务完成排行
-						</h4>
-					</div>
-					<div class="pull-right right-btn-group btn-color dropdown"
-						style="display: inline-block;">
-						<div style="display: inline-block;">
-							<button data-toggle="dropdown" >
-								<span class="glyphicon glyphicon-menu-hamburger"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="mytask">我的任务</a></li>
-							</ul>
-						</div>
-						<a href="#column" data-toggle="collapse"><button >
-								<span class="glyphicon glyphicon-minus shousuo"></span>
-							</button></a>
-						<button >
-							<span class="glyphicon glyphicon-remove"></span>
-						</button>
-					</div>
-				</div>
-				
-				<div id="column" class="shrink" style="min-width: 100px; height: 280px; margin: 0 auto;border-top:solid 1px #eee; ">
-				 
-				</div>
-				
-			</div>
+		
 		-->
 			<!--第四个格子-->
 			<!-- 行事历 -->
@@ -527,6 +504,42 @@
 				</div>
 				
 			</div>
+			
+			
+			<div class="panel panel-default box-show green-box">
+				<div class="panel-heading box-show-heading"
+					style="background: white;">
+					<div class="panel-title" style="display: inline-block;">
+						<h4>
+							任务完成排行
+						</h4>
+					</div>
+					<div class="pull-right right-btn-group btn-color dropdown"
+						style="display: inline-block;">
+						<div style="display: inline-block;">
+							<button data-toggle="dropdown" >
+								<span class="glyphicon glyphicon-menu-hamburger"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="mytask">我的任务</a></li>
+							</ul>
+						</div>
+						<a href="#column" data-toggle="collapse"><button >
+								<span class="glyphicon glyphicon-minus shousuo"></span>
+							</button></a>
+						<button >
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</div>
+				</div>
+				
+				<div id="column" class="shrink" style="min-width: 100px; height: 280px; margin: 0 auto;border-top:solid 1px #eee; ">
+				 
+				</div>
+				
+			</div>
+			
+			
 			<!--第五个格子-->
 			<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"

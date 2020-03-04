@@ -10,14 +10,15 @@
 					</#if>
 				</h2>
 			</a>
-			<p>
-			点击<span class="glyphicon glyphicon-hand-up"></span>
+		
+			<h4>点击<span class="glyphicon glyphicon-hand-up"></span>
 				<#if alist??>
 						${type}
 					<#else>
 						签到
-				</#if>
-			</p>
+				</#if></h4>
+			
+			
 	</div>
 	<div class="iconfont">
 		<span style="color: #ffffff;" class="glyphicon glyphicon-time"></span>
