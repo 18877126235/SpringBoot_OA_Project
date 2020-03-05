@@ -122,48 +122,84 @@ public class MenuSysController {
 		if(!StringUtils.isEmpty(req.getAttribute("success"))){ //正确信息不为空
 			req.setAttribute("success", req.getAttribute("success"));
 		}
-		//获取所有的父菜单
-		List<SystemMenu> parentList=iDao.findByParentIdOrderBySortId(0L);
 		
-//		for (SystemMenu systemMenu : parentList) {
-//			
-//			System.out.println("这里获取的是啥："+systemMenu);
-//			
-//		}
-		//父菜单放置域对象
-		req.setAttribute("parentList", parentList);
-		
-		HttpSession session = req.getSession();
-		
-		session.removeAttribute("getId"); //把原来放置的菜单id删除
-		
-		if (!StringUtils.isEmpty(req.getParameter("id"))) { //如果传递过来的菜单id不为空
+		 //说明是新增或者添加或者修改子菜单
 			
-			Long getId = Long.parseLong(req.getParameter("id")); //获取要修改的菜单id
-			SystemMenu menuObj = iDao.findOne(getId); //根据id查找菜单
+			//System.out.println("获取到了父菜单："+);
 			
-			//获取父菜单测试
-			SystemMenu fatherMesu = iDao.findOne(menuObj.getParentId());
+			//获取所有的父菜单
+			List<SystemMenu> parentList=iDao.findByParentIdOrderBySortId(0L);
 			
+			//父菜单放置域对象
+			req.setAttribute("parentList", parentList);
 			
-			//如果是添加菜单的
-			if (!StringUtils.isEmpty(req.getParameter("add"))) { //如果是添加菜单？？？
-				Long getAdd = menuObj.getMenuId();
-				String getName=menuObj.getMenuName();
-				req.setAttribute("getAdd", getAdd);
-				req.setAttribute("getName", getName);
-				log.info("getAdd:{}", getAdd);
-			} else { //否则就是修改的
-				session.setAttribute("getId", getId);
-				log.info("getId:{}", getId);
-				req.setAttribute("menuObj", menuObj); //当前菜单对象
-				req.setAttribute("fatherMesu", fatherMesu);
+			HttpSession session = req.getSession();
+			
+			session.removeAttribute("getId"); //把原来放置的菜单id删除
+			
+			if (!StringUtils.isEmpty(req.getParameter("id"))) { //如果传递过来的菜单id不为空说明要修改
+				
+				Long getId = Long.parseLong(req.getParameter("id")); //获取要修改的菜单id
+				SystemMenu menuObj = iDao.findOne(getId); //根据id查找菜单
+				
+				//判断要修改的是不是父菜单
+				if( menuObj.getParentId() == 0l ) {
+					//前台标记
+					req.setAttribute("isfathermenu", "1");
+				}
+				
+				//获取父菜单测试
+				SystemMenu fatherMesu = iDao.findOne(menuObj.getParentId());
+				
+				
+				//如果是添加菜单的
+				if (!StringUtils.isEmpty(req.getParameter("add"))) { //如果是添加菜单？？？（这里设置了只针对添加子菜单）
+					Long getAdd = menuObj.getMenuId();
+					String getName=menuObj.getMenuName();
+					req.setAttribute("getAdd", getAdd);
+					req.setAttribute("getName", getName);
+					log.info("getAdd:{}", getAdd);
+				} else { //否则就是修改菜单
+					session.setAttribute("getId", getId);
+					log.info("getId:{}", getId);
+					req.setAttribute("menuObj", menuObj); //当前菜单对象
+					req.setAttribute("fatherMesu", fatherMesu);
+				}
+				
 			}
 			
-		}
+		
+		
 		
 		return "systemcontrol/menuedit";
 	}
+	
+	
+	/*
+	 * 点击左上角的新增菜单操作
+	 */
+	@RequestMapping("addfatherorchild")
+	public String addfatherorchild(HttpServletRequest request) {
+	
+		if( !StringUtils.isEmpty(request.getParameter("father")) ) {
+			request.setAttribute("biaojishifou", '1');
+		}else {
+			
+			//获取所有的父菜单
+			List<SystemMenu> parentList=iDao.findByParentIdOrderBySortId(0L);
+			//父菜单放置域对象
+			request.setAttribute("parentList", parentList);
+			request.setAttribute("biaojishifouzi", '1');
+			
+		}
+		
+		//request.setAttribute("isnewcaidan", "1"); //标记是新建菜单
+		return "systemcontrol/menuedit_new";
+	}
+	
+	
+	
+	
 	
 	/**
 	 * 系统管理表单验证
@@ -175,38 +211,36 @@ public class MenuSysController {
 	 */
 	@RequestMapping("test111")
 	public String testMess(HttpServletRequest req, @Valid SystemMenu menu, BindingResult br) {
+		
 		HttpSession session = req.getSession();
-		Long menuId = null;
-		req.setAttribute("menuObj", menu);
+		
+		Long menuId = null; //菜单id
+		
+		req.setAttribute("menuObj", menu); //放置菜单对象
 
 		// 这里返回ResultVO对象，如果校验通过，ResultEnum.SUCCESS.getCode()返回的值为200；否则就是没有通过；
 		ResultVO res = BindingResultVOUtil.hasErrors(br);
-		// 校验失败
-		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
-			List<Object> list = new MapToList<>().mapToList(res.getData());
-			req.setAttribute("errormess", list.get(0).toString());
-			// 代码调试阶段，下面是错误的相关信息；
-			System.out.println("list错误的实体类信息：" + menu);
-			System.out.println("list错误详情:" + list);
-			System.out.println("list错误第一条:" + list.get(0));
-			System.out.println("啊啊啊错误的信息——：" + list.get(0).toString());
-			// 下面的info信息是打印出详细的信息
-			log.info("getData:{}", res.getData());
-			log.info("getCode:{}", res.getCode());
-			log.info("getMsg:{}", res.getMsg());
-		}
-		// 校验通过，下面写自己的逻辑业务
-		else {
-			// 判断是否从编辑界面进来的，前面有"session.setAttribute("getId",getId);",在这里获取，并remove掉；
-			if (!StringUtils.isEmpty(session.getAttribute("getId"))) {
-				menuId = (Long)session.getAttribute("getId"); // 获取进入编辑界面的menuID值
-				menu.setMenuId(menuId);
-				log.info("getId:{}", session.getAttribute("getId"));
-				session.removeAttribute("getId");
+		
+		//如果是从左上角添加来的
+		if( req.getParameter("zuoshangjiaotianjia")!=null ) {
+			
+			//执行新增的代码（否则这是新增菜单执行）
+			//menuService.save(menu);
+			
+			System.out.println("获取到了新增菜单：" + menu);
+			
+			//然后判断是新增父菜单还是子菜单
+			if( menu.getMenuUrl() == null ) {
+				//System.out.println("这是添加父菜单的呢");
+				
+				//然后设置父菜单为0
+				menu.setParentId(0l);
+				
+				//设置连接地址为#
+				menu.setMenuUrl("#");
+				//保存
 				menuService.save(menu);
-			}else{
-				//执行新增 的代码；
-				menuService.save(menu);
+				//设置只有超级管理员可见
 				List<Role> roles=rdao.findAll();
 				for (Role role : roles) {
 					if(role.getRoleId()==1){
@@ -215,16 +249,83 @@ public class MenuSysController {
 						roleService.sava(new Rolepowerlist(role, menu, false));
 					}
 				}
+				req.setAttribute("success", "操作成功");
+			}else { //否则是子菜单
+				System.out.println("这是添加子菜单的呢");
 				
+				//直接保存
+				menuService.save(menu);
+				
+				//System.out.println("查看父级菜单："+menu.getParentId());
+				
+				//设置也只有超级管理员可见
+				List<Role> roles=rdao.findAll();
+				for (Role role : roles) {
+					if(role.getRoleId()==1){
+						roleService.sava(new Rolepowerlist(role, menu, true));
+					}else{
+						roleService.sava(new Rolepowerlist(role, menu, false));
+					}
+				}
+				req.setAttribute("success", "操作成功");
 			}
-			//执行业务代码
 			
-			System.out.println("此操作是正确的");
+		
 			
-			req.setAttribute("success", "后台验证成功");
+		}else {
+			// 校验失败
+			if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
+				List<Object> list = new MapToList<>().mapToList(res.getData());
+				req.setAttribute("errormess", list.get(0).toString());
+				// 代码调试阶段，下面是错误的相关信息；
+				System.out.println("list错误的实体类信息：" + menu);
+				System.out.println("list错误详情:" + list);
+				System.out.println("list错误第一条:" + list.get(0));
+				System.out.println("啊啊啊错误的信息——：" + list.get(0).toString());
+				// 下面的info信息是打印出详细的信息
+				log.info("getData:{}", res.getData());
+				log.info("getCode:{}", res.getCode());
+				log.info("getMsg:{}", res.getMsg());
+			}
+			// 校验通过，下面写自己的逻辑业务
+			else {
+				// 判断是否从编辑界面进来的，前面有"session.setAttribute("getId",getId);",在这里获取，并remove掉；（说明是修改菜单）
+				if (!StringUtils.isEmpty(session.getAttribute("getId"))) {
+					menuId = (Long)session.getAttribute("getId"); // 获取进入编辑界面的menuID值
+					menu.setMenuId(menuId); //设置你要修改的菜单id
+					log.info("getId:{}", session.getAttribute("getId")); //日志
+					session.removeAttribute("getId");
+					
+					System.out.println("执行修改菜单了："+menu.getMenuName());
+					
+					menuService.save(menu); //保存修改
+				}else{ //否则执行新增菜单逻辑
+					
+					//执行新增的代码（否则这是新增菜单执行）
+					menuService.save(menu);
+					System.out.println("获取到了新增菜单：" + menu);
+					//设置只有超级管理员才可以看见
+					List<Role> roles=rdao.findAll();
+					for (Role role : roles) {
+						if(role.getRoleId()==1){
+							roleService.sava(new Rolepowerlist(role, menu, true));
+						}else{
+							roleService.sava(new Rolepowerlist(role, menu, false));
+						}
+					}
+					
+				}
+				//执行业务代码
+				
+				
+				req.setAttribute("success", "操作成功");
+			}
 		}
-		System.out.println("是否进入最后的实体类信息：" + menu);
-		return "forward:/menuedit";
+		
+		
+		
+
+		return "forward:/menuedit"; //返回去，弹出操作成功，点击确定后回到菜单管理界面
 	}
 	
 	/**

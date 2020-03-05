@@ -16,7 +16,16 @@ a:hover {
 </style>
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">编辑菜单</h1>
+		<h2 style="font-size: 20px; margin: 0;" class="">编辑菜单
+			<#if biaojishifou?? >
+					新建父菜单
+					
+			</#if> 
+			<#if biaojishifouzi?? >
+					新建子菜单
+					
+			</#if>
+		</h2>
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
@@ -47,6 +56,9 @@ a:hover {
 							<span class="error-mess"></span>
 						</div>
 						<div class="row">
+							
+							
+							
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>名称</span></label> 
 								<input class="form-control" value="${(menuObj.menuName)!''}" name="menuName"/>
@@ -63,24 +75,26 @@ a:hover {
 								<label class="control-label"><span>排序</span></label>
 								 <input type="number" min="0" class="form-control" value="${(menuObj.sortId)!'0'}" name="sortId"/>
 							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"><span>父级</span></label> 
-								 <select class="form-control" name="parentId">
-								 <!-- 显示父菜单 -->
-								 <#if fatherMesu??>
-								 	<option value="${fatherMesu.menuId}" selected="selected">${fatherMesu.menuName}</option>
-								 </#if>
-								 <!-- 显示所有的父菜单选项 -->
-								 <#list parentList as list>
-								 	<option value="${list.menuId}">${list.menuName}</option>
-								 </#list>
-								 </select>
-								<!-- <#if getAdd??>
-									<input type="number" min="0" class="form-control" value="${getAdd}"  name="parentId" readonly="readonly"/>
+							<!-- 如果是修改父菜单就不显示了 -->
+							<#if isfathermenu??>
+								
 								<#else>
-									<input type="number" min="0" class="form-control" value="${(menuObj.parentId)!''}"  name="parentId"/>
-								</#if> -->
-							</div>
+									<div class="col-md-6 form-group">
+										<label class="control-label"><span>父级</span></label> 
+										 <select class="form-control" name="parentId">
+										 <!-- 显示父菜单 -->
+										 <#if fatherMesu??>
+										 	<option value="${fatherMesu.menuId}" selected="selected">${fatherMesu.menuName}</option>
+										 </#if>
+										 <!-- 显示所有的父菜单选项 -->
+										 <#list parentList as list>
+										 	<option value="${list.menuId}">${list.menuName}</option>
+										 </#list>
+										 </select>
+									</div>	
+								
+							</#if>
+
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>显示</span></label><br>
 								<#if menuObj??>
@@ -93,6 +107,8 @@ a:hover {
 										<span class="labels"><label><input name="show" type="checkbox"><i>✓</i></label></span>
 								</#if>
 							</div>
+							
+							
 						</div>
 				</div>
 				</div>

@@ -167,7 +167,8 @@
 			
 			<!-- 轮播图 -->
 			<div style="height: 350px ;" class="panel panel-default box-show green-box">
-				<div id="carousel-example-generic" style="height:100% ;" class="carousel slide" data-ride="carousel">
+			
+				<div  id="carousel-example-generic" style=" height:100% ;" class="carousel slide" data-ride="carousel">
 				  <!-- Indicators -->
 				  <ol class="carousel-indicators">
 				    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -176,7 +177,7 @@
 				  </ol>
 				
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner" role="listbox">
+				  <div style="border-radius: 15px;" class="carousel-inner" role="listbox">
 				    <div class="item active">
 				      <img style="height: 100%; width: 100%" src="/image/nanyuan1.png" alt="...">
 				      <div class="carousel-caption">
@@ -194,7 +195,7 @@
 				    
 
 				 	<div class="item">
-				      <img style="height: 100%; width: 100%" src="/image/nanyuan3.png" alt="...">
+				      <img  style=" height: 100%; width: 100%" src="/image/nanyuan3.png" alt="...">
 				      <div class="carousel-caption">
 				        		<h3>南宁大学</h3>
 					    <p>恭喜我校成功申请改名南宁大学，祝贺祝贺</p>

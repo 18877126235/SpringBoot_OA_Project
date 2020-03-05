@@ -34,11 +34,16 @@ a:hover {
 			<!--盒子头-->
 			<div class="box-header">
 				<h3 class="box-title">
-					<a href="menuedit" class="label label-success"
+					<a href="addfatherorchild?father=1" class="label label-Primary"
 						style="padding: 5px;"> <span class="glyphicon glyphicon-plus"></span>
-						新增
+						新增父菜单
 					</a>
-					<a href="" class="label label-success" style="padding: 5px;margin-left:5px;">
+					<a href="addfatherorchild"  class="label label-Info"
+						style="padding: 5px; margin-left: 5px;"> <span class="glyphicon glyphicon-plus"></span>
+						新增子菜单
+					</a>
+					
+					<a href="testsysmenu" class="label label-success" style="padding: 5px;margin-left:5px;">
 						<span class="glyphicon glyphicon-refresh"></span> 刷新
 					</a>
 				</h3>
