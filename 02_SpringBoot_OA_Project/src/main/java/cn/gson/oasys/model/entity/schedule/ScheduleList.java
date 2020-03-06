@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import cn.gson.oasys.model.entity.user.User;
 
+/*
+ *	日程表
+ */
 @Entity
 @Table(name = "aoa_schedule_list")
 public class ScheduleList {

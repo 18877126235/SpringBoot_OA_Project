@@ -47,7 +47,7 @@
 								href="#" class="label shanchu"><span
 									class="glyphicon glyphicon-remove "></span> 删除
 								</a>
-								<a  href="menuedit?id=${one.menuId}&add=this" class="label xinzeng"><span
+								<a  href="menueditnew2?id=${one.menuId}&add=this" class="label xinzeng"><span
 									class="glyphicon glyphicon-plus"></span> 新增
 								</a>
 							</td>

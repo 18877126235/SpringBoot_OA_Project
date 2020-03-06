@@ -17,14 +17,7 @@ a:hover {
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
 		<h2 style="font-size: 20px; margin: 0;" class="">编辑菜单
-			<#if biaojishifou?? >
-					新建父菜单
-					
-			</#if> 
-			<#if biaojishifouzi?? >
-					新建子菜单
-					
-			</#if>
+		
 		</h2>
 	</div>
 	<div class="col-md-10 text-right">

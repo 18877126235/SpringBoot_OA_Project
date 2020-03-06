@@ -22,6 +22,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 
 import cn.gson.oasys.mappers.NoticeMapper;
 import cn.gson.oasys.model.dao.attendcedao.AttendceService;
+import cn.gson.oasys.model.dao.daymanagedao.DaymanageDao;
 import cn.gson.oasys.model.dao.discuss.CommentDao;
 import cn.gson.oasys.model.dao.discuss.DiscussDao;
 import cn.gson.oasys.model.dao.discuss.ReplyDao;
@@ -238,20 +239,6 @@ public class Test1 {
 		}
 		
 	}
-	
-	//查看该条帖子有多少用户参与评论和回复 Comment Reply
-	@Autowired
-	private ReplyDao replyDao;
-	
-	@Autowired
-	private CommentDao commentDao;
-	
-	@Test
-	public void test08() {
-		
-		//首先根据当前帖子id查找有多少个用户参与评论
-		
-		
-	}
+
 	
 }

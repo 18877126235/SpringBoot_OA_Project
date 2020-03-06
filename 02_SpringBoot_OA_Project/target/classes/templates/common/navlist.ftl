@@ -6,7 +6,7 @@
 	</ul>
 	<!--右侧导航栏-->
 	<ul class="nav navbar-nav navbar-right moredeep">
-
+		<!-- 公告通知图标 -->
 		<li><a href="javascript:changepath('/infromlist');" class="green-none white"><span
 				class="glyphicon glyphicon-bell"></span>
 				<#if notice==0>
@@ -16,6 +16,7 @@
 				</#if>
 				</a>
 		</li>
+		<!-- 邮件通知图标 -->
 		<li><a href="javascript:changepath('/mail');" class="green-none white"><span
 				class="glyphicon glyphicon-envelope"></span>
 				<#if mail==0>
@@ -25,6 +26,7 @@
 				</#if>
 				</a>
 		</li>
+		<!-- 任务通知图标 -->
 		<li><a href="javascript:changepath('/mytask');" class="green-none white"><span
 				class="glyphicon glyphicon-flag"></span>
 				<#if task==0>
@@ -37,8 +39,12 @@
 		<li class="dropdown">
 		<!--设置导航栏头像面板--> 
 		<a href="#" class="green-none white" data-toggle="dropdown">
-				<img src="/image/${(user.imgPath)!'/timg.jpg'}" class="user-image" /> <span>${user.userName}</span>
-		</a> <!--设置点击按钮弹出用户面板层-->
+				<!-- 头像 -->
+				<img src="/image/${(user.imgPath)!'/timg.jpg'}" class="user-image" /> 
+				<!-- 用户名 -->
+				<span>${user.userName}</span>
+		</a> 
+		<!--设置点击按钮弹出用户面板层-->
 			<ul class="dropdown-menu" style="padding:0;">
 				<li class="user-header green"><img src="/image/${(user.imgPath)!'/timg.jpg'}"
 					class="img-circle" style="width: 100px;height:100px;" />
@@ -61,6 +67,7 @@
 				
 		<ul id="historypanel" class="dropdown-menu"
 				style="position: absolute; background-color: #222d32;">
+				<!-- 用户历史记录表 -->
 				<#include "/user/userlog.ftl"/>
 		</ul>
 	</li>
@@ -85,7 +92,7 @@
 			$('.badge-notice').text("");
 		}
 	}
-	//从右往左滑动效果
+	//从右往左滑动效果（点击了历史记录）
 	$(function() {
 		var num = 1;
 		$("#history").click(function() {

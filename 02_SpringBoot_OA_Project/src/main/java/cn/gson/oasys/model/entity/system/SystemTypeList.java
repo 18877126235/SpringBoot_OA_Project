@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/*
+ * 类型表实体类
+ */
 @Entity
 @Table(name="aoa_type_list")
 public class SystemTypeList {

@@ -19,5 +19,11 @@ public interface DaymanageDao extends JpaRepository<ScheduleList,Long>{
 	
 	Page<ScheduleList> findByUser(User user,Pageable pa);
 	
+	//查询当前日程是我创建的，并且该日程下具体谁接收
 	Page<ScheduleList> findByUserAndUsers(User user,List<User> users,Pageable pa);
+	
+	//查询和我有关的日程
+	Page<ScheduleList> findByUserOrUsers(User user,List<User> users,Pageable pa);
+	
+	
 }

@@ -29,30 +29,36 @@
 					<th scope="col">发布人</th>
 					<th scope="col">部门</th>
 					<th scope="col">状态</th>
+					<!-- 是否有操作权限 -->
 					<#if ismyday??>
 						<th scope="col">操作</th>
 					</#if>
 				</tr>
 				<#list schedules as schedule>
 					<tr>
-						<td><span>
-							<#list types as type>
-								<#if schedule.typeId == type.typeId>
-									<span>${type.typeName} </span>
-								</#if>
-							</#list>
-						</span></td>
+						<td>
+							<!-- 遍历类型表看看当前日程的类型是什么 -->
+							<span>
+								<#list types as type>
+									<#if schedule.typeId == type.typeId>
+										<span>${type.typeName} </span>
+									</#if>
+								</#list>
+							</span>
+						</td>
 						<td><span>${(schedule.title)!''}</span></td>
 						<td><span>${(schedule.createTime?string("yyyy-MM-dd HH:mm:ss"))!''}</span></td>
 						<td><span>${(schedule.user.userName)!''}</span></td>
 						<td><span>${(schedule.user.dept.deptName)!''}</span></td>
 						<td>
+							<!-- 遍历状态表，显示当前日程的状态 -->
 							<#list statuses as status>
 								<#if schedule.statusId == status.statusId>
 									<div class="label ${status.statusColor}">${status.statusName}</div>
 								</#if>
 							</#list>
 						</td>
+						<!-- 是否有操作权限 -->
 						<#if ismyday??>
 							<td>
 								<a  href="dayedit?rcid=${schedule.rcId}" class="label xiugai"><span
@@ -62,11 +68,12 @@
 									class="glyphicon glyphicon-remove"></span> 删除</a>
 							</td>
 						</#if>
+						
 					</tr>
 				</#list>
 			</table>
 		</div>
 	</div>
-	<!--盒子尾-->
+	<!--盒子尾  分页用-->
 	<#include "/common/paging.ftl"/>
 </div>

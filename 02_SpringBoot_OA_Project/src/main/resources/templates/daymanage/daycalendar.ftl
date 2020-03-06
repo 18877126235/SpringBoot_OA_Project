@@ -4,11 +4,11 @@
 <link href='plugins/fullcalendar/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">日程管理</h1>
+		<h1 style="font-size: 24px; margin: 0;" class="">个人日程表</h1>
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
-			disabled="disabled">日程管理</a>
+			disabled="disabled">个人日程表</a>
 	</div>
 </div>
 <div class="row" style="padding-top: 15px;">
@@ -17,9 +17,10 @@
 			<div class="box-header">
 				<h3 class="box-title">
 					<a class="label label-success" href="dayedit"><span
-						class="glyphicon glyphicon-plus"></span> 新增</a>
+						class="glyphicon glyphicon-plus"></span> 新建日程</a>
 				</h3>
 			</div>
+			<!-- 核心显示div -->
 			<div class="box-body">
 				<div id="calendar"></div>
 			</div>
@@ -27,16 +28,19 @@
 	</div>
 </div>
 
+<!-- 以下是弹出的窗口显示 -->
 <div class="modal fade" id="myModal" tabindex="-1">
 	<!--第二步，窗口声明-->
 	<div class="modal-dialog modal-lg">
 		<!--第三步、内容区的声明-->
 		<div class="modal-content" style="background: #F9F9F9; padding: 10px;">
+			<!-- 点击查看日程的关闭按钮 -->
 			<button class="close" data-dismiss="modal"
 				style="display: block; background-color: black; margin: -28px -23px 0 0; border-radius: 60%;">
 				<span class="glyphicon glyphicon-remove-circle"
 					style="color: white; font-size: 30px;"></span>
 			</button>
+			
 			<div style="background-color: #ECF0F5; padding: 10px;">
 				<div class="row">
 					<div class="col-md-12">
@@ -53,13 +57,13 @@
 										<span class="rctitle" style="font-size:16px;">ddddd</span>
 									</h3>
 									<h5 style="color: #999;font-size: 13px;">
-										<span>发布：<span class="rcusername">aaa茨</span>   类型：<span class="rctype">日程提醒</span></span>
-										<span style="float:right;"><span class="rcstarttime">2017-10-20 20:44</span> 至 <span class="rcendtime">2017-10-20 21:44</span></span>
+										<span>发布者：<span class="rcusername">这是该日程发布者的名字</span>   类型：<span class="rctype">类型名称</span></span>
+										<span style="float:right;"><span class="rcstarttime">时间2017-10-20 20:44</span> 至 <span class="rcendtime">2017-10-20 21:44</span></span>
 									</h5>
 								</div>
 								<div style="padding:10px;">
 									<span class="rcdescription">
-										盛大手机看的啥借口
+										这是日程的介绍（当点击相应的日程查看的时候该内容会被覆盖）
 									</span>
 								</div>
 							</div>
@@ -77,10 +81,13 @@
 <script src='plugins/fullcalendar/lib/jquery-ui.custom.min.js'></script>
 <script src='plugins/fullcalendar/fullcalendar/fullcalendar.min.js'></script>
 <script>
+
+	//点击确定然后隐藏弹出框
 	$(".modelokclose").click(function(){
 		$('#myModal').modal('hide');
 	});
 	
+	//页面开始加载执行
 	$(document).ready(function() {
 
 		var date = new Date();
@@ -91,7 +98,7 @@
 
 		var y = date.getFullYear();
 
-		$('#calendar').fullCalendar({
+		$('#calendar').fullCalendar({ //为这个div设置日历显示
 			buttonText: {
 				today: '今天',
 				month: '月',
@@ -112,7 +119,7 @@
 			/* dayClick: function(date, allDay, jsEvent, view) {
 				$('#myModal').modal('show');
 			}, */
-
+			//点击每个相对应的日程
 			eventClick: function(event) {
 				var title = event.title;
 				var starttime = dateformat(event.start);
@@ -156,8 +163,9 @@
 			}, ]  */
 			
 			events:function(start, end, callback){
+				//ajax访问后台获取并封装数据
 				$.ajax({
-					 url: "mycalendarload",
+					 url: "mycalendarload", 
 					 cache:false,
 					 datatype:'json',
 					 
@@ -177,6 +185,7 @@
 							 if(item.statusId=='29'){
 								 color="#dd4b39";
 							 }
+							 //设置even键值对
 							 events.push({
 								 title: item.title,
 
@@ -197,6 +206,7 @@
 								 rctype:item.typeId
 							 });
 						 });
+						 
 						 callback(events);
 					 }
 				})
@@ -205,6 +215,8 @@
 
 		});
 	});
+	
+	//日期显示格式
 	var dateformat = function(a) {
         return a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate() + " " + a.getHours() + ":" + a.getMinutes() + ":" + a.getSeconds();
     };

@@ -27,11 +27,16 @@ public class DaymanageServices {
 		User user = udao.findOne(userId);
 		List<User> users = new ArrayList<>();
 		users.add(user);
+		//创建日程集合
 		List<ScheduleList> aboutmerc = new ArrayList<>();
 		
+		//首先根据用户id查找出相关的日程
 		List<ScheduleList> myschedule = daydao.findByUser(user);
+		
+		//去日程和用户对应的中间表中查找出有关的数据
 		List<ScheduleList> otherschedule = daydao.findByUsers(users);
 		
+		//以下合并两个集合
 		for (ScheduleList scheduleList : myschedule) {
 			aboutmerc.add(scheduleList);
 		}
@@ -42,11 +47,13 @@ public class DaymanageServices {
 		
 //		aboutmerc.addAll(myschedule);
 //		aboutmerc.addAll(otherschedule);
-		
+		//设置用户名称
 		for (ScheduleList scheduleList : aboutmerc) {
-			User user1 = scheduleList.getUser();
-			scheduleList.setUsername(user1.getRealName());
 			
+			User user1 = scheduleList.getUser();
+			
+			scheduleList.setUsername(user1.getUserName());
+			//System.out.println("遍历日程数据："+scheduleList);
 		}
 		
 		return aboutmerc;

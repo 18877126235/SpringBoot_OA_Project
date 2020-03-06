@@ -22,11 +22,11 @@ a:hover {
 </style>
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">日程管理</h1>
+		<h1 style="font-size: 24px; margin: 0;" class="">日程编辑</h1>
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
-			disabled="disabled">日程管理</a>
+			disabled="disabled">日程编辑</a>
 	</div>
 </div>
 <div class="row" style="padding-top: 15px;">
@@ -34,7 +34,8 @@ a:hover {
 		<!--id="container"-->
 		<div class="bgc-w box">
 			<!--盒子头-->
-			<form action="addandchangeday" method="post" onsubmit="return check();">
+			<form action="addandchangeday"  method="post"  onsubmit="return check();">
+				<!-- 如果是编辑日程的话就保存日程id -->
 				<input name="rcId" type="hidden" value="${(rc.rcId)!''}"/>
 				<div class="box-header">
 					<h3 class="box-title">
@@ -85,24 +86,40 @@ a:hover {
 									name="title" class="form-control" value="${(rc.title)!''}"/>
 							</div>
 	
-							<div class="col-md-6 form-group">
-								<label class="control-label"><span>接收</span></label> 
-									<input name="shareuser" type="text" id="recive_list" style="background-color: #fff;"
-									class="form-control" readonly="readonly" placeholder="共享：" />
-								<div class="reciver">
-									<span class="label label-success glyphicon glyphicon-plus"
-										data-toggle="modal" data-target="#myModal">新增</span>
+							<!-- 是否有权限让别人接收日程 -->
+							<#if issuperman?? >
+								<div class="col-md-6 form-group">
+									<label class="control-label"><span>指定接收人</span></label> 
+										<input name="shareuser" type="text" id="recive_list" style="background-color: #fff;"
+										class="form-control" readonly="readonly" placeholder="仅自己：" />
+									<div class="reciver">
+										<span class="label label-success glyphicon glyphicon-plus"
+											data-toggle="modal" data-target="#myModal">新增</span>
+									</div>
 								</div>
-							</div>
+								<!-- 否则当前日程只能是为自己添加 -->
+								<#else>
+									<div class="col-md-6 form-group">
+										<label class="control-label"><span>指定接收人</span></label> 
+											<input name="shareuser" type="text" id="recive_list" style="background-color: #fff;"
+											class="form-control" readonly="readonly" placeholder="仅自己：" />
+										
+									</div>
+								
+							</#if>
+							
+	
+	
+	
 	
 							<div class="col-md-6 form-group">
-								<label class="control-label"><span>描述</span></label>
+								<label class="control-label"><span>日程描述</span></label>
 								<textarea rows="5" cols="20" class="form-control"
 									name="describe" style="margin: 0px -0.5px 0px 0px; height: 114px; width: 522px;">${(rc.describe)!''}</textarea>
 							</div>
 	
 							<div class="col-md-6 form-group">
-								<label class="control-label"><span>提醒</span></label> <br> 
+								<label class="control-label"><span>是否提醒</span></label> <br> 
 								<#if rc??>
 									<#if rc.isRemind>
 										<span class="labels"><label><input name="isRemind" type="checkbox" checked/><i>✓</i></label></span>
@@ -113,6 +130,7 @@ a:hover {
 									<span class="labels"><label><input name="isRemind" type="checkbox"/><i>✓</i></label></span>
 								</#if>
 							</div>
+							
 						</div>
 					</div>
 				</div>

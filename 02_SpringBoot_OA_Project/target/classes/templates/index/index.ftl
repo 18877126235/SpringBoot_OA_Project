@@ -18,7 +18,8 @@ maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="css/common/skintheme.css" />
 
 
-<!-- ******************************************************************** -->
+<!-- *******************这里是根据用户设置的主题颜色来进行导航栏的颜色显示******************** -->
+	<#-- 我去除掉，默认是绿色，绿死人
 	<script type="text/javascript">
 		$(function(){
 			var themeSkin='${user.themeSkin}';
@@ -32,7 +33,7 @@ maximum-scale=1, user-scalable=no">
 				tored();
 			}
 		});
-	</script>
+	</script>-->
 	
 	
 <script>

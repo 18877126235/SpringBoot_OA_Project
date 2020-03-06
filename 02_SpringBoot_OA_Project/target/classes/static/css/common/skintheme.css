@@ -70,6 +70,11 @@
 .green{
 	background: #00a65a !important;
 }
+
+.pink{
+	background: #ffaabb !important;
+}
+
 .green-box{
 	border-top: 3px solid #00a65a;
 }
