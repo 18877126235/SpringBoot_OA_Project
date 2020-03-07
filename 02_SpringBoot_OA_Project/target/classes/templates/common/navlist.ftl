@@ -46,7 +46,7 @@
 		</a> 
 		<!--设置点击按钮弹出用户面板层-->
 			<ul class="dropdown-menu" style="padding:0;">
-				<li class="user-header green"><img src="/image/${(user.imgPath)!'/timg.jpg'}"
+				<li class="user-header" style="background:#00c0ef ;"><img src="/image/${(user.imgPath)!'/timg.jpg'}"
 					class="img-circle" style="width: 100px;height:100px;" />
 					<p class="white" style="">
 						<span>${user.dept.deptName} </span> / <span> ${user.role.roleName}</span><br> <small>${user.position.name}</small>

@@ -1,3 +1,4 @@
+<!-- 最小化菜单时显示 -->
 <div id="smallDiv"
 	style="width: 3%; background: red; float: left; display: none;">
 	<div style="text-align: center; height: 50px; padding-top: 7px;" class="green-g">
@@ -42,10 +43,11 @@
 		</ul>
 	</div>
 </div>
+
 <!--把最顶上左侧的logo，栅格系统分2份-->
 <div class="col-lg-2 col-md-2 smallDiv"
 	style="padding: 0; margin: 0; display: block;">
-	<div class="col-md-12 green-g">
+	<div class="col-md-12" style="background:#00c0ef ;">
 		<a href="index"  class="navbar-brand" style="color: black;  padding: 8px 40px; ">
 			<img src="images/logo.png" />
 		</a>

@@ -265,9 +265,9 @@
 						
 					</table>
 				</div>
-				<div class="panel-title" style="display: inline-block;">
-						<h4>更多内容请到公告管理中心查看</h4>
-					</div>
+				<div class="panel-title" style="padding-bottom:20px; display: inline-block;">
+						<h5>更多内容请到公告管理中心查看</h5>
+				</div>
 			
 			</div>
 			
