@@ -61,11 +61,37 @@
 						<!-- 是否有操作权限 -->
 						<#if ismyday??>
 							<td>
-								<a  href="dayedit?rcid=${schedule.rcId}" class="label xiugai"><span
-									class="glyphicon glyphicon-edit"></span> 修改</a> <a
-								onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" 
-								href="dayremove?rcid=${schedule.rcId}" class="label shanchu"><span
-									class="glyphicon glyphicon-remove"></span> 删除</a>
+							
+								<a  href="dayedit_chakan?rcid=${schedule.rcId}" class="label xiugai"><span
+									class="glyphicon  glyphicon-eye-open"></span> 
+									查看
+								</a>
+								<#if user.userName == schedule.user.userName>
+								
+									<a  href="dayedit?rcid=${schedule.rcId}" class="label xiugai"><span
+										class="glyphicon glyphicon-edit"></span> 
+										修改
+									</a> 
+									<a
+										onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" 
+										href="dayremove?rcid=${schedule.rcId}" class="label shanchu"><span
+										class="glyphicon glyphicon-remove"></span> 删除
+									</a>
+									
+									<#else> 
+										<a style="background:#C0C0C0 ; width: ;"
+											class="label"><span
+											class="glyphicon glyphicon-edit"></span> 
+											修改
+										</a> 
+										<a style="background:#C0C0C0 ;"
+											 class="label"><span
+											class="glyphicon glyphicon-remove"></span> 
+											删除
+										</a>
+									
+								</#if>
+								
 							</td>
 						</#if>
 						

@@ -2,7 +2,9 @@ package cn.gson.oasys.controller.daymanage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,10 +28,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.gson.oasys.model.dao.daymanagedao.DaymanageDao;
+import cn.gson.oasys.model.dao.daymanagedao.ScheduleNserDao;
 import cn.gson.oasys.model.dao.system.StatusDao;
 import cn.gson.oasys.model.dao.system.TypeDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.schedule.ScheduleList;
+import cn.gson.oasys.model.entity.schedule.ScheduleUser;
 import cn.gson.oasys.model.entity.system.SystemStatusList;
 import cn.gson.oasys.model.entity.system.SystemTypeList;
 import cn.gson.oasys.model.entity.user.User;
@@ -51,6 +55,9 @@ public class DaymanageController {
 	TypeDao typedao;
 	@Autowired
 	ProcessService ps;
+	
+	@Autowired
+	private ScheduleNserDao scheduleNserDao;
 	
 	/**
 	 * 显示个人日程表
@@ -107,10 +114,7 @@ public class DaymanageController {
 //			
 //		}
 		
-		
-		
-		
-		
+
 		//获取已经排序好的日程表
 		List<ScheduleList> scheduleLists = myday.getContent();
 		//日程放置域对象
@@ -125,6 +129,9 @@ public class DaymanageController {
 		model.addAttribute("url", "daymanagepaging");
 		//标记可操作
 		model.addAttribute("ismyday", 1);
+		
+		//当前用户放置，判断日程是否是自己发布的
+		model.addAttribute("user",user);
 		
 		return "daymanage/daymanage";
 	}
@@ -216,8 +223,7 @@ public class DaymanageController {
 			Model model,
 			@SessionAttribute("userId") Long userid//之前犯了个错误，就是用String 来接收userid，导致获取到null
 			
-			){
-
+			){ 
 		ps.user(page, size, model);
 		List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
 		List<SystemStatusList> statuses = statusdao.findByStatusModel("aoa_schedule_list");
@@ -239,6 +245,7 @@ public class DaymanageController {
 		
 		return "daymanage/editday";
 	}
+	
 	
 	/*
 	 * 执行新增日程逻辑
@@ -275,9 +282,86 @@ public class DaymanageController {
 		daydao.save(scheduleList); //保存
 		
 		//返回日程列表页面
-		return "/daymanage";
+		return "/daymanage"; //写法相当于绝对定位
 	}
 	
+	
+	/*
+	 * 点击查看日程显示视图
+	 */
+	@RequestMapping("dayedit_chakan")
+	public String chakanrichengxinxi(
+			@RequestParam(value="rcid",required=false) Long rcid,
+			@RequestParam(value="page",defaultValue="0") int page,
+			@RequestParam(value="size",defaultValue="10") int size,
+			Model model,
+			@SessionAttribute("userId") Long userid//之前犯了个错误，就是用String 来接收userid，导致获取到null
+			) {
+		
+		//ps.user(page, size, model);
+		
+		//List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
+		
+		//List<SystemStatusList> statuses = statusdao.findByStatusModel("aoa_schedule_list");
+		
+		//将数据封装成map集合
+		
+		//获取当前日程对象
+		ScheduleList rc = null;
+		if(rcid!=null){
+			rc = daydao.findOne(rcid);
+			//System.out.println(rc);
+		}
+		//封装数据用于显示
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		//封装类型
+		map.put("type", typedao.findOne(rc.getTypeId()).getTypeName()) ;
+		//封装状态
+		map.put("statuse", statusdao.findOne(rc.getStatusId()).getStatusName());
+		
+
+		//封装接收人员
+		//要去日程用户中间表中查看该条日程和谁有关
+		//根据日程id从中间表中获取出所有有关的用户的中间表数据
+		List<ScheduleUser> findByRcid = scheduleNserDao.findByRcid(rcid);
+
+		//存放用户集合
+		List<User> users = new ArrayList<>();
+		//遍历获取所有的用户
+		for (ScheduleUser scheduleUser : findByRcid) {
+			
+			users.add( udao.findOne(scheduleUser.getUserId()) );
+			
+		}
+		
+		users.add(rc.getUser());
+		
+		//封装接收人数据
+		map.put("users", users);
+	
+		
+		//map集合放置域对象
+		model.addAttribute("map",map);
+		model.addAttribute("rc",rc);
+		
+		/*User user = udao.findOne(userid);
+		if( user.getRole().getRoleId() <= 4  ) {//如果是部门经理以上的人员，有权限为下属设置日程
+			//这里只设置了超级管理员权限
+			model.addAttribute("issuperman",1);
+		}*/
+		
+		
+		
+		
+		
+		return "daymanage/editday_chakan";
+	}
+	
+
+	/*
+	 * 删除日程
+	 */
 	@RequestMapping("dayremove")
 	public String dayremove(@RequestParam(value="rcid") Long rcid){
 		ScheduleList rc = daydao.findOne(rcid);

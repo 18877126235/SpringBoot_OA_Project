@@ -20,6 +20,7 @@ encoding//src/main/resources/templates/daymanage/daycalendar.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/daymanage.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/daymanagepaging.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/editday.ftl=UTF-8
+encoding//src/main/resources/templates/daymanage/editday_chakan.ftl=UTF-8
 encoding//src/main/resources/templates/forumcenter/new.ftl=UTF-8
 encoding//src/main/resources/templates/index/index.ftl=UTF-8
 encoding//src/main/resources/templates/index/test.ftl=UTF-8

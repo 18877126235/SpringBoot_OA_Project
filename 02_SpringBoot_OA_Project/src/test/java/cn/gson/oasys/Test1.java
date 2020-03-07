@@ -23,6 +23,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 import cn.gson.oasys.mappers.NoticeMapper;
 import cn.gson.oasys.model.dao.attendcedao.AttendceService;
 import cn.gson.oasys.model.dao.daymanagedao.DaymanageDao;
+import cn.gson.oasys.model.dao.daymanagedao.ScheduleNserDao;
 import cn.gson.oasys.model.dao.discuss.CommentDao;
 import cn.gson.oasys.model.dao.discuss.DiscussDao;
 import cn.gson.oasys.model.dao.discuss.ReplyDao;
@@ -39,6 +40,7 @@ import cn.gson.oasys.model.entity.discuss.Discuss;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.role.Rolepowerlist;
+import cn.gson.oasys.model.entity.schedule.ScheduleUser;
 import cn.gson.oasys.model.entity.system.SystemMenu;
 import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.LoginRecord;
@@ -240,5 +242,19 @@ public class Test1 {
 		
 	}
 
-	
+	//测试获取日程用户中间表数据
+	@Autowired
+	private ScheduleNserDao scheduleNserDao;
+	@Test
+	public void test08(  ) {
+		
+		List<ScheduleUser> findAll = scheduleNserDao.findAll();
+		
+		for (ScheduleUser scheduleUser : findAll) {
+			
+			System.out.println(scheduleUser);
+			
+		}
+		
+	}
 }
