@@ -6,8 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+
+//以下是基于mybatis查询的
 @Mapper
 public interface NoticeMapper {
+	
 	
 	//默认根据置顶、修改时间排序
 	List<Map<String, Object>> findMyNotice(@Param("userId") Long userId);

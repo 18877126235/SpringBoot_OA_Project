@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.gson.oasys.mappers.NoticeMapper;
 import cn.gson.oasys.model.dao.daymanagedao.DaymanageDao;
 import cn.gson.oasys.model.dao.daymanagedao.ScheduleNserDao;
 import cn.gson.oasys.model.dao.system.StatusDao;
@@ -60,6 +61,10 @@ public class DaymanageController {
 	@Autowired
 	private ScheduleNserDao scheduleNserDao;
 	
+	
+	@Autowired
+	private NoticeMapper nm;
+	
 	/**
 	 * 显示个人日程表
 	 * @param userid
@@ -71,11 +76,17 @@ public class DaymanageController {
 	@RequestMapping("daymanage")
 	private String daymanage(@SessionAttribute("userId") Long userid,
 			Model model,@RequestParam(value="page",defaultValue="0") int page,
-			@RequestParam(value="size",defaultValue="10") int size
+			@RequestParam(value="size",defaultValue="10") int size,
+			HttpServletRequest request
 			) {
 		
-		//System.out.println("傲虎；；‘；’‘’‘’‘’‘’‘’‘；’；‘’‘；’；‘；；；；；；；；；；；");
-		
+		//前台弹窗提示
+		if( request.getSession().getAttribute("success_new") != null ) {
+			
+			request.setAttribute("success", "创建成功");
+			request.getSession().removeAttribute("success_new"); //session清除
+		}
+
 		//获取所有的类型数据
 		List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
 		//获取所有的状态数据
@@ -98,7 +109,7 @@ public class DaymanageController {
 		users.add(user);
 		//获取所有和我有关的日程
 		//Page<ScheduleList> myday = daydao.findByUser(user, pa); //根据用户查询
-		Page<ScheduleList> myday = daydao.findByUserOrUsers(user,users, pa);
+		Page<ScheduleList> myday = daydao.findByUserOrUsers(user,users, pa); //注意这个Or和and的区别
 		
 		
 //		List<User> users = new ArrayList<User>();
@@ -134,8 +145,13 @@ public class DaymanageController {
 		//当前用户放置，判断日程是否是自己发布的
 		model.addAttribute("user",user);
 		
+		
+		//System.out.println("来了老弟哈哈哈哈哈哈");
+		
+		
 		return "daymanage/daymanage";
 	}
+	
 	
 	@RequestMapping("daymanagepaging")
 	private String daymanagepaging(@SessionAttribute("userId") Long userid,
@@ -160,6 +176,9 @@ public class DaymanageController {
 		model.addAttribute("ismyday", 1);
 		return "daymanage/daymanagepaging";
 	}
+	
+	
+	
 	@RequestMapping("aboutmeday")
 	private String aboutmeday(@SessionAttribute("userId") Long userid,
 			Model model,@RequestParam(value="page",defaultValue="0") int page,
@@ -183,6 +202,8 @@ public class DaymanageController {
 		model.addAttribute("statuses",statuses);
 		model.addAttribute("page", aboutmeday);
 		model.addAttribute("url", "aboutmedaypaging");
+		
+		System.out.println("监控中心----------------------------------------");
 		
 		return "daymanage/daymanage";
 	}
@@ -216,7 +237,7 @@ public class DaymanageController {
 	}
 	
 	/*
-	 * 新建或修改日程显示页面（算了，为了好区分这里就只修改服务）
+	 * 新建或修改日程显示页面（算了，为了好区分这里就只修改服务不行，出现了奇怪的符号）
 	 */
 	@RequestMapping("dayedit")
 	private String dayedit(@RequestParam(value="rcid",required=false) Long rcid,
@@ -230,6 +251,9 @@ public class DaymanageController {
 		ps.user(page, size, model);
 		List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
 		List<SystemStatusList> statuses = statusdao.findByStatusModel("aoa_schedule_list");
+		
+		
+		//如果存在日程id的话就是修改了
 		ScheduleList rc = null;
 		if(rcid!=null){
 			rc = daydao.findOne(rcid);
@@ -265,10 +289,7 @@ public class DaymanageController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("users", users);
 		model.addAttribute("map",map);
-		
-		
-		
-		
+
 		return "daymanage/editday";
 	}
 	
@@ -324,7 +345,7 @@ public class DaymanageController {
 		
 		User user = udao.findOne(userid); //当前用户
 		
-		System.out.println(shareuser); //输出当前日程对象
+		System.out.println(shareuser); //输出当前指定接收的用户对象的名称
 		
 		List<User> users = new ArrayList<>();
 		
@@ -342,14 +363,26 @@ public class DaymanageController {
 			scheduleList.setUsers(users);
 		}
 		
-		System.out.println(scheduleList); //输出日程对象
+		//System.out.println(scheduleList); //输出日程对象
 		
 		daydao.save(scheduleList); //保存
 		
 		
-		request.setAttribute("success", "操作成功");
-		//返回日程列表页面
-		return "forward:daymanage"; //这里使用转发
+		//request.setAttribute("success", );
+		request.getSession().setAttribute("success_new", "操作成功");
+		
+		
+		//测试打印通知表数据
+		//先获取所有公告通知
+		List<Map<String, Object>> list = nm.findMyNotice(userid);
+		for (Map<String, Object> map : list) {
+			
+			System.out.println("妈卖批的:"+map);
+			
+		}
+		
+		//重定向日程列表页面
+		return "redirect:daymanage"; //这里使用重定向
 	}
 	
 	

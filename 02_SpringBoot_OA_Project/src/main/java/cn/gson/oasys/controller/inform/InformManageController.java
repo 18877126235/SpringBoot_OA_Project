@@ -218,12 +218,20 @@ public class InformManageController {
 			@RequestParam(value="pageNum",defaultValue="1") int page) {
 		
 		
-		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
 		
-		PageHelper.startPage(page, 10); //？？？？？
+		PageHelper.startPage(page, 10); //设置分页查询参数
 		
+		//待定？？？
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
+		
+		
+		for (Map<String, Object> map : list) {
+			
+			System.out.println(map);
+			
+		}
+		
 		
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		
@@ -254,11 +262,13 @@ public class InformManageController {
 	public String newinfromlist(HttpSession session,Model model) {
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
-		//查询和当前用户相关，且未读的公告
+		
+		//查询和当前用户相关，且未读的公告(通知)
+		//先获取所有公告
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
 		
 		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
-		
+		//再去除已读的公告
 		for (Map<String, Object> map : list) { //每一个list里面都放置了一个map（每一个map都放置了公告信息属性的键值对）
 			int is_read = (int)map.get("is_read");
 			if(  is_read  == 0  ) { //如果是读公告
@@ -267,6 +277,7 @@ public class InformManageController {
 			}
 		}
 		
+		//封装公告数据
 		List<Map<String, Object>> list3=informrelationservice.setList(list2);
 
 		model.addAttribute("list", list3);

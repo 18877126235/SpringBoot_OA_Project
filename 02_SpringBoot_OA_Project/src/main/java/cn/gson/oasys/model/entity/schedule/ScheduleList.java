@@ -59,9 +59,9 @@ public class ScheduleList {
 	private Boolean isRemind = false;	//是否提醒
 	
 	@Transient
-	private String username;
+	private String username; //该日程对应的用户名称，也就是该日程指定接受的用户
 	
-	private Boolean isreminded = false;
+	private Boolean isreminded = false; //已经提醒标记？？？
 	
 	@ManyToOne
 	@JsonIgnore

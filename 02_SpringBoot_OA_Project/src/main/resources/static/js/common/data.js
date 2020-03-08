@@ -1,4 +1,6 @@
 function addDate(date, days) {
+	
+	
 	var d = new Date(date);
 	var m =dateOne(d.getMonth()+ 1);
 	var day=dateOne(d.getDate() + days);
@@ -6,14 +8,15 @@ function addDate(date, days) {
 	var min=dateOne(d.getMinutes());
 	var s=dateOne(d.getSeconds());
 	return d.getFullYear() + '-' + m + '-' +day+' '+hour+':'+min+':'+s;
+	
 }
 
-	function dateOne(day){
-		if(day<10){
-			day='0'+day;
-		}
-		return day;
+function dateOne(day){
+	if(day<10){
+		day='0'+day;
 	}
+	return day;
+}
 
 Date.prototype.Format = function(fmt) { //author: meizz 
 	var o = {
@@ -32,25 +35,41 @@ Date.prototype.Format = function(fmt) { //author: meizz
 }
 
 	$(function(){
-		var date=new Date();
+		
+		var date=new Date(); //创建日期对象
+		
 		var nowDate=date.Format('yyyy-MM-dd hh:mm:ss');
-		var startime=addDate(nowDate,0);
-		var endtime=addDate(nowDate,1);
+		
+		var startime=addDate(nowDate,0); //获取当前开始时间默认值
+		
+		var endtime=addDate(nowDate,1);  //获取当前结束时间默认值
+		
 		//判断如果为空 就赋默认值 不为空 从数据库那里读取得到值就不用赋默认值
-		if($('#starTime').val()==""||$('#starTime').val()==null)
-		$('#starTime').val(startime);
-		if($('#endTime').val()==""||$('#endTime').val()==null)
-		$('#endTime').val(endtime);
+		if($('#starTime').val()==""||$('#starTime').val()==null){
+			$('#starTime').val(startime);
+		}
+		//同理
+		if($('#endTime').val()==""||$('#endTime').val()==null){
+			$('#endTime').val(endtime);
+		}
+			
+		//当点击时间文本框
 		$('#starTime').on('click',function(){
+			//调用jquery函数弹出日期选择框
+			//alert("怎么回事卧槽");
+			
 			WdatePicker({ minDate:addDate(nowDate,0),maxDate:addDate(nowDate,60),dateFmt:'yyyy-MM-dd HH:mm:ss'});
+			
 		});
-		$('#starTime').on('blur',function(){
+		
+		$('#starTime').on('blur',function(){ //失去焦点
 			$('#endTime').val(addDate($('#starTime').val(),1));
 		});
 		
+		//同理
 		$('#endTime').on('click',function(){
 			var start=$('#starTime').val();
-			console.log(start);
+			
 			WdatePicker({ minDate:addDate(start,1),maxDate:addDate(start,60),dateFmt:'yyyy-MM-dd HH:mm:ss'});
 
 		});
@@ -121,6 +140,7 @@ Date.prototype.Format = function(fmt) { //author: meizz
 			var start=$(this).val();
 			WdatePicker({ minDate:addDate(start,0),maxDate:addDate(start,5),dateFmt:'yyyy-MM-dd HH:mm:ss'});
 		});
+		
 	});
 	
 	

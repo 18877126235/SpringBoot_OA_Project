@@ -26,7 +26,8 @@ public class DaymanageServices {
 		
 		User user = udao.findOne(userId);
 		List<User> users = new ArrayList<>();
-		users.add(user);
+		users.add(user); //日程与日程所发表的用户肯定相关
+		
 		//创建日程集合
 		List<ScheduleList> aboutmerc = new ArrayList<>();
 		

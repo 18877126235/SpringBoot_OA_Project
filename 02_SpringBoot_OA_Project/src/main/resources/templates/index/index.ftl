@@ -11,11 +11,17 @@ maximum-scale=1, user-scalable=no">
 
 <!-- ******************************************************************* -->
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 这里是配置点击切换颜色的js代码 -->
 <script type="text/javascript" src="js/common/tocolor.js"></script>
+
 <link rel="stylesheet" href="css/homelist.css" />
 <link rel="stylesheet" href="css/common/skintheme.css" />
+
+<!-- 引入sweet弹窗依赖 -->
 <link rel="stylesheet" type="text/css" href="css/sweetalert.css" />
 <script type="text/javascript" src="js/sweetalert-dev.js"></script>
 

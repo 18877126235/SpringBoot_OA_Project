@@ -6,6 +6,7 @@
 	</ul>
 	<!--右侧导航栏-->
 	<ul class="nav navbar-nav navbar-right moredeep">
+		
 		<!-- 公告通知图标 -->
 		<li><a href="javascript:changepath('/infromlist');" class="green-none white"><span
 				class="glyphicon glyphicon-bell"></span>
@@ -16,6 +17,7 @@
 				</#if>
 				</a>
 		</li>
+		
 		<!-- 邮件通知图标 -->
 		<li><a href="javascript:changepath('/mail');" class="green-none white"><span
 				class="glyphicon glyphicon-envelope"></span>
@@ -26,6 +28,7 @@
 				</#if>
 				</a>
 		</li>
+		
 		<!-- 任务通知图标 -->
 		<li><a href="javascript:changepath('/mytask');" class="green-none white"><span
 				class="glyphicon glyphicon-flag"></span>
@@ -36,6 +39,8 @@
 				</#if>
 				</a>
 		</li>
+		
+		
 		<li class="dropdown">
 		<!--设置导航栏头像面板--> 
 		<a href="#" class="green-none white" data-toggle="dropdown">

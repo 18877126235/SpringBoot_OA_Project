@@ -24,11 +24,30 @@ a:hover {
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-12 thistable">
-		<#include "/common/modalTip.ftl"/>
+		
 		<!--id="container"-->
 		<#include "/daymanage/daymanagepaging.ftl"/>
-		
 	</div>
+	
+	
+	
+	<script type="text/javascript">
+	
+		<#--
+		$(function(){
+			
+			var succcess = '${(success)!}';
+			
+			
+			
+			if( succcess != null && succcess != ''){
+				swal(succcess,"成功创建一条日程","success");	
+			}
+			
+			
+		});-->
+	
+	</script>
 </div>
 
 

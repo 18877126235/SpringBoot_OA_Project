@@ -16,6 +16,7 @@ encoding//src/main/resources/templates/common/comment.ftl=UTF-8
 encoding//src/main/resources/templates/common/iosstyle.ftl=UTF-8
 encoding//src/main/resources/templates/common/leftlist.ftl=UTF-8
 encoding//src/main/resources/templates/common/navlist.ftl=UTF-8
+encoding//src/main/resources/templates/common/reciver.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/daycalendar.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/daymanage.ftl=UTF-8
 encoding//src/main/resources/templates/daymanage/daymanagepaging.ftl=UTF-8

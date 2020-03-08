@@ -125,26 +125,40 @@ public class IndexController {
 		User user=uDao.findOne(userId);
 		menuService.findMenuSys(req,user);
 		
-		List<ScheduleList> aboutmenotice = dayser.aboutmeschedule(userId);
-		for (ScheduleList scheduleList : aboutmenotice) {
+		
+		
+		/*
+		 * 这里暂时不搞了，太复杂了都，不要和公告搞在一起搞混了，以后由时间再设置单独模块来处理
+		 */
+		//查询所有的日程表（根据当前用户去查询）
+		//List<ScheduleList> aboutmenotice = dayser.aboutmeschedule(userId);
+		//遍历一下
+		/*for (ScheduleList scheduleList : aboutmenotice) {
+			
+			//如果是否提醒不为空并且是flase
 			if(scheduleList.getIsreminded()!=null&&!scheduleList.getIsreminded()){
+				
 				System.out.println(scheduleList.getStartTime());
 				
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");//24小时制 
 //				simpleDateFormat.parse(scheduleList.getStartTime()).getTime();  
+				
 				String start = simpleDateFormat.format(scheduleList.getStartTime());
+				
 				String now = simpleDateFormat.format(new Date());
 				try {
 					long now2 = simpleDateFormat.parse(now).getTime();
 					long start2 = simpleDateFormat.parse(start).getTime();  
 					long cha = start2-now2;
+					//判断是否过期？？？
 					if(0<cha && cha <86400000){
 						NoticesList remindnotices = new NoticesList();
-						remindnotices.setTypeId(11l);
-						remindnotices.setStatusId(15l);
-						remindnotices.setTitle("您有一个日程即将开始");
-						remindnotices.setUrl("/daycalendar");
-						remindnotices.setUserId(userId);
+					
+						remindnotices.setTypeId(11l); //类型
+						remindnotices.setStatusId(15l); //状态id
+						remindnotices.setTitle("您有一个日程即将开始"); //设置通知标题
+						remindnotices.setUrl("/daycalendar"); //连接访问
+						remindnotices.setUserId(userId); //设置通知的用户
 						remindnotices.setNoticeTime(new Date());
 						
 						NoticesList remindnoticeok = informService.save(remindnotices);
@@ -159,18 +173,27 @@ public class IndexController {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 		
+		//获取未读的消息通知
 		List<NoticeUserRelation> notice=irdao.findByReadAndUserId(false,user);//通知
+		
+		//未读邮件数量
 		List<Mailreciver> mail=mdao.findByReadAndDelAndReciverId(false, false, user);//邮件
+		
+		//新任务数量
 		List<Taskuser>  task=tadao.findByUserIdAndStatusId(user, 3);//新任务
+		
 		model.addAttribute("notice", notice.size());
 		model.addAttribute("mail", mail.size());
 		model.addAttribute("task", task.size());
 		model.addAttribute("user", user);
+		
 		//展示用户操作记录 由于现在没有登陆 不能获取用户id
-		List<UserLog> userLogs=userLogDao.findByUser(userId);
+		List<UserLog> userLogs=userLogDao.findByUser(userId); //获取用户操作日志
+		
 		req.setAttribute("userLogList", userLogs);
+		
 		return "index/index";
 	}
 	/**

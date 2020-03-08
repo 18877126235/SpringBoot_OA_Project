@@ -52,19 +52,19 @@ a:hover {
 							<div class="col-md-6 form-group">
 								<label class="control-label"> <span> 发布人</span>
 								</label> 
-								<select name="typeId" class="form-control">
+								<select  class="form-control">
 									<option value="">${rc.user.userName}</option>
 								</select>
 							</div>
 							<div class="col-md-6 form-group">
 								<label class="control-label"> <span> 类型</span>
-								</label> <select name="typeId" class="form-control">
-										<option value="${map.type}">${map.type}</option>
+								</label> <select  class="form-control">
+										<option >${map.type}</option>
 								</select>
 							</div>
 							<div class="col-md-6 form-group">
 								<label class="control-label"> <span>状态</span>
-								</label> <select name="statusId" class="form-control">
+								</label> <select  class="form-control">
 										<option value="${map.statuse}">${map.statuse}</option>
 								
 								</select>
@@ -72,24 +72,24 @@ a:hover {
 	
 							<div class="col-md-6 form-group">
 								<label class="control-label">开始日期</label>
-								<input name="startTime" class="form-control" id="starTime" 
+								<input  class="form-control" id="starTime" 
 									value="${(rc.startTime?string('yyyy-MM-dd HH:mm:ss'))!''}"/>
 							</div>
 							<div class="col-md-6 form-group">
 								<label class="control-label">结束日期</label> <input
-									name="endTime" class="form-control" id="endTime" 
+									 class="form-control" id="endTime" 
 									value="${(rc.endTime?string('yyyy-MM-dd HH:mm:ss'))!''}"/>
 							</div>
 	
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>标题</span></label> <input
-									name="title" class="form-control" value="${(rc.title)!''}"/>
+									 class="form-control" value="${(rc.title)!''}"/>
 							</div>
 							
 							<div class="col-md-6 form-group">
 								<label class="control-label"> <span> 接收者名单</span>
 								</label>
-								<select name="typeId" class="form-control">
+								<select  class="form-control">
 									
 									<#list map.users as userslist >
 	
@@ -114,10 +114,10 @@ a:hover {
 								<label class="control-label"><span>是否提醒</span></label> <br> 
 								<#if rc??>
 									<#if rc.isRemind>
-										<span class="labels"><label><input   name="isRemind" type="checkbox" checked/><i>✓</i></label></span>
+										<span class="labels"><label><input    type="checkbox" checked/><i>✓</i></label></span>
 									</#if>
 								<#else>
-									<span class="labels"><label><input name="isRemind" type="checkbox"/><i></i></label></span>
+									<span class="labels"><label><input  type="checkbox"/><i></i></label></span>
 								</#if>
 							</div>
 							
@@ -134,50 +134,5 @@ a:hover {
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="plugins/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="js/common/data.js"></script>
-<#include "/common/reciver.ftl">
-<#include "/common/modalTip.ftl"/> 
 
-<script type="text/javascript">
-//表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
-function check() {
-	console.log("开始进入了");
-	//提示框可能在提交之前是block状态，所以在这之前要设置成none
-	$('.alert-danger').css('display', 'none');
-	var isRight = 1;
-	$('.form-control').each(function(index) {
-		// 如果在这些input框中，判断是否能够为空
-		if ($(this).val() == "") {
-			// 排除哪些字段是可以为空的，在这里排除
-			if (index == 0 || index == 1 || index == 5 || index == 6 || index == 7) {
-				return true;
-			}
-			// 获取到input框的兄弟的文本信息，并对应提醒；
-			var brother = $(this).siblings('.control-label').text();
-			var errorMess = "[" + brother + "输入框信息不能为空]";
-			// 对齐设置错误信息提醒；红色边框
-			$(this).parent().addClass("has-error has-feedback");
-			$('.alert-danger').css('display', 'block');
-			// 提示框的错误信息显示
-			$('.error-mess').text(errorMess);
-			// 模态框的错误信息显示
-			$('.modal-error-mess').text(errorMess);
-			isRight = 0;
-			return false;
-		} else {
-			
-			// 在这个里面进行其他的判断；不为空的错误信息提醒
-			return true;
-		}
-	});
-	if (isRight == 0) {
-		//modalShow(0);
-		 return false;
-	} else if (isRight == 1) {
-		//modalShow(1);
-		 return true;
-	}
-//	return false;
-}
-</script>
+

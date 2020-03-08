@@ -139,8 +139,8 @@ a:hover {
 				<!--盒子尾-->
 				<div class="box-footer">
 					<input class="btn btn-primary" id="save" type="submit" value="保存" />
-					<input class="btn btn-default" id="cancel" type="submit" value="取消"
-						onclick="window.history.back();" />
+					<input class="btn btn-default" id="cancel" type="button" value="取消"
+						onclick="window.location.href='daymanage'" />
 				</div>
 			</form>
 		</div>
@@ -149,7 +149,7 @@ a:hover {
 <script type="text/javascript" src="plugins/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="js/common/data.js"></script>
 <#include "/common/reciver.ftl">
-<#include "/common/modalTip.ftl"/> 
+
 
 <script type="text/javascript">
 //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
