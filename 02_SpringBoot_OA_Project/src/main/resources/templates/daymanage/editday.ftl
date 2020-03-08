@@ -85,13 +85,25 @@ a:hover {
 								<label class="control-label"><span>标题</span></label> <input
 									name="title" class="form-control" value="${(rc.title)!''}"/>
 							</div>
+							<div class="col-md-6 form-group">
+								<label class="control-label"> <span> 接收者名单</span>
+								</label>
+								<select  class="form-control">
+									
+									<#list map.users as userslist >
 	
+										<option value="">${userslist.userName}</option>
+	
+									</#list> 
+									
+								</select>
+							</div>
 							<!-- 是否有权限让别人接收日程 -->
 							<#if issuperman?? >
 								<div class="col-md-6 form-group">
 									<label class="control-label"><span>指定接收人</span></label> 
 										<input name="shareuser" type="text" id="recive_list" style="background-color: #fff;"
-										class="form-control" readonly="readonly" placeholder="仅自己：" />
+										class="form-control" readonly="readonly" placeholder="点击添加接收人" />
 									<div class="reciver">
 										<span class="label label-success glyphicon glyphicon-plus"
 											data-toggle="modal" data-target="#myModal">新增</span>

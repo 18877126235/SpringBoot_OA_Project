@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,8 +214,9 @@ public class DaymanageController {
 		
 		return "daymanage/daymanagepaging";
 	}
+	
 	/*
-	 * 新建或修改日程显示页面
+	 * 新建或修改日程显示页面（算了，为了好区分这里就只修改服务）
 	 */
 	@RequestMapping("dayedit")
 	private String dayedit(@RequestParam(value="rcid",required=false) Long rcid,
@@ -224,6 +226,7 @@ public class DaymanageController {
 			@SessionAttribute("userId") Long userid//之前犯了个错误，就是用String 来接收userid，导致获取到null
 			
 			){ 
+		//这里是用来封装追加接收人的
 		ps.user(page, size, model);
 		List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
 		List<SystemStatusList> statuses = statusdao.findByStatusModel("aoa_schedule_list");
@@ -231,6 +234,8 @@ public class DaymanageController {
 		if(rcid!=null){
 			rc = daydao.findOne(rcid);
 			System.out.println(rc);
+			
+
 		}
 		
 		model.addAttribute("types",types);
@@ -243,8 +248,67 @@ public class DaymanageController {
 			model.addAttribute("issuperman",1);
 		}
 		
+		//获取接收者名单
+		//先获取证件表数据
+		List<ScheduleUser> findByRcid = scheduleNserDao.findByRcid(rcid);
+		
+		//存放用户集合
+		List<User> users = new ArrayList<>();
+		users.add(rc.getUser());
+		//遍历获取所有与该日程有关的用户
+		for (ScheduleUser scheduleUser : findByRcid) {
+			
+			users.add( udao.findOne(scheduleUser.getUserId()) );
+			
+		}
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("users", users);
+		model.addAttribute("map",map);
+		
+		
+		
+		
 		return "daymanage/editday";
 	}
+	
+	
+	
+	/*
+	 * 单独的新增日程
+	 */
+	@RequestMapping("newdaymanage")
+	public String newdaymanage(
+			@RequestParam(value="page",defaultValue="0") int page,
+			@RequestParam(value="size",defaultValue="10") int size,
+			Model model,
+			@SessionAttribute("userId") Long userid//之前犯了个错误，就是用String 来接收userid，导致获取到null
+			) {
+		
+		
+		//这里是用来封装追加接收人的
+		ps.user(page, size, model);
+		//根据模块名称获得有关的类型
+		List<SystemTypeList> types = typedao.findByTypeModel("aoa_schedule_list");
+		//根据模块名称获得有关的状态
+		List<SystemStatusList> statuses = statusdao.findByStatusModel("aoa_schedule_list");
+		
+		//将类型和状态放置域对象
+		model.addAttribute("types",types);
+		model.addAttribute("statuses",statuses);
+		
+		//获取当前用户
+		User user = udao.findOne(userid);
+		if( user.getRole().getRoleId() <= 4  ) {//如果是部门经理以上的人员，有权限为下属设置日程
+			//这里只设置了超级管理员权限
+			model.addAttribute("issuperman",1);
+		}
+		
+
+		return "daymanage/editday_new";
+		
+	}
+	
 	
 	
 	/*
@@ -254,7 +318,8 @@ public class DaymanageController {
 	public String addandchangeday(ScheduleList scheduleList, //填写的日程对象
 			@RequestParam("shareuser") String shareuser, //指定的接收者
 			BindingResult br, //表单后台校验
-			@SessionAttribute("userId") Long userid //当前用户id
+			@SessionAttribute("userId") Long userid, //当前用户id
+			HttpServletRequest request
 		){
 		
 		User user = udao.findOne(userid); //当前用户
@@ -281,8 +346,10 @@ public class DaymanageController {
 		
 		daydao.save(scheduleList); //保存
 		
+		
+		request.setAttribute("success", "操作成功");
 		//返回日程列表页面
-		return "/daymanage"; //写法相当于绝对定位
+		return "forward:daymanage"; //这里使用转发
 	}
 	
 	

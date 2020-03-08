@@ -115,7 +115,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     </style>
 </head>
 
-<body style="background-image: url(images/tupian01.jpg);" >
+<body style="background: url(images/tupian002.jpg); " >
 <div class="cotn_principal">
   <div class="cont_centrar" style="top:5%;">
     <div class="cont_login">
@@ -142,12 +142,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
         </form>
       </div>
      <div style="border: 1px solid transparent;">
-      	<p style="margin-top: 550px;font-weight: 400;color: #757575;font-size: 22px;letter-spacing:1px ;">欢迎使用OA办公自动化系统</p>
+      	<p style="margin-top: 550px;font-weight: 400;color: white;font-size: 22px;letter-spacing:1px ;">欢迎使用OA办公自动化系统</p>
       </div>
     </div>
     
   </div>
 </div>
+<!-- 模态框 -->
 <div class="modal fade in" id="mymodal" data-backdrop="static" >
 			<div class="modal-dialog" style="top: 20%;">
 				<div class="modal-content">

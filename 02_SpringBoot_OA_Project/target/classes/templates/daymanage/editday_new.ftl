@@ -35,8 +35,10 @@ a:hover {
 		<div class="bgc-w box">
 			<!--盒子头-->
 			<form action="addandchangeday"  method="post"  onsubmit="return check();">
-				<!-- 如果是编辑日程的话就保存日程id -->
+				<!-- 如果是编辑日程的话就保存日程id 
 				<input name="rcId" type="hidden" value="${(rc.rcId)!''}"/>
+				-->
+				
 				<div class="box-header">
 					<h3 class="box-title">
 						<a href="javascript:history.back();" class="label label-default" style="padding: 5px;">
@@ -85,19 +87,7 @@ a:hover {
 								<label class="control-label"><span>标题</span></label> <input
 									name="title" class="form-control" value="${(rc.title)!''}"/>
 							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"> <span> 接收者名单</span>
-								</label>
-								<select  class="form-control">
-									
-									<#list map.users as userslist >
-	
-										<option value="">${userslist.userName}</option>
-	
-									</#list> 
-									
-								</select>
-							</div>
+							
 							<!-- 是否有权限让别人接收日程 -->
 							<#if issuperman?? >
 								<div class="col-md-6 form-group">

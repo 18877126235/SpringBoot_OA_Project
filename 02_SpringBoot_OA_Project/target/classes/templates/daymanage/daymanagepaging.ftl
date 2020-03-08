@@ -2,7 +2,7 @@
 	<!--盒子头-->
 	<div class="box-header">
 		<h3 class="box-title">
-			<a href="dayedit" class="label label-success" style="padding: 5px;">
+			<a href="newdaymanage" class="label label-success" style="padding: 5px;">
 				<span class="glyphicon glyphicon-plus"></span> 新增
 			</a>
 		</h3>
@@ -72,12 +72,16 @@
 										class="glyphicon glyphicon-edit"></span> 
 										修改
 									</a> 
-									<a
-										onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" 
-										href="dayremove?rcid=${schedule.rcId}" class="label shanchu"><span
-										class="glyphicon glyphicon-remove"></span> 删除
-									</a>
 									
+									<!-- onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');}; " href="dayremove?rcid=${schedule.rcId}" -->
+									<a
+										onclick="return querenshanchu('${schedule.rcId}')" 
+										href="#" class="label shanchu"><span
+										class="glyphicon glyphicon-remove shanchu"></span> 删除
+										
+										
+									</a>
+									<!-- 否则无法点击修改和删除 -->
 									<#else> 
 										<a style="background:#C0C0C0 ; width: ;"
 											class="label"><span
@@ -102,4 +106,42 @@
 	</div>
 	<!--盒子尾  分页用-->
 	<#include "/common/paging.ftl"/>
+	
+	<script type="text/javascript">
+	
+		function querenshanchu(rcid){
+			
+			//alert(rcid);
+			
+			//sweet弹窗
+			swal({ 
+				title: "确定删除吗？", 
+				text: "你将无法恢复该日程记录！", 
+				type: "warning",
+				showCancelButton: true, 
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定删除！", 
+				cancelButtonText: "取消删除！",
+				closeOnConfirm: false, 
+				closeOnCancel: false	
+				},
+				function(isConfirm){ 
+				if (isConfirm) { 
+					
+					
+					swal.close();
+					
+					window.location.href="dayremove?rcid="+rcid; //刷新页面地址
+					
+				} else { 
+					swal.close();
+				} 
+			});
+			
+			return false;
+		}
+
+	
+	</script>
+	
 </div>

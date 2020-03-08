@@ -24,7 +24,11 @@ a:hover {
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-12 thistable">
+		<#include "/common/modalTip.ftl"/>
 		<!--id="container"-->
 		<#include "/daymanage/daymanagepaging.ftl"/>
+		
 	</div>
 </div>
+
+

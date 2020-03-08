@@ -16,6 +16,8 @@ maximum-scale=1, user-scalable=no">
 <script type="text/javascript" src="js/common/tocolor.js"></script>
 <link rel="stylesheet" href="css/homelist.css" />
 <link rel="stylesheet" href="css/common/skintheme.css" />
+<link rel="stylesheet" type="text/css" href="css/sweetalert.css" />
+<script type="text/javascript" src="js/sweetalert-dev.js"></script>
 
 
 <!-- *******************这里是根据用户设置的主题颜色来进行导航栏的颜色显示******************** -->
@@ -43,6 +45,7 @@ maximum-scale=1, user-scalable=no">
 	}
 </script>
 <#include "/common/iosstyle.ftl">
+
 </head>
 <body>
 

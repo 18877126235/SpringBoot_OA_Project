@@ -56,7 +56,7 @@
 						<a href="javascript:changepath('userpanel');" class="btn btn-default">用户面板</a>
 					</div>
 					<div class="pull-right">
-						<a href="loginout" class="btn btn-danger">退出登录</a>
+						<a href="#" class="btn btn-danger tuichudenglu">退出登录</a>
 					</div>
 				</li>
 			</ul>
@@ -74,6 +74,37 @@
 </ul>
 </div>
 <script>
+
+
+	$(".tuichudenglu").click(function(){
+		
+		  swal({ 
+				title: "确定退出登录吗？", 
+				text: "若在考勤时间内退出，半小时后不上线将被视为早退处理！", 
+				type: "warning",
+				showCancelButton: true, 
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定退出！", 
+				cancelButtonText: "取消退出！",
+				closeOnConfirm: false, 
+				closeOnCancel: false	
+				},
+				function(isConfirm){ 
+				if (isConfirm) { 
+					
+					
+					swal.close();
+					window.location.href="loginout";
+				} else { 
+					swal.close();
+				} 
+			}); 
+		
+		
+		
+		return false;
+	});
+
 	function changeemail(){
 		var email=$('.badge-mail').text().trim();
 		var emailNum=parseInt(email);
