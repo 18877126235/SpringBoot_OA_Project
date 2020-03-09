@@ -29,6 +29,8 @@ public class Tasklogger {
 	private String loggerTicking;//任务日志反馈内容
 	
 	
+	
+	//任务外键
 	@ManyToOne
 	@JoinColumn(name="task_id")
 	private Tasklist taskId;//任务id外键

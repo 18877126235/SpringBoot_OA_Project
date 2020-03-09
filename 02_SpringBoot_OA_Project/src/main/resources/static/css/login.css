@@ -109,6 +109,29 @@ animation-iteration-count: infinite;
 animation-direction: alternate;
 }
 
+
+
+
+.cont_img_back_1 {
+  position: absolute;
+  width: 110%;
+top:-80px;
+  left: -116px;
+}
+
+.cont_img_back_1 > img {
+  width: 100%;
+
+animation-name: animar_fondo;
+animation-duration: 10s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+animation-direction: alternate;
+}
+
+
+
+
 .cont_forms_active_login > .cont_img_back_ {
 top:0px;  
   -webkit-transition: all 0.5s;

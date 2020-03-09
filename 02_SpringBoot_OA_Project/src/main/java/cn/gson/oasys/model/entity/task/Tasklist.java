@@ -60,8 +60,9 @@ public class Tasklist implements Serializable {
 	
 	@Column(name="reciverlist")
 	@NotEmpty(message="接收人不能为空")
-	private String reciverlist;
+	private String reciverlist; //接收人名称
 	
+	//谁发布的这条任务信息，关联用户表的
 	@ManyToOne
 	@JoinColumn(name="task_push_user_id")
 	private User usersId;//发布人id
@@ -85,7 +86,7 @@ public class Tasklist implements Serializable {
 	private Integer statusId;//任务状态id
 	
 	
-	public Tasklist(){}
+	public Tasklist(){} //构造方法
 	
 	public Long getTaskId() {
 		return taskId;

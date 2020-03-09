@@ -115,9 +115,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     </style>
 </head>
 
-<body style="background: url(images/tupian002.jpg); " >
-<div class="cotn_principal">
+<body  >
+
+<!--  style="background: url(images/tupian002.jpg); " -->
+<div  class="cotn_principal ">
+
+	 <div class="cont_img_back_1"> <img src="images/tupian002.jpg" alt="背景图片" /> </div>
+
   <div class="cont_centrar" style="top:5%;">
+  
     <div class="cont_login">
       <div class="cont_forms cont_forms_active_login" style="height: 480px;width: 400px;border-radius: 15px;">
         <div class="cont_img_back_"> <img src="images/tupian01.jpg" alt="背景图片" /> </div>
@@ -174,6 +180,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 		<!-- /.modal -->
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 显示模态框 -->
 <#if hasmess??>
 <script type="text/javascript">
 	$(function(){
@@ -181,6 +189,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 	})
 </script>
 </#if>
+
+<!-- 提示错误 -->
 <#if errormess??>
 <script>
 $(function(){
@@ -190,7 +200,11 @@ $(function(){
 })
 </script>
 </#if>
+
+
 <script type="text/javascript">
+
+
  $('.test').on('click',function(){
 	$(this).css('border',"1px solid transparent");
 }) 
@@ -198,7 +212,7 @@ $('.contiue').on('click',function(){
 		location.href="/handlehas";
 })
 
-
+//点击登录执行
 function check() {
 	var userName=$('.userName').val().trim();
 	var password=$('.password').val().trim();
@@ -233,5 +247,6 @@ function check() {
 }
 	
 </script>
+
 </body>
 </html>

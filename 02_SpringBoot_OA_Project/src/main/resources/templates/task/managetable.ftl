@@ -3,7 +3,7 @@
 	<div class="box-header">
 		<h3 class="box-title">
 			<a href="addtask" class="label label-success" style="padding: 5px;">
-				<span class="glyphicon glyphicon-plus"></span> 新增
+				<span class="glyphicon glyphicon-plus"></span> 新增任务
 			</a>
 		</h3>
 		<div class="box-tools">

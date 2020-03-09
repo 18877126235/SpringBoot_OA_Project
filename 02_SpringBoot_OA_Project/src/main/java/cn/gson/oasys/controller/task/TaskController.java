@@ -71,26 +71,38 @@ public class TaskController {
 	private TaskloggerDao tldao;
 	@Autowired
 	private PositionDao pdao;
+	
 	/**
 	 * 任务管理表格
-	 * 
+	 *  //只有管理者才拥有任务管理这个功能
 	 * @return
 	 */
 	@RequestMapping("taskmanage")
-	public String index(Model model,
+	public String index(
+			Model model,
+			
 			@SessionAttribute("userId") Long userId,
+			
 			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size) {
+			
+			@RequestParam(value = "size", defaultValue = "10") int size
+			) {
 
-		// 通过发布人id找用户
+		// 通过发布人id找用户（也就是当前用户id，不过必须拥有任务管理的权限）
 		User tu = udao.findOne(userId);
-		// 根据发布人id查询任务
+		// 根据发布人id查询任务并排序好
+		
 		Page<Tasklist> tasklist=tservice.index(page, size, null, tu);
+		
+		//封装数据到map集合用于前台展示
 		List<Map<String, Object>> list=tservice.index2(tasklist, tu);
 	
 		model.addAttribute("tasklist", list);
+		
 		model.addAttribute("page", tasklist);
+		
 		model.addAttribute("url", "paixu");
+		
 		return "task/taskmanage";
 	}
 	
@@ -129,27 +141,57 @@ public class TaskController {
 	public ModelAndView index2(@SessionAttribute("userId") Long userId,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
-		Pageable pa=new PageRequest(page, size);
-		ModelAndView mav = new ModelAndView("task/addtask");
+		
+		Pageable pa=new PageRequest(page, size); //设置分页参数，第几页，每页几条
+		
+		ModelAndView mav = new ModelAndView("task/addtask"); //视图返回对象
+		
 		// 查询类型表
-		Iterable<SystemTypeList> typelist = tydao.findAll();
+		//List<SystemTypeList> typelist = (List<SystemTypeList>) tydao.findAll(); //用迭代器
+		
+		//改进，根据模块名称来查询
+		List<SystemTypeList> typelist = tydao.findByTypeModel("aoa_task_list");
+		
+		
+		
 		// 查询状态表
-		Iterable<SystemStatusList> statuslist = sdao.findAll();
-		// 查询部门下面的员工
-		Page<User> pagelist = udao.findByFatherId(userId,pa);
-		List<User> emplist=pagelist.getContent();
+		//Iterable<SystemStatusList> statuslist = sdao.findAll();
+		
+		//也改进一下
+		List<SystemStatusList> statuslist = sdao.findByStatusModel("aoa_task_list");
+		
+		
+		
+		// 查询本部门下面的员工
+		Page<User> pagelist = udao.findByFatherId(  udao.findOne(userId).getFatherId(),pa); //并且分页排序好
+		
+		List<User> emplist=pagelist.getContent(); //数据放入list集合
+		
+		
+		
 		// 查询部门表
 		Iterable<Dept> deptlist = ddao.findAll();
+		
 		// 查职位表
 		Iterable<Position> poslist = pdao.findAll();
-		mav.addObject("typelist", typelist);
-		mav.addObject("statuslist", statuslist);
-		mav.addObject("emplist", emplist);
-		mav.addObject("deptlist", deptlist);
-		mav.addObject("poslist", poslist);
-		mav.addObject("page", pagelist);
-		mav.addObject("url", "names");
-		mav.addObject("qufen", "任务");
+		
+		
+		mav.addObject("typelist", typelist);//类型集合放入
+		
+		mav.addObject("statuslist", statuslist); //状态集合放入
+		
+		mav.addObject("emplist", emplist); //员工数据放入
+		
+		mav.addObject("deptlist", deptlist); //部门数据
+		
+		mav.addObject("poslist", poslist); //职位数据
+		
+		mav.addObject("page", pagelist); //分页排序数据，用来显示第几页和下一页操作的
+		
+		mav.addObject("url", "names"); //连接，备用
+		
+		mav.addObject("qufen", "任务"); //标志？？？
+		
 		return mav;
 	}
 
@@ -228,12 +270,14 @@ public class TaskController {
 	 * 修改任务确定
 	 */
 	@RequestMapping("update")
-	public String update(Tasklist task, HttpSession session) {
+	public String update(Tasklist task, HttpSession session,
+			@SessionAttribute("userId") Long userId
+			) {
 		
-		String userId = ((String) session.getAttribute("userId")).trim();
-		
-		Long userid = Long.parseLong(userId);
-		User userlist = udao.findOne(userid);
+//		String userId = (String) session.getAttribute("userId");
+//		
+//		Long userid = Long.parseLong(userId);
+		User userlist = udao.findOne(userId);
 		task.setUsersId(userlist);
 		task.setPublishTime(new Date());
 		task.setModifyTime(new Date());
