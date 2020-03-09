@@ -1,3 +1,5 @@
+
+//获取当前日期
 function addDate(date, days) {
 	
 	
@@ -7,8 +9,11 @@ function addDate(date, days) {
 	var hour=dateOne(d.getHours());
 	var min=dateOne(d.getMinutes());
 	var s=dateOne(d.getSeconds());
-	return d.getFullYear() + '-' + m + '-' +day+' '+hour+':'+min+':'+s;
 	
+	//返回当前日期精确到秒
+	//return d.getFullYear() + '-' + m + '-' +day+' '+hour+':'+min+':'+s;
+	
+	return d.getFullYear() + '-' + m + '-' +day+' '+'00'+':'+'00'+':'+'00';
 }
 
 function dateOne(day){
@@ -57,6 +62,8 @@ Date.prototype.Format = function(fmt) { //author: meizz
 		$('#starTime').on('click',function(){
 			//调用jquery函数弹出日期选择框
 			//alert("怎么回事卧槽");
+			
+			//alert( addDate(nowDate,0) );
 			
 			WdatePicker({ minDate:addDate(nowDate,0),maxDate:addDate(nowDate,60),dateFmt:'yyyy-MM-dd HH:mm:ss'});
 			

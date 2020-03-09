@@ -110,10 +110,7 @@ a:hover {
 								
 							</#if>
 							
-	
-	
-	
-	
+
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>日程描述</span></label>
 								<textarea rows="5" cols="20" class="form-control"

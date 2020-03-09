@@ -33,7 +33,7 @@ a:hover {
 	
 	<script type="text/javascript">
 	
-		<#--
+		
 		$(function(){
 			
 			var succcess = '${(success)!}';
@@ -41,11 +41,11 @@ a:hover {
 			
 			
 			if( succcess != null && succcess != ''){
-				swal(succcess,"成功创建一条日程","success");	
+				swal(succcess,"后台验证成功","success");	
 			}
 			
 			
-		});-->
+		});
 	
 	</script>
 </div>

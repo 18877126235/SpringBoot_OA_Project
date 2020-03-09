@@ -229,7 +229,9 @@ public class TaskController {
 	 */
 	@RequestMapping("update")
 	public String update(Tasklist task, HttpSession session) {
+		
 		String userId = ((String) session.getAttribute("userId")).trim();
+		
 		Long userid = Long.parseLong(userId);
 		User userlist = udao.findOne(userid);
 		task.setUsersId(userlist);
