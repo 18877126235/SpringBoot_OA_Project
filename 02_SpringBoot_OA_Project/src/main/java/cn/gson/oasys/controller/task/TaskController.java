@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -80,14 +81,22 @@ public class TaskController {
 	@RequestMapping("taskmanage")
 	public String index(
 			Model model,
-			
 			@SessionAttribute("userId") Long userId,
 			
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			
-			@RequestParam(value = "size", defaultValue = "10") int size
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			HttpServletRequest request
 			) {
-
+		
+		if( request.getSession().getAttribute("success") != null ) {
+			
+			request.setAttribute("success",  request.getSession().getAttribute("success") );
+			//Session删除掉，防止影响其他页面
+			request.getSession().removeAttribute("success");
+		}
+		
+		
 		// 通过发布人id找用户（也就是当前用户id，不过必须拥有任务管理的权限）
 		User tu = udao.findOne(userId);
 		// 根据发布人id查询任务并排序好
@@ -196,7 +205,7 @@ public class TaskController {
 	}
 
 	/**
-	 * 新增任务保存
+	 * 新增任务保存执行
 	 */
 	@RequestMapping("addtasks")
 	public String addtask(@SessionAttribute("userId") Long userId, HttpServletRequest request) {
@@ -219,7 +228,9 @@ public class TaskController {
 			tudao.save(task);
 
 		}
-
+		
+		request.getSession().setAttribute("success", "操作成功");
+		
 		return "redirect:/taskmanage";
 	}
 
@@ -495,7 +506,7 @@ public class TaskController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping("shanchu")
+	@RequestMapping("shanchu") //该删除做的不好，改成下面的ajax方式删除
 	public String delete(HttpServletRequest req, @SessionAttribute("userId") Long userId) {
 		// 得到任务的 id
 		String taskid = req.getParameter("id");
@@ -527,8 +538,53 @@ public class TaskController {
 
 	}
 
+	
+	/*
+	 * ajax的方式删除
+	 */
+	@RequestMapping("deleteByajax")
+	@ResponseBody
+	public String deleteByajax(String id,
+			@SessionAttribute("userId") Long userId
+			) {
+		
+		System.out.println("哈哈哈哈哈可以访问"+id);
+
+		// 得到任务的 id
+		Long ltaskid = Long.parseLong(id);
+				// 根据任务id找出这条任务
+				Tasklist task = tdao.findOne(ltaskid);
+				//判断权限是否匹配
+				if(task.getUsersId().getUserId().equals(userId)){
+					// 删除日志表
+					int i=tservice.detelelogger(ltaskid);
+					System.out.println(i+"mmmmmmmmmmmm");
+					// 分割任务接收人 还要查找联系人的主键并删除接收人中间表
+					StringTokenizer st = new StringTokenizer(task.getReciverlist(), ";");
+					while (st.hasMoreElements()) {
+						User reciver = udao.findid(st.nextToken());
+						Long pkid = udao.findpkId(task.getTaskId(), reciver.getUserId());
+						int m=tservice.delete(pkid);
+						System.out.println(m+"sssssssssss");
+						
+					}
+					
+					// 删除这条任务
+					tservice.deteletask(task);
+
+				}else{
+					System.out.println("权限不匹配，不能删除");
+					
+					return "error";
+				}
+				
+		
+		return "success";
+	}
+	
+	
 	/**
-	 * 接收人这边删除
+	 * 接收人这边删除（无效的任务才能删除）
 	 */
 	@RequestMapping("myshanchu")
 	public String mydelete(HttpServletRequest req, @SessionAttribute("userId") Long userId) {
@@ -542,7 +598,6 @@ public class TaskController {
 		return "redirect:/mytask";
 
 	}
-
 
 
 }

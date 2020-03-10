@@ -51,14 +51,21 @@
 						<#else>
 							<td> <span class="labels"><label><input type="checkbox" name="top" class="val" disabled><i>✓</i></label></span></td>
 						</#if>
-						<td><a  href="edittasks?id=${task.taskid}"
-							class="label xiugai"><span
+						<td>
+							<a  href="edittasks?id=${task.taskid}"
+								class="label xiugai"><span
 								class="glyphicon glyphicon-edit"></span> 修改</a> 
 								<a href="seetasks?id=${task.taskid}" class="label xiugai"><span
 								class="glyphicon glyphicon-search"></span> 查看</a>
-								 <a href="shanchu?id=${task.taskid}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
-							class="label shanchu"><span
-								class="glyphicon glyphicon-remove"></span> 删除</a></td>
+								 
+								<!-- <a href="shanchu?id=${task.taskid}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" -->
+								<a class="label shanchu">
+									<input type="hidden" class="idzhi" value="${task.taskid}">
+									<span class="glyphicon glyphicon-remove"></span> 删除
+								</a>
+								
+						</td>
+								
 					</tr>
 					</#list>
 
@@ -72,6 +79,89 @@
 </div>
 
 <script>
+
+	
+	
+	$(function(){
+		
+		var successreq = '${success}';
+		
+		if( successreq != null || successreq != '' ){
+			
+			swal(successreq,"666","success");
+			setTimeout(function(){
+				//alert("Hello");
+				swal.close();
+			},800);
+			
+		}
+		
+		
+		$(".shanchu").click(function(){
+			
+			//获取id
+			var id = $(this).find(".idzhi").val();
+			//将记录从当前页面移除
+			//$(this).closest("tr").remove(); 
+			
+			var thistr = $(this).closest("tr");
+			
+			//删除提示
+		       swal({ 
+					title: "确定删除吗？", 
+					text: "你将无法恢复条数据文件！", 
+					type: "warning",
+					showCancelButton: true, 
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "确定删除！", 
+					cancelButtonText: "取消删除！",
+					closeOnConfirm: false, 
+					closeOnCancel: false	
+					},
+					function(isConfirm){ 
+					if (isConfirm) { 
+
+						
+						
+						//使用ajax异步的方式删除
+						$.ajax({
+							type:'post',
+							url:'/deleteByajax?id='+id,
+							dataType:"text",
+							success:function(data){
+								if(data == 'success'){
+									swal("删除成功！","成功删除一条任务记录","success");
+									thistr.remove(); //从页面删除
+									//自动消失
+									setTimeout(function(){
+										//alert("Hello");
+										swal.close();
+									},800);
+									
+									
+									
+								}else{
+									swal("删除失败！","权限不匹配，不能删除","Warning");
+								}
+							},
+							error:function(){
+								alert("失败了");
+							}
+						});
+						
+						//swal.close();
+						
+					} else { 
+						
+						swal.close();
+						
+					} 
+				});
+
+			});
+
+	});
+
 		/* 分页插件按钮的点击事件 */
 		
 		$('.baseKetsubmit').on('click',function(){
@@ -97,11 +187,13 @@
 					var $val=$(this).text();
 					
 					 $(".thistable").load("paixu",{val:$val});
-					
-					
+
 				})
 			  
-		   })
-	
+		   });
+		   
+		   
+		   
+		   
 		
 </script>

@@ -53,6 +53,10 @@ public class ValidatorController {
 	@Autowired
 	private RoleDao rdao;
 	
+	
+	/*
+	 * 开头就保存任务呀,单独用一个controller来保存任务
+	 */
 	@RequestMapping("ck_addtask")
 	public String addtask(HttpServletRequest request,@Valid Tasklist tlist,BindingResult br,HttpSession session,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -63,7 +67,9 @@ public class ValidatorController {
 		// 这里返回ResultVO对象，如果校验通过，ResultEnum.SUCCESS.getCode()返回的值为200；否则就是没有通过；
 		ResultVO res = BindingResultVOUtil.hasErrors(br);
 		System.out.println("tlist:"+tlist);
-		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
+		
+		//如果校验不通过
+		if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) { //表单数据校验
 			List<Object> list = new MapToList<>().mapToList(res.getData());
 			request.setAttribute("errormess", list.get(0).toString());
 			System.out.println("list错误的实体类信息：" + tlist);
@@ -98,17 +104,15 @@ public class ValidatorController {
 			request.setAttribute("page", pagelist);
 			request.setAttribute("deptlist", deptlist);
 			request.setAttribute("rolelist", rolelist);
-			return "task/addtask";
-		}
-		else{
 			
-			return "forward:/addtasks";
+			
+			return "task/addtask"; //回到原来的
 		}
-		
-		
-		
-		
-		
+		else{ //否则校验通过，执行新增任务逻辑
+			//
+			return "forward:/addtasks"; //重定向
+		}
+
 	}
 
 }

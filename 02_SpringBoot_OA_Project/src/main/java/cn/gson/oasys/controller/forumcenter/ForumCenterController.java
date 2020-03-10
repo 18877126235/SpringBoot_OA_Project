@@ -65,9 +65,9 @@ public class ForumCenterController {
 		//默认是按类型排序嗯嗯
 		Page<Discuss> page2=disService.paging(page, null, null,null,null,null, typeId); //类型id传过去，如果是从类型去的化就根据类型查询且分页
 		
-		for (Discuss discuss : page2) {
-			System.out.println("打印类型id:"+discuss.getTypeId());
-		}
+//		for (Discuss discuss : page2) {
+//			System.out.println("打印类型id:"+discuss.getTypeId());
+//		}
 		
 		
 		/*for (Discuss discuss : page2) {
