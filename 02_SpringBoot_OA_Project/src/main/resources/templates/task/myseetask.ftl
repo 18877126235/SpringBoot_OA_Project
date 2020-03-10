@@ -14,22 +14,23 @@ a:hover {
 	min-height: 114px;
 }
 </style>
-		<script>
-			$(function(){
-				$(".ddlstatus").each(function(){
-				var options=$(".ddlstatus option:selected");
-				
-				if(options.val()=="6"||options.val()=="7"){
-					$("#save").prop("disabled",true);
-				
-				}else{
-					$("#save").removeAttr("disabled");
-				}
-			});
-				
-				
-		})
-		</script>
+		
+	<script>
+		$(function(){
+			$(".ddlstatus").each(function(){
+			var options=$(".ddlstatus option:selected");
+			
+			if(options.val()=="6"||options.val()=="7"){
+				$("#save").prop("disabled",true);
+			
+			}else{
+				$("#save").removeAttr("disabled");
+			}
+		});
+			
+			
+	})
+	</script>
 
 	<body>
 		<div class="outside">
@@ -147,7 +148,7 @@ a:hover {
 				
 				<div class="box-footer foot">
 					<input class="btn btn-primary" id="save" type="submit" value="保存" />
-					<input class="btn btn-default" id="cancel" type="submit" value="取消"
+					<input class="btn btn-default" id="cancel" type="button" value="取消"
 					onclick="window.history.back();" />
 				</div>
 				

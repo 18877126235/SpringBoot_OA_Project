@@ -150,11 +150,18 @@ public class TaskService {
 		
 	}
 	
+	/*
+	 * 
+	 */
 	public Page<Tasklist> index3(Long userid,String title,int page,int size){
+		
 		Pageable pa=new PageRequest(page, size);
+		
 		List<Order> orders = new ArrayList<>();
+		
 		Page<Tasklist> tasklist=null; 
-		// 根据接收人id查询任务id
+		
+		// 根据接收人id查询所有有关的任务id
 		List<Long> taskid = tudao.findByUserId(userid);
 		// 类型
 		SystemTypeList type = tydao.findByTypeModelAndTypeName("aoa_task_list", title);
@@ -163,13 +170,13 @@ public class TaskService {
 		// 找用户
 		User user = udao.findByUserName(title);
 
-		if (StringUtil.isEmpty(title)) {
+		if (StringUtil.isEmpty(title)) { //如果为空
 			orders.addAll(Arrays.asList(new Order(Direction.ASC, "cancel"), new Order(Direction.ASC, "statusId")));
 			Sort sort = new Sort(orders);
 			pa=new PageRequest(page, size, sort);
 			if(taskid.size()>0){
 				
-				tasklist=tdao.findTaskByTaskIds(taskid,pa);
+				tasklist=tdao.findTaskByTaskIds(taskid,pa); //根据任务id的集合查找出所有与当前用户有关的任务
 			}
 		} else if (!Objects.isNull(type)) {
 
@@ -197,6 +204,7 @@ public class TaskService {
 	
 		return tasklist;
 	}
+	
 	
 	public List<Map<String, Object>> index4(Page<Tasklist> tasklist,Long userid){
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -227,6 +235,8 @@ public class TaskService {
 					result.put("cancel", task.get(i).getCancel());
 					result.put("username", username);
 					result.put("deptname", deptname);
+					
+					result.put("statusid", task.get(i).getStatusId());//状态id
 					
 					list.add(result);
 				}

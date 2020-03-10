@@ -18,6 +18,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!--盒子身体-->
 	<div class="box-body no-padding">
 		<div class="table-responsive">
@@ -48,15 +49,53 @@
 						<#if task.cancel==true>
 						<td><span class="label label-default">已取消</span></td>
 						<#else>
-						<td><span class="label ${(task.statuscolor)!''}">${(task.statusname)!''}</span></td></#if>
+						<td class="zhuangtai"><span class="label ${(task.statuscolor)!''}">${(task.statusname)!''}</span></td></#if>
 
-						<td><a href="myseetasks?id=${task.taskid}"
-							class="label xiugai"><span class="glyphicon glyphicon-search"></span>
-								查看</a> <#if task.cancel==true> <a
-								href="myshanchu?id=${task.taskid}"
-								onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
-								class="label shanchu"><span
-								class="glyphicon glyphicon-remove"></span> 删除</a> <#else></#if></td>
+						<td>
+						
+							<a href="myseetasks?id=${task.taskid}"
+								class="label xiugai"><span class="glyphicon glyphicon-search"></span>
+								查看
+							</a> 
+								<!-- 判断任务是否已经撤销 -->
+								<#if task.cancel==true> 
+								<a
+									href="myshanchu?id=${task.taskid}"
+									onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
+									class="label shanchu"><span
+									class="glyphicon glyphicon-remove"></span> 删除
+								</a> <#else>
+								</#if>
+							<!-- <a  href="myseetasks?id=${task.taskid}" -->	
+							
+							<!-- 如果是新任务，则显示接收按钮 -->
+							<#if task.statusid==3>
+							
+								<a class="label label-info jieshourenwu">
+									<span class=" glyphicon glyphicon-play"></span>
+										接收
+									<input type="hidden" class="renwuid" value="${task.taskid}">
+								</a> 
+							<#else>
+								<a style="background: #D8D8D8 ;" class="label label-info">
+									<span class=" glyphicon glyphicon-play"></span>
+										接收
+									<input type="hidden" class="renwuid" value="${task.taskid}">
+								</a> 
+							
+								
+								
+							</#if>
+							
+							
+							
+							<a style="margin-left: 2px;" href="myseetasks?id=${task.taskid}"
+								class="label label-success"><span class="  glyphicon glyphicon-check"></span>
+								提交
+							</a> 
+							
+						</td>
+						
 					</tr>
 					</#list>
 				</tbody>
@@ -68,7 +107,89 @@
 	<#include "/common/paging.ftl">
 </div>
 <script>
+
+	//任务接收方法
+	function jieshourenwu( renwuid ){
+		
+		
+	}
+
+
+
 	$(function() {
+		
+		
+		$(".jieshourenwu").click(function(){
+			
+			
+			//$(this).removeClass("jieshourenwu");  pointer-events:none;     css("background","pink")
+			
+			
+			
+			//获取任务id
+			var taskid = $(this).find(".renwuid").val();
+			//当前a标签对象
+			var thisjieshou = $(this);		
+			
+			//用于修改任务状态
+			var zhuangtainame = $(this).closest("tr").find(".zhuangtai").find("span");
+			
+			
+			swal({
+				  title: '任务接收提示',
+				  text: "你确定接收并开始任务吗？",
+				  type: 'warning',
+					showCancelButton: true, 
+					confirmButtonColor: "#3085d6",
+					confirmButtonText: "确定开始！", 
+					cancelButtonText: "延迟取消！",
+					closeOnConfirm: false, 
+					closeOnCancel: false	
+					},
+					function(isConfirm) {
+					  if (isConfirm) {
+						
+						//使用ajax异步的方式删除
+							$.ajax({
+								type:'post',
+								url:'xiugairenwuzhuangtai?id='+taskid,
+								dataType:"text",
+								success:function(data){
+									if(data == 'success'){
+										swal("操作成功！","任务已经开始，请按时完成","success");
+										//修改相关样式
+										thisjieshou.css("background","#D8D8D8");
+										thisjieshou.css("pointer-events","none");
+										//修改状态名称显示和背景颜色
+										zhuangtainame.text("进行中");
+										zhuangtainame.removeClass();//清空所有的样式class
+										zhuangtainame.addClass("label label-primary");
+										//自动消失
+										setTimeout(function(){
+											//alert("Hello");
+											swal.close();
+										},1500);
+										
+									}else{
+										swal("操作失败！","权限不足");
+										
+									}
+								},
+								error:function(){
+									alert("失败了");
+								}
+							});
+
+						//swal.close();
+					  } else { 
+						
+						  swal.close();
+					  } 
+				});
+			
+			
+		});
+		
 		
 		/* 分页插件按钮的点击事件 */
 		

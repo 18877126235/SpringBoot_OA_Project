@@ -161,8 +161,7 @@ public class TaskController {
 		//改进，根据模块名称来查询
 		List<SystemTypeList> typelist = tydao.findByTypeModel("aoa_task_list");
 		
-		
-		
+
 		// 查询状态表
 		//Iterable<SystemStatusList> statuslist = sdao.findAll();
 		
@@ -364,29 +363,85 @@ public class TaskController {
 	}
 
 	/**
-	 * 我的任务
+	 * 点击展示所有我的任务
 	 */
 	@RequestMapping("mytask")
 	public String index5(@SessionAttribute("userId") Long userId, Model model,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
+		
+		//分页参数规则置
 		Pageable pa=new PageRequest(page, size);
+		
+		//获取
 		Page<Tasklist> tasklist= tservice.index3(userId, null, page, size);
 		
+		
+		for (Tasklist tasklist2 : tasklist) {
+			System.out.println("第一个玩意："+tasklist2);
+		}
+		
+		//查找已经有评语的
 		Page<Tasklist> tasklist2=tdao.findByTickingIsNotNull(pa);
+		
+		
+		for (Tasklist tasklist3 : tasklist2) {
+			
+			System.out.println("这是啥玩意："+tasklist3);
+			
+		}
+		
 		if(tasklist!=null){
+			
+			//封装数据
 			List<Map<String, Object>> list=tservice.index4(tasklist, userId);
+			
 			model.addAttribute("page", tasklist);
+			
 			model.addAttribute("tasklist", list);
+			
 		}else{
+			
 			List<Map<String, Object>> list2=tservice.index4(tasklist2, userId);
 			model.addAttribute("page", tasklist2);
 			model.addAttribute("tasklist", list2);
+			
 		}
+		
 		model.addAttribute("url", "mychaxun");
+		
 		return "task/mytask";
 
 	}
+	
+	
+	/*
+	 * 改变任务状态为正在进行(ajax方式修改)
+	 */
+	@RequestMapping("xiugairenwuzhuangtai")
+	@ResponseBody
+	public String xiugairenwuzhuangtai(HttpServletRequest request,
+			
+			@SessionAttribute("userId") Long userId,
+			
+			String id  //传过来的任务id
+			) {
+		
+		Long taskid = Long.parseLong(id);
+		
+		Tasklist tasklist = tdao.findOne(taskid); //根据id查找到这条任务
+		
+		tasklist.setStatusId(5); //将任务状态改成进行中
+		
+		//保存修改
+		
+		//任务日志加入
+		//System.out.println("获取到了要修改的id是：");
+		
+		return "success";
+		
+	}
+	
 	
 	/**
 	 * 在我的任务里面进行查询
@@ -411,7 +466,9 @@ public class TaskController {
 		return "task/mytasklist";
 	}
 
-
+	/*
+	 * 点击查看任务详细
+	 */
 	@RequestMapping("myseetasks")
 	public ModelAndView myseetask(HttpServletRequest req, @SessionAttribute("userId") Long userId) {
 
