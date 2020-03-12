@@ -66,6 +66,7 @@ a:hover {
 									<span id="ctl00_cphMain_lblFrom" class="mailbox-read-time">发布人：<i>${user.userName}</i> &nbsp;&nbsp;参加人员：<i>${task.reciverlist}</i></span>
 								
 									<span id="ctl00_cphMain_lblDate" class="mailbox-read-time pull-right">${task.publishTime}</span>
+									
 								</h5>
 								</#if>
 							</div>
@@ -88,17 +89,17 @@ a:hover {
 									<div>
 										${logger.username}
 											<span style="font-size:8pt; color:#999; margin-left:3px;">${logger.createTime}</span>
-											：将状态改为【${statu.statusName}】
+											：将任务状态改为【${statu.statusName}】
 									</div>
 									</#if>
 									</#list>
 									</#if>
 									
-									<#if logger.loggerTicking!=''>
+									<#if logger.loggerTicking??>
 									<div>
 										${logger.username}
 											<span style="font-size:8pt; color:#999; margin-left:3px;">${logger.createTime}</span>
-											：${logger.loggerTicking}
+											反馈：${logger.loggerTicking}
 									</div>
 									</#if>
 									</#list>
@@ -107,11 +108,12 @@ a:hover {
 						<div class="page-header page"></div>
 						<div class="col-md-6 form-group"
 							style="margin-left: -12px; margin-right: 12px;">
-							<label> <span id="ctl00_cphMain_Label1">状态</span>
+							<label> <span id="ctl00_cphMain_Label1">任务总状态</span>
 							</label>
 							<div class="form-group">
 								<select name="loggerStatusid" id="ctl00_cphMain_ddlStatus"
 									class="form-control select2 ddlstatus">
+									
 									<option value="${status.statusId}">${status.statusName}</option>
 									<#if status.statusId==5> <#else>
 									<option value="5">进行中</option></#if>
@@ -120,24 +122,65 @@ a:hover {
 
 								</select>
 							</div>
+							<div class=" form-group">
+								<label> <span id="ctl00_cphMain_Label2">反馈回复   
+								
+								<span style=" margin-left: 2px; "  class="btn btn-success"><span class="  glyphicon glyphicon-check"></span>
+									提交反馈
+								</span>
+								
+								</span>
+								</label> 
+								
+									<textarea name="loggerTicking" 
+										id="ctl00_cphMain_txtPowerValue" class="form-control" rows="10px" cols=""></textarea> 
+									
+									<input
+									name="taskId" type="text" id="ctl00_cphMain_txtPowerValue"
+									class="form-control" value="${task.taskId}"
+									style="display: none;" />
+								
+							</div>
 						</div>
-						<div class="col-md-6 form-group">
-							<label> <span id="ctl00_cphMain_Label2">反馈</span>
-							</label> <input name="loggerTicking" type="text"
-								id="ctl00_cphMain_txtPowerValue" class="form-control" /> <input
-								name="taskId" type="text" id="ctl00_cphMain_txtPowerValue"
-								class="form-control" value="${task.taskId}"
-								style="display: none;" />
-
+						
+						
+						
+						
+						
+						
+						
+						<div class="col-md-6 form-group" style="margin-left: -12px; margin-right: 12px;">
+							<label> 
+								<span id="ctl00_cphMain_Label1">任务接收者状态</span>
+							</label>
+						
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    	查看各人员任务进度
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+								  <li><a href="#">Regular link</a></li>
+								  <li class="disabled"><a href="#">Disabled link</a></li>
+								  <li><a href="#">Another link</a></li>
+							  </ul>
+							</div>
+								
+							
 						</div>
+						
+						
+						
+						
+						
 					</div>
 
 
 				</div>
 
 				<div class="box-footer foot">
-					<input class="btn btn-primary" id="save" type="submit" value="保存" />
-					<input class="btn btn-default" id="cancel" type="submit" value="取消"
+					<input class="btn btn-primary" id="save" type="submit" value="保存状态" />
+					<input class="btn btn-default" id="cancel" type="button" value="取消返回"
 						onclick="window.history.back();" />
 				</div>
 

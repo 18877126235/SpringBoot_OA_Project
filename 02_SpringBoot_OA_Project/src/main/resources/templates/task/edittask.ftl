@@ -118,7 +118,7 @@ a:hover {
 							<textarea class="form-control text" name="comment" >${(task.comment)!''}</textarea>
 						</div>
 						<div class="col-md-6 form-group ">
-							<label class="control-label">置顶</label> <br /> 
+							<label class="control-label">重要置顶</label> <br /> 
 								<#if task.top==true>
 									<span class="labels">
 									<label>
@@ -133,7 +133,7 @@ a:hover {
 						</div>
 
 						<div class="col-md-6  form-group"> 
-							<label class="control-label">取消</label> <br />
+							<label class="control-label">取消任务</label> <br />
 							<#if task.cancel==true>
 									<span class="labels">
 									<label>

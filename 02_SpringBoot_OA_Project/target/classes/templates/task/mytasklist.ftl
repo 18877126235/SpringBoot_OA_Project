@@ -154,12 +154,13 @@
 					function(isConfirm) {
 					  if (isConfirm) {
 						
-						//使用ajax异步的方式删除
+							//使用ajax异步的方式修改任务状态
 							$.ajax({
 								type:'post',
 								url:'xiugairenwuzhuangtai?id='+taskid,
 								dataType:"text",
 								success:function(data){
+									
 									if(data == 'success'){
 										swal("操作成功！","任务已经开始，请按时完成","success");
 										//修改相关样式
@@ -174,6 +175,9 @@
 											//alert("Hello");
 											swal.close();
 										},1500);
+										
+										
+										
 										
 									}else{
 										swal("操作失败！","权限不足");

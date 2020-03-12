@@ -60,7 +60,7 @@ public class TaskService {
 	
 	//修改任务表里面的状态
 	public int updateStatusid(Long taskid,Integer statusid){
-	int s=	tdao.update(taskid, statusid);
+	int s=	tdao.update(taskid, statusid); //任务id和状态id
 	return s;
 	
 	}

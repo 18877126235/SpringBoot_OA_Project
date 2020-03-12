@@ -52,11 +52,12 @@
 							<td> <span class="labels"><label><input type="checkbox" name="top" class="val" disabled><i>✓</i></label></span></td>
 						</#if>
 						<td>
-							<a  href="edittasks?id=${task.taskid}"
+							
+								<a href="seetasks?id=${task.taskid}" class="label xiugai"><span
+								class="glyphicon glyphicon-search"></span> 查看反馈</a>
+								<a  href="edittasks?id=${task.taskid}"
 								class="label xiugai"><span
 								class="glyphicon glyphicon-edit"></span> 修改</a> 
-								<a href="seetasks?id=${task.taskid}" class="label xiugai"><span
-								class="glyphicon glyphicon-search"></span> 查看</a>
 								 
 								<!-- <a href="shanchu?id=${task.taskid}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" -->
 								<a class="label shanchu">
@@ -83,8 +84,7 @@
 	
 	
 	$(function(){
-		
-		var successreq = '${success}';
+		var successreq = '${success??}';
 		
 		if( successreq != null || successreq != '' ){
 			

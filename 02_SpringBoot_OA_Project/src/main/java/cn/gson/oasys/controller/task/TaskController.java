@@ -428,17 +428,49 @@ public class TaskController {
 			) {
 		
 		Long taskid = Long.parseLong(id);
-		
 		Tasklist tasklist = tdao.findOne(taskid); //根据id查找到这条任务
 		
-		tasklist.setStatusId(5); //将任务状态改成进行中
+		//判断任务是否已经在进行中
+		if( tasklist.getStatusId() == 5 ) {
+			
+		}else if( tasklist.getStatusId() == 3){//如果是新任务，就把任务改成进行中
+			//只要有人接收了任务，任务就变成了进行中
+			tasklist.setStatusId(5); //将任务状态改成进行中
+			//保存任务修改
+			tservice.updateStatusid( taskid, tasklist.getStatusId() ); //任务id和状态id
+		}
+	
+		//任务日志加入 （接受任务设定没有反馈内容）
+		// 查找用户当前用户
+				User user = udao.findOne(userId);
+				//新建日志对象
+				Tasklogger logger = new Tasklogger();
+				logger.setTaskId(tasklist); //设置日志对应的任务
+				logger.setCreateTime( new Date() ); //设置日志的时间  "yyyy-MM-dd HH:mm:ss"
+				logger.setUsername(user.getUserName()); //设置修改用户
+				//此处注意
+				logger.setLoggerStatusid(5); //设置任务状态为接收中
+				
+				//设置日志反馈内容为null
+				logger.setLoggerTicking(null);
+				//保存日志信息
+				tldao.save(logger);
 		
-		//保存修改
 		
-		//任务日志加入
-		//System.out.println("获取到了要修改的id是：");
+		System.out.println("打印这两个家伙："+userId+taskid);
+				
+		//任务用户中间表数据改写		
+		Taskuser finduserIdAndTaskId = tudao.finduserIdAndTaskId(userId, taskid);  //根据用户 id 和任务 id 查找到这个状态id
 		
-		return "success";
+		System.out.println("这家伙为空？？？"+finduserIdAndTaskId);
+		
+		//Taskuser taskuser = tudao.findOne(findByuserIdAndTaskId);
+	
+		finduserIdAndTaskId.setStatusId(5); //设置当前用户的状态为接收中
+		
+		tudao.save(finduserIdAndTaskId);
+
+		return "success"; //前台接收
 		
 	}
 	
@@ -477,15 +509,22 @@ public class TaskController {
 		String taskid = req.getParameter("id");
 
 		Long ltaskid = Long.parseLong(taskid);
-		// 通过任务id得到相应的任务
+		
+		
+		
+		// 通过任务id得到相应的任务对象
 		Tasklist task = tdao.findOne(ltaskid);
 
 		// 查看状态表
 		Iterable<SystemStatusList> statuslist = sdao.findAll();
+		
 		// 查询接收人的任务状态
 		Long ustatus = tudao.findByuserIdAndTaskId(userId, ltaskid);
 
+		
+		
 		SystemStatusList status = sdao.findOne(ustatus);
+		
 		/*System.out.println(status);*/
 
 		// 查看发布人
@@ -511,7 +550,7 @@ public class TaskController {
 		//System.out.println(logger.getLoggerStatusid());
 		
 		
-		System.out.println("后台接收到了任务的日志信息：" + logger);
+		//System.out.println("后台接收到了任务的日志信息：" + logger);
 		
 		// 获取用户id
 		

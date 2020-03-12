@@ -90,15 +90,15 @@ a:hover {
 										   <#if logger.loggerStatusid==statu.statusId>
 											<div>
 												${logger.username}
-													<span style="font-size:8pt; color:#999; margin-left:3px;">${logger.createTime}</span>
-													：将状态改为【${statu.statusName}】
+													<span style="font-size:10pt; color:#CC00CC; margin-left:3px;">${logger.createTime?string('yyyy-MM-dd HH:mm:ss')}</span>
+													：将任务状态改为【${statu.statusName}】
 											</div>
 										</#if>
 									
 										</#list>
 										</#if>
 										<!-- 如果有反馈哦内容，就输出 -->
-										<#if logger.loggerTicking!=''>
+										<#if logger.loggerTicking??>
 											<div>
 												${logger.username}
 													<span style='font-size:10pt; color: #00c0ef; margin-left:3px;'>${logger.createTime?string('yyyy-MM-dd HH:mm:ss')}</span>
@@ -156,7 +156,7 @@ a:hover {
 								<!-- 下面这个隐藏掉 -->
 								<input name="taskId" type="text" id="ctl00_cphMain_txtPowerValue" class="form-control" value="${task.taskId}" style="display:none;"/>
 								
-							</div>
+								</div>
 								
 							</div>
 							
@@ -196,7 +196,7 @@ a:hover {
 				
 				swal("请填写反馈内容！","反馈内容不能为空","warning");
 	
-				false;
+				return false;
 				
 			}
 
