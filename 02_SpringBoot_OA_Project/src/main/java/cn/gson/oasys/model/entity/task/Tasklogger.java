@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="aoa_task_logger")
 
@@ -22,6 +26,9 @@ public class Tasklogger {
 	@Column(name="logger_id")
 	private Long loggerId;//任务日志id主键
 	
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Column(name="create_time")
 	private Date createTime;//任务日志创建时间
 	
@@ -39,7 +46,7 @@ public class Tasklogger {
 	private String username;//任务日志生成人
 	
 	@Column(name="logger_statusid")
-	private Integer loggerStatusid; //状态id
+	private Integer loggerStatusid; //状态id  （没有外键关联，为空也无所谓哈）
 	
 	
 	

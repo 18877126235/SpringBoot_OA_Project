@@ -55,7 +55,7 @@
 						
 							<a href="myseetasks?id=${task.taskid}"
 								class="label xiugai"><span class="glyphicon glyphicon-search"></span>
-								查看
+								查看与反馈
 							</a> 
 								<!-- 判断任务是否已经撤销 -->
 								<#if task.cancel==true> 
@@ -114,9 +114,14 @@
 		
 	}
 
-
+	
+	
+	
+	
 
 	$(function() {
+		
+		
 		
 		
 		$(".jieshourenwu").click(function(){

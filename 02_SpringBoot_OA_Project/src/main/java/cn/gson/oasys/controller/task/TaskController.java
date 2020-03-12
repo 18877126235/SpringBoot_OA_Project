@@ -503,39 +503,55 @@ public class TaskController {
 	}
 
 	/**
-	 * 从我的任务查看里面修改状态和日志
+	 * 从我的任务查看里面修改状态和日志(撤销了接收用户对任务状态的修改权限)
 	 */
-	@RequestMapping("uplogger")
-	public String updatelo(Tasklogger logger, @SessionAttribute("userId") Long userId) {
-		System.out.println(logger.getLoggerStatusid());
+	@RequestMapping("uplogger")  //从我的任务的查看页面点击接收后
+	public String updatelo( Tasklogger logger, @SessionAttribute("userId") Long userId ) {
+		
+		//System.out.println(logger.getLoggerStatusid());
+		
+		
+		System.out.println("后台接收到了任务的日志信息：" + logger);
+		
 		// 获取用户id
 		
-		// 查找用户
+		// 查找用户当前用户
 		User user = udao.findOne(userId);
-		// 查任务
-		Tasklist task = tdao.findOne(logger.getTaskId().getTaskId());
-		logger.setCreateTime(new Date());
-		logger.setUsername(user.getUserName());
-		// 存日志
+		
+		// 查找这条任务
+//		Tasklist task = tdao.findOne(logger.getTaskId().getTaskId());
+//
+//		System.out.println("查找到了这条任务了哦："+task);
+		
+		logger.setCreateTime(new Date()); //设置日志的时间
+		logger.setUsername(user.getUserName()); //设置修改用户
+		
+		//此处注意
+		logger.setLoggerStatusid(null);
+		
+		// 保存日志表(主要是为了显示用户反馈信息)
 		tldao.save(logger);
 
-		// 修改任务中间表状态
-		Long pkid = udao.findpkId(logger.getTaskId().getTaskId(), userId);
+		// 修改任务中间表状态（能点开查看任务了说明肯定有任务存在，中间表必然有数据）
+		/*Long pkid = udao.findpkId(logger.getTaskId().getTaskId(), userId);
+		//原有的属性要设置，防止向表中添加新数据
 		Taskuser tasku = new Taskuser();
-		tasku.setPkId(pkid);
+		tasku.setPkId(pkid); //中间表的主键
 		tasku.setTaskId(task);
-		tasku.setUserId(user);
-		if (!Objects.isNull(logger.getLoggerStatusid())) {
+		tasku.setUserId(user);*/
+		
+		//不为空
+		/*if (!Objects.isNull(logger.getLoggerStatusid())) {
 
-			tasku.setStatusId(logger.getLoggerStatusid());
-		}
+			tasku.setStatusId(logger.getLoggerStatusid()); //设置中间表的任务状态id
+		}*/
+		
 		// 存任务中间表
-		tudao.save(tasku);
+		/*tudao.save(tasku);*/
 		
 		// 修改任务状态
 		// 通过任务id查看总状态
-		
-		List<Integer> statu = tudao.findByTaskId(logger.getTaskId().getTaskId());
+		/*List<Integer> statu = tudao.findByTaskId(logger.getTaskId().getTaskId());
 		System.out.println(statu);
 		// 选出最小的状态id 修改任务表里面的状态
 		Integer min = statu.get(0);
@@ -543,20 +559,64 @@ public class TaskController {
 			if (integer.intValue() < min) {
 				min = integer;
 			}
-		}
+		}*/
 
-		int up = tservice.updateStatusid(logger.getTaskId().getTaskId(), min);
+		/*int up = tservice.updateStatusid(logger.getTaskId().getTaskId(), min);*/
+		
 		/*System.out.println(logger.getTaskId().getTaskId() + "aaaa");
 		System.out.println(min + "wwww");
 		System.out.println(up + "pppppp");*/
-		if (up > 0) {
-			System.out.println("任务状态修改成功!");
-		}
+		
+//		if (up > 0) {
+//			System.out.println("任务状态修改成功!");
+//		}
 
 		return "redirect:/mytask";
 
+		//返回原来界面
 	}
 
+	
+	/*
+	 * 更改成ajax方式提交表单
+	 */
+	@RequestMapping("ajaxformsend")
+	@ResponseBody
+	public TaskLogUtil ajaxformsend( Tasklogger logger, @SessionAttribute("userId") Long userId ) {
+		
+		System.out.println("ajax接收到了:"+logger);
+		
+		Date date = new Date();
+		
+		
+		
+		// 查找用户当前用户
+		User user = udao.findOne(userId);
+		logger.setCreateTime(date); //设置日志的时间  "yyyy-MM-dd HH:mm:ss"
+		
+		
+		
+		logger.setUsername(user.getUserName()); //设置修改用户
+		
+		//此处注意
+		logger.setLoggerStatusid(null);
+		
+		//保存日志信息
+		tldao.save(logger);
+		
+		
+		//请求成功，返回任务日志对象
+		//因为包含外键，json数据返回会出问题，要转换成中间类
+		TaskLogUtil taskLogUtil = new TaskLogUtil();
+		taskLogUtil.setUsername( logger.getUsername() );
+		taskLogUtil.setDate( date );
+		taskLogUtil.setContent( logger.getLoggerTicking() );
+		
+		return taskLogUtil;
+	}
+	
+	
+	
 	/**
 	 * 根据发布人这边删除任务和相关联系
 	 * @param req
