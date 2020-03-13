@@ -82,19 +82,28 @@
 <script>
 
 	
-	
 	$(function(){
-		var successreq = '${success??}';
 		
-		if( successreq != null || successreq != '' ){
+		<#if success??>
+		var successreq = ${(success)!''};  
 			
-			swal(successreq,"666","success");
-			setTimeout(function(){
-				//alert("Hello");
-				swal.close();
-			},800);
+			if( successreq != null || successreq != '' ){
+				
+				swal(successreq,"666","success");
+				setTimeout(function(){
+					//alert("Hello");
+					swal.close();
+				},800);
 			
 		}
+		</#if>
+		
+		
+	});
+	
+	
+	$(function(){
+		
 		
 		
 		$(".shanchu").click(function(){
@@ -130,6 +139,7 @@
 							dataType:"text",
 							success:function(data){
 								if(data == 'success'){
+									
 									swal("删除成功！","成功删除一条任务记录","success");
 									thistr.remove(); //从页面删除
 									//自动消失

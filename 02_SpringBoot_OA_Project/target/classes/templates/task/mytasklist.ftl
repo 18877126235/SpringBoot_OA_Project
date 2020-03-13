@@ -22,7 +22,7 @@
 	<!--盒子身体-->
 	<div class="box-body no-padding">
 		<div class="table-responsive">
-			<table class="table table-hover table-striped">
+			<table class="table table-hover table-striped  tablebodyxxx">
 				<thead>
 					<tr>
 
@@ -87,11 +87,22 @@
 								
 							</#if>
 							
-
-							<a style="margin-left: 2px;" 
-								class="label label-success tijiaorenwu"><span class="  glyphicon glyphicon-check"></span>
-								提交
-							</a> 
+							<!-- 当且仅当任务状态为进行中时才显示提交按钮 -->
+							<#if task.statusid==5 >
+								<a style="margin-left: 2px;" 
+									class="label label-success tijiaorenwu"><span class="  glyphicon glyphicon-check"></span>
+									提交   
+									<input type="hidden" class="renwuid" value="${task.taskid}">
+								</a> 
+								<#else>
+								<a style="margin-left: 2px; background: #D8D8D8;" 
+									class="label"><span class="  glyphicon glyphicon-check"></span>
+									提交
+									<input type="hidden" class="renwuid" value="${task.taskid}">
+								</a>
+								
+							</#if>
+							
 							
 						</td>
 						
@@ -118,10 +129,83 @@
 	$(function() {
 		
 		
-		//点击提交弹出模态框
-		$(".tijiaorenwu").click(function(){
+		//点击提交
+		//$(".tijiaorenwu").click(function(){
 			
-			alert("哈哈哈哈哈");
+		$(".tablebodyxxx").on("click",".tijiaorenwu",function(){
+			
+
+			//alert("哈哈哈哈哈");
+			
+			//获取任务id
+			var taskid = $(this).find(".renwuid").val();
+			
+			//指向当前a标签
+			var thistijiao = $(this);
+			
+			//用于修改任务状态
+			var zhuangtainame = $(this).closest("tr").find(".zhuangtai").find("span");
+			
+
+			//alert( taskid );
+			
+			//弹出确认提交任务
+			swal({
+				
+				title: "确定提交任务吗？", 
+				text: "提交后将由管理员审核后才能完成任务！", 
+				type: "warning",
+				showCancelButton: true, 
+				confirmButtonColor: "#337ab7",
+				confirmButtonText: "确定提交！", 
+				cancelButtonText: "取消提交！",
+				closeOnConfirm: false, 
+				closeOnCancel: false	
+				},
+				function(isConfirm){ 
+				if (isConfirm) {
+					
+					//通过ajax方式修改任务状态
+					$.ajax({
+						type:'post',
+						url:'yitijiao?id='+taskid,  //访问地址
+						dataType:"text",
+						success:function(data){
+							
+							if(data == 'success'){
+								
+								//修改界面样式
+								//修改相关样式
+								thistijiao.css("background","#D8D8D8");
+								thistijiao.css("pointer-events","none"); //设置当前按钮不可点击
+								//修改状态名称显示和背景颜色
+								zhuangtainame.text("已提交");
+								zhuangtainame.removeClass();//清空所有的样式class
+								zhuangtainame.addClass("label label-danger"); //新增样式
+
+								swal("操作成功！","任务已提交，请等候审核","success");
+								
+							}else{
+								
+								swal("操作失败！","权限不足");
+								
+							}
+						},
+						error:function(){
+							swal("操作失败！","权限不足");
+							//alert("失败了");
+						}
+					});
+
+				
+					
+				} else { 
+					
+					swal.close();
+				} 
+			});
+			
+			
 			
 		});
 		
@@ -140,7 +224,21 @@
 			//用于修改任务状态
 			var zhuangtainame = $(this).closest("tr").find(".zhuangtai").find("span");
 			
+			//alert("哈哈哈");
 			
+			//thisjieshou.next().css("background","#D8D8D8");
+			//thisjieshou.next().css("pointer-events","block");
+			
+			var tijiaoanniu = $(this).next();
+			
+			//alert( tijiaoanniu.text() );
+			
+			
+			//tijiaoanniu.removeClass(); //先删除所有样式
+			tijiaoanniu.addClass("label label-success tijiaorenwu");
+			tijiaoanniu.css("background","#5cb85c");
+			
+		
 			swal({
 				  title: '任务接收提示',
 				  text: "你确定接收并开始任务吗？",
@@ -171,6 +269,10 @@
 										zhuangtainame.text("进行中");
 										zhuangtainame.removeClass();//清空所有的样式class
 										zhuangtainame.addClass("label label-primary");
+										
+										//然后设置提交按钮可以提交
+										
+										
 										//自动消失
 										setTimeout(function(){
 											//alert("Hello");

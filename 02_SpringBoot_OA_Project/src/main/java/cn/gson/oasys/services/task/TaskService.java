@@ -236,8 +236,8 @@ public class TaskService {
 					result.put("username", username);
 					result.put("deptname", deptname);
 					
-					result.put("statusid", task.get(i).getStatusId());//状态id
-					
+					//result.put("statusid", task.get(i).getStatusId());//任务总状态id   
+					result.put("statusid", statusid);
 					list.add(result);
 				}
 			}

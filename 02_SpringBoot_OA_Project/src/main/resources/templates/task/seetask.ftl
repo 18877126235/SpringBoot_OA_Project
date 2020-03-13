@@ -168,7 +168,7 @@ a:hover {
 						  			<#if  taskuser.statusId == 6 >
 						  				<li>
 											<a href="#">
-												
+												${taskuser.userId.userName}
 												<span class="label label-danger">
 													已提交
 												</span>
@@ -180,6 +180,7 @@ a:hover {
 									
 											<a href="#">
 												${taskuser.userId.userName}
+												
 													<#if taskuser.statusId == 5 >
 														<span class="label label-primary">
 															进行中 
@@ -190,12 +191,14 @@ a:hover {
 															待接收
 														</span> 
 													</#if>
-													<#if taskuser.statusId == 3 >
+													
+													<#if taskuser.statusId == 6 >
 														<span class="label label-danger">
 															已提交
 														</span> 
 													</#if>
-													<#if taskuser.statusId == 3 >
+													
+													<#if taskuser.statusId == 7 >
 														<span class="label label-success">
 															已完成
 														</span>  
@@ -205,9 +208,7 @@ a:hover {
 						  				
 						  			</#if>
 									
-							  		
-							  		
-							  		
+
 							  	</#list>
 							  	
 								  

@@ -80,7 +80,7 @@ public class Tasklist implements Serializable {
 	private Boolean cancel=false;//是否取消任务
 	
 	@Column(name="ticking")
-	private String ticking;//任务反馈???
+	private String ticking;//任务总结反馈???
 	
 	@Column(name="status_id")
 	private Integer statusId;//任务状态id

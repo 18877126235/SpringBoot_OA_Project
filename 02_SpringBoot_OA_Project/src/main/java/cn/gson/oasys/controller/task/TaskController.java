@@ -396,11 +396,7 @@ public class TaskController {
 		Page<Tasklist> tasklist2=tdao.findByTickingIsNotNull(pa);
 		
 		
-		for (Tasklist tasklist3 : tasklist2) {
-			
-			System.out.println("这是啥玩意："+tasklist3);
-			
-		}
+		
 		
 		if(tasklist!=null){
 			
@@ -484,6 +480,55 @@ public class TaskController {
 		return "success"; //前台接收
 		
 	}
+	
+	
+	
+	/*
+	 * 改变任务状态为已提交
+	 */
+	@ResponseBody
+	@RequestMapping("yitijiao")
+	public String yitijiao(HttpServletRequest request,
+			
+			@SessionAttribute("userId") Long userId,
+			String id) {
+		
+		Long taskid = Long.parseLong(id);
+		Tasklist tasklist = tdao.findOne(taskid); //根据id查找到这条任务
+		
+		//任务日志加入 （接受任务设定没有反馈内容）
+		// 查找用户当前用户
+				User user = udao.findOne(userId);
+				//新建日志对象
+				Tasklogger logger = new Tasklogger();
+				logger.setTaskId(tasklist); //设置日志对应的任务
+				logger.setCreateTime( new Date() ); //设置日志的时间  "yyyy-MM-dd HH:mm:ss"
+				logger.setUsername(user.getUserName()); //设置修改用户
+				//此处注意
+				logger.setLoggerStatusid(6); //设置任务状态为已提交（）
+				
+				//设置日志反馈内容为null
+				logger.setLoggerTicking(null);
+				//保存日志信息
+				tldao.save(logger);
+		
+		
+		System.out.println("打印这两个家伙："+userId+taskid);
+				
+		//任务用户中间表数据改写		
+		Taskuser finduserIdAndTaskId = tudao.finduserIdAndTaskId(userId, taskid);  //根据用户 id 和任务 id 查找到这个状态id
+		
+		System.out.println("这家伙为空？？？"+finduserIdAndTaskId);
+		
+		//Taskuser taskuser = tudao.findOne(findByuserIdAndTaskId);
+	
+		finduserIdAndTaskId.setStatusId(6); //设置当前用户的状态为已提交
+		
+		tudao.save(finduserIdAndTaskId);
+		
+		return "success";
+	}
+	
 	
 	
 	/**
