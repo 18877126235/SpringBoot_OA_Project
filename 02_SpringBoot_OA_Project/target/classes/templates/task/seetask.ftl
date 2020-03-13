@@ -150,6 +150,8 @@ a:hover {
 						
 						
 						<div class="col-md-6 form-group" style="margin-left: -12px; margin-right: 12px;">
+						
+						
 							<label> 
 								<span id="ctl00_cphMain_Label1">任务接收者状态</span>
 							</label>
@@ -160,10 +162,59 @@ a:hover {
 							    <span class="caret"></span>
 							  </button>
 							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
-								  <li><a href="#">Regular link</a></li>
-								  <li class="disabled"><a href="#">Disabled link</a></li>
-								  <li><a href="#">Another link</a></li>
-							  </ul>
+							  	<#list taskusers as taskuser >
+						  			
+						  			<!-- 已提交的就可以点击 -->
+						  			<#if  taskuser.statusId == 6 >
+						  				<li>
+											<a href="#">
+												
+												<span class="label label-danger">
+													已提交
+												</span>
+										 	</a> 
+										</li> 
+						  				<!-- 否则只能查看 -->
+						  				<#else>
+						  				<li class="disabled" >
+									
+											<a href="#">
+												${taskuser.userId.userName}
+													<#if taskuser.statusId == 5 >
+														<span class="label label-primary">
+															进行中 
+														</span>
+													</#if>
+													<#if taskuser.statusId == 3 >
+														<span class="label label-warning">
+															待接收
+														</span> 
+													</#if>
+													<#if taskuser.statusId == 3 >
+														<span class="label label-danger">
+															已提交
+														</span> 
+													</#if>
+													<#if taskuser.statusId == 3 >
+														<span class="label label-success">
+															已完成
+														</span>  
+													</#if>	
+										 	</a>
+										</li>  
+						  				
+						  			</#if>
+									
+							  		
+							  		
+							  		
+							  	</#list>
+							  	
+								  
+								  <!-- <li ><a href="#">Disabled link</a></li> -->
+								  
+								 
+							   </ul>
 							</div>
 								
 							

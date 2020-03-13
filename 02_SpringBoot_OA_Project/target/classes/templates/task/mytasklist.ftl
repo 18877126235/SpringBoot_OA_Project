@@ -87,10 +87,9 @@
 								
 							</#if>
 							
-							
-							
-							<a style="margin-left: 2px;" href="myseetasks?id=${task.taskid}"
-								class="label label-success"><span class="  glyphicon glyphicon-check"></span>
+
+							<a style="margin-left: 2px;" 
+								class="label label-success tijiaorenwu"><span class="  glyphicon glyphicon-check"></span>
 								提交
 							</a> 
 							
@@ -106,31 +105,33 @@
 	<!--盒子尾-->
 	<#include "/common/paging.ftl">
 </div>
+
+
+<!-- 点击提交弹出模态框有点难了（搞两个隐藏的input来存储任务id数据） -->
+
+
+
 <script>
 
-	//任务接收方法
-	function jieshourenwu( renwuid ){
-		
-		
-	}
-
-	
-	
-	
 	
 
 	$(function() {
 		
 		
+		//点击提交弹出模态框
+		$(".tijiaorenwu").click(function(){
+			
+			alert("哈哈哈哈哈");
+			
+		});
 		
-		
+		//点击接受任务执行
 		$(".jieshourenwu").click(function(){
 			
 			
 			//$(this).removeClass("jieshourenwu");  pointer-events:none;     css("background","pink")
 			
-			
-			
+
 			//获取任务id
 			var taskid = $(this).find(".renwuid").val();
 			//当前a标签对象

@@ -313,15 +313,16 @@ public class TaskController {
 	}
 
 	/**
-	 * 查看任务
+	 * 在管理员视角查看任务
 	 */
 	@RequestMapping("seetasks")
 	public ModelAndView index4(HttpServletRequest req) {
+		
 		ModelAndView mav = new ModelAndView("task/seetask");
 		// 得到任务的 id
 		String taskid = req.getParameter("id");
 		Long ltaskid = Long.parseLong(taskid);
-		// 通过任务id得到相应的任务
+		// 通过任务id得到相应的任务对象
 		Tasklist task = tdao.findOne(ltaskid);
 		Long statusid = task.getStatusId().longValue();
 
@@ -338,7 +339,17 @@ public class TaskController {
 		mav.addObject("status", status);
 		mav.addObject("loggerlist", logger);
 		mav.addObject("statuslist", statuslist);
+		
+	
+		//获取该任务相关的人员
+		//根据任务id查找任务用户中间表数据   findByTaskId(Tasklist taskId);
+		
+		List<Taskuser> taskusers = tudao.findByTaskId(task);
+		
+		mav.addObject("taskusers", taskusers); //放置域对象
+		
 		return mav;
+
 	}
 
 	/**

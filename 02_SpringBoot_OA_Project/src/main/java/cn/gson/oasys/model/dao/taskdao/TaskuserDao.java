@@ -9,11 +9,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import cn.gson.oasys.model.entity.system.SystemStatusList;
+import cn.gson.oasys.model.entity.task.Tasklist;
 import cn.gson.oasys.model.entity.task.Taskuser;
 import cn.gson.oasys.model.entity.user.User;
 
 public interface TaskuserDao extends PagingAndSortingRepository<Taskuser, Long> {
 
+	//这里是根据任务id返回所有状态id集合
 	@Query("select tu.statusId from Taskuser tu where tu.taskId.taskId=:id ")
 	List<Integer> findByTaskId(@Param("id")Long id);
 	
@@ -29,8 +31,14 @@ public interface TaskuserDao extends PagingAndSortingRepository<Taskuser, Long> 
 	@Query("select tu.statusId from Taskuser tu where tu.userId.userId=:userid and tu.taskId.taskId=:taskid ")
 	Long findByuserIdAndTaskId(@Param("userid")Long userid,@Param("taskid")Long taskid);
 	
+	//与上类似，只不过是返回对象
 	@Query("select tu from Taskuser tu where tu.userId.userId=:userid and tu.taskId.taskId=:taskid ")
 	Taskuser finduserIdAndTaskId(@Param("userid")Long userid,@Param("taskid")Long taskid);
+	
+	
+	//根据任务id查询所有中间表数据对象集合
+	List<Taskuser> findByTaskId(Tasklist taskId);
+	
 	
 	//找新任务
 	List<Taskuser> findByUserIdAndStatusId(User user,Integer id);
