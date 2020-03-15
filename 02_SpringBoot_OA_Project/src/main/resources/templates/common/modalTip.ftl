@@ -91,7 +91,14 @@
 <#if success??>
 	<script type="text/javascript">
 		console.log("成功的");
-		modalShow(1);
+		
+		swal("操作成功！","666","success");
+		setTimeout(function(){
+			//alert("Hello");
+			swal.close();
+		},800);
+		
+		//modalShow(1);
 	</script>
 </#if>
 

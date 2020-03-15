@@ -1,3 +1,4 @@
+<#include "/common/commoncss.ftl">
 <div class="bgc-w box box-primary">
 	<!--盒子头-->
 	<div class="box-header">
@@ -77,34 +78,22 @@
 
 	<!--盒子尾-->
 	<#include "/common/paging.ftl">
+	<!-- 显示通知 -->
+	<#include "/common/modalTip.ftl"/> 
 </div>
+
+
 
 <script>
 
-	
-	$(function(){
-		
-		<#if success??>
-		var successreq = ${(success)!''};  
-			
-			if( successreq != null || successreq != '' ){
-				
-				swal(successreq,"666","success");
-				setTimeout(function(){
-					//alert("Hello");
-					swal.close();
-				},800);
-			
-		}
-		</#if>
-		
-		
-	});
+	//让页面回到顶部
+   window.location.href='#';
 	
 	
 	$(function(){
 		
 		
+
 		
 		$(".shanchu").click(function(){
 			

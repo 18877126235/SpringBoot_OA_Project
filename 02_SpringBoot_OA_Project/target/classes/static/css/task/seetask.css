@@ -61,8 +61,14 @@
     			padding-bottom: 12px;
 			}
 			
-			.save,
+			/*.save,
 			.cancel {
+				width: 62px;
+				height: 27px;
+			}*/
+			
+			.save
+			 {
 				width: 62px;
 				height: 27px;
 			}

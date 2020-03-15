@@ -1,5 +1,12 @@
 <#include "/common/commoncss.ftl">
+
+
+
+<head>
 <link rel="stylesheet" href="css/task/seetask.css" />
+
+
+
 <style type="text/css">
 a {
 	color: #fff;
@@ -14,23 +21,143 @@ a:hover {
 	min-height: 114px;
 }
 </style>
-<script>
+	
+	
+	<script>
 			$(function(){
 				
 				
-				$(".ddlstatus").each(function(){
-					var options=$(".ddlstatus option:selected");
+			$(".ddlstatus").each(function(){
+				var options=$(".ddlstatus option:selected");
+					
+				
+				if(options.val()=="7"){
+					$("#save").prop("disabled",true);
+				
+				}else{
+					$("#save").removeAttr("disabled");
+				}
+			});
+			
+			
+			//点击审核任务后到此
+			$(".dianjishenherenwu").click(function(){
+				
+				//swal("操作成功！","666","success");
+				
+				//获取任务id和用户id
+				var yonghuid = $(this).find(".yonghuid").val();
+				
+				var renwuid = $(this).find(".renwuid").val();
+				
+				var renwuxianshi = $(this).find("span");
+				
+				var This = $(this);
+				
+				//alert(yonghuid + renwuid);
+				
+				 swal({ 
+						title: "您确定审核完成该人员的任务吗？", 
+						text: "审核后该成员会显示当前任务为已完成状态!", 
+						type: "warning",
+						 
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: '#ffddaa',
+						confirmButtonText: "确定审核！", 
+						cancelButtonText: "取消操作！",
+						closeOnConfirm: false, 
+						closeOnCancel: false,
+						showCancelButton: true
+						},
+						function(isConfirm){ 
+						if (isConfirm) { 
+							
+							//点击了确定，发送ajax请求来设置对相应的用户状态为已完成
+							 $.ajax({
+										//几个参数需要注意一下
+										type: "POST",//提交方式
+										contentType:"application/x-www-form-urlencoded",
+										dataType: "text",//预期服务器返回的数据类型
+										
+										//此处注意，传入参数，任务id，用户名（或id）
+										url: "shenheajax?userId="+yonghuid+"&taskId=" + renwuid,//url
+										data: null, //发送给服务器的数据
+										success: function (data) {
+											
+											if(data == 'success'){
+												
+												//改写任务显示状态
+												renwuxianshi.text("已完成");
+												
+												renwuxianshi.removeClass();
+												renwuxianshi.addClass("label label-success");
+												
+												//设置不可点击
+												This.css("pointer-events","none"); //设置当前按钮不可点击
+												This.addClass("disabled");
+												
+												swal("操作成功！","666","success");
+												setTimeout(function(){
+													//alert("Hello");
+													swal.close();
+												},800);
+												
+												
+											}
+											
+											
+										}
+							 });
+							
+							
+							
+							
+						} else { 
+							swal.close();
+						} 
+					});
+				
+			});
+				
+				
+			//点击保存状态
+			$(".baocunzhuangtai").click(function(){
+				
+				var baocunzhuangtai1 = $(".baocunzhuangtai1");
+				
+				swal({ 
+					title: "确定修改保存该任务状态吗？", 
+					text: "执行该操作后该任务所有接收人都默认完成！", 
+					type: "warning",
+					showCancelButton: true, 
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "确定修改！", 
+					cancelButtonText: "考虑一下！",
+					closeOnConfirm: false, 
+					closeOnCancel: false	
+					},
+					function(isConfirm){ 
+					//如果点击确定
+					if (isConfirm) { 
 						
-					
-					if(options.val()=="7"){
-						$("#save").prop("disabled",true);
-					
-					}else{
-						$("#save").removeAttr("disabled");
-					}
+						baocunzhuangtai1.click();
+						
+						swal.close();
+					} else { 
+						swal.close();
+					} 
+				});
+				
 			});
-			});
-		</script>
+			
+			
+		});
+			
+			
+			
+		
+</script>
+	
 </head>
 
 <body>
@@ -52,6 +179,7 @@ a:hover {
 			</button>
 			
 			<div class="page-header"></div>
+			
 			<form action="tasklogger">
 				<div class="row">
 					<div class="box-body"
@@ -157,6 +285,7 @@ a:hover {
 							</label>
 						
 							<div class="dropdown">
+								
 							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 							    	查看各人员任务进度
 							    <span class="caret"></span>
@@ -164,15 +293,20 @@ a:hover {
 							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
 							  	<#list taskusers as taskuser >
 						  			
-						  			<!-- 已提交的就可以点击 -->
+						  			<!-- 已提交的就可以点击  onclick="dianjiqueren()"-->
 						  			<#if  taskuser.statusId == 6 >
-						  				<li>
-											<a href="#">
+						  				<li class="dianjishenherenwu" >
+											<a>
 												${taskuser.userId.userName}
 												<span class="label label-danger">
 													已提交
 												</span>
+												&nbsp;&nbsp;&nbsp;&nbsp; <font color="#9E9E9E">点击审核任务</font> 
+												
 										 	</a> 
+										 	<!-- 设置两个input来存放数据 -->
+										 	<input type="hidden" class="yonghuid" value="${taskuser.userId.userId}">
+										 	<input type="hidden" class="renwuid" value="${taskuser.taskId.taskId}">
 										</li> 
 						  				<!-- 否则只能查看 -->
 						  				<#else>
@@ -222,20 +356,38 @@ a:hover {
 						</div>
 						
 						
-						
-						
+	
 						
 					</div>
-
-
 				</div>
 
-				<div class="box-footer foot">
-					<input class="btn btn-primary" id="save" type="submit" value="保存状态" />
+				<div style="display: none;" class="box-footer foot">
+					<input class="btn btn-primary baocunzhuangtai1" id="save" type="submit" value="保存状态" />
 					<input class="btn btn-default" id="cancel" type="button" value="取消返回"
-						onclick="window.history.back();" />
+						onclick="window.location.href='taskmanage'" />
 				</div>
 
 			</form>
+			<div class="box-footer foot">
+				<!-- 如果是已完成的任务，禁用此按钮 -->
+				<#if donot?? >
+					
+					<input disabled="true" class="btn btn-primary baocunzhuangtai"  type="button" value="保存状态" />
+					
+					<#else>
+						<input class="btn btn-primary baocunzhuangtai"  type="button" value="保存状态" />	
+					
+				</#if>
+				
+					
+					<input class="btn btn-default"  type="button" value="取消返回"
+						onclick="window.location.href='taskmanage'" />
+				</div>
 		</div>
+		
+		
+		
 	</div>
+	
+	
+	

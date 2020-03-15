@@ -90,8 +90,9 @@ public class TaskController {
 			) {
 		
 		if( request.getSession().getAttribute("success") != null ) {
-			
-			request.setAttribute("success",  request.getSession().getAttribute("success") );
+			System.out.println("接收到了操作成功***************************");
+			model.addAttribute("success",  request.getSession().getAttribute("success"));
+			//request.setAttribute("success",  request.getSession().getAttribute("success") );
 			//Session删除掉，防止影响其他页面
 			request.getSession().removeAttribute("success");
 		}
@@ -324,7 +325,7 @@ public class TaskController {
 		Long ltaskid = Long.parseLong(taskid);
 		// 通过任务id得到相应的任务对象
 		Tasklist task = tdao.findOne(ltaskid);
-		Long statusid = task.getStatusId().longValue();
+		Long statusid = task.getStatusId().longValue(); //获得状态id
 
 		// 根据状态id查看状态表
 		SystemStatusList status = sdao.findOne(statusid);
@@ -348,6 +349,15 @@ public class TaskController {
 		
 		mav.addObject("taskusers", taskusers); //放置域对象
 		
+		
+		//判断该任务总状态
+		if( statusid == 7l ) { //如果是已完成
+			
+			//设置标记不可点击
+			mav.addObject("donot","yes");
+			
+		}
+		
 		return mav;
 
 	}
@@ -358,17 +368,27 @@ public class TaskController {
 	 * @return
 	 */
 	@RequestMapping("tasklogger")
-	public String tasklogger(Tasklogger logger, @SessionAttribute("userId") Long userId) {
+	public String tasklogger( HttpServletRequest request ,Tasklogger logger, @SessionAttribute("userId") Long userId) {
+		
 		User userlist = udao.findOne(userId);
 		logger.setCreateTime(new Date());
 		logger.setUsername(userlist.getUserName());
+		logger.setLoggerTicking(null); //设置反馈内容为空
 		// 存日志
 		tldao.save(logger);
+		
 		// 修改任务状态
 		tservice.updateStatusid(logger.getTaskId().getTaskId(), logger.getLoggerStatusid());
+		
 		// 修改任务中间表状态
 		tservice.updateUStatusid(logger.getTaskId().getTaskId(), logger.getLoggerStatusid());
-
+		
+		//System.out.println("妈卖批你大爷的哈哈哈哈哈");
+		
+		
+		//request.setAttribute("success", "操作成功");
+		request.getSession().setAttribute("success","操作成功");
+		
 		return "redirect:/taskmanage";
 
 	}
@@ -388,9 +408,9 @@ public class TaskController {
 		Page<Tasklist> tasklist= tservice.index3(userId, null, page, size);
 		
 		
-		for (Tasklist tasklist2 : tasklist) {
-			System.out.println("第一个玩意："+tasklist2);
-		}
+//		for (Tasklist tasklist2 : tasklist) {
+//			System.out.println("第一个玩意："+tasklist2);
+//		}
 		
 		//查找已经有评语的
 		Page<Tasklist> tasklist2=tdao.findByTickingIsNotNull(pa);
@@ -529,6 +549,35 @@ public class TaskController {
 		return "success";
 	}
 	
+	
+	
+	/*
+	 * 改变对应的用户任务状态为已完成
+	 */
+	@RequestMapping("shenheajax")
+	@ResponseBody
+	public String shenheajax( String userId,String taskId ) {
+		
+		//System.out.println("哈哈哈哈哈哈，接收到了数据了呢:"+userid+taskid);
+		
+		
+		//接下来设置用户对应的中间表的任务状态为已完成
+		Long taskid = Long.parseLong(taskId);
+		Tasklist tasklist = tdao.findOne(taskid); //根据id查找到这条任务
+		
+		//任务日志算了
+			
+		//任务用户中间表数据改写		
+		Taskuser finduserIdAndTaskId = tudao.finduserIdAndTaskId( Long.parseLong(userId), taskid);  //根据用户 id 和任务 id 查找到这个任务用户中间表数据
+		
+		
+	
+		finduserIdAndTaskId.setStatusId(7); //设置当前用户的状态为已完成
+		
+		tudao.save(finduserIdAndTaskId); //保存
+		
+		return "success";
+	}
 	
 	
 	/**
