@@ -128,7 +128,7 @@ public class IndexController {
 		
 		
 		/*
-		 * 这里暂时不搞了，太复杂了都，不要和公告搞在一起搞混了，以后由时间再设置单独模块来处理
+		 * 这里暂时不搞了，太复杂了都，不要和公告搞在一起搞混了，以后有时间再设置单独模块来处理
 		 */
 		//查询所有的日程表（根据当前用户去查询）
 		//List<ScheduleList> aboutmenotice = dayser.aboutmeschedule(userId);
@@ -259,7 +259,7 @@ public class IndexController {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		User user=uDao.findOne(userId);
 		request.setAttribute("user", user);
-		//计算三个模块的记录条数
+		//计算三个模块的记录条数（待定。。。）
 		request.setAttribute("filenum", filedao.count());
 		request.setAttribute("directornum", directorDao.count());
 		request.setAttribute("discussnum", discussDao.count());

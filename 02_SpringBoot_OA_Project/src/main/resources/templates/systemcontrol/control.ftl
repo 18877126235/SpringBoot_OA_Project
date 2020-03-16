@@ -506,10 +506,11 @@
 				
 			</div>
 			
-			
+			<!-- 任务完成排行 -->
 			<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
+					<!-- 标题 -->
 					<div class="panel-title" style="display: inline-block;">
 						<h4>
 							任务完成排行
@@ -525,15 +526,18 @@
 								<li><a href="mytask">我的任务</a></li>
 							</ul>
 						</div>
-						<a href="#column" data-toggle="collapse"><button >
+						<a href="#column" data-toggle="collapse">
+							<button >
 								<span class="glyphicon glyphicon-minus shousuo"></span>
-							</button></a>
+							</button>
+						</a>
 						<button >
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</div>
 				</div>
 				
+				<!-- 显示柱状图 -->
 				<div id="column" class="shrink" style="min-width: 100px; height: 280px; margin: 0 auto;border-top:solid 1px #eee; ">
 				 
 				</div>
@@ -597,7 +601,8 @@
 </div>
 
 <script>
-//基础图标放大缩小
+
+//基础图标放大缩小（也就是最上面的四个基础图标）
 	$('.jichu').on('mouseover', function() {
 		$(this).children('.iconfont').children('.glyphicon').css('font-size', '88px');
 	});
@@ -607,14 +612,43 @@
 	});
 	/* 关闭面板按钮 */
 	$('.glyphicon-remove').parent().on('click',function(){
-		if(confirm("确定关闭此面板吗？")==false){
-			return false;
-		}
-		console.log($(this).parents('.box-show'));
-		$(this).parents('.box-show').css('display','none');
+		
+		//if(confirm("")==false){
+		//	return false;
+		//}
+		var thispanel = $(this).parents('.box-show')
+		
+		 swal({ 
+							title: "确定关闭此面板吗？", 
+							text: "你将无法恢复该虚拟文件！", 
+							type: "warning",
+							showCancelButton: true, 
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "确定关闭！", 
+							cancelButtonText: "取消关闭！",
+							closeOnConfirm: false, 
+							closeOnCancel: false	
+							},
+							function(isConfirm){ 
+							if (isConfirm) { 
+								
+								thispanel.css('display','none');
+								
+								swal.close();
+							} else { 
+								swal.close();
+							} 
+						});
+		
+		//console.log($(this).parents('.box-show'));
+		
+		
+		//
+		
 		
 	});
 	
+	//点击收缩
 	$(".shousuo").on('click',function(){
 		if($(this).hasClass("glyphicon-plus")){
 			console.log("0000")

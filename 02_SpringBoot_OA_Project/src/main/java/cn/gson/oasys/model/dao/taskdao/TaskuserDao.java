@@ -40,6 +40,10 @@ public interface TaskuserDao extends PagingAndSortingRepository<Taskuser, Long> 
 	List<Taskuser> findByTaskId(Tasklist taskId);
 	
 	
+	//获取对应的用户id所完成的任务条数
+	@Query(nativeQuery=true, value="SELECT COUNT(*) FROM aoa_task_user AS atu WHERE atu.status_id=?1 AND atu.task_recive_user_id=?2 ")
+	Integer countfinish(Long status,Long userid);
+	
 	//找新任务
 	List<Taskuser> findByUserIdAndStatusId(User user,Integer id);
 }

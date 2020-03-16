@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.gson.oasys.model.dao.scheduledao.ScheduleDao;
 import cn.gson.oasys.model.dao.taskdao.TaskDao;
+import cn.gson.oasys.model.dao.taskdao.TaskuserDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.dao.user.UserLogDao;
 import cn.gson.oasys.model.dao.user.UserLogRecordDao;
@@ -33,6 +34,7 @@ import cn.gson.oasys.model.dao.user.UserLogRecordService;
 import cn.gson.oasys.model.dao.user.UserLogService;
 import cn.gson.oasys.model.dao.user.UserService;
 import cn.gson.oasys.model.entity.schedule.ScheduleList;
+import cn.gson.oasys.model.entity.task.Taskuser;
 import cn.gson.oasys.model.entity.user.LoginRecord;
 import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.model.entity.user.UserLog;
@@ -48,12 +50,18 @@ public class UserLogController {
 	private UserDao uDao;
 	@Autowired
 	private TaskDao taskDao;
+	
+	//任务接收人联系表
+	@Autowired
+	private TaskuserDao taskuserDao;
+	
 	@Autowired
 	private UserLogRecordDao userLogRecordDao;
 	@Autowired
 	private ScheduleDao scheduleDao;
 	@Autowired
 	private UserLogRecordService userLogRecordService;
+	
 	
 	//显示本周的每天的记录
 	@RequestMapping("countweeklogin")
@@ -93,26 +101,41 @@ public class UserLogController {
 	//显示任务统计模块数据
 	@RequestMapping("counttasknum")
 	public String test3df(HttpServletResponse response) throws IOException {
+		
+		//查找所有用户
 		List<User> uList= uDao.findAll();
+		
 		HashMap< String, Integer> hashMap=new HashMap<>();
+		
 		int i=0;
+		
 		for (User user : uList) {
-			if(taskDao.countfinish(7l, user.getUserId())>0){
-				hashMap.put(user.getUserName(), taskDao.countfinish(7l, user.getUserId()));
+			//遍历用户列表，然后根据每个用户的id去查看一下谁完成了几个任务
+			//if(taskDao.countfinish(7l, user.getUserId())>0){  //这里可是搞错了哦，应该去任务用户中间表查找
+			if(taskuserDao.countfinish(7l, user.getUserId())>0){
+				
+				System.out.println("查找完成任务的家伙："+user.getUserName()+taskuserDao.countfinish(7l, user.getUserId()));
+				//System.out.println("查找完成任务的家伙："+user.getUserName()+taskDao.countfinish(7l, user.getUserId()));
+			
+			
+				//hashMap.put(user.getUserName(), taskDao.countfinish(7l, user.getUserId()));
+				hashMap.put(user.getUserName(), taskuserDao.countfinish(7l, user.getUserId()));
 				i++;
 			}
+			
 		}
-		 ArrayList<Map.Entry<String,Integer>> entries= sortMap(hashMap);
+		 ArrayList<Map.Entry<String,Integer>> entries= sortMap(hashMap); //从大到小排序好
+		 
 		 ArrayList<Map.Entry<String,Integer>> entries2=new ArrayList<Map.Entry<String,Integer>>();
 		
 		 if(entries.size()>=5)
 		 //获得前5个s
 		 for (int j = 0; j < 5; j++) {
 			entries2.add(entries.get(j));
-		}
-		 else {
+		 }else {
 			 entries2= entries;
 		}
+		 
 		String json=JSONObject.toJSONString(entries2);
 		System.out.println(json);
 		response.setHeader("Cache-Control", "no-cache");
