@@ -104,10 +104,12 @@
 				border: 3px solid #f27474;
 				}
 				
-			.cotn_principal {
+.cotn_principal {
   position: absolute;
   width: 100%;
   height: 100%;
+	
+		
 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', endColorstr='#b0bec5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
@@ -115,7 +117,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     </style>
 </head>
 
-<body  >
+<body>
 
 <!--  style="background: url(images/tupian002.jpg); " -->
 <div  class="cotn_principal ">

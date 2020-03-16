@@ -107,6 +107,12 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  
+  
+  
+
+  
+  
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cfd8dc+0,607d8b+100,b0bec5+100 */
 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', endColorstr='#b0bec5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
@@ -115,16 +121,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     </style>
 </head>
 
-<body  style="background-image: url(images/bg1.jpg);" >
-<div class="cotn_principal">
+<!-- 引入必要的css文档 弹窗用 -->
+<#include "/common/commoncss.ftl">
+
+<body   >
+<!-- <div style="background-image: url(images/bg2.png); height: 100%; width: 100% " class="cotn_principal"> -->
+<div style="background-image: url(images/bg1.jpg);" class="cotn_principal">
   <div class="cont_centrar" style="top:5%;">
     <div class="cont_login">
       <div class="cont_forms cont_forms_active_login" style=" background:#FAF0E6 ; height: 520px;width: 400px;border-radius: 15px;">
         <div   class="cont_img_back_"> <img src="images/tupian02.jpg" alt="背景图片" /> </div>
         
         
-        <!-- 这里要注意，资源会被拦截哦，要记得配置不拦截  registrations-->
-        <form   method="post" onsubmit="return check();">
+        <!-- 这里要注意，资源会被拦截哦，要记得配置不拦截  registrations        method="post"  onsubmit="return check();"-->
+        <form>
         <div class="cont_form_login" style="display: block;opacity: 1;width: 400px;">
         
         
@@ -149,15 +159,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 					<img class="thisimg" onclick="this.src='captcha?r'+Date.now()" src="captcha" alt="验证码" style="width: 100px;height: 42px;border-radius: 3px;">
 				</div>
 		    <br>-->
-		 <div><button class="btn_login btn" type="submit" >SUBMIT-GO</button></div>
-      	 <div style="width: 50px; float: left;" ><a href="login"> 返回 </a></div>
+		 <div>
+		 	<!--  
+		 	<button class="btn_login btn" type="submit" >SUBMIT-GO</button>
+		 	  onclick="check()"
+		 	-->
+		 <label style="background: #419641;" class="btn_login btn zhuceanniu">SUBMIT-GO</label>	
+		 	
+		 </div>
+      	 <div style="width: 50px; float: left;" ><a class="fanhui" href="login"> 返回 </a></div>
       	<div style="width:80px; float: right;" ><a href="#"><p>系统简介</p></a></div>
         </div>
         </form>
       </div>
       <br>
      <div style="border: 1px solid transparent;">
-      	<p style=" margin-top: 550px;font-weight: 400;color: white ;font-size: 22px;letter-spacing:1px ;">欢迎使用OA办公自动化系统</p>
+      	<p style=" margin-top: 550px;font-weight: 400;color: white ;font-size: 22px;letter-spacing:1px ;">欢迎注册OA办公自动化系统</p>
       </div>
     </div>
     
@@ -198,7 +215,7 @@ function error(errormasage){
 	$('.alert-danger').css('display','block');
 	$('.alert-danger').fadeOut(4000);
 }
-	
+
 //验证邮箱的函数
 function fChkMail(emailAddress){ 
 	
@@ -210,88 +227,137 @@ function fChkMail(emailAddress){
 }
 	
 //表单提交校验
-function check() {
+//function check() {
 	
-	var flag = 0;
-	//alert("哈哈哈哈，不给提交");
-	
-	//获取所有的输入框，查看有没有未填写的
-	var inputs = $("input");
-	inputs.each(function(){
-		var isEmpty= $(this).val();
-        if(isEmpty == ''){
-        	//显示错误提示框
-        	$('.error-mess').text('请完善数据填写!');
-        	$('.alert-danger').css('display','block');
-        	//然后缓慢隐藏错误提示框
-        	$('.alert-danger').fadeOut(4000);
-        	flag = 1; //标记
-        	return false; //这他妈是中断循环呀。。。。。。
-        }
 
-    });
-	if( flag == 1 ){
-		return false;
-	}
-	//然后校验用户名看看是否已经存在
-	//然后校验用户名看看是否已经存在
-	var username = $(".userName").val();
-	//alert(username);
-	$.ajax({
+	//return false;
+//}
+	
+	
+	
+	$(function(){
 		
-        url:"findUserName?username="+username,
-        dataType:"text", //预期服务器返回的数据类型
-        type:"get",
-        data:null, //发送到服务器的数据
-        success:function(data){
-        	//alert("成功"+data);
-        	
-        	if(data=='error'){ //如果返回错误信息
-        		error("用户名已存在,请更改！");
-        		flag = 1;
-        	}
-        },
-        error:function(data){
-        	alert("失败"+data);
-        }
-        
-    });
-	
-	
-	
-	if( flag == 1 ){
-		return false;
-	}
-	
-	//接下来判断两次密码是否一至
-	//首先判断密码是否大于六位
-	var passWord = $(".passWord").val();
-	//alert();
-	if(passWord.length<6){
+		$(".zhuceanniu").click(function(){
+			//alert("点我");
+			
+			var flag = 0;
+			//fanhui.click();
+			//alert("哈哈哈哈，不给提交");
+			
+			//获取所有的输入框，查看有没有未填写的
+			<#--var inputs = $("input");
+			inputs.each(function(){
+				var isEmpty= $(this).val();
+		        if(isEmpty == ''){
+		        	//显示错误提示框
+		        	$('.error-mess').text('请完善数据填写!');
+		        	$('.alert-danger').css('display','block');
+		        	//然后缓慢隐藏错误提示框
+		        	$('.alert-danger').fadeOut(4000);
+		        	flag = 1; //标记
+		        	return false; //这他妈是中断循环呀。。。。。。
+		        }
+
+		    });
+			if( flag == 1 ){
+				return false;
+			}
+			//然后校验用户名看看是否已经存在
+			//然后校验用户名看看是否已经存在
+			var username = $(".userName").val();
+			//alert(username);
+			$.ajax({
+				
+		        url:"findUserName?username="+username,
+		        dataType:"text", //预期服务器返回的数据类型
+		        type:"get",
+		        data:null, //发送到服务器的数据
+		        success:function(data){
+		        	//alert("成功"+data);
+		        	
+		        	if(data=='error'){ //如果返回错误信息
+		        		error("用户名已存在,请更改！");
+		        		flag = 1;
+		        	}
+		        },
+		        error:function(data){
+		        	alert("失败"+data);
+		        }
+		        
+		    });
+			
+			if( flag == 1 ){
+				return false;
+			}
+			
+			//接下来判断两次密码是否一至
+			//首先判断密码是否大于六位
+			var passWord = $(".passWord").val();
+			//alert();
+			if(passWord.length<6){
+				
+				error("密码长度必须大于或等于6位！");
+				return false;
+			}
+			//接着判断两次密码是否一致
+			var passwordAgain = $(".passwordAgain").val();
+			if( !(passwordAgain == passWord)){ //如果不相等
+				error("两次输入的密码不一致！");
+				return false;
+			}
+			
+			//最后判断邮箱格式是否正确
+			var emailInput = $(".mailBoxes").val();
+			if( !fChkMail(emailInput) ){//如果邮箱格式不正确
+				
+				error("请输入正确的邮箱，邮箱格式错误！");
+			
+				return false;
+				
+			}-->
+			
+			//alert("哈哈哈");
+			//然后发送ajax注册
+			 $.ajax({
+					
+			        url: "zhixingzhucedaima",
+			        dataType: "text", //预期服务器返回的数据类型
+			        type: "post",
+			        data:null, //发送到服务器的数据
+			        success:function(data){
+			        	
+			        	if(data == 'success'){
+							//alert("哈哈哈哈哈");
+							swal("注册成功请前往邮箱激活登录","三秒后自动跳转到登陆界面","success");
+							setTimeout(function(){
+								//alert("Hello");
+								
+								swal.close();
+								
+								//嵌套定时器，使得视觉体验感更佳
+								setTimeout(function(){
+									document.location.href="login";
+								},200);
+								
+								
+								//alert("哈哈哈");
+								return false;
+							},3000);
+						}
+			        	
+			        },
+			        error:function(data){
+			        	alert("失败"+data);
+			        }
+			        
+			    });
+			
+			//return false;
+			
+		});
 		
-		error("密码长度必须大于或等于6位！");
-		return false;
-	}
-	//接着判断两次密码是否一致
-	var passwordAgain = $(".passwordAgain").val();
-	if( !(passwordAgain == passWord)){ //如果不相等
-		error("两次输入的密码不一致！");
-		return false;
-	}
-	
-	//最后判断邮箱格式是否正确
-	var emailInput = $(".mailBoxes").val();
-	if( !fChkMail(emailInput) ){//如果邮箱格式不正确
 		
-		error("请输入正确的邮箱，邮箱格式错误！");
-	
-		return false;
-		
-	}
-	
-	return true;
-}
-	
+	});
 
 </script>
 </body>

@@ -66,6 +66,7 @@ public class LoginsController {
 		return "login/Registration";
 	}
 	
+
 	
 	/*
 	 * 退出登录
@@ -180,7 +181,7 @@ public class LoginsController {
 	public  @ResponseBody String findUserName(String username) {
 		
 		//System.out.println("看看能否获取用户名："+username);
-		
+		System.out.println("哈哈哈来了老弟哈哈哈****************************************");
 		User user = uDao.findByUserName(username);
 		//System.out.println(user);
 		
