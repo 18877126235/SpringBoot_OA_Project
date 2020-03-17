@@ -75,9 +75,11 @@
 	<div class="row">
 		<!--考勤签到-->
 		<div class="col-md-3" >
+		
 		    <div id="refresh">
 				<#include "signin.ftl">
 			</div>
+			
 		</div>
 		<!--文件管理-->
 		<div class="col-md-3">

@@ -54,12 +54,12 @@ public class Attends {
 	@Column(name="holiday_start")//请假开始时间
 	private Date holidayStart;
 	
-	@Column(name="holiday_days")//请假开始时间
+	@Column(name="holiday_days")//请假开始时间？？？
 	private Double holidayDays;
 	
 	@ManyToOne
 	@JoinColumn(name = "attends_user_id")
-	private User user;
+	private User user;  //对应的用户外键
 	
 	
 	
