@@ -31,8 +31,8 @@ public interface AttendceDao  extends JpaRepository<Attends, Long>{
 	Integer countrecord(String date, long userid);
 	
 	//查找某用户某天最新记录用来显示用户最新的类型和考勤时间
-@Query(nativeQuery=true,value="SELECT * from aoa_attends_list a WHERE DATE_format(a.attends_time,'%Y-%m-%d') like %?1% and a.attends_user_id=?2 ORDER  BY a.attends_time DESC  LIMIT 1")
-Attends findlastest(String date, long userid);
+	@Query(nativeQuery=true,value="SELECT * from aoa_attends_list a WHERE DATE_format(a.attends_time,'%Y-%m-%d') like %?1% and a.attends_user_id=?2 ORDER  BY a.attends_time DESC  LIMIT 1")
+	Attends findlastest(String date, long userid);
 
 
 @Query("from Attends a where a.user.userId=:userId ORDER BY a.attendsTime DESC")

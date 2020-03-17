@@ -72,7 +72,7 @@ public class AttendceController {
 		String attendip=ia.getHostAddress();
 		
 		// 时间规范(上班时间范围)
-		String start = "08:00:00", end = "09:00:00";
+		String start = "08:00:00", end = "20:00:00";
 		//类型转换器，设置用来将String转换成Date
 		service.addConverter(new StringtoDate());
 		
@@ -159,15 +159,17 @@ public class AttendceController {
 				attends = new Attends(typeId, statusId, date, hourmin, weekofday, attendip, user);
 				attenceDao.save(attends);
 			}
+			//已经点过上班下班了，
 			if (count >= 2) {
 				// 已经是下班的状态了 大于2就是修改考勤时间了
 				// 下班id9
-				if (hourminsec.compareTo(end) > 0) { // 最进一次签到在规定时间晚下班正常
+				if (hourminsec.compareTo(end) > 0) { // 最进一次签到在规定时间晚下班正常（当前时间大于正常下班时间）
 					statusId = 10;
-				} else if (hourminsec.compareTo(end) < 0) {
+				} else if (hourminsec.compareTo(end) < 0) {//（当前时间早于下班时间就是早退）
 					// 最进一次签到在规定时间早下班早退
 					statusId = 12;
 				}
+				//更改下班记录
 				aid = attenceDao.findoffworkid(nowdate, userId);
 				Attends attends2=attenceDao.findOne(aid);
 				attends2.setAttendsIp(attendip);
@@ -177,17 +179,32 @@ public class AttendceController {
 			}
 		}
 		// 显示用户当天最新的记录
-		Attends aList = attenceDao.findlastest(nowdate, userId);
+		/*Attends aList = attenceDao.findlastest(nowdate, userId);
 		if (aList != null) {
+			//获取类型名称
 			String type = typeDao.findname(aList.getTypeId());
 			model.addAttribute("type", type);
 		}
-		model.addAttribute("alist", aList);
+		model.addAttribute("alist", aList);*/
 		
 		//return "systemcontrol/signin";
 		return "success";
 	}
-
+	
+	
+	/*
+	 * 使用ajax的方式判断是否处于下班时间状态
+	 */
+	@ResponseBody
+	@RequestMapping("isxiaban")
+	public String isxiaban() {
+		
+		
+		
+		
+		return "success";
+		
+	}
 	
 	
 	// 考情列表 给单个用户使用

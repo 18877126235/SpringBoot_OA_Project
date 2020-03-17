@@ -229,17 +229,26 @@ public class IndexController {
 		return "user/userlog";
 	}
 
+	/*
+	 * 获取签到信息
+	 */
 	private void showalist(Model model, Long userId) {
-		// 显示用户当天最新的记录
+		
+		// 显示用户当天最新的签到记录
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String nowdate = sdf.format(date);
+		//然后获取到最新的考勤记录
 		Attends aList = attendceDao.findlastest(nowdate, userId);
+		
 		if (aList != null) {
 			String type = typeDao.findname(aList.getTypeId());
+			
 			model.addAttribute("type", type);
 		}
+		
 		model.addAttribute("alist", aList);
+		
 	}
 	
 	
@@ -272,7 +281,9 @@ public class IndexController {
 		}
 		// List<Map<String, Object>>
 		// noticeList=informRService.setList(noticeList1);
+		//获取签到信息
 		showalist(model, userId);
+		
 		System.out.println("通知"+list);
 		model.addAttribute("noticeList", list);
 		
@@ -294,7 +305,7 @@ public class IndexController {
 		model.addAttribute("processlist", pList);
 		List<SystemStatusList> processstatus = (List<SystemStatusList>) statusDao.findByStatusModel("aoa_process_list");
 		model.addAttribute("prostatuslist", processstatus);
-		return "systemcontrol/control";
+		return "systemcontrol/control"; //转发到首页视图
 	}
 	
 	@RequestMapping("test3")
