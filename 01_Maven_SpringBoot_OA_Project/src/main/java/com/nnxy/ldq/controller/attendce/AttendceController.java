@@ -199,11 +199,101 @@ public class AttendceController {
 	@RequestMapping("isxiaban")
 	public String isxiaban() {
 		
+		// 时间规范(上班时间范围)
+		String start = "08:00:00", end = "20:00:00";
 		
+		//设置日期格式并获取当前日期
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String nowdate = sdf.format(date); //获得当前日期的String格式
 		
+		// 截取时分秒
+		SimpleDateFormat sdf5 = new SimpleDateFormat("HH:mm:ss");
+		// 时分秒
+		String hourminsec = sdf5.format(date);
+		//接下来判断当前日期是否属于下班时间
+		if (hourminsec.compareTo(end) > 0) { //拿当前时间和下班时间对比
+			
+			//System.out.println("可以下班签到了**************");
+			
+			return "yes";
+			
+		}else {
+			//System.out.println("还未到下班时间哦*************");
+			return "not";
+		}
+		
+		//System.out.println("什么鬼，居然访问不到***************");
+		
+		//return "success";
+		
+	}
+	
+	/*
+	 * 执行下班签到操作
+	 */
+	@RequestMapping("zhixingxiabanqiandao")
+	@ResponseBody
+	public String zhixingxiabanqiandao(HttpSession session,HttpServletRequest request) throws UnknownHostException {
+		
+		// 时间规范(上班时间范围)
+		String start = "08:00:00", end = "20:00:00";
+		
+		//签到表对象
+		Attends attends = null;
+		//类型id和状态id
+		// 状态默认是正常
+		long typeId, statusId = 10; //10是状态id正常
+		//签到表对象
+	
+		//首先获取ip
+		InetAddress ia=null;
+		ia=ia.getLocalHost();
+		String attendip=ia.getHostAddress();
+		
+		//获取当前用户
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		User user = uDao.findOne(userId);
+		//设置日期格式
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String nowdate = sdf.format(date); //获得当前日期的String格式
+		// 星期 判断该日期是星期几
+		SimpleDateFormat sdf3 = new SimpleDateFormat("EEEE");
+		// 截取时分
+		SimpleDateFormat sdf4 = new SimpleDateFormat("HH:mm");
+		// 截取时分秒
+		SimpleDateFormat sdf5 = new SimpleDateFormat("HH:mm:ss");
+		// 一周当中的星期几
+		String weekofday = sdf3.format(date);
+		// 时分
+		String hourmin = sdf4.format(date);
+		// 时分秒
+		String hourminsec = sdf5.format(date);
+		//System.out.println("星期" + weekofday + "时分" + hourmin + "时分秒" + hourminsec);
+		//System.out.println(date);
+		Long aid = null;
+
+		//判断是否早退
+		// 找到当天的一条记录就表示此次点击是下班
+		// 下班id9
+		typeId = 9;
+		// 下班就只有早退和正常
+		if (hourminsec.compareTo(end) > 0) {
+			// 在规定时间晚下班正常
+			statusId = 10;
+		} else if (hourminsec.compareTo(end) < 0) {
+			// 在规定时间早下班早退
+			statusId = 12;
+		}
+		
+		attends = new Attends(typeId, statusId, date, hourmin, weekofday, attendip, user);
+		
+		System.out.println("好了，执行下班签到了呢："+attends);
+		
+		attenceDao.save(attends);
 		
 		return "success";
-		
 	}
 	
 	

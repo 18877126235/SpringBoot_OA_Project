@@ -239,16 +239,29 @@ public class IndexController {
 		Date date = new Date();
 		String nowdate = sdf.format(date);
 		//然后获取到最新的考勤记录
-		Attends aList = attendceDao.findlastest(nowdate, userId);
-		
+		/*//Attends aList = attendceDao.findlastest(nowdate, userId);
 		if (aList != null) {
 			String type = typeDao.findname(aList.getTypeId());
 			
 			model.addAttribute("type", type);
 		}
 		
-		model.addAttribute("alist", aList);
+		model.addAttribute("alist", aList);*/
 		
+		
+		//改成查找某用户某天总共的记录
+		int aList = attendceDao.countrecord( nowdate,  userId);
+		
+		//System.out.println("怎么会报错了呢："+aList);
+		
+		if( aList == 0 ) {
+			model.addAttribute("alist", "0");
+		}else if( aList == 1 ) {
+			model.addAttribute("alist", "1");
+		}else {
+			model.addAttribute("alist", "2");
+		}
+		model.addAttribute("type", "1");
 	}
 	
 	
