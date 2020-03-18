@@ -376,7 +376,8 @@ public class MenuSysController {
 		
 		
 
-		return "forward:/menuedit"; //返回去，弹出操作成功，点击确定后回到菜单管理界面
+		//return "forward:/menuedit"; //转发回去，弹出操作成功，点击确定后回到菜单管理界面
+		return "testsysmenu";
 	}
 	
 	/**

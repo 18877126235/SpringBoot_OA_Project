@@ -238,7 +238,7 @@ h1, h3 {
 
 			<form action="saveuser" method="post" enctype="multipart/form-data" onsubmit="return empcheck();" >
 			<div class="tab-content">
-
+				<!-- 展示我的便签 -->
 				<div class="active tab-pane thistable" id="memo">
 				<#include "/user/panel.ftl">
 
@@ -369,11 +369,12 @@ h1, h3 {
 							</div>
 
 						</div>
-
+						<!-- 
 						<div class="row">
 
 							<hr />
-
+							
+							 
 							<div class="col-md-6 form-group">
 								<label><span id="ctl00_cphMain_Label17">头像</span></label>
 								<div class="form-group">
@@ -388,9 +389,9 @@ h1, h3 {
 							</div>
 
 						</div>
-
+						-->
 					</div>
-
+					
 					<div class="box-footer" style="position: relative; overflow: hidden;">
 						<input type="submit" name="ctl00$cphMain$btnSave" value="保存"
 							id="ctl00_cphMain_btnSave" class="btn btn-primary" />

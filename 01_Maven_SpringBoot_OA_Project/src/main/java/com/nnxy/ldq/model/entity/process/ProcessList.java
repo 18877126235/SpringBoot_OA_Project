@@ -16,7 +16,7 @@ import com.nnxy.ldq.model.entity.note.Attachment;
 import com.nnxy.ldq.model.entity.user.User;
 
 @Entity
-@Table(name="aoa_ProcessList")
+@Table(name="aoa_ProcessList")//注意表名称的写法，大写字母代表下划线，我去，坑死人
 //主表
 public class ProcessList{
 	

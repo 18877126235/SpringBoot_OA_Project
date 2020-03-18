@@ -137,7 +137,7 @@ a:hover {
 	
 </div>
 
-<#include "/common/modalTip.ftl"/> 
+
 
 <script type="text/javascript">
 //返回上个页面

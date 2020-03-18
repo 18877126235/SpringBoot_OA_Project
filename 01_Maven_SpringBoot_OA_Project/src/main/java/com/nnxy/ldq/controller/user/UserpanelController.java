@@ -28,6 +28,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,7 +76,10 @@ public class UserpanelController {
 			System.out.println("获取项目路径异常");
 		}
 	}
-
+	
+	/*
+	 * 点击用户面板
+	 */
 	@RequestMapping("userpanel")
 	public String index(@SessionAttribute("userId") Long userId,Model model,HttpServletRequest req,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -160,9 +164,9 @@ public class UserpanelController {
 		return "redirect:/userpanel";
 	}
 	/**
-	 * 删除便签
+	 * 删除便签 修改为ajax方式删除
 	 */
-	@RequestMapping("notepaper")
+	/*@RequestMapping("notepaper")
 	public String deletepaper(HttpServletRequest request,@SessionAttribute("userId") Long userId){
 		User user=udao.findOne(userId);
 		String paperid=request.getParameter("id");
@@ -176,7 +180,31 @@ public class UserpanelController {
 		}
 		return "redirect:/userpanel";
 		
+	}*/
+	/*
+	 * ajax方式删除便签
+	 */
+	@ResponseBody
+	@RequestMapping("notepaper")
+	public String deletepaper(HttpServletRequest request,@SessionAttribute("userId") Long userId){
+		
+		User user=udao.findOne(userId);
+		String paperid=request.getParameter("noteid");
+		
+		//System.out.println("获取便签id测试看看："+paperid);
+		
+		Long lpid = Long.parseLong(paperid);
+		Notepaper note=ndao.findOne(lpid);
+		if(user.getUserId().equals(note.getUserId().getUserId())){
+			nservice.delete(lpid);
+		}else{
+			System.out.println("权限不匹配，不能删除");
+			return "error";
+		}
+		return "success";
+		
 	}
+	
 	/**
 	 * 修改用户
 	 * @throws IOException 
