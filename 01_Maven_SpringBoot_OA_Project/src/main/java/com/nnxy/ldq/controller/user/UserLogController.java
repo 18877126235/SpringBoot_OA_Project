@@ -159,27 +159,27 @@ public class UserLogController {
 	}
 	
 	//用来查找用户记录
-			@RequestMapping("morelogrecord")
-			public String test3df342(@RequestParam(value="page",defaultValue = "0")int page,
-					HttpSession session,Model model,
-					@RequestParam(value="baseKey",required=false)String basekey,
-					@RequestParam(value="time",required=false)String time,
-					@RequestParam(value="icon",required=false)String icon
-					) {
-				
-				//System.out.println("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
-				System.out.println("11"+basekey);
+	@RequestMapping("morelogrecord")
+	public String test3df342(@RequestParam(value="page",defaultValue = "0")int page,
+			HttpSession session,Model model,
+			@RequestParam(value="baseKey",required=false)String basekey,
+			@RequestParam(value="time",required=false)String time,
+			@RequestParam(value="icon",required=false)String icon
+			) {
+		
+		//System.out.println("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
+		System.out.println("11"+basekey);
 
-				
-				
-				getuserlogrecord(page, session, model, basekey, time, icon);
-				
-				/*List<LoginRecord> findAll = userLogRecordDao.findAll();
-				
-				model.addAttribute("userloglist", findAll);*/
-				
-				return "user/userlogrecordmanage";
-			}
+		
+		
+		getuserlogrecord(page, session, model, basekey, time, icon);
+		
+		/*List<LoginRecord> findAll = userLogRecordDao.findAll();
+		
+		model.addAttribute("userloglist", findAll);*/
+		
+		return "user/userlogrecordmanage";
+	}
 
 			 
 	

@@ -1,21 +1,27 @@
 <div class="col-md-12 green" >
 	<!--导航栏左侧按钮，-->
+	
 	<ul class="nav navbar-nav navbar-left" style="margin-left: -15px;">
+	
 		<li><a href="#" class="green-none white"><span
-				class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+				class="glyphicon glyphicon-menu-hamburger"></span>
+				展开/隐藏
+			</a></li>
 	</ul>
+	
 	<!--右侧导航栏-->
 	<ul class="nav navbar-nav navbar-right moredeep">
 		
 		<!-- 公告通知图标 -->
-		<li><a href="javascript:changepath('/infromlist');" class="green-none white"><span
+		<li>
+			<a href="javascript:changepath('/infromlist');" class="green-none white"><span
 				class="glyphicon glyphicon-bell"></span>
 				<#if notice==0>
 					<span class="badge blue-badge badge-notice"></span>
 				<#else>
 					<span class="badge blue-badge badge-notice">${(notice)!''}</span>
 				</#if>
-				</a>
+			</a>
 		</li>
 		
 		<!-- 邮件通知图标 -->
@@ -65,6 +71,7 @@
 					</div>
 				</li>
 			</ul>
+			
 		</li>
 
 		<li style="position: relative;"><a  id="history" class="green-none white" data-toggle="dropdown"><span
@@ -72,8 +79,10 @@
 				
 		<ul id="historypanel" class="dropdown-menu"
 				style="position: absolute; background-color: #222d32;">
+				
 				<!-- 用户历史记录表 -->
 				<#include "/user/userlog.ftl"/>
+				
 		</ul>
 	</li>
 </ul>

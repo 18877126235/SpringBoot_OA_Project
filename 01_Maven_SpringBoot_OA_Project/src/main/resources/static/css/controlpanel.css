@@ -1,4 +1,4 @@
-/*鍥涗釜鏍呮牸绯荤粺锛岀鍒扮鐞嗙瓑*/
+/*閸ユ稐閲滈弽鍛壐缁崵绮洪敍宀�顒烽崚鎵吀閻炲棛鐡�*/
 .jichu {
 	position: relative;
 	border-radius: 3px;
@@ -48,7 +48,7 @@
 .moreduo:hover {
 	text-decoration: none;
 }
-/*鐩掑瓙妯″瀷鍩烘湰css*/
+/*閻╂帒鐡欏Ο鈥崇�烽崺鐑樻拱css*/
 .right-btn-group {
 	color: white;
 	border-color: #367fa9;
@@ -125,7 +125,7 @@
 .btn-color button:hover {
 	background: #adadad;
 }
-/*鍙宠竟浜斾釜鏍煎瓙鐨勭洅瀛愶紝鎴戠殑渚跨*/
+/*閸欏疇绔熸禍鏂鹃嚋閺嶇厧鐡欓惃鍕磪鐎涙劧绱濋幋鎴犳畱娓氳法顒�*/
 .list-group-item-li {
 	position: relative;
 	margin-bottom: -26px;
@@ -214,15 +214,15 @@
 			 padding-left: 13px !important;
     		padding-right: 10px !important;
 			}
-			/*褰撳墠澶�*/
+			/*瑜版挸澧犳径锟�*/
 			.today{
 				color:red;
 			}
-			/*鏈湀 鏂囧瓧棰滆壊*/
+			/*閺堫剚婀� 閺傚洤鐡ф０婊嗗*/
 			.currentday{
 				color: white;
 			}
-			/*鍏朵粬鏈堥鑹�*/
+			/*閸忔湹绮張鍫ヮ杹閼癸拷*/
 			.lastMonth{
 				color: black;
 			}
@@ -237,7 +237,7 @@
     padding-left: 15px;}
     
     .right-btn-group button{
-     background: #337ab7 !important; 
+     background: #18e89d  ; 
     }
     .glyphicon-flag{
      color: #EE2C2C !important;

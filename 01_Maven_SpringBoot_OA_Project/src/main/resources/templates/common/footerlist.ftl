@@ -1,11 +1,11 @@
 <!-- <div class="container-fluid" style="padding: 0;">
 	<div class="row"> -->
-		<div class="col-md-12" id="ss"
-			style="background: white; padding: 15px; position: absolute; bottom: 0;height:50px;">
-			<strong> Copyright © 2017 <a href="http://www.zxyoo.cn">zxyoo</a>.
+		<div  class="col-md-12" id="ss"
+			style=" text-align:center; background: white; padding: 15px; position: absolute; bottom: 0;height:50px;">
+			<strong> 作者：刘大庆-(二次开发) © 起始：2019-12-01 <a href="##">Maven-SpringBoot-OA-Project</a>.
 			</strong> All rights reserved.
 			<div class="pull-right currt-time" style="display: inline-block;margin-right: 20px;">
-				2017年08月27日，星期日</div>
+				完成日期-2020年05月？？日，星期？</div>
 		</div>
 	<!-- </div>
 </div> -->

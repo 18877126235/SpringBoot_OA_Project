@@ -167,7 +167,7 @@
 			</div>
 			-->
 			
-			<!-- 轮播图 -->
+			<!-- 轮播图    考虑要不要添加关闭和收起的按钮-->
 			<div style="height: 350px ;" class="panel panel-default box-show green-box">
 			
 				<div  id="carousel-example-generic" style=" height:100% ;" class="carousel slide" data-ride="carousel">
@@ -230,22 +230,26 @@
 						style="display: inline-block;">
 						<div style="display: inline-block;">
 							<button data-toggle="dropdown" >
+							
 								<span class="glyphicon glyphicon-menu-hamburger"></span>
 							</button>
 							<ul class="dropdown-menu">
 								<li><a href="infrommanage">公告通知</a></li>
 							</ul>
 						</div>
-						<a  ><button>
+						<a ><button>
 								<span class="glyphicon glyphicon-minus shousuo"></span>
+								
 							</button></a>
 						<button>
 							<span class="glyphicon glyphicon-remove"></span>
+							
 						</button>
 					</div>
 				</div>
 				
 				<div id="" class="shrink">
+				
 					<table class="table table-hover" >
 						<tr>
 							<th>发布</th>
@@ -266,17 +270,15 @@
 						</#list>
 						
 					</table>
+					
 				</div>
-				<div class="panel-title" style="padding-bottom:20px; display: inline-block;">
-						<h5>更多内容请到公告管理中心查看</h5>
-				</div>
-			
+
 			</div>
 			
 			
 			
 			<!--第二个box；流程管理-->
-			<div class="panel panel-default box-show green-box">
+			<div style="height: 325px ;" class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
 					<div class="panel-title" style="display: inline-block;">
@@ -330,7 +332,9 @@
 					</table>
 				</div>
 			</div>
+			
 			<!--第三个box；工作计划-->
+			<!--  
 			<div class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
@@ -391,9 +395,13 @@
 						</#list>
 					</table>
 				</div>
-			</div>
+			</div>-->
+		
 		</div>
-
+		
+		
+		
+		
 		<!--内容右侧5个格子；-->
 		<div class="rightcolmd">
 		<!--  
@@ -548,7 +556,7 @@
 			
 			
 			<!--第五个格子-->
-			<div class="panel panel-default box-show green-box">
+			<div style="height: 325px ;" class="panel panel-default box-show green-box">
 				<div class="panel-heading box-show-heading"
 					style="background: white;">
 					<div class="panel-title" style="display: inline-block;">

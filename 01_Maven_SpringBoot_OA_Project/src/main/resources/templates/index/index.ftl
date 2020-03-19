@@ -55,10 +55,10 @@ maximum-scale=1, user-scalable=no">
 </head>
 <body>
 
-	<div class="main">
+	<div  class="row main">
 		<div class="container-fluid">
 			<div class="row">
-				<#include "/common/leftlist.ftl"> <!--顶层右侧的导航栏，栅格系统分10份-->
+				<#include "/common/leftlist.ftl"> <!--顶层左侧的导航栏，栅格系统分10份-->
 				<div class="col-md-10 moredeep" style="padding: 0; margin: 0;">
 					<!-- 导航栏 -->
 					<#include "/common/navlist.ftl">
@@ -73,7 +73,9 @@ maximum-scale=1, user-scalable=no">
 			</div>
 		</div>
 	</div>
-
+	
+	<!-- 页脚 -->
+	<#include "/common/footerlist2.ftl">
 
 </body>
 
