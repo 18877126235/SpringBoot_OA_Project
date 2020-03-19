@@ -85,7 +85,7 @@ public class PlanController {
 
 	}
 
-	// 计划管理
+	// 点击计划管理显示个人计划列表
 	@RequestMapping(value="planview", method = RequestMethod.GET)
 	public String test(Model model, HttpSession session, 
 			@RequestParam(value = "page", defaultValue = "0") int page,

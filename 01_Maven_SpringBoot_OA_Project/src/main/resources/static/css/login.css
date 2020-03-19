@@ -116,13 +116,17 @@ animation-direction: alternate;
 
 .cont_img_back_1 {
   position: absolute;
-  width: 110%;
+  width: 120%;
+  
+  height:130%;
+  
 top:-80px;
   left: -116px;
 }
 
 .cont_img_back_1 > img {
   width: 100%;
+  height:100%;
 
 animation-name: animar_fondo;
 animation-duration: 10s;

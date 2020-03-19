@@ -99,7 +99,13 @@
 					
 					
 					swal.close();
-					window.location.href="loginout";
+					
+					//使用定时器延时一段时间，达到更好的用户体验
+					setTimeout(function(){
+						window.location.href="loginout";
+					},200);
+					
+					
 				} else { 
 					swal.close();
 				} 

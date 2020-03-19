@@ -254,11 +254,12 @@ public class IndexController {
 		
 		//System.out.println("怎么会报错了呢："+aList);
 		
-		if( aList == 0 ) {
+		if( aList == 0 ) {//没有签到
 			model.addAttribute("alist", "0");
-		}else if( aList == 1 ) {
+		}else if( aList == 1 ) { //已经签到
 			model.addAttribute("alist", "1");
-		}else {
+		}else 
+		{//签到结束
 			model.addAttribute("alist", "2");
 		}
 		model.addAttribute("type", "1");

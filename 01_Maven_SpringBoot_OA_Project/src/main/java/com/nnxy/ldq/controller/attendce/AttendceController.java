@@ -289,7 +289,7 @@ public class AttendceController {
 		
 		attends = new Attends(typeId, statusId, date, hourmin, weekofday, attendip, user);
 		
-		System.out.println("好了，执行下班签到了呢："+attends);
+		//System.out.println("好了，执行下班签到了呢："+attends);
 		
 		attenceDao.save(attends);
 		
@@ -336,6 +336,7 @@ public class AttendceController {
 		return "attendce/attendceview";
 	}
 
+	
 	// 分頁分页
 	@RequestMapping("attendcetable")
 	public String table(HttpServletRequest request, HttpSession session,
@@ -380,15 +381,18 @@ public class AttendceController {
 
 	
 
-	// 周报表
+	// 考勤周报表
 	@RequestMapping("attendceweek")
 	public String test3(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "baseKey", required = false) String baseKey) {
+		//baseKey是查找的关键字
 		weektablepaging(request, session, page, baseKey);
+		
 		return "attendce/weektable";
 	}
 
+	
 	@RequestMapping("realweektable")
 	public String dsaf(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -398,6 +402,7 @@ public class AttendceController {
 
 	}
 
+	
 	
 
 	@RequestMapping("attendceedit")
@@ -504,8 +509,9 @@ public class AttendceController {
 			String status, String time, String icon, Model model) {
 		setSomething(baseKey, type, status, time, icon, model);
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		User uSer = uDao.findOne(userId);
 		List<Long> ids = new ArrayList<>();
-		List<User> users = uDao.findByFatherId(userId);
+		List<User> users = uDao.findByFatherId(uSer.getFatherId());
 		for (User user : users) {
 			ids.add(user.getUserId());
 		}
@@ -522,30 +528,44 @@ public class AttendceController {
 	
 	//周报表分页
 	private void weektablepaging(HttpServletRequest request, HttpSession session, int page, String baseKey) {
+		//一周的开始时间和结束时间
 		String starttime = request.getParameter("starttime");
 		String endtime = request.getParameter("endtime");
+		
 		// 格式转化
-		service.addConverter(new StringtoDate());
+		service.addConverter(new StringtoDate()); //格式转换，String转换成Date
+		//获得时间
 		Date startdate = service.convert(starttime, Date.class);
 		Date enddate = service.convert(endtime, Date.class);
 		
+		
 		//用来查找该用户下面管理的所有用户信息
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		
+		User uSer = uDao.findOne(userId);
+		
 		List<Long> ids = new ArrayList<>();
-		Page<User> userspage =userService.findmyemployuser(page, baseKey, userId);
+		
+		Page<User> userspage =userService.findmyemployuser(page, baseKey, uSer.getFatherId());
+		//System.out.println("执行到这里了呀，怎么没有数据");
 		for (User user : userspage) {
 			ids.add(user.getUserId());
+			System.out.println("获取到了员工哈哈哈哈哈哈："+user.getUserName());
 		}
+		
 		if (ids.size() == 0) {
 			ids.add(0L);
 		}
 		
 		//找到某个管理员下面的所有用户的信息 保证传过来的是正确的数据 分页之后可以使用全局变量来记住开始和结束日期
-		if(startdate!=null&&enddate!=null)
-			{start=startdate;end=enddate;}
-		if(startdate==null&&enddate==null)
+		if(startdate!=null&&enddate!=null){
+			start=startdate;end=enddate;
+		}
+		if(startdate==null&&enddate==null) {
 			startdate=start;enddate=end;
-			System.out.println("再次获取"+startdate+"结束"+enddate);
+		}	
+		System.out.println("再次获取"+startdate+"结束"+enddate);
+			
 		List<Attends> alist = attenceDao.findoneweek(startdate, enddate, ids);
 		Set<Attends> attenceset = new HashSet<>();
 		for (User user : userspage) {
@@ -568,7 +588,10 @@ public class AttendceController {
 		Integer offnum,toworknum;
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		List<Long> ids = new ArrayList<>();
-		Page<User> userspage =userService.findmyemployuser(page, baseKey, userId);
+		
+		User uSer = uDao.findOne(userId);
+		
+		Page<User> userspage =userService.findmyemployuser(page, baseKey, uSer.getFatherId());
 		for (User user : userspage) {
 			ids.add(user.getUserId());
 		}

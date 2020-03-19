@@ -1,8 +1,8 @@
 
 <table class="table table-striped table-hover table-bordered table-responsive">
 					<tr>
-						<th>部门</th>
-						<th>成员</th>
+						<th>部门名称</th>
+						<th>成员名称</th>
 						<th>星期一</th>
 						<th>星期二</th>
 						<th>星期三</th>
@@ -25,10 +25,10 @@
 				      	<#if (att.weekOfday??)&&(att.weekOfday==wd)>
 					 	 	<a href="attendceedit?aid=${att.attendsId}" >
 					 	 	    <#if att.typeId==8>
-									<div >上班：${att.attendHmtime}</div>
+									<div >上班时间：${att.attendHmtime}</div>
 								</#if>
 								<#if att.typeId==9>
-									<div >下班：${att.attendHmtime}</div>
+									<div >下班时间：${att.attendHmtime}</div>
 								</#if>
 							</a>
 						 </#if>

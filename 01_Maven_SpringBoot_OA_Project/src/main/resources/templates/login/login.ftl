@@ -120,7 +120,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 <body>
 
 <!--  style="background: url(images/tupian002.jpg); " -->
-<div  class="cotn_principal ">
+<div style="overflow: hidden;"  class="cotn_principal ">
 
 	 <div class="cont_img_back_1"> <img src="images/tupian002.jpg" alt="背景图片" /> </div>
 

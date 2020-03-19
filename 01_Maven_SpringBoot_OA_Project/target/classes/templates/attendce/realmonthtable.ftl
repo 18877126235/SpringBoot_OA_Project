@@ -9,8 +9,8 @@
 				class="table table-striped table-hover table-bordered table-responsive">
 			
 				<tr>
-					<th>部门</th>
-					<th>成员</th>
+					<th>部门名称</th>
+					<th>成员名称</th>
 					<th>正常</th>
 					<th>迟到</th>
 					<th>早退</th>

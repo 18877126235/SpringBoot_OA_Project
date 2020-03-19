@@ -1,8 +1,16 @@
 eclipse.preferences.version=1
 encoding//src/main/resources/application.properties=UTF-8
+encoding//src/main/resources/templates/attendce/realmonthtable.ftl=UTF-8
+encoding//src/main/resources/templates/attendce/realweektable.ftl=UTF-8
+encoding//src/main/resources/templates/attendce/weektable.ftl=UTF-8
+encoding//src/main/resources/templates/chat/chattable.ftl=UTF-8
+encoding//src/main/resources/templates/chat/replaymanage.ftl=UTF-8
+encoding//src/main/resources/templates/common/navlist.ftl=UTF-8
+encoding//src/main/resources/templates/daymanage/daymanagepaging.ftl=UTF-8
 encoding//src/main/resources/templates/index/index.ftl=UTF-8
 encoding//src/main/resources/templates/index/test.ftl=UTF-8
 encoding//src/main/resources/templates/login/Registration.ftl=UTF-8
+encoding//src/main/resources/templates/login/login.ftl=UTF-8
 encoding//src/main/resources/templates/systemcontrol/control.ftl=UTF-8
 encoding//src/main/resources/templates/systemcontrol/menuedit_new.ftl=UTF-8
 encoding//src/main/resources/templates/systemcontrol/menumanage.ftl=UTF-8
