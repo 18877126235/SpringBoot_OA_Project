@@ -10,4 +10,4 @@ https://www.degraeve.com/img2txt.php
                                \  \:\/:/        /  /:/     \  \:\/:/     /__/:/        \  \:\/:/
                                 \  \::/        /__/:/       \  \::/      \__\/          \  \::/
                                  \__\/         \__\/         \__\/                       \__\/
-                              Copyright (c) 2018 aaluoxiang  https://gitee.com/aaluoxiang/oa_system
+                              Copyright (c) 2020 aaluoxiang  https://gitee.com/aaluoxiang/oa_system

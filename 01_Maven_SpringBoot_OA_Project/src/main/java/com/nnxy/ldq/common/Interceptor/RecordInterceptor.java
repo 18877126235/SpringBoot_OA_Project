@@ -65,6 +65,7 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		String zhuan="notlimit"; //弹出权限不足
 		
 		
+		
 		if(oneMenuAll.size()>0){ //存在父菜单（除非实习生除外）
 				all.addAll(oneMenuAll); //在集合里面又加入一个集合
 		}

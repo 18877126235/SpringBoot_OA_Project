@@ -98,14 +98,21 @@ li.activee>a {
 			</div>
 			<ul class="nav nav-pills nav-stacked mm" id="navpills">
 				<li class="activee notfather">
-					<a href="##"> <span	class="glyphicon glyphicon-user"> 内部通讯录</span>
+					<a href="#"  > <span class="glyphicon glyphicon-home"> 内部通讯录</span>
+						<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="#thisul1"  data-toggle="collapse" ></i>
 					</a>
 				</li>
+				<!-- 部门下拉菜单 -->
+				<ul id="thisul1" class="nav nav-pills nav-stacked panel-collapse collapse">
+					<#include "addtypename1.ftl"/>
+				</ul>
+				
 				<li class="ulfather">
 					<a href="#"><span class="glyphicon glyphicon-user"> 外部通讯录</span> 
 						<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="#thisul"  data-toggle="collapse" ></i>
 					</a>
 				</li>
+				<!-- 外部通讯录下拉菜单 -->
 				<ul id="thisul" class="nav nav-pills nav-stacked panel-collapse collapse">
 					<#include "addtypename.ftl"/>
 				</ul>
@@ -120,7 +127,10 @@ li.activee>a {
 				<div class="input-group">
 					<input type="text" class="form-control addtypename" name="" value="" placeholder="新增外部分类" />
 					<div class="input-group-btn">
+					
+						<!-- 需要改进 -->
 						<input type="submit" class="btn btn-primary addtype" name="" id="" style="padding:6px;" value="新增" />
+						
 					</div>
 				</div>
 			</div>
@@ -152,7 +162,8 @@ li.activee>a {
 	<div class="col-md-9">
 		<!--id="container"-->
 		<ul class="nav nav-pills nav-justified" id="thispills" style="margin-bottom: 14px;">
-		  <li role="presentation" class="active" style="border-left:1px solid #ccc;border-radius: 5px 0px 0px 5px;"><a href="javascript:void(0);">ALL</a></li>
+		  <li role="presentation" class="active" style="border-left:1px solid #ccc;border-radius: 10px 10px 10px 10px;">
+		  <a href="javascript:void(0);">ALL</a></li>
 		  <li role="presentation"><a href="javascript:void(0);">A</a></li>
 		  <li role="presentation"><a href="javascript:void(0);">B</a></li>
 		  <li role="presentation"><a href="javascript:void(0);">C</a></li>
@@ -180,9 +191,11 @@ li.activee>a {
 		  <li role="presentation"><a href="javascript:void(0);">Y</a></li>
 		  <li role="presentation" style="border-radius: 0px 5px 5px 0px;"><a href="javascript:void(0);">Z</a></li>
 		</ul>
+		<!-- 右侧显示联系人列表 -->
 		<div class="bgc-w box box-primary thistable">
 			<#include "inaddrss.ftl"/>
 		</div>
+		
 		<input type="hidden" class="sharehidden"/>
 	</div>
 </div>
@@ -190,7 +203,9 @@ li.activee>a {
 <#include "changetypename.ftl"/> 
 <script src="js/common/iconfont.js"></script>
 <script type="text/javascript">
+
 		$(function() {
+			
 			/* 移动分类的保存事件 */
 			$('#thischangetypesubmit').on('click',function(){
 				var did=$("#thischangetype").attr('thisdid');
@@ -409,23 +424,65 @@ li.activee>a {
 				}
 			})
 			
-			/* 外部通讯录的点击事件，只需要知道字母表的值就ok了*/
+			
+			
+			
+			/* 外部通讯录根目录的点击事件，只需要知道字母表的值就ok了*/
 			$('.ulfather').on('click',function(){
 				var alph=$('#thispills .active a').text().trim();
-				$('.thistable').load('outaddresspaging',{alph:alph});			
+				//$('.thistable').load('outaddresspaging',{alph:alph});	
+				
+				//更正，我只要ALL
+				$('.thistable').load('outaddresspaging',{alph:'ALL'});	
+				
+				$("#thispills li").removeClass('active');
+				$("#thispills li:first").addClass('active');
+				
 			})
+			
+			
 			/* 内部通讯录的点击事件，只需要知道字母表的值就ok了 */
 			$('.notfather').on('click',function(){
 				var alph=$('#thispills .active a').text().trim();
-				$('.thistable').load('inaddresspaging',{alph:alph});			
+				//$('.thistable').load('inaddresspaging',{alph:alph});
+				
+				$('.thistable').load('inaddresspaging',{alph:'ALL'});
+				
+				$("#thispills li").removeClass('active');
+				$("#thispills li:first").addClass('active');
 			})
-			/* 外部的分类点击事件 */
+			
+			
+			/* 外部的分类条目的点击事件 */
 			$('#thisul').on('click','li a',function(){
 				var alph=$('#thispills .active a').text().trim();
 				var outtype=$(this).text().trim();
-				console.log(outtype);
-				$('.thistable').load('outaddresspaging',{alph:alph,outtype:outtype});	
+				//console.log(outtype);
+				
+				//alert(alph + outtype);
+				
+				//$('.thistable').load('outaddresspaging',{alph:alph,outtype:outtype});	
+				
+				//改进为ALL
+				$('.thistable').load('outaddresspaging',{alph:'ALL',outtype:outtype});
+				
+				//把ALL选项置为蓝色  $("#thispills li").removeClass('active'); $(this).addClass('active');
+				$("#thispills li").removeClass('active');
+				$("#thispills li:first").addClass('active');
 			})
+			
+			/*内部通讯录分类条目的点击事件*/
+			$('#thisul1').on('click','li a',function(){
+				//alert("哈哈哈哈");	
+				//获取下面的input
+				var thisinput = $(this).find("input").val();
+				
+				//$('.thistable').load('intaddresspaging',{alph:alph,outtype:outtype});
+				
+				//alert(thisinput);
+			})
+			
+			
 			/* 外部通讯录分类的编辑与删除 */
 			$('#thisul').on('click','.thisxiugai',function(){
 				var typename=$(this).parent().parent('a').text().trim();
@@ -443,6 +500,19 @@ li.activee>a {
 				
 				
 			})
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			/* 修改分类的保存按钮 */
 			$('#commentsave').on('click',function(){
 				var typename=$('#typenameModal .form-control').val();
@@ -466,6 +536,7 @@ li.activee>a {
 				$('#navpills li').removeClass('activee');
 				$('.ulfather').addClass('activee');
 			})
+			
 			$('.ulfather .collapsed').on('click',function(){
 				if($(this).hasClass('glyphicon-menu-down')){
 					$(this).removeClass('glyphicon-menu-down').addClass('glyphicon glyphicon-menu-left');
@@ -561,4 +632,7 @@ li.activee>a {
            		});
            	});
 		});
+		
+		
+		
 	</script>

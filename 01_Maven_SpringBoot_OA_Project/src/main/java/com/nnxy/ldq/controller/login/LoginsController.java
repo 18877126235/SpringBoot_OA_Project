@@ -218,7 +218,9 @@ public class LoginsController {
 		
 	}
 	
-	
+	/*
+	 * 生成验证码
+	 */
 	@RequestMapping("captcha")
 	public void captcha(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException{
 		response.setHeader("Pragma", "No-cache");

@@ -42,10 +42,12 @@ import com.nnxy.ldq.model.dao.address.AddressDao;
 import com.nnxy.ldq.model.dao.address.AddressUserDao;
 import com.nnxy.ldq.model.dao.notedao.AttachService;
 import com.nnxy.ldq.model.dao.notedao.AttachmentDao;
+import com.nnxy.ldq.model.dao.user.DeptDao;
 import com.nnxy.ldq.model.dao.user.UserDao;
 import com.nnxy.ldq.model.entity.note.Attachment;
 import com.nnxy.ldq.model.entity.note.Director;
 import com.nnxy.ldq.model.entity.note.DirectorUser;
+import com.nnxy.ldq.model.entity.user.Dept;
 import com.nnxy.ldq.model.entity.user.User;
 import com.nnxy.ldq.services.address.AddreddUserService;
 import com.nnxy.ldq.services.address.AddressService;
@@ -81,6 +83,8 @@ public class AddrController {
 	private MailServices mservice;
 	@Autowired
 	private AttachmentDao AttDao;
+	@Autowired
+	private DeptDao deptDao; //部门dao
 	
 	/**
 	 * 通讯录管理
@@ -106,6 +110,18 @@ public class AddrController {
 		model.addAttribute("users", users);
 		model.addAttribute("page", userspage);
 		model.addAttribute("url", "inaddresspaging");
+		
+		//获取所有的部门名称
+		
+		Iterable<Dept> depts = deptDao.findAll();
+//		for (Dept dept : depts) {
+//			
+//			System.out.println("获取所有的部门名称："+dept);
+//			
+//		}
+		
+		model.addAttribute("depts", depts);
+		
 		return "address/addrmanage";
 	}
 	
