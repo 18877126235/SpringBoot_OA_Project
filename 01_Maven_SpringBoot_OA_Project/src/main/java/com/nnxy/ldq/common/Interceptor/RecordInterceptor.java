@@ -95,7 +95,7 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		return super.preHandle(request, response, handler);
 	}
 
-	//最后执行的方法（对于该方法有点懵逼）
+	//最后执行的方法（对于该方法有点懵逼，待定。。。。。。）
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response,  Object handler, Exception ex)
 			throws Exception {

@@ -1,9 +1,13 @@
 eclipse.preferences.version=1
 encoding//src/main/resources/application.properties=UTF-8
+encoding//src/main/resources/mappers/index.txt=UTF-8
 encoding//src/main/resources/static/css/controlpanel.css=UTF-8
 encoding//src/main/resources/templates/address/addrmanage.ftl=UTF-8
 encoding//src/main/resources/templates/address/addtypename1.ftl=UTF-8
 encoding//src/main/resources/templates/address/changetypename.ftl=UTF-8
+encoding//src/main/resources/templates/address/inaddrss.ftl=UTF-8
+encoding//src/main/resources/templates/address/modalpaging.ftl=UTF-8
+encoding//src/main/resources/templates/address/outaddrss.ftl=UTF-8
 encoding//src/main/resources/templates/attendce/realmonthtable.ftl=UTF-8
 encoding//src/main/resources/templates/attendce/realweektable.ftl=UTF-8
 encoding//src/main/resources/templates/attendce/weektable.ftl=UTF-8

@@ -490,7 +490,7 @@ public class AddrController {
 	}
 	
 	/**
-	 外部通讯录
+	 	加载外部通讯录
 	 * @return
 	 */
 	@RequestMapping("outaddresspaging")
@@ -500,25 +500,47 @@ public class AddrController {
 			@RequestParam(value="alph",defaultValue="ALL") String alph,
 			@SessionAttribute("userId") Long userId
 			){
+		
+		
+		System.out.println("查看传入的值："+outtype);
+		
 		PageHelper.startPage(page, 10);
-		List<Map<String, Object>> directors=am.allDirector(userId, alph, outtype, baseKey);
-		List<Map<String, Object>> adds=addressService.fengzhaung(directors);
-		PageInfo<Map<String, Object>> pageinfo=new PageInfo<>(directors);
+		
+		//条件查询出所有数据
+		List<Map<String, Object>> directors = am.allDirector(userId, alph, outtype, baseKey);
+		
+		//封装查询数据
+		List<Map<String, Object>> adds = addressService.fengzhaung(directors);
+		
+		//将数据装入分页容器
+		PageInfo<Map<String, Object>> pageinfo = new PageInfo<>(directors);
+		
+		//如果传入的条目类型不为空
 		if(!StringUtils.isEmpty(outtype)){
-			model.addAttribute("outtype", outtype);
-		}	
+			
+			model.addAttribute("outtype", outtype); //前台显示的类型标记
+			
+		}
+		
 		Pageable pa=new PageRequest(0, 10);
 		
-		Page<User> userspage=uDao.findAll(pa);
+		Page<User> userspage=uDao.findAll(pa);//查询所有数据并分页
+		
 		List<User> users=userspage.getContent();
-		model.addAttribute("modalurl", "modalpaging");
-		model.addAttribute("modalpage", userspage);
+		
+		model.addAttribute("modalurl", "modalpaging"); //分页访问地址
+		
+		model.addAttribute("modalpage", userspage); //放置用户分页域对象
+		
 		model.addAttribute("users", users);
+		
 		model.addAttribute("userId", userId);
 		model.addAttribute("baseKey", baseKey);
 		model.addAttribute("directors", adds);
 		model.addAttribute("page", pageinfo);
-		model.addAttribute("url", "outaddresspaging");
+		
+		model.addAttribute("url", "outaddresspaging"); //此处待定理解
+		
 		return "address/outaddrss";
 	}
 	
@@ -529,31 +551,111 @@ public class AddrController {
 	@RequestMapping("inaddresspaging")
 	public String inAddress(@RequestParam(value="page",defaultValue="0") int page,Model model,
 			@RequestParam(value="size",defaultValue="10") int size,
-			@RequestParam(value="baseKey",required=false) String baseKey,
-			@RequestParam(value="alph",defaultValue="ALL") String alph
+			@RequestParam(value="baseKey",required=false) String baseKey, //条件查询
+			
+			@RequestParam(value="alph",defaultValue="ALL") String alph, //字母首拼查询条件，默认为ALL
+			//再传入一个部门id参数
+			@RequestParam(value="deptId",required=false) String deptId
 			){
+		
+		//System.out.println("先输出获取到的部门id："+deptId);
+		//配置分页查询信息
 		Page<User> userspage=null;
 		Pageable pa=new PageRequest(page, size);
+		
+		Dept dept;//
+		
+		//如果传入的部门id为空
+		if( StringUtils.isEmpty(deptId) ) {
+			dept = null;
+		}else {
+			dept = deptDao.findOne(Long.parseLong(deptId));
+			//System.out.println("部门不为空："+dept);
+			
+		}
+		//userspage=uDao.findByDept( dept , pa );
+//		userspage=uDao.findByPinyinLikeAndDept( alph+"%" , dept , pa );
+//		for (User user : userspage) {
+//			System.out.println("根据部门id查询出来的用户："+user);
+//		}
+		/*
+		 * 测试
+		 */
+		
+		/* *********************/
+		
+		
+		//如果查询关键字为空
 		if(StringUtils.isEmpty(baseKey)){
+			
+			//如果是查询全部
 			if("ALL".equals(alph)){
-				userspage=uDao.findAll(pa);
-			}else{
-			 userspage=uDao.findByPinyinLike(alph+"%",pa);
+				//如果部门号为空
+				if(dept == null) {
+					userspage=uDao.findAll(pa);//查询全部用户
+				}else {
+					userspage = uDao.findByDept(dept , pa); //查询部门用户
+				}
+				
+				//修改成按照部门id查询
+				
+				
+			}else{ //否则按照字母首拼查询
+			/*       待定。。。。。。        */
+				//根据首拼字母查询
+				userspage=uDao.findByPinyinLike(alph+"%",pa);
+				//userspage=uDao.findByDept( dept , pa );
 			}
-		}else{
-			if("ALL".equals(alph)){
-				userspage=uDao.findUsers("%"+baseKey+"%",baseKey+"%", pa);
-			}else{
-				userspage=uDao.findSelectUsers("%"+baseKey+"%", alph+"%",pa);
-			}
-		}
-		if(!StringUtils.isEmpty(baseKey)){
+			
 			model.addAttribute("baseKey", baseKey);
+			
 			model.addAttribute("sort", "&alph="+alph+"&baseKey="+baseKey);
+			
+		//否则，存在查询关键字	
 		}else{
+			
+			//如果是处于ALL状态
+			if("ALL".equals(alph)){
+
+				//判断是否存在部门id
+				if(dept == null) {
+					userspage=uDao.findUsers("%"+baseKey+"%",baseKey+"%", pa);
+				}else {
+					//Page<User> Users = uDao.findUsers2( dept.getDeptId(), "%"+baseKey+"%",baseKey+"%",  pa);
+//					for (User user : Users) {
+//						
+//						System.out.println(user.getUserName());
+//					}
+					userspage = uDao.findUsers2( dept.getDeptId(), "%"+baseKey+"%",baseKey+"%",  pa);
+					
+				}
+				
+				
+			}else{
+				
+				userspage=uDao.findSelectUsers("%"+baseKey+"%", alph+"%",pa);
+				
+			}
+			
 			model.addAttribute("sort", "&alph="+alph);
+			
 		}
+		
+		//放置域对象
+		/*if(!StringUtils.isEmpty(baseKey)){
+			
+			model.addAttribute("baseKey", baseKey);
+			
+			model.addAttribute("sort", "&alph="+alph+"&baseKey="+baseKey);
+			
+		}else{
+			
+			model.addAttribute("sort", "&alph="+alph);
+			
+		}*/
+		
 		List<User> users=userspage.getContent();
+		
 		model.addAttribute("users", users);
 		model.addAttribute("page", userspage);
 		model.addAttribute("url", "inaddresspaging");

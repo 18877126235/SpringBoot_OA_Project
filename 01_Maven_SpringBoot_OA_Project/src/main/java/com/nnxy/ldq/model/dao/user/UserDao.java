@@ -44,6 +44,9 @@ public interface UserDao extends JpaRepository<User, Long>{
 	//根据姓名首拼模糊查找，并分页
 	Page<User> findByPinyinLike(String pinyin, Pageable pa);
 	
+	//加入部门条件看看
+	Page<User> findByPinyinLikeAndDept(String pinyin,Dept dept ,Pageable pa);
+	
 	//根据姓名首拼+查找关键字查找(部门、姓名、电话号码)，并分页
 	@Query("from User u where (u.userName like ?1 or u.dept.deptName like ?1 or u.userTel like ?1 or u.position.name like ?1) and u.pinyin like ?2")
 	Page<User> findSelectUsers(String baseKey, String pinyinm, Pageable pa);
@@ -51,6 +54,16 @@ public interface UserDao extends JpaRepository<User, Long>{
 	//根据姓名首拼+查找关键字查找(部门、姓名、电话号码)，并分页
 	@Query("from User u where u.userName like ?1 or u.dept.deptName like ?1 or u.userTel like ?1 or u.position.name like ?1 or u.pinyin like ?2")
 	Page<User> findUsers(String baseKey, String baseKey2, Pageable pa);
+	
+	//添加部门号条件
+	@Query("from User u where u.dept.deptId=?1 and"
+			+ " u.userName "
+			+ "like ?2 or u.dept.deptName like ?2 "
+			+ "or u.userTel like ?2 "
+			+ "or u.position.name like ?2 "
+			+ "or u.pinyin like ?3")
+	Page<User> findUsers2(Long deptid,String baseKey, String baseKey2, Pageable pa);
+	
 	/**
 	 * 用户管理查询可用用户
 	 * @param isLock
@@ -66,6 +79,9 @@ public interface UserDao extends JpaRepository<User, Long>{
 	List<User> findByDept(Dept dept);
 	@Query("select u from User u where u.role.roleId=?1")
 	List<User> findrole(Long lid); 
+	
+	//根据部门id分页查询
+	Page<User> findByDept(Dept dept, Pageable pa);
 	
 	/*通过（用户名或者电话号码）+密码查找用户*/
 	@Query("from User u where (u.userName = ?1 or u.userTel = ?1) and u.password =?2")

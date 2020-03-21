@@ -97,8 +97,8 @@ li.activee>a {
 				</span>
 			</div>
 			<ul class="nav nav-pills nav-stacked mm" id="navpills">
-				<li class="activee notfather">
-					<a href="#"  > <span class="glyphicon glyphicon-home"> 内部通讯录</span>
+				<li class="activee notfather tongxunluleixing">
+					<a href="#"  > <span class="glyphicon glyphicon-home "> 内部通讯录</span>
 						<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="#thisul1"  data-toggle="collapse" ></i>
 					</a>
 				</li>
@@ -107,7 +107,7 @@ li.activee>a {
 					<#include "addtypename1.ftl"/>
 				</ul>
 				
-				<li class="ulfather">
+				<li class="ulfather tongxunluleixing">
 					<a href="#"><span class="glyphicon glyphicon-user"> 外部通讯录</span> 
 						<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="#thisul"  data-toggle="collapse" ></i>
 					</a>
@@ -193,6 +193,7 @@ li.activee>a {
 		</ul>
 		<!-- 右侧显示联系人列表 -->
 		<div class="bgc-w box box-primary thistable">
+			<!-- 一开始默认加载内部通讯录 -->
 			<#include "inaddrss.ftl"/>
 		</div>
 		
@@ -390,20 +391,51 @@ li.activee>a {
 				}
 			})
 			
-			/* 查找关键字事件， */
+			
+			
+			
+			
+			
+			
+			/* 查找关键字事件，点击查询按钮 */
 			$('.thistable').on('click','.baseKeySumbit',function(){
+				
 				var alph=$('#thispills .active a').text().trim();	//获取字母表中的值
 				var baseKey=$('.baseKey').val().trim();				//获取搜索关键字
-				var type=$('#navpills .activee').text().trim();		//获取内部或外部的类型值
-				var outtype=$('#thisul .activee').text().trim();	//获取外部通讯录的分类名称
+				
+				
+				//var type=$('#navpills .activee').text().trim();		//获取内部或外部的类型值
+				
+				var type=$('.tongxunluleixing.activee').text().trim();	 //改进版本
+				
+				//alert("内部还是外部："+type);
+				
+				var outtype = $('#thisul .activee').text().trim();	//获取外部通讯录的分类名称
+				
+				//获取内部通讯录部门id
+				//var inttype = $('#thisul1 .activee').text().trim();
+				var depid = $('#thisul1 .activee input').val();
+				
+				//alert("能获取到嘛"+inttype);
+				
 				if(type=="内部通讯录"){
-					$('.thistable').load('inaddresspaging',{alph:alph,baseKey:baseKey});
+					
+					$('.thistable').load('inaddresspaging',{alph:alph,baseKey:baseKey,deptId:depid});
+					
+					
 				}else{
 					/* 就是进入外部通讯录了， */
-					
 					$('.thistable').load('outaddresspaging',{alph:alph,outtype:outtype,baseKey:baseKey});
 				}
+				
 			})
+			
+			
+			
+			
+			
+			
+			
 			
 			/*字母表的字母点击事件  */
 			$('#thispills a').on('click',function(){
@@ -427,6 +459,16 @@ li.activee>a {
 			
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			/* 外部通讯录根目录的点击事件，只需要知道字母表的值就ok了*/
 			$('.ulfather').on('click',function(){
 				var alph=$('#thispills .active a').text().trim();
@@ -435,12 +477,15 @@ li.activee>a {
 				//更正，我只要ALL
 				$('.thistable').load('outaddresspaging',{alph:'ALL'});	
 				
+				//去点其他首拼底色，把ALL设置底色
 				$("#thispills li").removeClass('active');
 				$("#thispills li:first").addClass('active');
+				//移除下拉菜单的条目的标记
+				$('#thisul li').removeClass('activee');
 				
 			})
 			
-			
+	
 			/* 内部通讯录的点击事件，只需要知道字母表的值就ok了 */
 			$('.notfather').on('click',function(){
 				var alph=$('#thispills .active a').text().trim();
@@ -450,6 +495,8 @@ li.activee>a {
 				
 				$("#thispills li").removeClass('active');
 				$("#thispills li:first").addClass('active');
+				//移除下拉菜单的条目的标记
+				$('#thisul1 li').removeClass('activee');
 			})
 			
 			
@@ -477,10 +524,27 @@ li.activee>a {
 				//获取下面的input
 				var thisinput = $(this).find("input").val();
 				
-				//$('.thistable').load('intaddresspaging',{alph:alph,outtype:outtype});
-				
 				//alert(thisinput);
+				
+				
+				$('.thistable').load('inaddresspaging',{alph:'ALL',deptId:thisinput});
+				
+				$("#thispills li").removeClass('active');
+				$("#thispills li:first").addClass('active');
+				
 			})
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			/* 外部通讯录分类的编辑与删除 */
@@ -500,18 +564,6 @@ li.activee>a {
 				
 				
 			})
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			/* 修改分类的保存按钮 */
 			$('#commentsave').on('click',function(){
@@ -550,9 +602,6 @@ li.activee>a {
 				$('#thisul li').removeClass('activee');
 			})
 			
-			$('.ulfather').on('click',function(){
-				$('#thisul li').removeClass('activee');
-			})
 			
 			/* 字母表的点击事件，将用来处理load方法  */
 			$("#thispills li").on('click',function(){
