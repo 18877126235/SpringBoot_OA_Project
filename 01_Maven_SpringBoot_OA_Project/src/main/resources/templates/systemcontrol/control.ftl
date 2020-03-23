@@ -170,7 +170,8 @@
 			<!-- 轮播图    考虑要不要添加关闭和收起的按钮-->
 			<div style="height: 350px ;" class="panel panel-default box-show green-box">
 			
-				<div  id="carousel-example-generic" style=" height:100% ;" class="carousel slide" data-ride="carousel">
+				<div  id="carousel-example-generic" style=" height:100% ; width: 100%;" class="carousel slide" data-ride="carousel">
+				  
 				  <!-- Indicators -->
 				  <ol class="carousel-indicators">
 				    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -179,16 +180,17 @@
 				  </ol>
 				
 				  <!-- Wrapper for slides -->
-				  <div style="border-radius: 15px;" class="carousel-inner" role="listbox">
+				  <div  class="carousel-inner" role="listbox">
+				  
 				    <div class="item active">
-				      <img style="height: 100%; width: 100%" src="/image/nanyuan1.png" alt="...">
+				      <img  src="/image/nanyuan1.png" alt="...">
 				      <div class="carousel-caption">
 				     	   <h3>美丽南院</h3>
 					    <p>2019年荣获国家级景区称号，更多美丽等你来看</p>
 				      </div>
 				    </div>
 				    <div class="item">
-				      <img style="height: 100%; width: 100%" src="/image/nanyuan2.jpg" alt="...">
+				      <img  src="/image/nanyuan2.png" alt="...">
 				      <div class="carousel-caption">
 				      <h3>邕水傅文</h3>
 					    <p>第八届科技艺术文化节火热报名中，赶紧去挑战自己吧</p>
@@ -197,7 +199,7 @@
 				    
 
 				 	<div class="item">
-				      <img  style=" height: 100%; width: 100%" src="/image/nanyuan3.png" alt="...">
+				      <img  src="/image/nanyuan3.png" alt="...">
 				      <div class="carousel-caption">
 				        		<h3>南宁大学</h3>
 					    <p>恭喜我校成功申请改名南宁大学，祝贺祝贺</p>
@@ -206,7 +208,7 @@
 
 				  </div>
 				
-				  <!-- Controls -->
+				  <!-- 轮播按钮 -->
 				  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
 				    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				    <span class="sr-only">Previous</span>
@@ -217,6 +219,8 @@
 				  </a>
 				</div>
 			</div>
+			<!-- 轮播结束 -->
+			
 			
 			
 			<!--第一个公告通知-->

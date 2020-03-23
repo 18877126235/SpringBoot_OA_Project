@@ -400,7 +400,7 @@ li.activee>a {
 			/* 查找关键字事件，点击查询按钮 */
 			$('.thistable').on('click','.baseKeySumbit',function(){
 				
-				var alph=$('#thispills .active a').text().trim();	//获取字母表中的值
+				var alph=$('#thispills .active a').text().trim();	//获取字母表中的值(改进，点击后改为ALL)
 				var baseKey=$('.baseKey').val().trim();				//获取搜索关键字
 				
 				
@@ -421,8 +421,7 @@ li.activee>a {
 				if(type=="内部通讯录"){
 					
 					$('.thistable').load('inaddresspaging',{alph:alph,baseKey:baseKey,deptId:depid});
-					
-					
+					//改进，点击后就为
 				}else{
 					/* 就是进入外部通讯录了， */
 					$('.thistable').load('outaddresspaging',{alph:alph,outtype:outtype,baseKey:baseKey});
@@ -442,18 +441,31 @@ li.activee>a {
 				/* 这里获取到的是上一次active的那一个， */
 				console.log("外部通讯录值："+$('#thisul .activee').text().trim());
 				console.log("关键字："+$('.baseKey').val());
+				
 				var alph=$(this).text().trim();
-				var type=$('#navpills .activee').text().trim();
+				var type=$('#navpills .tongxunluleixing.activee').text().trim();
 				var baseKey=$('.baseKey').val().trim();
 				var outtype=$('#thisul .activee').text().trim();
+				
+				//获取部门id
+				var depid = $('#thisul1 .activee input').val();
+				//alert(depid);
+				
+				//alert("字母表："+alph+"  - "+"类型："+type+"  - "+"搜索内容："+baseKey+"  - "+"外部通讯录类型："+outtype);
+				
+				
 				if(type=="内部通讯录"){
 					console.log("是内部通讯录");
-					$('.thistable').load('inaddresspaging',{alph:alph,baseKey:baseKey});
+					//alert("执行内部通讯录逻辑");
+					$('.thistable').load('inaddresspaging',{alph:alph,baseKey:baseKey,deptId:depid});
 				}else{
-					/*还要进行判断，是否为空；不为空说明是在外部的分类里面进行；为空说明查找所有的外部通讯录  */
+					//还要进行判断，是否为空；不为空说明是在外部的分类里面进行；为空说明查找所有的外部通讯录  
 					console.log("是外部通讯录");
+					//alert("执行外部通讯录逻辑")
 					$('.thistable').load('outaddresspaging',{alph:alph,outtype:outtype,baseKey:baseKey});
 				}
+				
+				
 			})
 			
 			

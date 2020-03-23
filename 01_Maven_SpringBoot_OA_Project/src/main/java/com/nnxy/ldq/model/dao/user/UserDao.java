@@ -51,6 +51,34 @@ public interface UserDao extends JpaRepository<User, Long>{
 	@Query("from User u where (u.userName like ?1 or u.dept.deptName like ?1 or u.userTel like ?1 or u.position.name like ?1) and u.pinyin like ?2")
 	Page<User> findSelectUsers(String baseKey, String pinyinm, Pageable pa);
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//加入部门id查询条件*********
+	@Query("from User u where  (u.userName like ?1 or u.dept.deptName like ?1 or u.userTel like ?1 or u.position.name like ?1) and u.pinyin like ?2 and u.dept.deptId=?3")
+	Page<User> findSelectUsers2(String baseKey, String pinyinm, Long deptid,Pageable pa);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//根据姓名首拼+查找关键字查找(部门、姓名、电话号码)，并分页
 	@Query("from User u where u.userName like ?1 or u.dept.deptName like ?1 or u.userTel like ?1 or u.position.name like ?1 or u.pinyin like ?2")
 	Page<User> findUsers(String baseKey, String baseKey2, Pageable pa);

@@ -555,8 +555,11 @@ public class AddrController {
 			
 			@RequestParam(value="alph",defaultValue="ALL") String alph, //字母首拼查询条件，默认为ALL
 			//再传入一个部门id参数
-			@RequestParam(value="deptId",required=false) String deptId
+			@RequestParam(value="deptId",required=false) String deptId //部门id
 			){
+		
+		
+		
 		
 		//System.out.println("先输出获取到的部门id："+deptId);
 		//配置分页查询信息
@@ -599,11 +602,18 @@ public class AddrController {
 				
 				//修改成按照部门id查询
 				
-				
-			}else{ //否则按照字母首拼查询
+			}else{ //否则按照字母首拼查询(并且要考虑有没有部门id)
 			/*       待定。。。。。。        */
-				//根据首拼字母查询
-				userspage=uDao.findByPinyinLike(alph+"%",pa);
+				
+				if(dept == null) { //如果部门id为空
+					//根据首拼字母查询
+					userspage=uDao.findByPinyinLike(alph+"%",pa);
+				}else {
+					
+					//部门id不为空，只查询当前部门下的关键字
+					userspage=uDao.findByPinyinLikeAndDept( alph+"%" , dept , pa );//根据首拼和部门id
+				}				
+				
 				//userspage=uDao.findByDept( dept , pa );
 			}
 			
@@ -611,7 +621,7 @@ public class AddrController {
 			
 			model.addAttribute("sort", "&alph="+alph+"&baseKey="+baseKey);
 			
-		//否则，存在查询关键字	
+		//否则，存在查询搜索关键字	
 		}else{
 			
 			//如果是处于ALL状态
@@ -633,7 +643,14 @@ public class AddrController {
 				
 			}else{
 				
-				userspage=uDao.findSelectUsers("%"+baseKey+"%", alph+"%",pa);
+				//要判断部门关键字是否存在
+				if(dept == null) {
+					userspage=uDao.findSelectUsers("%"+baseKey+"%", alph+"%",pa);
+				}else {
+					//加入部门id条件  dept.getDeptId()
+					userspage=uDao.findSelectUsers2("%"+baseKey+"%", alph+"%", dept.getDeptId() ,pa);
+					//userspage=uDao.findSelectUsers("%"+baseKey+"%", alph+"%",pa);
+				}
 				
 			}
 			
