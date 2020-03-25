@@ -26,7 +26,7 @@ public interface AddressUserDao extends JpaRepository<DirectorUser, Long>{
 	//通过外部通讯录和用户查找唯一的中间表
 	DirectorUser findByDirectorAndUser(Director director, User user);
 	
-	//通过分享用户查找有所该用户的分享给别人的记录
+	//通过用户分享查找有所该用户的分享给别人的记录
 	Page<DirectorUser> findByShareuser(User user, Pageable pa);
 	
 	//查找给我的所有的记录；1、分享的用户不能为空；，当前用户

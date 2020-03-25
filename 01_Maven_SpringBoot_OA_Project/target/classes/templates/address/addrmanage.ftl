@@ -278,11 +278,13 @@ li.activee>a {
 				console.log(userId);
 				$('.thistable').load('inmessshow',{userId:userId});
 			})
+			
 			/* 我的分享的消息记录 */
 			$('.meshareother').on('click',function(){
 				console.log("我的分享点击了么？");
 				$('.thistable').load('mesharemess');
 			})
+			
 			/* 分享信息按钮的点击事件 */
 			$('.sharewithme').on('click',function(){
 				$('.thistable').load('sharemess');
@@ -338,18 +340,28 @@ li.activee>a {
 				}
 			})
 			
+			
+			
 			/* 新建外部联系人分类 */
 			$('.addtype').on('click',function(){
+				
 				var typename=$('.addtypename').val().trim();
+				
+				if( typename == '' || typename == null ){
+					return false;
+				}
+
 				console.log(typename);
 				var count=1;
 				$('#thisul li a').each(function(index){
 					if($(this).text().trim()==typename){
-						console.log("分类名字已存在");
+						//console.log("");
 						count=0;
-						$('.modal-error-mess').text("该分类名字已经存在,请重新命名!");
-						modalShow(0);
-						return false;
+						//$('.modal-error-mess').text("该分类名字已经存在,请重新命名!");
+						//modalShow(0);
+						swal("分类名字已存在","该分类名字已经存在,请重新命名!","warning");
+						
+						return false; //在此强调，这里是中断循环
 					}
 				})
 				if(count==0){
@@ -357,15 +369,20 @@ li.activee>a {
 					return false;
 				}
 				console.log("会继续往下面走，执行ajax");
+				
 				$('#thisul').load("addtypename",{typename:typename},function(response,status,xhr){
-					modalShow(1);
-					$('.addtypename').val("");
+					
+					//modalShow(1);
+					swal("操作成功！","666","success");
+					$('.addtypename').val("");//清空输入框
 					/* console.log("听说这是执行成功会返回的的？？？");
 					console.log("response:"+response);
 					console.log("status:"+status);
 					console.log("xhr:"+xhr); */
 				});
 			})
+			
+			
 			
 			/* 新建联系人 */
 			$('.addaddress').on('click',function(){
@@ -561,18 +578,45 @@ li.activee>a {
 			
 			/* 外部通讯录分类的编辑与删除 */
 			$('#thisul').on('click','.thisxiugai',function(){
+				
 				var typename=$(this).parent().parent('a').text().trim();
+				//模态框显示
 				$('#typenameModal').modal("toggle");
+				
 				$('#typenameModal .form-control').val(typename);
+				//旧名称用于去数据库查找修改
 				$('#typenameModal #commentid').val(typename);
+				
 			})
+			
 			/* 分类名称的删除 */
 			$('#thisul').on('click','.thisshanchu',function(){
-				if(confirm("确定删除该分类吗？该分类将被移到外部通讯录哟")){
+				
+					
 					var typename=$(this).parent().parent('a').text().trim();
-					$('#thisul').load('addtypename',{typename:'',oldtypename:typename});
-					$('.thistable').load('deletetypename',{typename:typename});
-				}
+					//alert(typename);
+					swal({ title: "确定删除吗？", text: "确定删除该分类吗？该分类将被移到外部通讯录哟", type: "warning",showCancelButton: true, confirmButtonColor: "#DD6B55",confirmButtonText: "确定删除！", cancelButtonText: "取消删除！",closeOnConfirm: false, closeOnCancel: false	},function(isConfirm){ 
+						if (isConfirm) { 
+							//重新加载外部通讯录的下拉菜单
+								$('#thisul').load('addtypename',{typename:'',oldtypename:typename},function(){
+									swal("操作成功！","666","success");
+									setTimeout(function(){
+										//alert("Hello");
+										swal.close();
+									},800);
+								});
+							//重新加载联系人列表
+								$('.thistable').load('deletetypename',{typename:typename});	
+								
+								
+							} else { 
+								swal.close();
+							} 
+					});
+					
+					
+			
+				
 				
 				
 			})

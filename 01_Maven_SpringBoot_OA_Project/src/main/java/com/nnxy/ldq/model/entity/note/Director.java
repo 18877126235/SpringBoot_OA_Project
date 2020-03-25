@@ -17,7 +17,7 @@ import com.nnxy.ldq.model.entity.user.User;
  * user_id
  * 外键没有连
  * @author admin
- *---通讯录表----
+ *---联系人信息表----
  */
 @Entity
 @Table(name="aoa_director")

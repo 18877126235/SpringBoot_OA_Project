@@ -12,27 +12,34 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.nnxy.ldq.model.entity.user.User;
-
+/*
+ * (共享联系人记录表)
+ */
 @Entity
 @Table(name="aoa_director_users")
 public class DirectorUser {
+	
 	@Id
 	@Column(name="director_users_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long directorUserId;
 	
+	//当前多对一，多个记录对象对应同一个联系人信息对象
 	@ManyToOne
 	@JoinColumn(name="director_id")
 	private Director director;
 	
+	//当前多对一，多条记录对象针对同一个用户对象
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	//当前多对一，多条记录对象来自同一个用户
 	@ManyToOne
 	@JoinColumn(name="share_user_id")
 	private User shareuser;
 	
+	//当前外部联系人所属分类名称
 	@Column(name="catelog_name")
 	private String catalogName;
 	

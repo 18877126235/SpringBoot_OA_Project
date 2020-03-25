@@ -322,7 +322,7 @@ public class AddrController {
 	public String addTypename(@RequestParam(value="typename",required=false) String typename,
 			@RequestParam(value="oldtypename",required=false) String oldtypename,
 			@SessionAttribute("userId") Long userId,Model model){
-		System.out.println("进来这个了么？");
+		//System.out.println("进来这个了么？");
 		User user=uDao.findOne(userId);
 		if(oldtypename!=null){
 			List<DirectorUser> dus=auDao.findByCatalogNameAndUser(oldtypename, user);
@@ -381,7 +381,7 @@ public class AddrController {
 	}
 	
 	/**
-	 * 我分享的消息界面
+	 * 我分享的消息界面显示
 	 */
 	@RequestMapping("mesharemess")
 	public String meShareMess(@RequestParam(value="page",defaultValue="0")int page,
@@ -390,8 +390,12 @@ public class AddrController {
 			Model model,@SessionAttribute("userId") Long userId
 			){
 		User user=uDao.findOne(userId);
+		
 		Pageable pa=new PageRequest(page, size, new Sort(Direction.DESC, "sharetime"));
-		Page<DirectorUser> duspage=auDao.findByShareuser(user, pa);
+		
+		//通过用户分享查找有所该用户的分享给别人的记录
+		//Page<DirectorUser> duspage=auDao.findByShareuser(user, pa);
+		Page<DirectorUser> duspage;
 		if(!StringUtils.isEmpty(baseKey)){
 			duspage=auDao.findBaseKey("%"+baseKey+"%",user,pa);
 			model.addAttribute("sort", "&baseKey="+baseKey);
@@ -400,9 +404,11 @@ public class AddrController {
 		}
 		
 		List<DirectorUser> dus=duspage.getContent();
+		
 		model.addAttribute("page", duspage);
 		model.addAttribute("dus", dus);
 		model.addAttribute("url", "mesharemess");
+		
 		return "address/mesharemess";
 	}
 	
