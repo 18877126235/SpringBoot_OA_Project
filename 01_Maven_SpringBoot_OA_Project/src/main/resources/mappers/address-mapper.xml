@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nnxy.ldq.mappers.AddressMapper">
+
 	<!-- 判断三个条件
 		1、外部分类是否为空
 		2、字母值是否为空
 		3、关键字是否为空
 	 -->
+	
 	 <select id="allDirector" resultType="java.util.Map">
 		SELECT d.*,u.*
 		FROM aoa_director_users AS u LEFT JOIN aoa_director AS d ON 
@@ -31,4 +33,5 @@
 	 </select>
 	
 
+	
 </mapper>

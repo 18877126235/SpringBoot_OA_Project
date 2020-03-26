@@ -180,7 +180,7 @@
 				  </ol>
 				
 				  <!-- Wrapper for slides -->
-				  <div  class="carousel-inner" role="listbox">
+				  <div style="height: 100%; width: 100%;" class="carousel-inner" role="listbox">
 				  
 				    <div class="item active">
 				      <img  src="/image/nanyuan1.png" alt="...">

@@ -382,8 +382,7 @@ li.activee>a {
 				});
 			})
 			
-			
-			
+
 			/* 新建联系人 */
 			$('.addaddress').on('click',function(){
 				$('.thistable').load('addaddress');

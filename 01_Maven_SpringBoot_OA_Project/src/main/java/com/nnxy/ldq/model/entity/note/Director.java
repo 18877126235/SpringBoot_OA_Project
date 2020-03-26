@@ -38,8 +38,14 @@ public class Director {
 	@Column(name="phone_number")
 	private String  phoneNumber;  //电话号码
 	
-	@Column(name="image_path")
+	/*@Column(name="image_path")
 	private Long  attachment;	 //头像路径
+	*/
+	
+	@OneToOne //一个联系人对应一个附件头像
+	@JoinColumn(name="attachment_id")
+	private Attachment  attachment;	 //头像路径（附件id）
+	
 	
 	private String  remark;     //备注
 	
@@ -58,7 +64,7 @@ public class Director {
 	
 	
 	
-	public Director(Long directorId, String userName, String pinyin, String sex, String phoneNumber, Long attachment,
+	public Director(Long directorId, String userName, String pinyin, String sex, String phoneNumber, Attachment attachment,
 			String remark, String address, User myuser, String email) {
 		super();
 		this.directorId = directorId;
@@ -137,11 +143,11 @@ public class Director {
 
 	
 
-	public Long getAttachment() {
+	public Attachment getAttachment() {
 		return attachment;
 	}
 
-	public void setAttachment(Long attachment) {
+	public void setAttachment(Attachment attachment) {
 		this.attachment = attachment;
 	}
 

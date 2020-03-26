@@ -96,12 +96,15 @@ a:hover {
 						name="remark">${(director.remark)!''}</textarea>
 				</div>
 				<div class="col-md-6 form-group">
-					<label class="control-label" style="display: block;"><span>图片</span></label>
+					<label class="control-label" style="display: block;"><span>图片头像</span></label>
 					<div class="btn btn-default ">
-						<span class="glyphicon glyphicon-paperclip">增加附件</span> 
-						<input type="file" name="file" class="file">
+						<span class="glyphicon glyphicon-paperclip">选择图片</span> 
+						<input type="file" id="file_touxiang" name="file" class="file" onchange="changepic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
 					</div>
 					<p class="help-block" style="display:inline-block;">5MB以内</p>
+					
+					<img src="/image/timg.jpg" id="img3" style="width: 120px;height: 120px;border-radius: 50%;margin-left: 15%;">
+					
 				</div>
 				
 			</div>
@@ -117,11 +120,40 @@ a:hover {
 
 <#include "/common/modalTip.ftl"/> 
 <script type="text/javascript">
+
+	//点击更换头像
+	
+	
+	
+	//检测到上传文件的标签内容变化显示预览头像
+		function changepic() {
+			 
+			//alert( "哈哈哈哈有变化了" );
+			
+			var reads = new FileReader();
+			 
+			 f = document.getElementById('file_touxiang').files[0];
+			 
+			 reads.readAsDataURL(f); //读取文件到暂存区
+			 
+			 //获取成功后执行代码
+			 reads.onload = function(e) {  //配置显示路径
+				 
+			 	document.getElementById('img3').src = this.result;
+				
+			 	 //$('#shangchuan').css('display','block');
+			 };
+			 
+			 
+		}
+	
+	//弹出成功确认框之后点击确定跳转页面
 	$('.successToUrl').on('click', function() {
 		window.location.href = '/infrommanage';
 	});
 	//表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
 	function check() {
+		
 		console.log("开始进入了");
 		//提示框可能在提交之前是block状态，所以在这之前要设置成none
 		$('.alert-danger').css('display', 'none');
@@ -177,7 +209,9 @@ a:hover {
 			//modalShow(1);
 			return true;
 		}
-		//	return false;
+		return false;
+		
+		//return true;
 	}
 	
 

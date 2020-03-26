@@ -308,7 +308,7 @@ public class MailServices {
 		
 		System.out.println("文件名称？？？："+fileName);
 		
-		if(!StringUtil.isEmpty(fileName)){ //如果文件名称不为空
+		if(!StringUtil.isEmpty(fileName)){ //如果文件名称不为空（也就是说明有文件存在）
 			//以下是获取文件的扩展名
 			String suffix=FilenameUtils.getExtension(fileName); 
 			
@@ -322,7 +322,7 @@ public class MailServices {
 			
 			file.transferTo(targetFile); //将文件存储到服务器
 			
-			Attachment attachment=new Attachment(); //新建邮箱附件对象
+			Attachment attachment=new Attachment(); //新建附件对象
 			
 			
 			

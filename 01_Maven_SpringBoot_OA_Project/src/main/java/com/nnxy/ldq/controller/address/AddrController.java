@@ -97,8 +97,17 @@ public class AddrController {
 	@RequestMapping("addrmanage")
 	public String addrmanage(@SessionAttribute("userId") Long userId,Model model,
 			@RequestParam(value="page",defaultValue="0") int page,
-			@RequestParam(value="size",defaultValue="10") int size
+			@RequestParam(value="size",defaultValue="10") int size,
+			HttpServletRequest request
 			) {
+		
+		//前台成功提示
+		if(request.getSession().getAttribute("success") != null) {
+			request.setAttribute("success", request.getSession().getAttribute("success") );
+			request.getSession().removeAttribute("success");
+		}
+		
+		
 		User user=uDao.findOne(userId);
 		Set<String> catalogs=auDao.findByUser(user);
 		Pageable pa=new PageRequest(page, size,new Sort(Direction.ASC, "dept"));
@@ -187,9 +196,10 @@ public class AddrController {
 			return "redirect:/notlimit";
 		}
 		if(d.getAttachment()!=null){
-			model.addAttribute("imgpath", atDao.findOne(d.getAttachment()).getAttachmentPath());
+			//获取头像显示路径
+			model.addAttribute("imgpath", atDao.findOne( d.getAttachment().getAttachmentId() ).getAttachmentPath());
 		}else{
-			model.addAttribute("imgpath", "/timg.jpg");
+			model.addAttribute("imgpath", "image/timg.jpg");
 		}
 		model.addAttribute("d", d);
 		
@@ -238,8 +248,9 @@ public class AddrController {
 			String pinyin=PinyinHelper.convertToPinyinString(director.getUserName(), "", PinyinFormat.WITHOUT_TONE);
 			director.setPinyin(pinyin);
 			director.setMyuser(user);
+			//如果是修改
 			if(!StringUtils.isEmpty(session.getAttribute("did"))){
-				/*修改*/
+				//修改
 				
 				Long did=Long.parseLong(session.getAttribute("did")+"");
 				Director di=addressDao.findOne(did);
@@ -249,21 +260,50 @@ public class AddrController {
 				directorUser.setDirectorUserId(dc.getDirectorUserId());
 				session.removeAttribute("did");
 			}
-			//试一下
+			
+			//如果文件内容不为空
 			if(file.getSize()>0){
+				
+				//System.out.println("附件不为空-----------------------------------------------------");
+				
+				//先上传附件信息
 				Attachment attaid=mservice.upload(file, user);
-				attaid.setModel("aoa_bursement");
+				
+				//设置附件的所属模块为流程？？
+				//attaid.setModel("aoa_bursement");
+				
+				attaid.setModel("aoa_director");
+				//保存附件记录数据到数据表
 				Attachment att=AttDao.save(attaid);
-				/*Attachment att= (Attachment) fileServices.savefile(file, user, null, false);*/
-				director.setAttachment(att.getAttachmentId());
+				
+				//保存到数据库？？
+				//Attachment att= (Attachment) fileServices.savefile(file, user, null, false);
+				
+				//设置联系人附件的对象  
+				//director.setAttachment(att.getAttachmentId());
+				
+				//修改的时候要判断有没有原来的附件信息，如果有的话就先删除原来的附件
+				/*
+				 * 
+				 * 
+				 * 
+				 */
+				
+				
+				director.setAttachment(att);
 			}
 			
 			directorUser.setHandle(true);
 			directorUser.setDirector(director);
 			directorUser.setUser(user);
-			addressService.sava(director);
+			
+			addressService.sava(director); //保存联系人信息
+			
+			//联系人跟分享记录表有啥关系？？晕
 			addressUserService.save(directorUser);
 		}
+		req.getSession().setAttribute("success", "操作成功");
+
 		return "redirect:/addrmanage";
 	}
 	
@@ -515,6 +555,14 @@ public class AddrController {
 		//条件查询出所有数据
 		List<Map<String, Object>> directors = am.allDirector(userId, alph, outtype, baseKey);
 		
+		
+		
+		System.out.println("对不起内容为空---------"+directors.size());
+	
+		for (Map<String, Object> map : directors) {
+			System.out.println("外部通讯录名单："+map);
+		}
+		
 		//封装查询数据
 		List<Map<String, Object>> adds = addressService.fengzhaung(directors);
 		
@@ -529,7 +577,7 @@ public class AddrController {
 		}
 		
 		Pageable pa=new PageRequest(0, 10);
-		
+		//用来分享联系人用的
 		Page<User> userspage=uDao.findAll(pa);//查询所有数据并分页
 		
 		List<User> users=userspage.getContent();
@@ -542,7 +590,9 @@ public class AddrController {
 		
 		model.addAttribute("userId", userId);
 		model.addAttribute("baseKey", baseKey);
+		
 		model.addAttribute("directors", adds);
+		
 		model.addAttribute("page", pageinfo);
 		
 		model.addAttribute("url", "outaddresspaging"); //此处待定理解

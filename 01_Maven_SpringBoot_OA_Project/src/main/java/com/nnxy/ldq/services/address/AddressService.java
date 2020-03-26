@@ -45,10 +45,14 @@ public class AddressService {
 			result.put("phone_number", addressList.get(i).get("phone_number"));
 			result.put("email", addressList.get(i).get("email"));
 //			!Objects.isNull(atDao.findOne(d.getAttachment()))
-			if(addressList.get(i).get("image_path")!=null){
-				result.put("image_path", atDao.findOne(Long.parseLong((addressList.get(i).get("image_path")+""))).getAttachmentPath());
+			if(addressList.get(i).get("attachment_id")!=null){
+				//System.out.println("联系人头像路径："+atDao.findOne( Long.parseLong( (String) (addressList.get(i).get("attachment_id") ) )).getAttachmentPath());
+				result.put("attachment", atDao.findOne( Long.parseLong(  String.valueOf(addressList.get(i).get("attachment_id"))   )).getAttachmentPath());
+				//result.put("attachment", addressList.get(i).get("attachment") );
+				
+				
 			}else{
-				result.put("image_path", "timg.jpg");
+				result.put("attachment", "/image/timg.jpg");
 			}
 			adds.add(result);
 		}
