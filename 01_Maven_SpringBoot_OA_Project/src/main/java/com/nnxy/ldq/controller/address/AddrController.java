@@ -218,6 +218,10 @@ public class AddrController {
 		model.addAttribute("calogs", calogs);
 		if(!StringUtils.isEmpty(did)){
 			Director director=addressDao.findOne(did);
+			
+			System.out.println("此联系人的头像id："+director.getAttachment().getAttachmentPath());
+			
+			
 			System.out.println();
 			if(Objects.isNull(director)|| !Objects.equals(director.getMyuser().getUserId(), userId)){
 				System.out.println("权限不匹配，不能操作");
@@ -226,6 +230,7 @@ public class AddrController {
 			DirectorUser du=auDao.findByDirectorAndUser(director, user);
 			model.addAttribute("director", director);
 			model.addAttribute("du", du);
+			model.addAttribute("attachmentPath",director.getAttachment().getAttachmentPath());
 			session.setAttribute("did", did);
 		}
 		return "address/addressedit";
@@ -312,15 +317,22 @@ public class AddrController {
 	 */
 	@RequestMapping("deletedirector")
 	public String deleteDirector(@SessionAttribute("userId") Long userId,Model model,@RequestParam(value="did",required=false) Long did){
+		
 		DirectorUser du=auDao.findOne(did);
+		
 		Director director=du.getDirector();
-		List<DirectorUser> dires=auDao.findByDirector(director);
+		
+		List<DirectorUser> dires=auDao.findByDirector(director); //根据联系人对象查找所有中间表数据
+		
 		User user=uDao.findOne(userId);
+		//如果。。。。
 		if(!Objects.equals(du.getUser().getUserId(), userId)){
 			System.out.println("权限不匹配，不能删除");
 			return "redirect:/notlimit";
 		}
+		
 		List<DirectorUser> dus=auDao.findByCatalogNameAndUser(du.getCatalogName(), user);
+		
 		if(dus.size()>1){
 			addressUserService.deleteObj(du);
 			if(dires.size()==1){
@@ -346,8 +358,11 @@ public class AddrController {
 	 */
 	@RequestMapping("deletetypename")
 	public String deletetypename(@RequestParam(value="typename") String typename,@SessionAttribute("userId") Long userId){
+		
 		User user=uDao.findOne(userId);
+		//根据用户和分类名称来获取所有信息
 		List<DirectorUser> dus=auDao.findByCatalogNameAndUser(typename, user);
+		//设置为null默认就是根目录
 		for (DirectorUser directorUser : dus) {
 			directorUser.setCatalogName(null);
 		}
@@ -390,13 +405,23 @@ public class AddrController {
 			@RequestParam(value="catalog",required=false)String catalog,
 			@RequestParam(value="duid",required=false)Long duid,
 			Model model,@SessionAttribute("userId") Long userId){
+		
+		System.out.println("共享与我的嗯嗯");
+		//获取当前用户
 		User user=uDao.findOne(userId);
+		//排序对象
 		List<Order> orders=new ArrayList<>();
+		
 		orders.add(new Order(Direction.ASC, "handle"));
 		orders.add(new Order(Direction.DESC, "sharetime"));
+		
 		Sort sort=new Sort(orders);
+		//设置分页条件
 		Pageable pa=new PageRequest(page, size, sort);
+		
+		//查找当前用户分享给其他人的数据
 		Page<DirectorUser> duspage=auDao.findByShareuser(user, pa);
+		
 		if(!StringUtils.isEmpty(duid)){
 			DirectorUser du=auDao.findOne(duid);
 			System.out.println();
@@ -404,20 +429,33 @@ public class AddrController {
 			du.setHandle(true);
 			addressUserService.save(du);
 		}
+		//搜索分享记录的操作
 		if(!StringUtils.isEmpty(baseKey)){
 			duspage=auDao.findBaseKey("%"+baseKey+"%",user,pa);
 			model.addAttribute("sort", "&baseKey="+baseKey);
 		}else{
+			
 			duspage=auDao.findByUserAndShareuserNotNull(user, pa);
+			
 		}
 		Set<String> catalogs=auDao.findByUser(user);
 		System.out.println(catalogs);
 		model.addAttribute("catalogs", catalogs);
 		List<DirectorUser> dus=duspage.getContent();
+		
+		for (DirectorUser directorUser : dus) {
+			
+			System.out.println("获取分享给我的联系人信息："+directorUser);
+			
+		}
+		
 		model.addAttribute("page", duspage);
 		model.addAttribute("dus", dus);
 		model.addAttribute("url", "sharemess");
+		
 		return "address/sharemess";
+		
+		
 	}
 	
 	/**

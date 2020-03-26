@@ -332,12 +332,32 @@ li.activee>a {
 			/* 用户删除某个联系人 */
 			$('.thistable').on('click','.thisdelete',function(){
 				var did=$(this).attr('did');
-				console.log(did);
-				if(confirm("确定删除吗？")){
+				//console.log(did);
+				
+				swal({ title: "确定删该联系人吗？", text: "你将无法恢复该联系人信息！", type: "warning",showCancelButton: true, confirmButtonColor: "#DD6B55",confirmButtonText: "确定删除！", cancelButtonText: "取消删除！",closeOnConfirm: false, closeOnCancel: false	},function(isConfirm){ 
+					if (isConfirm) { 
+							$('.thistable').load('deletedirector',{did:did},function(){
+								swal("操作成功！","666","success");
+								setTimeout(function(){
+									//alert("Hello");
+									swal.close();
+								},800);
+								//modalShow(1);
+								
+							});
+							
+						} else { 
+							swal.close();
+						} 
+				});
+				
+				/*if(confirm("确定删除吗？")){
 					$('.thistable').load('deletedirector',{did:did},function(){
 						modalShow(1);
 					});
-				}
+				}*/
+				
+				
 			})
 			
 			

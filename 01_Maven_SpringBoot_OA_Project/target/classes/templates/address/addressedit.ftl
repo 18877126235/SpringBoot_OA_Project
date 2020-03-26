@@ -44,15 +44,14 @@ a:hover {
 				<div class="col-md-6 form-group">
 					<label class="control-label"><span>分类</span></label> 
 					<select class="form-control" name="catalogName">
-					<#if du?? & du.catalogName?? & du.catalogName!="">
-						<option value="${(du.catalogName)!''}">${(du.catalogName)!'外部通讯录'}</option>
-					<#else>
-						<option value="${(du.catalogName)!''}">外部通讯录</option>
-					</#if>
-						<option value="">外部通讯录</option>
-					<#list calogs as ca>
-						<option value="${ca}">${ca}</option>
-					</#list>
+						<#if du?? & du.catalogName?? & du.catalogName!="">
+							<option value="${(du.catalogName)!''}">${(du.catalogName)!'外部通讯录'}</option>
+						<#else>
+							<option value="${(du.catalogName)!''}">外部通讯录</option>
+						</#if>
+						<#list calogs as ca>
+							<option value="${ca}">${ca}</option>
+						</#list>
 					</select>
 				</div>
 				<div class="col-md-6 form-group">
@@ -102,8 +101,14 @@ a:hover {
 						<input type="file" id="file_touxiang" name="file" class="file" onchange="changepic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
 					</div>
 					<p class="help-block" style="display:inline-block;">5MB以内</p>
+					<!-- 是否存在头像域对象 -->
+					<#if attachmentPath??>
+						<img src="/${attachmentPath}" id="img3" style="width: 120px;height: 120px;border-radius: 50%;margin-left: 15%;">
+			
+						<#else>
+							<img src="/image/timg.jpg" id="img3" style="width: 120px;height: 120px;border-radius: 50%;margin-left: 15%;">
 					
-					<img src="/image/timg.jpg" id="img3" style="width: 120px;height: 120px;border-radius: 50%;margin-left: 15%;">
+					</#if>
 					
 				</div>
 				

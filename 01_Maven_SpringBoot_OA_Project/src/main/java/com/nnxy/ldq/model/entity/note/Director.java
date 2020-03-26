@@ -1,12 +1,14 @@
 package com.nnxy.ldq.model.entity.note;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,6 +46,7 @@ public class Director {
 	
 	@OneToOne //一个联系人对应一个附件头像
 	@JoinColumn(name="attachment_id")
+	//@OneToMany(mappedBy = "user",cascade = CascadeType.ALL) //放弃对外键的维护权,并且配置级联
 	private Attachment  attachment;	 //头像路径（附件id）
 	
 	

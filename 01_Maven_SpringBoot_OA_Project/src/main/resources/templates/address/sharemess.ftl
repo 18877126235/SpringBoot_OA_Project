@@ -31,8 +31,8 @@
 						thisrole="${du.user.role.roleName}" 
 						thistel="${(du.user.userTel)!'空的'}"
 						thisemail="${(du.user.eamil)!'空的'}" 
-						> <img src="/image/${(du.user.imgPath)!'timg.jpg'}" class="img-circle" />
-							<span> ${du.user.userName}</span></a>共享了以下联系人给你:
+						> <img src="/image/${(du.shareuser.imgPath)!'timg.jpg'}" class="img-circle" />
+							<span> ${du.shareuser.userName}</span></a>共享了以下联系人给你:
 					</div>
 					<div class="share-bottom">
 						<a href="javascript:void(0);" 
@@ -41,8 +41,15 @@
 						thistel="${du.director.phoneNumber}" 
 						thissex="${du.director.sex}" 
 						thisemail="${(du.director.email)!'空的'}"
-						thiscompany="${(du.director.companyname)!'空的'}" style="margin-left: 100px;"> <img
-							src="/image/${(du.director.imagePath)!'timg.jpg'}" class="img-circle" /> ${du.director.userName}
+						thiscompany="${(du.director.companyname)!'空的'}" style="margin-left: 100px;">
+						 
+						<#if du.director.attachment?? >
+							<img src="/${ du.director.attachment.attachmentPath }" class="img-circle" /> 
+							<#else>
+							<img src="/image/timg.jpg" class="img-circle" /> 
+						</#if>
+						
+							${du.director.userName}
 						</a>,${du.director.phoneNumber}
 					</div>
 				</div>

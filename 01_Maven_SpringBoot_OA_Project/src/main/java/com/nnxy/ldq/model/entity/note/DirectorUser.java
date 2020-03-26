@@ -54,7 +54,8 @@ public class DirectorUser {
 	public void setSharetime(Date sharetime) {
 		this.sharetime = sharetime;
 	}
-
+	
+	//是否是目录标记
 	@Column(name="is_handle")
 	private Boolean handle=false;
 

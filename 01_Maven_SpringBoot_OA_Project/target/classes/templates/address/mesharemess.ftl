@@ -30,7 +30,16 @@
 						thissex="${du.director.sex}" 
 						thisemail="${(du.director.email)!'空的'}"
 						thiscompany="${(du.director.companyname)!'空的'}"  >
-						<img src="/image/${(du.director.imagePath)!'timg.jpg'}" class="img-circle" style="width:24px;height:24px"/>
+						<#if du.director.attachment?? >
+							
+							<img src="/${ du.director.attachment.attachmentPath }" class="img-circle" style="width:24px;height:24px"/>
+						
+							<#else>
+							
+							<img src="/image/timg.jpg" class="img-circle" style="width:24px;height:24px"/>
+						
+						</#if>
+						
 						<span> ${du.director.userName},${du.director.phoneNumber}</span>
 					</a>
 					共享给了:
