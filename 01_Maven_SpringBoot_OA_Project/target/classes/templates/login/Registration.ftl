@@ -125,8 +125,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 <#include "/common/commoncss.ftl">
 
 <body   >
-<!-- <div style="background-image: url(images/bg2.png); height: 100%; width: 100% " class="cotn_principal"> -->
-<div style="background-image: url(images/bg1.jpg);" class="cotn_principal">
+<!-- <div style="background-image: url(images/bg2.png); height: 100%; width: 100% " class="cotn_principal"> 
+style="background-image: url(images/bg1.jpg);"
+-->
+<div style="overflow: hidden;" class="cotn_principal">
+	 <div class="cont_img_back_1"> <img src="images/bgzhuce.jpg" alt="背景图片" /> </div>
   <div class="cont_centrar" style="top:5%;">
     <div class="cont_login">
       <div class="cont_forms cont_forms_active_login" style=" background:#FAF0E6 ; height: 520px;width: 400px;border-radius: 15px;">
