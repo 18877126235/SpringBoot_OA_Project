@@ -233,7 +233,7 @@ h1, h3 {
 		<div class=" nav-tabs-custom">
 			<ul class="nav nav-tabs">
 				<li class="mynote active"><a href="#memo" data-toggle="tab">我的便签</a></li>
-				<li class="personset"><a href="#settings" data-toggle="tab" >个人设置</a></li>
+				<li class="personset"><a href="#settings" data-toggle="tab" >个人信息</a></li>
 			</ul>
 
 			<form action="saveuser" method="post" enctype="multipart/form-data" onsubmit="return empcheck();" >
@@ -243,6 +243,7 @@ h1, h3 {
 				<#include "/user/panel.ftl">
 
 				</div>
+				<!-- 展示我的个人信息 -->
 				<div class="tab-pane" id="settings">
 					<div class="box-body">
 					<!--錯誤信息提示  -->
@@ -250,7 +251,7 @@ h1, h3 {
 						错误信息:<button class="thisclose close" type="button">&times;</button>
 						<span class="error-emp"></span>
 					</div>
-						<div class="row">
+						<div class="row usermanages">
 
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span id="ctl00_cphMain_Label1">用户名</span></label> <input
@@ -351,24 +352,31 @@ h1, h3 {
 							</div>
 
 						</div>
-
+						
 						<div class="row">
 
 							<hr />
-
+							
+							
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span id="ctl00_cphMain_Label11">新的密码</span></label> <input
 									name="password1" type="password"
-									id="Password1" class="form-control" />
+									id="Password1" class="form-control" 
+									value="${(user.password)!''}"
+									/>
 							</div>
 
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span id="ctl00_cphMain_Label12">确认密码</span></label> <input
 									name="password" type="password"
-									id="Password2" class="form-control" />
+									id="Password2" class="form-control"
+									value="${(user.password)!''}"
+									 />
 							</div>
-
+							
+							
 						</div>
+						
 						<!-- 
 						<div class="row">
 
@@ -393,6 +401,8 @@ h1, h3 {
 					</div>
 					
 					<div class="box-footer" style="position: relative; overflow: hidden;">
+						<input type="button"  value="确认修改"
+								id="ctl00_cphMain_btnQueren" class="btn btn-primary" />
 						<input type="submit" name="ctl00$cphMain$btnSave" value="保存"
 							id="ctl00_cphMain_btnSave" class="btn btn-primary" />
 					</div>
@@ -418,7 +428,40 @@ h1, h3 {
 </#if>
 <#include "/common/modalTip.ftl"> 
 <script>
-
+		
+		//信息修改确认usermanages
+		$(function(){
+			
+			//设置usermanages下面的所有input标签不可编辑
+			/*$(".usermanages").find("input").each(function(){
+				//alert( $(this).val() );
+				//设置均不可编辑
+				$(this).attr("disabled","disabled");
+			});*/
+			
+			//设置保存按钮不可点击
+			$("#ctl00_cphMain_btnSave").attr("disabled","disabled");
+			
+			var countTemp = 0;
+			//当前点击确认修改后
+			$("#ctl00_cphMain_btnQueren").click(function(){
+				if(countTemp == 10){
+					countTemp = 0;
+				}
+				countTemp ++;
+				
+				if( countTemp % 2 ==0 ){
+					$("#ctl00_cphMain_btnSave").attr("disabled","disabled");
+				}else{
+					$("#ctl00_cphMain_btnSave").removeAttr("disabled");
+				}
+				
+				
+				
+			});
+			
+		});
+		
 	//检测到上传文件的标签内容变化(用来修改头像)
 		function changepic() {
 			 var reads = new FileReader();
@@ -601,10 +644,10 @@ function isPasswordNo(password){
 	 alertCheck("密码长度必须在6到19之间!");
      flag=false;
    }
-	 if(!isNaN(bankno)) {
+	 /*if(!isNaN(bankno)) {
 		 alertCheck("密码不能全为数字!");
 	     flag=false;
-	   }
+	   }*/
 	 return flag;
 }
 
@@ -630,8 +673,8 @@ function alertCheck(errorMess){
  		// 如果在这些input框中，判断是否能够为空
  		if ($(this).val() == "") {
  			// 排除哪些字段是可以为空的，在这里排除
- 			if (index == 13 ||index == 14) {
- 				return true;
+ 			if (index == 13 ||index == 14 ) {
+ 				return true; //继续执行
  			}
  			
  			// 获取到input框的兄弟的文本信息，并对应提醒；
@@ -701,6 +744,7 @@ function alertCheck(errorMess){
  				return flag;
  				
  			}else if(index == 14){
+ 				
  				var $savepassword=$(this).val();
  				var $newpassword=$("#Password1").val();
  				if($savepassword != $newpassword){

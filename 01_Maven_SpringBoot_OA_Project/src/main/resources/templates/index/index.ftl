@@ -64,11 +64,14 @@ maximum-scale=1, user-scalable=no">
 					<#include "/common/navlist.ftl">
 					<div class="col-md-12 list-right"
 						style="background: #ecf0f5; position: relative; height: 845px;padding: 0;">
+						
 						<!--内容区块  默认访问首页  test2连接-->
-						<iframe src="test2" frameBorder="0" width="100%" height="92%"></iframe>
+						<iframe src="test2" frameBorder="0" width="99%" height="92%"></iframe>
 						<!-- 底部栏 -->
+						
 						<#include "/common/footerlist.ftl">
 					</div>
+					
 				</div>
 			</div>
 		</div>

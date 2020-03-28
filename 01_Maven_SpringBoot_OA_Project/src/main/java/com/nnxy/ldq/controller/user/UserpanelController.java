@@ -211,9 +211,11 @@ public class UserpanelController {
 	 * @throws IllegalStateException 
 	 */
 	@RequestMapping("saveuser")
-	public String saveemp(@RequestParam("filePath")MultipartFile filePath,HttpServletRequest request,@Valid User user,
+	public String saveemp(/*@RequestParam("filePath")MultipartFile filePath,*/HttpServletRequest request,@Valid User user,
 			BindingResult br,@SessionAttribute("userId") Long userId) throws IllegalStateException, IOException{
-		String imgpath=nservice.upload(filePath);
+		
+		//String imgpath=nservice.upload(filePath);
+		
 		User users=udao.findOne(userId);
 		
 		//重新set用户
@@ -234,10 +236,10 @@ public class UserpanelController {
 		if(!StringUtil.isEmpty(user.getPassword())){
 			users.setPassword(user.getPassword());
 		}
-		if(!StringUtil.isEmpty(imgpath)){
+		/*if(!StringUtil.isEmpty(imgpath)){
 			users.setImgPath(imgpath);
 			
-		}
+		}*/
 		
 		request.setAttribute("users", users);
 		

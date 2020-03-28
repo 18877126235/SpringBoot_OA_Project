@@ -46,12 +46,16 @@
 
 <!--把最顶上左侧的logo，栅格系统分2份-->
 <div class="col-lg-2 col-md-2 smallDiv"
-	style="padding: 0; margin: 0; display: block;">
+	style="padding: 0 0 0 0; margin: 0; display: block;">
 	<div class="col-md-12" style="background:#00c0ef ;">
-		<a href="index"  class="navbar-brand" style="color: black;  padding: 8px 40px; ">
-			<img src="images/logo.png" />
+		
+		<a href="index"  class="navbar-brand" style="color: black; padding-left: 40px;  ">
+			
+			<font style="width: 135px;"  color="#ffffff"  size="6px" ><b>协同OA系统</b></font>
 		</a>
+		
 	</div>
+	
 	<div class="col-md-12 list-left"
 		style="background: #ffffff; height: 845px">
 		<div class="user-panel">
@@ -66,7 +70,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="thistable">
+		<div style="padding-left: 8px;" class="thistable">
 			<#include "/common/leftlists.ftl">
 		</div>
 	</div>
