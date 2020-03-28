@@ -174,6 +174,8 @@ style="background-image: url(images/bg1.jpg);"
       	<div style="width:80px; float: right;" ><a href="#"><p>系统简介</p></a></div>
         </div>
         </form>
+        
+        
       </div>
       <br>
      <div style="border: 1px solid transparent;">
@@ -244,11 +246,18 @@ function fChkMail(emailAddress){
 			//alert("点我");
 			
 			var flag = 0;
+			
+			
+			var username = $(".userName").val();
+			var passWord = $(".passWord").val();
+			var passwordAgain = $(".passwordAgain").val();
+			var emailInput = $(".mailBoxes").val()+'';
+			
 			//fanhui.click();
 			//alert("哈哈哈哈，不给提交");
 			
 			//获取所有的输入框，查看有没有未填写的
-			<#--var inputs = $("input");
+			var inputs = $("input");
 			inputs.each(function(){
 				var isEmpty= $(this).val();
 		        if(isEmpty == ''){
@@ -265,37 +274,16 @@ function fChkMail(emailAddress){
 			if( flag == 1 ){
 				return false;
 			}
-			//然后校验用户名看看是否已经存在
-			//然后校验用户名看看是否已经存在
-			var username = $(".userName").val();
-			//alert(username);
-			$.ajax({
-				
-		        url:"findUserName?username="+username,
-		        dataType:"text", //预期服务器返回的数据类型
-		        type:"get",
-		        data:null, //发送到服务器的数据
-		        success:function(data){
-		        	//alert("成功"+data);
-		        	
-		        	if(data=='error'){ //如果返回错误信息
-		        		error("用户名已存在,请更改！");
-		        		flag = 1;
-		        	}
-		        },
-		        error:function(data){
-		        	alert("失败"+data);
-		        }
-		        
-		    });
 			
+			//然后校验用户名看看是否已经存在
+			//然后校验用户名看看是否已经存在
 			if( flag == 1 ){
 				return false;
 			}
 			
 			//接下来判断两次密码是否一至
 			//首先判断密码是否大于六位
-			var passWord = $(".passWord").val();
+			
 			//alert();
 			if(passWord.length<6){
 				
@@ -303,36 +291,47 @@ function fChkMail(emailAddress){
 				return false;
 			}
 			//接着判断两次密码是否一致
-			var passwordAgain = $(".passwordAgain").val();
+			
 			if( !(passwordAgain == passWord)){ //如果不相等
 				error("两次输入的密码不一致！");
 				return false;
 			}
 			
 			//最后判断邮箱格式是否正确
-			var emailInput = $(".mailBoxes").val();
+			
 			if( !fChkMail(emailInput) ){//如果邮箱格式不正确
 				
 				error("请输入正确的邮箱，邮箱格式错误！");
 			
 				return false;
 				
-			}-->
+			}
+			
+			swal("正在注册中，请稍后！","稍等一下就可以了哈","success");
 			
 			//alert("哈哈哈");
 			//然后发送ajax注册
 			 $.ajax({
 					
-			        url: "zhixingzhucedaima",
+			        url: "zhixingzhucedaima?"+"userName="+username+"&password="+passWord/*+"&eamil="+emailInput*/,
 			        dataType: "text", //预期服务器返回的数据类型
 			        type: "post",
-			        data:null, //发送到服务器的数据
+			        data:{eamil:emailInput}, //发送到服务器的数据
 			        success:function(data){
 			        	
 			        	if(data == 'success'){
 							//alert("哈哈哈哈哈");
-							swal("注册成功请前往邮箱激活登录","三秒后自动跳转到登陆界面","success");
+							swal("注册成功","请前往邮箱激活登录","success");
+							
 							setTimeout(function(){
+								//alert("Hello");
+								
+								swal.close();
+								//alert("哈哈哈");
+								return false;
+							},3000);
+							
+							/*setTimeout(function(){
 								//alert("Hello");
 								
 								swal.close();
@@ -345,7 +344,11 @@ function fChkMail(emailAddress){
 								
 								//alert("哈哈哈");
 								return false;
-							},3000);
+							},3000);*/
+						}else if(data == 'error1'){
+							swal("用户名已存在！","请更换用户名","warning");
+						}else{
+							swal("注册失败！","服务器繁忙，请稍后再试","warning");
 						}
 			        	
 			        },
@@ -357,10 +360,13 @@ function fChkMail(emailAddress){
 			
 			//return false;
 			
+			
 		});
 		
 		
-	});
+		
+		
+	}); //等待页面加载完毕
 
 </script>
 </body>

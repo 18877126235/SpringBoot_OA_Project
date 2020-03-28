@@ -17,6 +17,7 @@ public class Interceptorconfig extends WebMvcConfigurerAdapter{
     	 excludePathPatterns("/captcha"). //验证码生成显示
     	 excludePathPatterns("/logins"). //执行登陆查询（查看是否已经登陆）
     	 excludePathPatterns("/zhixingzhucedaima"). //执行注册逻辑
+    	 excludePathPatterns("/emailcontroller").//邮箱激活连接
     	 excludePathPatterns("/findUserName")//查询用户名是否相同
 ; 
     	 //registry.addInterceptor(new recordInterceptor()).addPathPatterns("/**").excludePathPatterns("/logins").excludePathPatterns("/index").excludePathPatterns("/test2");
