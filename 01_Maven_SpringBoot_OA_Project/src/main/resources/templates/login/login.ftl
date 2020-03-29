@@ -118,6 +118,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 </head>
 
 <body>
+<!-- 引入必要的css文档 弹窗用 -->
+<#include "/common/commoncss.ftl">
 
 <!--  style="background: url(images/tupian002.jpg); " -->
 <div style="overflow: hidden;"  class="cotn_principal ">
@@ -156,6 +158,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
     
   </div>
 </div>
+
 <!-- 模态框 -->
 <div class="modal fade in" id="mymodal" data-backdrop="static" >
 			<div class="modal-dialog" style="top: 20%;">
@@ -179,6 +182,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 			</div>
 			<!-- /.modal-dialog -->
 		</div>
+		 
 		<!-- /.modal -->
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
@@ -203,6 +207,24 @@ $(function(){
 </script>
 </#if>
 
+<#if success??>
+<script>
+$(function(){
+	
+	//console.log("fdsfdsfsfasdf");
+	swal("激活成功","请登录","success");
+	setTimeout(function(){
+		//alert("Hello");
+		
+		swal.close();
+		//alert("哈哈哈");
+		
+		
+	},3000);
+	return false;
+});
+</script>
+</#if>
 
 <script type="text/javascript">
 

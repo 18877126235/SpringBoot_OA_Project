@@ -2,9 +2,11 @@ package com.nnxy.ldq.controller.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.nnxy.ldq.common.MailUitls;
 import com.nnxy.ldq.common.UUIDUtils;
 import com.nnxy.ldq.model.dao.roledao.RoleDao;
@@ -72,13 +74,13 @@ public class RegistrationController {
 		
 		//插入数据库看看
 		//uDao.save(user1);
-		
+		System.out.println("注册成功");
 		//发送邮箱信息验证激活
 		String code = UUIDUtils.getUUID() + UUIDUtils.getUUID();
 		
 		// 发送激活邮件;
 		MailUitls mailUitls = new MailUitls();
-		mailUitls.sendMail(user1.getEamil(), code); //用户的邮箱号和激活码发送过去？？
+		mailUitls.sendMail(user1.getEamil(), code,userName); //用户的邮箱号和激活码发送过去？？
 		
 		return "success"; //返回显示错误信息
 	}
@@ -88,11 +90,13 @@ public class RegistrationController {
 	 * 点击邮箱连接进行激活用户
 	 */
 	@RequestMapping("emailcontroller")
-	public String emailcontroller() {
+	public String emailcontroller(String userName,Model model) {
 		
-		System.out.println("来了老弟激活码");
+		//System.out.println("来了老弟激活码:"+userName);
 		
-		return "login/Registration";
+		model.addAttribute("success", "账户激活成功，请输入密码登录");
+		//返回登录界面(改为重定向)
+		return "login/login";
 		
 	}
 

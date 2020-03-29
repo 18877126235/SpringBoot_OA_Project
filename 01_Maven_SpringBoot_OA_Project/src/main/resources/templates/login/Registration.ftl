@@ -253,11 +253,20 @@ function fChkMail(emailAddress){
 			var passwordAgain = $(".passwordAgain").val();
 			var emailInput = $(".mailBoxes").val()+'';
 			
+			if(username=='' |passWord==''||passwordAgain==''||emailInput=='' ){
+				//显示错误提示框
+	        	$('.error-mess').text('请完善数据填写!');
+	        	$('.alert-danger').css('display','block');
+	        	//然后缓慢隐藏错误提示框
+	        	$('.alert-danger').fadeOut(4000);
+	        	flag = 1; //标记
+			}
+			
 			//fanhui.click();
 			//alert("哈哈哈哈，不给提交");
 			
 			//获取所有的输入框，查看有没有未填写的
-			var inputs = $("input");
+			/*var inputs = $("input");
 			inputs.each(function(){
 				var isEmpty= $(this).val();
 		        if(isEmpty == ''){
@@ -270,7 +279,9 @@ function fChkMail(emailAddress){
 		        	return false; //这他妈是中断循环呀。。。。。。
 		        }
 
-		    });
+		    });*/
+			
+			
 			if( flag == 1 ){
 				return false;
 			}
@@ -307,7 +318,12 @@ function fChkMail(emailAddress){
 				
 			}
 			
-			swal("正在注册中，请稍后！","稍等一下就可以了哈","success");
+			//swal("正在注册中，请稍后！","稍等一下就可以了哈","success");
+			swal({
+				  title: "正在注册中，请稍后！",
+				  text: "稍等一下就可以了哈！",
+				  imageUrl: "images/jiazao.gif",
+				});
 			
 			//alert("哈哈哈");
 			//然后发送ajax注册
@@ -328,6 +344,10 @@ function fChkMail(emailAddress){
 								
 								swal.close();
 								//alert("哈哈哈");
+								//嵌套定时器，使得视觉体验感更佳
+								setTimeout(function(){
+									document.location.href="login";
+								},200);
 								return false;
 							},3000);
 							

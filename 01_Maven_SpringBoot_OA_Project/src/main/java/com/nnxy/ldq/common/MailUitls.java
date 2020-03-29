@@ -86,6 +86,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -95,6 +96,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.sun.mail.util.MailSSLSocketFactory;
 
 /**
  * 网络发送邮箱信息
@@ -144,7 +147,7 @@ public class MailUitls {
 	 * @param mail
 	 * @param code
 	 */
-	public void sendMail(String mail, String code) {
+	public void sendMail(String mail, String code,String userName) {
 
 		String addr = addr(); //此处后去失败
 		//System.out.println("这他妈的是addr="+addr);
@@ -172,9 +175,30 @@ public class MailUitls {
 		Properties props = new Properties();
 		// 创建邮件服务器
 		props.put("mail.smtp.host", smtpHost);
-		
 		props.put("mail.smtp.auth", "true");
+		//props.put("mail.smtp.ssl.enable", true);
 		
+		
+		/*
+		 * 新增的内容
+		 */
+		// 开启SSL加密，否则会失败
+				MailSSLSocketFactory sf;
+				try {
+					sf = new MailSSLSocketFactory();
+					sf.setTrustAllHosts(true);
+					prop.put("mail.smtp.ssl.enable", "true");
+					prop.put("mail.smtp.ssl.socketFactory", sf);
+				} catch (GeneralSecurityException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+		
+		/******/
+		
+		
+
 		// 取得默认的Session
 		Session session = Session.getDefaultInstance(props, null);
 		System.out.println("执行到这里了呢");
@@ -197,7 +221,7 @@ public class MailUitls {
 					+ "<h3>"
 					+ 		"<a href='http://"
 							+ "localhost"
-							+ ":8888/emailcontroller"
+							+ ":8888/emailcontroller?"+"userName="+userName
 							+ "'> 点我激活哈账号哈哈哈： "
 							+ code + 
 							"</a>"
@@ -258,7 +282,7 @@ public class MailUitls {
 
 			message.setRecipients(Message.RecipientType.TO, address);
 
-			message.setSubject("巨人科技有限公司");// 设定主题
+			message.setSubject("刘大庆科技有限公司");// 设定主题
 
 			message.setSentDate(new Date());// 设定发送时间
 			// 设置邮件正文:
