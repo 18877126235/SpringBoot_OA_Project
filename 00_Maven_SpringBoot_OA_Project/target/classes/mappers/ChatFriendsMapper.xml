@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nnxy.ldq.mappers.ChatFriendsMapper">
+
+    <select id="LookUserAllFriends" resultType="com.nnxy.ldq.model.entity.chat.ChatFriends" parameterType="java.lang.String">
+      select userid,nickname,uimg from userinfo where userid in (select a.fuserid from chat_friends a where a.userid=#{userid})
+    </select>
+    <insert id="InsertUserFriend" parameterType="com.nnxy.ldq.model.entity.chat.ChatFriends">
+        insert into chat_friends (userid, fuserid) value (#{userid},#{fuserid})
+    </insert>
+    <select id="JustTwoUserIsFriend" parameterType="com.nnxy.ldq.model.entity.chat.ChatFriends" resultType="java.lang.Integer">
+        select id from chat_friends where userid=#{userid} and fuserid=#{fuserid}
+    </select>
+    <select id="LkUserinfoByUserid" parameterType="java.lang.String" resultType="com.nnxy.ldq.model.entity.chat.Userinfo">
+        select * from userinfo where userid=#{userid}
+    </select>
+</mapper>
