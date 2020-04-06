@@ -103,7 +103,7 @@
 
 .leftnickename p {
     width: 150px;
-    height: 60px;
+    height: 42px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

@@ -23,29 +23,26 @@
 <body>
 <div class="layui-container" style="margin-top:10px;">
     <div class="layui-row">
-    	
-    	<!-- 向右偏移一点 -->
-        <div class="layui-col-md1" style="height:1px;">
-            <div class="grid-demo"></div>
-        </div>
-        
+
         <!-- 盒子身体 -->
-        <div class="layui-col-xs10" style="height:700px;box-shadow: 0px 1px 3px rgba(130, 85, 80, 0.5);">
+        <div  class="layui-col-xs12" style="margin-left:-70px; height:710px;box-shadow: 0px 1px 3px rgba(130, 85, 80, 0.5);">
         	 <!-- 盒子身体 -->
             <div class="grid-demo grid-demo-bg1">
              <!-- 盒子身体 -->
                 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 	<!-- 三个菜单 -->
-                    <ul class="layui-tab-title">
-                        <li class="layui-this">
-                            <i class="layui-icon layui-icon-dialogue" style="font-size: 20px;"></i>&nbsp;聊天
+                    <ul style="background: rgb(49, 176, 213);"  class="layui-tab-title">
+                    
+                        <li style=" background:#ffffff ; " class="layui-this">
+                            <i class="layui-icon layui-icon-dialogue" style=" color:#ffffff; font-size: 20px;"></i>&nbsp;聊天
                         </li>
-                        <li>
-                            <i class="layui-icon layui-icon-mike" style="font-size: 20px;"></i>&nbsp;语音
+                        <li style=" background:#ffffff  ">
+                            <i class="layui-icon layui-icon-mike" style="  color:#ffffff; font-size: 20px;"></i>&nbsp;语音
                         </li>
-                        <li>
+                        <!-- <li>
                             <i class="layui-icon layui-icon-friends" style="font-size: 20px;"></i>&nbsp;加好友
-                        </li>
+                        </li> -->
+                        
                     </ul>
                     
                     <!-- 菜单对应的三个内容区域 -->
@@ -54,11 +51,11 @@
                     	
                     	
                     	<!-- 聊天内容主体区域 -->
-                        <div class="layui-tab-item layui-show" id="vuechat">
+                        <div style="margin-top: 10px;" class="layui-tab-item layui-show" id="vuechat">
                             <div style="width: 100%;">
                             	
                             	<!-- 消息对话框列表 -->
-                                <div class="alluser" onmouseover="leftscroll(1)" onmouseleave="leftscroll(2)"
+                                <div  class="alluser" onmouseover="leftscroll(1)" onmouseleave="leftscroll(2)"
                                      id="leftscroll">
                                     <div id="appLoading">
                                         <div class="spinner">
@@ -71,21 +68,26 @@
                                     </div>
                                     <!-- 对话框联系人列表 -->
                                     <ol id="leftc" style="display: none;">
-                                        <li v-for="(item,index) in listnickname" :key="index"
+                                    
+                                        <li  v-for="(item,index) in listnickname" :key="index"
                                             @click="selectStyle (item,item.userid)"
                                             :class="{'active':item.active,'unactive':!item.active,'leftnickename':true}">
                                             <p>
-                                                <img :src=item.uimg style="border-radius:50%;height:60px;">
+                                            	<!-- <img :src=item.uimg style="border-radius:50%;height:60px;"> -->
+                                            	
+                                                <img :src="'/image/'+item.uimg" style="border-radius:50%;height:40px;">
                                                 <span :class="{'layui-badge-dot':item.newnote,'':!item.newnote,'newnoteid':true}"></span>
                                                 {{item.nickname}}
                                             </p>
                                         </li>
+                                        
                                     </ol>
                                     
                                 </div>
                                 
+                               
                                 <!-- 消息内容主体容器 -->
-                                <div style="width:84%;float: left;height:626px;">
+                                <div  class="xianxorongqi" style="   background:url(images/bj.jpg); background-size:100% 100%;  width:84%; float: left;height:626px;">
                                     <div id="appLoading2" style="display: none;">
                                         <div class="spinner">
                                             <div class="rect1"></div>
@@ -97,8 +99,8 @@
                                     </div>
                                     
                                     <!-- 默认加载 -->
-                                    <div id="waits" style="text-align: center;margin-top:250px">
-                                        <h1>打开世界的另一扇窗</h1>
+                                    <div  id="waits" style=" text-align: center;margin-top:250px">
+                                        <h1 style="color: green;">打开世界的另一扇窗</h1>
                                         <span>主动一点，世界会更大。</span>
                                         
                                     </div>
@@ -124,6 +126,7 @@
                                                 </div>
                                                 
                                             </div>
+                                            <!-- 这家伙 -->
                                             <div id="msg_end" style="height:0px; overflow:hidden"></div>
                                             
                                             
@@ -141,6 +144,7 @@
                                                     style="float: right;position: relative;" onclick="send()">发送
                                             </button>
                                         </div>
+                                        
                                     </div>
                                     
                                     

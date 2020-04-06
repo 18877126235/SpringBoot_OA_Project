@@ -14,6 +14,7 @@ public class ChatFriends {
     private String fuserid;
 
     private String nickname;
+    
 
     private String uimg;
 

@@ -1,3 +1,23 @@
+
+
+<#list catalogs as ca>
+	<li class="dropdown">
+		<!--设置导航栏头像面板--> 
+		<a href="#" class="green-none white" data-toggle="dropdown" aria-expanded="false">
+				<!-- 头像 -->
+				<img style="width: 30px;height: 30px;float: left;border-radius: 50%;margin-right: 10px;margin-top: -5px;" src="/image/${(ca.imgPath)!'/timg.jpg'}" class="user-image"> 
+				<!-- 用户名 -->
+				<span> ${ca.userName}<br></span>
+				<small><span class="glyphicon glyphicon-record" style="color: #00a65a;">
+				</span>  在线
+				</small>
+		</a> 	
+	</li>
+</#list> 
+
+
+
+<#--
 <#list catalogs as ca>
 	<li>
 		<a href="javascript:void(0);" style="padding-left: 60px;"><span class="glyphicon glyphicon-list-alt"> </span> ${ca.userName}
@@ -8,7 +28,19 @@
 		</a>
 	</li>
 </#list> 
+-->
 
+
+
+
+
+
+
+
+
+
+
+<!-- 测试专属 -->
 <#--
 	<li>
 		<a href="javascript:void(0);" style="padding-left: 60px;"><span class="glyphicon glyphicon-list-alt"> </span> 你妹的

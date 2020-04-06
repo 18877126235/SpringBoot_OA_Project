@@ -4,11 +4,12 @@ package com.nnxy.ldq.mappers;
 
 import java.util.List;
 
+
 import com.nnxy.ldq.model.entity.chat.ChatFriends;
 import com.nnxy.ldq.model.entity.chat.Userinfo;
 
 public interface ChatFriendsMapper {
-    //查询所有的好友
+    //查询所有的好友(正在聊天的列表)
     List<ChatFriends> LookUserAllFriends(String userid);
     //插入好友
     void InsertUserFriend(ChatFriends chatFriends);

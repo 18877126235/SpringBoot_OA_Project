@@ -73,7 +73,7 @@ li.activee>a {
 </style>
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">通讯录
+		<h1 style="font-size: 24px; margin: 0;" class="">聊天室
 		<a href="" class="label xinzeng" style="padding: 5px;margin-left:5px;">
 						<span class="glyphicon glyphicon-refresh"></span> 刷新
 					</a>
@@ -81,7 +81,7 @@ li.activee>a {
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
-			disabled="disabled">通讯录</a>
+			disabled="disabled">聊天室</a>
 	</div>
 </div>
 <div class="row" style="padding-top: 15px;">
@@ -124,6 +124,17 @@ li.activee>a {
 				<span class="btn btn-default pull-right btn-xs des mm"> <i
 					class="glyphicon glyphicon-chevron-down" style="color: #5cb85c;" ></i>
 				</span>
+				<hr>
+				<!-- 搜索框 -->
+				<div class="input-group" style="width: 150px;">
+					<input type="text" class="form-control input-sm baseKey" 
+						placeholder="按部门/角色/用户名/电话号码/拼音" value="${(baseKey)!''}" style="width: 220px;"/>
+					<div class="input-group-btn">
+						<a class="btn btn-sm btn-default baseKeySumbit"> 
+							<span class="glyphicon glyphicon-search"></span>
+						</a>
+					</div>
+				</div>
 			</div>
 			<!-- 显示部门成员 (初始默认显示总经办的成员)-->
 			<ul id="thisulnext" style="display: block;" class="nav nav-pills nav-stacked panel-collapse collapse">
@@ -141,7 +152,11 @@ li.activee>a {
 		<!-- 右侧显示联系人列表 -->
 		<div class="bgc-w box box-primary thistable">
 			<!-- 右侧显示聊天内容主体 -->
-			<iframe height="100%" width="100%" src="testController02"></iframe>
+			<iframe height="100%" width="100%" src="testController02">
+			
+			
+			
+			</iframe>
 			
 		</div>
 		

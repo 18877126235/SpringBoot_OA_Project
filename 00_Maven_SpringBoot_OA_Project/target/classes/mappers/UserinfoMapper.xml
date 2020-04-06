@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnxy.ldq.mappers.UserinfoMapper">
+
+  
+  <select id="selectAllUserinfo" resultType="com.nnxy.ldq.model.entity.chat.Userinfo">
+  	select * from userinfo
+  </select>
+  
+  <select id="findbyid" parameterType="String" resultType="com.nnxy.ldq.model.entity.chat.Userinfo">
+  	select * from userinfo where userid=#{userid}
+  </select>
+  
+  <insert id="insertuserinfo" parameterType="com.nnxy.ldq.model.entity.chat.Userinfo" >
+  	insert into userinfo (userid,nickname,usign,uimg) value(#{userid},#{nickname},#{usign},#{uimg})
+  </insert>
+  
+</mapper>

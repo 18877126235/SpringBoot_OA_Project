@@ -218,6 +218,7 @@ var app = new Vue({
         },
         /*设置点击左侧的列表的时候切换样式同时查找聊天记录*/
         selectStyle: function (item, acuserid) {
+        	//alert("啊哈哈哈哈哈"+item+acuserid);
             this.$nextTick(function () {
                 this.listnickname.forEach(function (item) {
                     Vue.set(item, 'active', false);
@@ -259,12 +260,15 @@ var app = new Vue({
                 contentType: "application/json;charset=UTF-8",
                 success: function (msg) {
                     that.listmessage = msg;
+                    //设置可见和隐藏
                     document.getElementById('words').style.display = 'block';
                     document.getElementById('appLoading2').style.display = 'none';
-                    $('#msgcontent').ready(
+                    $('#msgcontent').ready( //元素内容加载完毕后执行
                         function () {
                             setTimeout(function () {
-                                document.getElementById("msg_end").scrollIntoView();
+                            	//页面跳动原因在此（用来滚动查看聊天记录）
+                               //document.getElementById("msg_end").scrollIntoView();
+                            	window.getElementById("msg_end").scrollIntoView();
                             }, 500)
                         }
                     );
