@@ -127,10 +127,17 @@ public class ChatCtrl {
     @PostMapping("/chat/lkuschatmsg/{reviceuserid}")
     @ResponseBody public List<ChatMsg> lkfriends(HttpSession session, @PathVariable("reviceuserid")String reviceuserid){
     	
-    	System.out.println("哈哈哈来了老弟******************************"+reviceuserid);
+    	//System.out.println("哈哈哈来了老弟******************************"+reviceuserid);
     	
         String userid=""+session.getAttribute("userId");
-        return chatMsgService.LookTwoUserMsg(new ChatMsg().setSenduserid(userid).setReciveuserid(reviceuserid));
+        //return chatMsgService.LookTwoUserMsg(new ChatMsg().setSenduserid(userid).setReciveuserid(reviceuserid));
+        List<ChatMsg> lookTwoUserMsg = chatMsgService.LookTwoUserMsg(new ChatMsg().setSenduserid(userid).setReciveuserid(reviceuserid));
+        
+        /*for (ChatMsg chatMsg : lookTwoUserMsg) {
+			System.out.println("遍历消息看看"+chatMsg);
+		}*/
+        
+        return lookTwoUserMsg;
     }
     
     /***

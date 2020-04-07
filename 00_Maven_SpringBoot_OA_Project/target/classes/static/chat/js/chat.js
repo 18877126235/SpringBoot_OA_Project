@@ -159,6 +159,9 @@ var info = new Vue({
         }
     }
 })
+
+
+//此处是操作聊天界面的vue
 var actuserid = null;
 var app = new Vue({
     el: '#vuechat',
@@ -213,7 +216,8 @@ var app = new Vue({
             var that = this;
             that.listmessage.push({msgtype: mstype, reciveuserid: revive, senduserid: send, sendtext: text});
             setTimeout(function () {
-                document.getElementById("msg_end").scrollIntoView();
+                //document.getElementById("msg_end").scrollIntoView();
+            	
             }, 500)
         },
         /*设置点击左侧的列表的时候切换样式同时查找聊天记录*/
@@ -259,16 +263,18 @@ var app = new Vue({
                 dataType: 'json',
                 contentType: "application/json;charset=UTF-8",
                 success: function (msg) {
+                	//alert(that.loginusername);
                     that.listmessage = msg;
+                    //alert(msg);
                     //设置可见和隐藏
                     document.getElementById('words').style.display = 'block';
                     document.getElementById('appLoading2').style.display = 'none';
                     $('#msgcontent').ready( //元素内容加载完毕后执行
                         function () {
                             setTimeout(function () {
-                            	//页面跳动原因在此（用来滚动查看聊天记录）
+                            	//页面跳动原因在此（用来滚动查看聊天记录）//调用方法使得页面滚动到底部
                                //document.getElementById("msg_end").scrollIntoView();
-                            	window.getElementById("msg_end").scrollIntoView();
+                            	//window.getElementById("msg_end").scrollIntoView();
                             }, 500)
                         }
                     );
@@ -280,12 +286,13 @@ var app = new Vue({
         }
     }
 })
+
 //var randnumber=Math.ceil(Math.random()*1000)+1;
 var websocket = null;
 //判断当前浏览器是否支持WebSocket
 if ('WebSocket' in window) {
     //连接WebSocket节点
-    websocket = new WebSocket("ws://localhost:8080/websocket/" + userid);
+    websocket = new WebSocket("ws://localhost:8888/websocket/" + userid);
 } else {
     alert('Not support websocket')
 }
@@ -310,6 +317,9 @@ window.onbeforeunload = function () {
     websocket.close();
 };
 
+
+
+
 //将消息显示在网页上
 function setMessageInnerHTML(innerHTML) {
     var msgs = innerHTML.split("|");
@@ -324,7 +334,7 @@ function setMessageInnerHTML(innerHTML) {
     } else {
         alertnote(msgs[0])
     }
-    document.getElementById("msg_end").scrollIntoView();
+    //document.getElementById("msg_end").scrollIntoView();
 }
 
 //关闭连接
@@ -335,7 +345,11 @@ function closeWebSocket() {
 //发送消息
 function send() {
     var layedit = layui.layedit;
+    //获取富文本内容
     var message = layedit.getContent(editIndex);
+    
+    
+    
     if (message.length == 0) {
         layer.msg("请输入发送的内容", {
             time: 2500,
@@ -344,15 +358,20 @@ function send() {
         });
         return;
     }
+    
+    //alert("这是什么id呀"+actuserid);
+    
     // 将内容设置为空
     layedit.setContent(editIndex, "", false);
-    websocket.send(actuserid + "|" + message);
-    appendmsg("0", actuserid, userid, message);
-    document.getElementById("msg_end").scrollIntoView();
+    //发送消息
+    websocket.send(actuserid + "|" + message); //actuserid:是对方的用户id，message：是消息内容
+    appendmsg("0", actuserid, userid, message); //在界面上显示新消息
+    //document.getElementById("msg_end").scrollIntoView();
+    window.getElementById("msg_end").scrollIntoView();
 }
 
 
-
+//发送语音
 function sendaudio(message) {
     if (actuserid == null) {
         layer.msg("聊天界面未选择用户", {
@@ -364,7 +383,7 @@ function sendaudio(message) {
     }
     websocket.send(actuserid + "|" + "<audio controls class=\"audio-player\"><source src=\"" + message + "\" type=\"audio/mp3\"></audio>");
     appendmsg("0", actuserid, userid, "<audio controls class=\"audio-player\"><source src=\"" + message + "\" type=\"audio/mp3\"></audio>");
-    document.getElementById("msg_end").scrollIntoView();
+    //document.getElementById("msg_end").scrollIntoView();
 }
 
 //layui面板刷新保留在当前面板
@@ -373,7 +392,7 @@ $(".layui-tab-title li").click(function () {
     sessionStorage.setItem("picTabNum", picTabNum);
 });
 
-
+//页面加载完毕
 $(function () {
     var getPicTabNum = sessionStorage.getItem("picTabNum");
     $(".layui-tab-title li").eq(getPicTabNum).addClass("layui-this").siblings().removeClass("layui-this");

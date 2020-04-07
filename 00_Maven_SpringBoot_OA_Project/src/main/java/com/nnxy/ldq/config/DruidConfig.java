@@ -19,7 +19,7 @@ import java.util.Map;
 @Configuration
 public class DruidConfig {
     
-	@ConfigurationProperties(prefix = "spring.datasource")
+/*	@ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource druid(){
         return new DruidDataSource();
@@ -47,5 +47,5 @@ public class DruidConfig {
         bean.setInitParameters(initParams);
         bean.setUrlPatterns(Arrays.asList("/*"));
         return bean;
-    }
+    }*/
 }
