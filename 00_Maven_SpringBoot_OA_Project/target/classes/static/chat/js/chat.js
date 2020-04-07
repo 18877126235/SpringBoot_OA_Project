@@ -82,6 +82,7 @@ layui.use(['form', 'layedit', 'laydate'], function () {
     });
     form.render();
 });
+//回车事件
 document.onkeydown = function (event) {
     var e = event || window.event;
     if (e && e.keyCode == 13) { //回车键的键值为13
@@ -398,6 +399,8 @@ $(".layui-tab-title li").click(function () {
     sessionStorage.setItem("picTabNum", picTabNum);
 });
 
+
+
 //页面加载完毕
 $(function () {
     var getPicTabNum = sessionStorage.getItem("picTabNum");
@@ -441,5 +444,9 @@ $(function () {
     	}
     		
 	},500);
+    
+    
+   
+    	
     
 })

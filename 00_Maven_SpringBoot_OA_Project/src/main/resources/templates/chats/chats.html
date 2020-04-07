@@ -74,15 +74,15 @@
                                     <!-- 对话框联系人列表 -->
                                     <ol id="leftc" style="display: none;">
                                     
-                                        <li style="border-bottom: 1px dashed green; " v-for="(item,index) in listnickname" :key="index"
+                                        <li style=" margin-top: 4px; " v-for="(item,index) in listnickname" :key="index"
                                             @click="selectStyle (item,item.userid)"
                                             :class="{'active':item.active,'unactive':!item.active,'leftnickename':true}">
                                             <p>
                                             	<!-- <img :src=item.uimg style="border-radius:50%;height:60px;"> -->
                                             	
-                                                <img :src="'/image/'+item.uimg" style="border-radius:50%;height:40px;">
+                                                <img :src="'/image/'+item.uimg" style="border-radius:50%;height:40px; width: 40px;">
                                                 <span :class="{'layui-badge-dot':item.newnote,'':!item.newnote,'newnoteid':true}"></span>
-                                                {{item.nickname}}
+                                                &nbsp;&nbsp;{{item.nickname}}
                                             </p>
                                         </li>
                                         
@@ -105,8 +105,8 @@
                                     
                                     <!-- 默认加载 -->
                                     <div  id="waits" style=" text-align: center;margin-top:250px">
-                                        <h1 style="color: green;">打开世界的另一扇窗</h1>
-                                        <span>主动一点，世界会更大。</span>
+                                        <h1 style="color: #AAAAAA;">沟通是打开世界的另一扇窗的方法</h1>
+                                        <span style=" color: #AAAAAA; "><h2>主动一点 世界会更大</h2></span>
                                         
                                     </div>
                                     

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -136,6 +137,7 @@ public class ChatSockerController {
 	/*
 	 * ajax加载聊天界面(待定)
 	 */
+	@Transactional //开启事务
 	@RequestMapping("testController04")
 	public String testController04(String duixiangid,Model model,HttpServletRequest request) {
 		
@@ -146,12 +148,19 @@ public class ChatSockerController {
 		//先判断有没有先
 		//去数据库查找一下看看有没有，如果没有就插入
 		Userinfo findbyid = userinfoService.findbyid(duixiangid);
+		Userinfo userinfo = new Userinfo();
 		if(findbyid == null) {
 			User user = uDao.findOne(Long.parseLong(duixiangid));
-			Userinfo userinfo = new Userinfo();
+			
 			userinfo.setNickname(user.getUserName()); //名称
 			userinfo.setUserid(duixiangid); //id
-			userinfo.setUimg("/"+user.getImgPath()); //头像
+			//如果头像为空就设置默认值
+			if(user.getImgPath() == null) {
+				userinfo.setUimg("/"+"simpletest.jpeg"); //头像
+			}else {
+				userinfo.setUimg("/"+user.getImgPath()); //头像
+			}
+			
 			userinfo.setUsign(user.getUserSign()); //签名
 			userinfoService.insertuserinfo(userinfo); //插入数据库
 		}
@@ -180,7 +189,7 @@ public class ChatSockerController {
 		}
 		//放置域对象用来显示聊天界面
 		request.getSession().setAttribute("fuserId", duixiangid);
-		request.getSession().setAttribute("fuserName", findbyid.getNickname());
+		request.getSession().setAttribute("fuserName", userinfo.getNickname()); //空指针异常？？？
 		return "chats/chatmsg";
 	}
 	

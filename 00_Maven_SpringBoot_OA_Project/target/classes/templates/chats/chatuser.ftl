@@ -7,19 +7,19 @@
 		
 		<#else>
 			<li class="chatyonghutiaomu dropdown">
-			<!--设置导航栏头像面板--> 
-			<a href="#" class="green-none white" data-toggle="dropdown" aria-expanded="false">
-					<!-- 头像 -->
-					<img style="width: 30px;height: 30px;float: left;border-radius: 50%;margin-right: 10px;margin-top: -5px;" src="/image/${(ca.imgPath)!'/timg.jpg'}" class="user-image"> 
-					<!-- 用户名 -->
-					<span> ${ca.userName}<br></span>
-					<small><span class="glyphicon glyphicon-record" style="color: #00a65a;">
-					</span>  在线
-					</small>
-			</a> 
-			<input class="duixiangidzhi" type="hidden" value="${ca.userId}">	
+				<!--设置导航栏头像面板--> 
+				<a href="#" class="green-none white" data-toggle="dropdown" aria-expanded="false">
+						<!-- 头像 -->
+						<img style="width: 30px;height: 30px;float: left;border-radius: 50%;margin-right: 10px;margin-top: -5px;" src="/image/${(ca.imgPath)!'/timg.jpg'}" class="user-image"> 
+						<!-- 用户名 -->
+						<span> ${ca.userName}<br></span>
+						<small><span class="glyphicon glyphicon-record" style="color: #00a65a;">
+						</span>  在线
+						</small>
+				</a> 
+				<input class="duixiangidzhi" type="hidden" value="${ca.userId}">	
 			
-	</li>	
+			</li>	
 		
 	</#if>
 
