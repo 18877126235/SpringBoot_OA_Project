@@ -228,10 +228,10 @@ var app = new Vue({
         selectStyle: function (item, acuserid) {
         	//alert("啊哈哈哈哈哈"+item+acuserid);
             this.$nextTick(function () {
-                this.listnickname.forEach(function (item) {
+                this.listnickname.forEach(function (item) { //先全部清除样式
                     Vue.set(item, 'active', false);
                 });
-                Vue.set(item, 'active', true);
+                Vue.set(item, 'active', true); //再设置当前对象的样式为选中状态
             });
             this.getMessageList(acuserid);
             actuserid = acuserid;
@@ -403,4 +403,43 @@ $(function () {
     var getPicTabNum = sessionStorage.getItem("picTabNum");
     $(".layui-tab-title li").eq(getPicTabNum).addClass("layui-this").siblings().removeClass("layui-this");
     $(".layui-tab-content>div").eq(getPicTabNum).addClass("layui-show").siblings().removeClass("layui-show");
+    
+    //用定时器来等待数据加载完成（半秒应该可以了）
+    setTimeout(function(){
+    	//alert("数组长度："+app.listnickname.length);
+    	
+    	//alert("打印一下看看：" + fuserid + fusername);
+    	
+    	//如果是点击了联系人条目过来的
+    	if( fuserid != null && fusername != null ){
+    		var useritem = null;
+        	//遍历遍历
+        	for(var i = 0 ; i < app.listnickname.length ; i++){
+        		//alert(app.listnickname[i].nickname);
+        		if( app.listnickname[i].nickname == fusername ){
+        			useritem = app.listnickname[i] ;
+        			break;
+        		}
+        	}
+        	
+        	//执行联系人界面的点击事件
+        	app.selectStyle( useritem , fuserid );
+       
+        	//发送ajax来清除session数据，防止影响其他操作
+        	$.ajax({
+				url:"testController05",
+				dataType:"text", //预期服务器返回的数据类型
+				type:"get",
+				data:null, //发送到服务器的数据
+				success:function(data){
+				},
+				error:function(data){
+				}
+				
+			});
+        	
+    	}
+    		
+	},500);
+    
 })

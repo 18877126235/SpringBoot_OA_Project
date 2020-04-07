@@ -107,12 +107,28 @@ li.activee>a {
 			<ul class="nav nav-pills nav-stacked mm" id="navpills">
 				<#if deplist??>
 					<#list deplist as list>
-						<li class="activee notfather tongxunluleixing depitem">
-							<a href="##" > <span class="glyphicon glyphicon-user"> ${list.deptName}</span>
-								<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="##"  data-toggle="collapse" ></i>
-							</a>
-							<input type="hidden" class="detidchat" value="${list.deptId}">
-						</li>
+						
+						<!-- 设置默认总经办被选中 -->
+						<#if list.deptId == 1>
+						
+							<li class="activee notfather tongxunluleixing depitem">
+								<a href="##" > <span class="glyphicon glyphicon-user"> ${list.deptName}</span>
+									<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="##"  data-toggle="collapse" ></i>
+								</a>
+								<input type="hidden" class="detidchat" value="${list.deptId}">
+							</li>
+							
+							<#else>
+								<li class="notfather tongxunluleixing depitem">
+									<a href="##" > <span class="glyphicon glyphicon-user"> ${list.deptName}</span>
+										<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="##"  data-toggle="collapse" ></i>
+									</a>
+									<input type="hidden" class="detidchat" value="${list.deptId}">
+								</li>
+							
+						</#if>
+						
+						
 						
 					</#list>
 				</#if>
@@ -149,15 +165,10 @@ li.activee>a {
 	</div>
 	<div class="col-md-9">
 		
-		<!-- 右侧显示联系人列表 -->
-		<div class="bgc-w box box-primary thistable">
+		<!-- 右侧显示聊天界面 -->
+		<div class="bgc-w box box-primary thistablechat">
 			<!-- 右侧显示聊天内容主体 -->
-			<iframe id="iframeId" frameborder="no" height="100%" width="100%" src="testController02">
-			
-			
-			
-			</iframe>
-			
+			<#include "chatmsg.ftl"/>
 		</div>
 		
 		<input type="hidden" class="sharehidden"/>
@@ -208,12 +219,32 @@ li.activee>a {
 			//获取部门id
 			var depid = $(this).find(".detidchat").val();
 			
+			//设置样式
+			$(".depitem").each(function(){
+				$(this).removeClass("activee");
+			});
+			
+			$(this).addClass("activee");
+			
 			//alert(depid);
 			
-			//重新加载部门列表内容
+			//重新加载部门用户列表内容
 			$("#thisulnext").load("testController03",{depid:depid});
 			
 		});
+		
+		
+		//点击用户条目
+		$("#thisulnext").on("click",".chatyonghutiaomu",function(){
+			
+			//后台设置数据，重新加载右侧的iframe
+			var duixiangid = $(this).find(".duixiangidzhi").val();
+			//alert(duixiangid);
+			
+			$(".thistablechat").load("testController04",{duixiangid:duixiangid});
+			
+		})
+		
 		
 	})
 		

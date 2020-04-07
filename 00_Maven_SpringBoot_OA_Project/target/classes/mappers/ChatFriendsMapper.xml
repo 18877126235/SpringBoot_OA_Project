@@ -23,4 +23,8 @@
         select * from userinfo where userid=#{userid}
     </select>
     
+    <select id="selectbyuseridandfuserid" parameterType="com.nnxy.ldq.model.entity.chat.ChatFriends" resultType="com.nnxy.ldq.model.entity.chat.ChatFriends" >
+    	select * from chat_friends where userid=#{userid} and fuserid=#{fuserid}
+    </select>
+    
 </mapper>

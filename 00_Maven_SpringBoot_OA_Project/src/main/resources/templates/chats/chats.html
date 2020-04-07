@@ -15,8 +15,12 @@
     	//获取项目请求路径
         var basePath = [[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
     	//获取session中的用户id
-        var userid = [[${session.userId}]];
+        var userid = [[${session.userId}]]; //当前主用户id
     	//alert("你大爷的"+userid);
+    	var fuserid = [[${session.fuserId}]]; //对方用户id
+    	
+    	var fusername = [[${session.fuserName}]]; //对方用户名称
+    	
     </script>
     
 </head>
@@ -70,7 +74,7 @@
                                     <!-- 对话框联系人列表 -->
                                     <ol id="leftc" style="display: none;">
                                     
-                                        <li  v-for="(item,index) in listnickname" :key="index"
+                                        <li style="border-bottom: 1px dashed green; " v-for="(item,index) in listnickname" :key="index"
                                             @click="selectStyle (item,item.userid)"
                                             :class="{'active':item.active,'unactive':!item.active,'leftnickename':true}">
                                             <p>

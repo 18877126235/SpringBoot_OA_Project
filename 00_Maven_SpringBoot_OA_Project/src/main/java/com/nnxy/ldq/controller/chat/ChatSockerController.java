@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nnxy.ldq.model.dao.discuss.CommentDao;
 import com.nnxy.ldq.model.dao.discuss.DiscussDao;
@@ -17,9 +18,11 @@ import com.nnxy.ldq.model.dao.discuss.VoteTitlesUserDao;
 import com.nnxy.ldq.model.dao.system.TypeDao;
 import com.nnxy.ldq.model.dao.user.DeptDao;
 import com.nnxy.ldq.model.dao.user.UserDao;
+import com.nnxy.ldq.model.entity.chat.ChatFriends;
 import com.nnxy.ldq.model.entity.chat.Userinfo;
 import com.nnxy.ldq.model.entity.user.Dept;
 import com.nnxy.ldq.model.entity.user.User;
+import com.nnxy.ldq.services.chat.ChatFriendsService;
 import com.nnxy.ldq.services.chat.UserinfoService;
 import com.nnxy.ldq.services.discuss.DiscussService;
 import com.nnxy.ldq.services.discuss.ReplyService;
@@ -53,7 +56,8 @@ public class ChatSockerController {
 	DeptDao depDao;
 	@Autowired
 	UserinfoService userinfoService;
-
+	@Autowired
+	ChatFriendsService chatFriendsService; 
 	/*
 	 * 显示初始页面
 	 */
@@ -78,9 +82,9 @@ public class ChatSockerController {
 		User user = uDao.findOne(Long.parseLong(userid));
 		//先获取集合测试看看
 		List<Userinfo> selectAllUserinfo = userinfoService.selectAllUserinfo();
-		for (Userinfo userinfo : selectAllUserinfo) {
+		/*for (Userinfo userinfo : selectAllUserinfo) {
 			System.out.println("我特么直接黑化："+userinfo);
-		}
+		}*/
 		//去数据库查找一下看看有没有，如果没有就插入
 		Userinfo findbyid = userinfoService.findbyid(userid);
 		System.out.println(findbyid);
@@ -129,7 +133,68 @@ public class ChatSockerController {
 		return "chats/chatuser";
 	}
 	
+	/*
+	 * ajax加载聊天界面(待定)
+	 */
+	@RequestMapping("testController04")
+	public String testController04(String duixiangid,Model model,HttpServletRequest request) {
+		
+		
+		String userid = ""+request.getSession().getAttribute("userId");
+		
+		//先插入userinfo用户聊天信息表表中先
+		//先判断有没有先
+		//去数据库查找一下看看有没有，如果没有就插入
+		Userinfo findbyid = userinfoService.findbyid(duixiangid);
+		if(findbyid == null) {
+			User user = uDao.findOne(Long.parseLong(duixiangid));
+			Userinfo userinfo = new Userinfo();
+			userinfo.setNickname(user.getUserName()); //名称
+			userinfo.setUserid(duixiangid); //id
+			userinfo.setUimg("/"+user.getImgPath()); //头像
+			userinfo.setUsign(user.getUserSign()); //签名
+			userinfoService.insertuserinfo(userinfo); //插入数据库
+		}
+		
+		//System.out.println("获取到了你要聊天的对象id"+duixiangid);
+		//查看聊天列表中有没有和当前用户处于聊天列表
+		ChatFriends chatf = new ChatFriends();
+		chatf.setUserid(userid); //当前用户id
+		chatf.setFuserid(duixiangid); //对方id
+		
+		ChatFriends frenduser = chatFriendsService.selectbyuseridandfuserid(chatf);
+		
+		if(frenduser == null) {
+			System.out.println("两人还没建立聊天关系");
+			
+			//向数据库中插入两条表示两人建立聊天关系数据
+			chatFriendsService.InsertUserFriend(chatf);
+			//换一下参照对象
+			chatf.setUserid( duixiangid); //当前用户id
+			chatf.setFuserid(userid); //对方id
+			chatFriendsService.InsertUserFriend(chatf);
+			
+		}else {
+			System.out.println("已经简历聊天关系");
+			
+		}
+		//放置域对象用来显示聊天界面
+		request.getSession().setAttribute("fuserId", duixiangid);
+		request.getSession().setAttribute("fuserName", findbyid.getNickname());
+		return "chats/chatmsg";
+	}
 	
+	/*
+	 * 使用ajax方式来清除session缓存
+	 */
+	@RequestMapping("testController05")
+	public void testController05(HttpServletRequest request) {
+		
+		//System.out.println("清除数据对吧哈哈哈哈哈哈哈"); 
+		request.getSession().removeAttribute("fuserId");
+		
+		request.getSession().removeAttribute("fuserName");
 	
+	}
 	
 }

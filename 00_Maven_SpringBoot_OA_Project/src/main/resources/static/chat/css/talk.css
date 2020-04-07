@@ -80,7 +80,7 @@
 .unactive {
     padding: 1px;
     display: block;
-    background-color: #FAFAFA;
+    background-color: 	#F8F8FF  ;
     width: 100%;
     height: auto;
     cursor: pointer;
@@ -94,7 +94,7 @@
     display: block;
     width: 100%;
     height: auto;
-    background-color: #EBEBEC;
+    background-color: rgb(91, 192, 222);;
     cursor: pointer;
 }
 

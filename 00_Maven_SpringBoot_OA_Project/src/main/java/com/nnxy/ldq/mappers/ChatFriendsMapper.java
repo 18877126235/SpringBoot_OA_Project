@@ -17,4 +17,6 @@ public interface ChatFriendsMapper {
     Integer JustTwoUserIsFriend(ChatFriends chatFriends);
     //查询用户的信息
     Userinfo LkUserinfoByUserid(String userid);
+    //查看又没又建立聊天列表关系
+	ChatFriends selectbyuseridandfuserid(ChatFriends chatf);
 }

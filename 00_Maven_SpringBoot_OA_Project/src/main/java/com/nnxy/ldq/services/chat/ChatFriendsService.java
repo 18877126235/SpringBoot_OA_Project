@@ -35,6 +35,10 @@ public class ChatFriendsService {
     public Userinfo LkUserinfoByUserid(String userid){
         return chatFriendsMapper.LkUserinfoByUserid(userid);
     }
+	public ChatFriends selectbyuseridandfuserid(ChatFriends chatf) {
+		// TODO Auto-generated method stub
+		return chatFriendsMapper.selectbyuseridandfuserid(chatf);
+	}
     
     
 }
