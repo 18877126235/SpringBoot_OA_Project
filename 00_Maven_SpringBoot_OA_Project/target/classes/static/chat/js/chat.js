@@ -1,3 +1,5 @@
+
+//用来添加好友
 layui.use(['form', 'element'], function () {
     var form = layui.form;
     var e = layui.element;
@@ -38,6 +40,8 @@ layui.use(['form', 'element'], function () {
     });
 });
 
+
+//富文本编辑器的操作
 var editIndex;
 var layedit;
 layui.use(['form', 'layedit', 'laydate'], function () {
@@ -50,7 +54,7 @@ layui.use(['form', 'layedit', 'laydate'], function () {
         uploadImage: {
             url: basePath + '/chat/upimg' //接口url
             , type: 'POST' //默认post
-            , size: 1024 * 5
+            , size: 1024 * 5 //最大只能5m的图片呃呃
         }
     });
     
@@ -216,7 +220,7 @@ var app = new Vue({
             var that = this;
             that.listmessage.push({msgtype: mstype, reciveuserid: revive, senduserid: send, sendtext: text});
             setTimeout(function () {
-                //document.getElementById("msg_end").scrollIntoView();
+                document.getElementById("msg_end").scrollIntoView(false);
             	
             }, 500)
         },
@@ -273,8 +277,10 @@ var app = new Vue({
                         function () {
                             setTimeout(function () {
                             	//页面跳动原因在此（用来滚动查看聊天记录）//调用方法使得页面滚动到底部
-                               //document.getElementById("msg_end").scrollIntoView();
-                            	//window.getElementById("msg_end").scrollIntoView();
+                            	
+                            	document.getElementById("msg_end").scrollIntoView(false);  
+                            	
+                            	
                             }, 500)
                         }
                     );
@@ -334,7 +340,7 @@ function setMessageInnerHTML(innerHTML) {
     } else {
         alertnote(msgs[0])
     }
-    //document.getElementById("msg_end").scrollIntoView();
+    document.getElementById("msg_end").scrollIntoView(false);
 }
 
 //关闭连接
@@ -366,8 +372,8 @@ function send() {
     //发送消息
     websocket.send(actuserid + "|" + message); //actuserid:是对方的用户id，message：是消息内容
     appendmsg("0", actuserid, userid, message); //在界面上显示新消息
-    //document.getElementById("msg_end").scrollIntoView();
-    window.getElementById("msg_end").scrollIntoView();
+    document.getElementById("msg_end").scrollIntoView(false);
+    
 }
 
 
@@ -383,7 +389,7 @@ function sendaudio(message) {
     }
     websocket.send(actuserid + "|" + "<audio controls class=\"audio-player\"><source src=\"" + message + "\" type=\"audio/mp3\"></audio>");
     appendmsg("0", actuserid, userid, "<audio controls class=\"audio-player\"><source src=\"" + message + "\" type=\"audio/mp3\"></audio>");
-    //document.getElementById("msg_end").scrollIntoView();
+    document.getElementById("msg_end").scrollIntoView(false);
 }
 
 //layui面板刷新保留在当前面板

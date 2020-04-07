@@ -56,7 +56,7 @@ maximum-scale=1, user-scalable=no">
 <body>
 
 	<div  class="row main">
-		<div class="container-fluid">
+		<div  id="" class="container-fluid">
 			<div class="row">
 				<#include "/common/leftlist.ftl"> <!--顶层左侧的导航栏，栅格系统分10份-->
 				<div class="col-md-10 moredeep" style="padding: 0; margin: 0;">
@@ -66,7 +66,7 @@ maximum-scale=1, user-scalable=no">
 						style="background: #ecf0f5; position: relative; height: 845px;padding: 0;">
 						
 						<!--内容区块  默认访问首页  test2连接-->
-						<iframe src="test2" frameBorder="0" width="99%" height="92%"></iframe>
+						<iframe id="iframe0" src="test2" frameBorder="0" width="99%" height="92%"></iframe>
 						<!-- 底部栏 -->
 						
 						<#include "/common/footerlist.ftl">

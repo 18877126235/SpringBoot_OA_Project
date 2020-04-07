@@ -24,7 +24,7 @@ public class MyConfig extends WebMvcConfigurerAdapter {
     /*
      * 这该死的配置卧槽
      */
-   /* @Bean
+   @Bean
     public WebMvcConfigurerAdapter WebMvcConfigurerAdapter() {
         WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
             @Override
@@ -34,9 +34,9 @@ public class MyConfig extends WebMvcConfigurerAdapter {
             }
         };
         return adapter;
-    }*/
+    }
     
-   /* @Override
+   /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(new AdminInterceptor());

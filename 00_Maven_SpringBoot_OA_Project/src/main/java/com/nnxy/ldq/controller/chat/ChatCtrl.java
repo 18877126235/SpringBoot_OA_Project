@@ -30,12 +30,17 @@ public class ChatCtrl {
     @Autowired
     LoginService loginService;
 
+    
+    
     /**
      * 上传聊天图片
      * **/
     @PostMapping(value = "/chat/upimg")
     @ResponseBody
     public JSONObject upauz(@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+    	
+    	System.out.println("我的法克，怎么不显示了*********************************");
+    	
         JSONObject res = new JSONObject();
         JSONObject resUrl = new JSONObject();
         String filename = UUID.randomUUID().toString().replaceAll("-", "");

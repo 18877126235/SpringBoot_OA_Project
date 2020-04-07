@@ -152,7 +152,7 @@ li.activee>a {
 		<!-- 右侧显示联系人列表 -->
 		<div class="bgc-w box box-primary thistable">
 			<!-- 右侧显示聊天内容主体 -->
-			<iframe frameborder="no" height="100%" width="100%" src="testController02">
+			<iframe id="iframeId" frameborder="no" height="100%" width="100%" src="testController02">
 			
 			
 			

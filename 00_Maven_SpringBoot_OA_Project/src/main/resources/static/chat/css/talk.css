@@ -123,7 +123,7 @@
 }
 /*左侧的聊天窗口的滑动样式*/
 .alluser {
-    width: 15%;
+    width: 20%;
     float: left;
     height: 648px;
     border: 0.5px solid gainsboro;

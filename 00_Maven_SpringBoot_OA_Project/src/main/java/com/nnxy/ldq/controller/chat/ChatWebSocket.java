@@ -89,7 +89,7 @@ public class ChatWebSocket {
     public void sendToUser(String message) {
         String reviceUserid = message.split("[|]")[0];
         String sendMessage = message.split("[|]")[1];
-        sendMessage= EmojiFilter.filterEmoji(sendMessage);//过滤输入法输入的表情
+        sendMessage= EmojiFilter.filterEmoji(sendMessage);//过滤输入法输入的表情,转换为地址
         chatMsgService.InsertChatMsg(new ChatMsg().setMsgtype("0").setReciveuserid(reviceUserid).setSenduserid(userno).setSendtext(sendMessage));
         try {
             if (webSocketSet.get(reviceUserid) != null) {
