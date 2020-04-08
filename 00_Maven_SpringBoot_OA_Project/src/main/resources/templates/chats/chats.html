@@ -21,6 +21,9 @@
     	
     	var fusername = [[${session.fuserName}]]; //对方用户名称
     	
+    	
+    	
+    	
     </script>
     
 </head>
@@ -74,13 +77,13 @@
                                     <!-- 对话框联系人列表 -->
                                     <ol id="leftc" style="display: none;">
                                     
-                                        <li style=" margin-top: 4px; " v-for="(item,index) in listnickname" :key="index"
+                                        <li style=" border-bottom: 1px solid #f4f4f4; padding-left:20px; margin-top: 4px; " v-for="(item,index) in listnickname" :key="index"
                                             @click="selectStyle (item,item.userid)"
                                             :class="{'active':item.active,'unactive':!item.active,'leftnickename':true}">
                                             <p>
                                             	<!-- <img :src=item.uimg style="border-radius:50%;height:60px;"> -->
                                             	
-                                                <img :src="'/image/'+item.uimg" style="border-radius:50%;height:40px; width: 40px;">
+                                                <img :src="'/image/'+item.uimg" style="border-radius:50%;height:29px; width: 29px;">
                                                 <span :class="{'layui-badge-dot':item.newnote,'':!item.newnote,'newnoteid':true}"></span>
                                                 &nbsp;&nbsp;{{item.nickname}}
                                             </p>
@@ -126,15 +129,23 @@
                                                 </div>
                                             	 -->
                                                 <div v-if="msg.senduserid == loginusername">
-                                                    <div class="rtalk" :id="index" @click="openimg(index)">
+                                                	
+                                                	<img th:src="@{/image/{mainuserimg}(mainuserimg=${session.mainuserimg})}" style="float:right; border-radius:50%;height:29px; width: 29px;">
+                                                    
+                                                	<div class="rtalk" :id="index" @click="openimg(index)">
                                                         <span v-html="msg.sendtext"></span>
                                                     </div>
+                                                    
                                                 </div>
                                                 
                                                 <!-- 对方发送的消息 -->
                                                 <div v-if="msg.senduserid != loginusername">
-                                                    <div class="ltalk" :id="index" @click="openimg(index)">
-                                                        <span v-html="msg.sendtext"></span>
+                                                	<!-- <img th:src="@{/image/{senduserimg}(senduserimg=${session.senduserimg})}" style=" float:left; border-radius:50%;height:29px; width: 29px;">
+                                                    -->
+                                                    <img :src="senduserimg" style=" float:left; border-radius:50%;height:29px; width: 29px;">
+                                                    
+                                                	 <div class="ltalk" :id="index" @click="openimg(index)">
+                                                        &nbsp;<span v-html="msg.sendtext"></span>
                                                     </div>
                                                 </div>
                                                 
@@ -149,7 +160,7 @@
                                         <div style="background-color:white;height:200px;">
                                             <div class="layui-form-item layui-form-text" style="margin:0 auto;">
                                                 <div class="layui-input-block" style="margin: 0 auto;">
-                                                	<!-- 富文本 -->
+                                                	<!-- 富文本编辑 -->
                                                     <textarea class="layui-textarea layui-hide" name="content"
                                                               lay-verify="content" id="LAY_demo_editor"></textarea>
                                                 </div>
@@ -180,37 +191,7 @@
                         </div>
                         
                         <!-- 加好友区域 -->
-                        <div class="layui-tab-item" id="userinfo">
-                            <form class="layui-form" action="" style="margin-top:10px;">
-                                <div class="layui-form-item" style="margin-right:40px">
-                                    <label class="layui-form-label">账号</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" name="username" autocomplete="off" placeholder="请输入账号"
-                                               lay-verify="required" lay-reqtext="账号是必填项，岂能为空？" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-input-block">
-                                        <button type="submit" class="layui-btn layui-btn-primary" lay-submit=""
-                                                lay-filter="lookuser">查询
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div style="display:none;" id="info">
-                                <div class="single-member effect-1">
-                                    <div>
-                                        <img :src="userinfo.uimg" style="width:100px" alt="Member" class="layui-circle">
-                                    </div>
-                                    <div class="member-info">
-                                        <h3>{{userinfo.nickname}}</h3>
-                                        <p>{{userinfo.usign}}</p>
-                                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" @click="adduser(userinfo.userid)">加好友
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                         
                         
                     </div>

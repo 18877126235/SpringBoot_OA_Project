@@ -101,6 +101,9 @@ public class ChatSockerController {
 			
 		}
 		
+		//用户头像路径放置域对象
+		request.getSession().setAttribute("mainuserimg", user.getImgPath());
+		
 		return "chats/chatindexmanage";
 		
 	}
@@ -109,7 +112,9 @@ public class ChatSockerController {
 	 * iframe显示右侧聊天界面
 	 */
 	@RequestMapping("testController02")
-	public String testController02() {
+	public String testController02(HttpServletRequest request) {
+		
+		
 		
 		
 		//System.out.println("完蛋咯来了");
@@ -152,17 +157,17 @@ public class ChatSockerController {
 		if(findbyid == null) {
 			User user = uDao.findOne(Long.parseLong(duixiangid));
 			
-			userinfo.setNickname(user.getUserName()); //名称
-			userinfo.setUserid(duixiangid); //id
+			findbyid.setNickname(user.getUserName()); //名称
+			findbyid.setUserid(duixiangid); //id
 			//如果头像为空就设置默认值
 			if(user.getImgPath() == null) {
-				userinfo.setUimg("/"+"simpletest.jpeg"); //头像
+				findbyid.setUimg("/"+"simpletest.jpeg"); //头像
 			}else {
-				userinfo.setUimg("/"+user.getImgPath()); //头像
+				findbyid.setUimg("/"+user.getImgPath()); //头像
 			}
 			
-			userinfo.setUsign(user.getUserSign()); //签名
-			userinfoService.insertuserinfo(userinfo); //插入数据库
+			findbyid.setUsign(user.getUserSign()); //签名
+			userinfoService.insertuserinfo(findbyid); //插入数据库
 		}
 		
 		//System.out.println("获取到了你要聊天的对象id"+duixiangid);
@@ -189,7 +194,9 @@ public class ChatSockerController {
 		}
 		//放置域对象用来显示聊天界面
 		request.getSession().setAttribute("fuserId", duixiangid);
-		request.getSession().setAttribute("fuserName", userinfo.getNickname()); //空指针异常？？？
+		request.getSession().setAttribute("fuserName", findbyid.getNickname()); //空指针异常？？？
+		//System.out.println("这东西难道为空吗："+userinfo.getNickname());
+		
 		return "chats/chatmsg";
 	}
 	

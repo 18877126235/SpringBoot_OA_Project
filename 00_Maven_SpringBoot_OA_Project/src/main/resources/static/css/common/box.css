@@ -121,6 +121,16 @@
 	color: #d9534f !important;
 }
 
+.jinyong{
+	color: #eb9316 !important;
+}
+
+.jinyong:hover {
+	background-color: #eb9316;
+	color: #fff !important;
+}
+
+
 .shanchu:hover {
 	background-color: #d9534f;
 	color: #fff !important;

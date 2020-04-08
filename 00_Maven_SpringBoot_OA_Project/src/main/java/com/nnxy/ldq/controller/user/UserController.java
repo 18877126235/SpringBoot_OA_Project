@@ -51,7 +51,8 @@ public class UserController {
 	PositionDao pdao;
 	@Autowired
 	RoleDao rdao;
-	
+	@Autowired
+	DeptDao depDao;
 	@RequestMapping("userlogmanage")
 	public String userlogmanage() {
 		return "user/userlogmanage";
@@ -199,7 +200,13 @@ public class UserController {
 		model.addAttribute("users",users);
 		model.addAttribute("page", userspage);
 		model.addAttribute("url", "usermanagepaging");
-		return "user/usermanage";
+		//return "user/usermanage";
+		
+		//获取所有部门列表
+		Iterable<Dept> findAll = depDao.findAll();
+		model.addAttribute("deplist", findAll);
+		
+		return "user/userinformation";
 	}
 	
 	@RequestMapping("usermanagepaging")

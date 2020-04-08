@@ -1,8 +1,10 @@
 package com.nnxy.ldq.controller.chat;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nnxy.ldq.model.dao.user.UserDao;
 import com.nnxy.ldq.model.entity.chat.ChatFriends;
 import com.nnxy.ldq.model.entity.chat.ChatMsg;
+import com.nnxy.ldq.model.entity.user.User;
 import com.nnxy.ldq.services.chat.ChatFriendsService;
 import com.nnxy.ldq.services.chat.ChatMsgService;
 import com.nnxy.ldq.services.chat.LoginService;
@@ -29,7 +31,8 @@ public class ChatCtrl {
     ChatMsgService chatMsgService;
     @Autowired
     LoginService loginService;
-
+    @Autowired
+    UserDao uDao;
     
     
     /**
@@ -138,11 +141,36 @@ public class ChatCtrl {
         //return chatMsgService.LookTwoUserMsg(new ChatMsg().setSenduserid(userid).setReciveuserid(reviceuserid));
         List<ChatMsg> lookTwoUserMsg = chatMsgService.LookTwoUserMsg(new ChatMsg().setSenduserid(userid).setReciveuserid(reviceuserid));
         
+        //放置头像到session
+        User findOne = uDao.findOne( Long.parseLong(reviceuserid) );
+        if( session.getAttribute("senduserimg") != null ) {
+        	session.removeAttribute("senduserimg");
+        }
+        session.setAttribute("senduserimg", findOne.getImgPath()); 
+        System.out.println("你在逗我："+findOne.getImgPath());
         /*for (ChatMsg chatMsg : lookTwoUserMsg) {
 			System.out.println("遍历消息看看"+chatMsg);
 		}*/
         
         return lookTwoUserMsg;
+    }
+    
+    
+    /***
+     * 获取对方用户的头像
+     * */
+    @PostMapping("/chat/getSenduserimg/{reviceuserid}")
+    @ResponseBody 
+    public String getSenduserimg(HttpSession session, @PathVariable("reviceuserid")String reviceuserid){
+    	
+    	System.out.println("请问你要获取谁的头像："+reviceuserid);
+        
+    	//首先根据id查找用户
+    	User findOne = uDao.findOne(Long.parseLong(reviceuserid));
+    	
+    	String imgpath = "/image/"+findOne.getImgPath();
+    	
+        return imgpath;
     }
     
     /***

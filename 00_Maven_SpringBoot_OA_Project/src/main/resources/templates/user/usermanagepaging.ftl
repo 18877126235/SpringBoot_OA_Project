@@ -3,13 +3,14 @@
 	<div class="box-header">
 		<h3 class="box-title">
 			<a href="useredit" class="label label-success" style="padding: 5px;">
-				<span class="glyphicon glyphicon-plus"></span> 新增
+				<span class="glyphicon glyphicon-plus"></span> 新增用户
 			</a> 
 			<!-- <a href="daycalendar" class="label label-primary"
 				style="padding: 5px; margin-left: 5px;"> <span
 				class="glyphicon glyphicon-gift"></span> 生日
 			</a> -->
 		</h3>
+		<!-- 搜索框 -->
 		<div class="box-tools">
 			<div class="input-group" style="width: 150px;">
 				<input type="text" class="form-control input-sm usersearch"
@@ -30,13 +31,11 @@
 					<th scope="col">头像</th>
 					<th scope="col">部门</th>
 					<th scope="col">用户名</th>
-					<th scope="col">真实姓名</th>
-					
-					
+					<!-- <th scope="col">真实姓名</th> -->
 					<th scope="col">职位</th>
 					<th scope="col">角色</th>
 					<th scope="col">电话</th>
-					<th scope="col">工资</th>
+					<th scope="col">邮箱</th>
 					<th scope="col">操作</th>
 				</tr>
 				
@@ -57,20 +56,22 @@
 						</td>
 						<td><span>${(user.dept.deptName)!''}</span></td>
 						<td><span>${(user.userName)!''}</span></td>
-						<td><span>${(user.realName)!''}</span></td>
+						
+						<#-- <td><span>${(user.realName)!''}</span></td> -->
+						
 						
 						<td>${(user.position.name)!''}</td>
 						<td><span>${(user.role.roleName)!''}</span></td>
 						<td><span>${(user.userTel)!''}</span></td>
-						<td><span>${(user.salary)!''}</span></td>
+						<td><span>${(user.eamil)!''}</span></td>
 						<td>
 							<a  href="useredit?userid=${user.userId}" class="label xiugai"><span
 								class="glyphicon glyphicon-edit"></span> 修改
 							</a> 
-							<a
+							<a 
 							onclick="{return confirm('您确定禁用该用户吗？')};" 
-							href="deleteuser?userid=${user.userId}" class="label shanchu"><span
-								class="glyphicon glyphicon-remove"></span> 禁用
+							href="deleteusxxx?userid=${user.userId}" class="label jinyong"><span
+								class="glyphicon glyphicon-exclamation-sign"></span> 禁用
 							</a>
 							<a
 							onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" 
@@ -88,4 +89,22 @@
 	</div>
 	<!--盒子尾-->
 	<#include "/common/paging.ftl"/>
+	<script type="text/javascript">
+		//设置所有的th 和 td内容居中
+		$("td").each(function(){
+			
+			$(this).css("text-align","center");
+			
+		});
+		$("th").each(function(){
+			if($(this).text()=='头像'){
+				
+			}else{
+				$(this).css("text-align","center");	
+			}
+			
+			
+		});
+	
+	</script>
 </div>

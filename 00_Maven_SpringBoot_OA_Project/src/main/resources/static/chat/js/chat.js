@@ -172,9 +172,10 @@ var app = new Vue({
     el: '#vuechat',
     data() {
         return {
-            listnickname: [],
-            listmessage: [],
-            loginusername: userid
+            listnickname: [], //聊天列表
+            listmessage: [], //聊天记录
+            loginusername: userid, //当前用户id
+            senduserimg:null //存放头像
         }
     },
     mounted: function () {
@@ -234,7 +235,8 @@ var app = new Vue({
                 });
                 Vue.set(item, 'active', true); //再设置当前对象的样式为选中状态
             });
-            this.getMessageList(acuserid);
+            this.getMessageList(acuserid); //调用查找聊天记录的方法
+            this.getSenduserimg(acuserid);//调用方法头像路径复制
             actuserid = acuserid;
         },
         /*获取左侧的聊天窗口*/
@@ -290,6 +292,27 @@ var app = new Vue({
                     console.log("err:", err);
                 }
             })
+        },
+        getSenduserimg:  function (userid) {
+        	
+        	var that = this;
+        	
+        	//ajax方式为对方头像路径赋值
+        	$.ajax({
+                type: 'post',
+                url: /*basePath + */'/chat/getSenduserimg/' + userid,
+                dataType: 'text', //返回类型
+                contentType: "application/json;charset=UTF-8",
+                success: function (msg) {
+                	//alert(msg);
+                	that.senduserimg = msg; //vue中头像路径赋值
+                	//alert(that.senduserimg);
+                },
+                error: function (err) {
+                    console.log("err:", err);
+                }
+            })
+        	
         }
     }
 })
@@ -407,11 +430,16 @@ $(function () {
     $(".layui-tab-title li").eq(getPicTabNum).addClass("layui-this").siblings().removeClass("layui-this");
     $(".layui-tab-content>div").eq(getPicTabNum).addClass("layui-show").siblings().removeClass("layui-show");
     
+    
+    //alert("这是怎么回事呀");
+    
     //用定时器来等待数据加载完成（半秒应该可以了）
     setTimeout(function(){
     	//alert("数组长度："+app.listnickname.length);
     	
     	//alert("打印一下看看：" + fuserid + fusername);
+    	
+    	//alert("难道为空？？："+fuserid + fusername);
     	
     	//如果是点击了联系人条目过来的
     	if( fuserid != null && fusername != null ){
