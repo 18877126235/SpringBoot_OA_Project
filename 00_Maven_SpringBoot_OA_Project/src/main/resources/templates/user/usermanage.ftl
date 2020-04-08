@@ -24,6 +24,7 @@ a:hover {
 	</div>
 	
 	
+	
 <script type="text/javascript">
 
 	//查找用户
@@ -32,5 +33,8 @@ a:hover {
 		console.log(usersearch);
 		$(".thistable").load("usermanagepaging",{usersearch:usersearch});
 	});
+	
+	
+	
 	
 </script>

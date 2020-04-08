@@ -93,13 +93,17 @@ public interface UserDao extends JpaRepository<User, Long>{
 	Page<User> findUsers2(Long deptid,String baseKey, String baseKey2, Pageable pa);
 	
 	/**
-	 * 用户管理查询可用用户
+	 * 用户管理查询所有可用用户
 	 * @param isLock
 	 * @param pa
 	 * @return
 	 */
 	Page<User> findByIsLock(Integer isLogin, Pageable pa);
 	
+	/*
+	 * 把上述修改，添加部门条件
+	 */
+	Page<User> findByIsLockAndDept(Integer isLogin,Dept dept, Pageable pa);
 	
 	@Query("from User u where u.dept.deptName like %?1% or u.userName like %?1% or u.realName like %?1% or u.userTel like %?1% or u.role.roleName like %?1%")
 	Page<User> findnamelike(String name, Pageable pa);

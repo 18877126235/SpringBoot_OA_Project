@@ -22,13 +22,13 @@
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-3">
-		<a class="btn btn-primary write"
+		<a class="btn btn-info write"
 			style="width: 100%; margin-bottom: 20px;"> <span
 			class="glyphicon glyphicon-pencil"></span> 写信
 		</a>
 		<div class="bgc-w box box-solid">
 			<div class="box-header">
-				<h3 class="box-title">文件夹</h3>
+				<h3 class="box-title">全部邮件</h3>
 				<span class="btn btn-xs btn-default pull-right des mm"> <i
 					class="glyphicon glyphicon-minus"></i>
 				</span>
@@ -72,6 +72,7 @@
 				</span>
 			</div>
 			<ul class="nav nav-pills nav-stacked fff">
+				<!-- 
 				<li class="mail"><svg class="icon le " aria-hidden="true">
 								<use xlink:href="#icon-kongxinquan"></use>
 							</svg>&nbsp;&nbsp;&nbsp;邮件</li>
@@ -81,6 +82,20 @@
 				<li class="gonggao"><svg class="icon le " aria-hidden="true" style="color: red;">
 								<use xlink:href="#icon-kongxinquan"></use>
 							</svg>&nbsp;&nbsp;&nbsp;公告</li>
+				 -->
+				
+				<li class="gonggao"><svg class="icon le " aria-hidden="true" style="color: green;">
+								<use xlink:href="#icon-kongxinquan"></use>
+							</svg>&nbsp;&nbsp;&nbsp;已读</li>
+				<li class="gonggao"><svg class="icon le " aria-hidden="true" style="color: red;">
+								<use xlink:href="#icon-kongxinquan"></use>
+							</svg>&nbsp;&nbsp;&nbsp;未读</li>
+				<li class="gonggao"><svg class="icon le " aria-hidden="true" style="color: #eb9316;">
+								<use xlink:href="#icon-kongxinquan"></use>
+							</svg>&nbsp;&nbsp;&nbsp;星标</li>
+				<li class="gonggao"><svg class="icon le " aria-hidden="true" style="color: #337ab7;">
+								<use xlink:href="#icon-kongxinquan"></use>
+							</svg>&nbsp;&nbsp;&nbsp;有附件</li>
 			</ul>
 		</div>
 	</div>

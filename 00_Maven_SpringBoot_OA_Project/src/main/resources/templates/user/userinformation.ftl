@@ -86,7 +86,7 @@ li.activee>a {
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-3">
-		<a class="btn btn-primary addaddress" href="javascript:void(0);"
+		<a class="btn btn-info addaddress" href="javascript:void(0);"
 			style="width: 100%; margin-bottom: 20px;"><span
 			class="glyphicon glyphicon-edit"></span> 新建部门分组</a>
 		<div class="bgc-w box box-solid">
@@ -97,18 +97,28 @@ li.activee>a {
 				</span>
 			</div>
 			<ul class="nav nav-pills nav-stacked mm" id="navpills">
-				<li  style="margin-left: 20px;" class="activee notfather tongxunluleixing">
-					<a href="##"  > <span class="glyphicon glyphicon-th "> 部门列表</span>
+				
+				<!-- activee -->
+				<li  style="margin-left: 20px;" class="notfather tongxunluleixing">
+					<a href="##"  > <span class="glyphicon glyphicon-home"> 我的部门</font></span>
 						<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="##"  data-toggle="collapse" ></i>
 					</a>
+					<input class="depmesege" type="hidden" value="mydept">
+				</li>
+				
+				<li  style="margin-left: 20px;" class="activee notfather tongxunluleixing">
+					<a href="##" id="quanbuyonghu" > <span class="glyphicon glyphicon-th "> 部门列表   --><font color="#888888">（点我显示所有用户）</font></span>
+						<i class="glyphicon pull-right glyphicon-menu-left collapsed bumenxialaanniu" href="##"  data-toggle="collapse" ></i>
+					</a>
+					<input class="depmesege" type="hidden" value="allusers">
 				</li>
 				<!-- 部门下拉菜单 -->
-				<ul id="thisul1" class="nav nav-pills nav-stacked panel-collapse ">
+				<ul id="thisul1"   class="nav nav-pills nav-stacked panel-collapse ">
 					<#if deplist??>
 						<#list deplist as list>
 	
-							<li style="margin-left: 40px;" class="notfather tongxunluleixing depitem">
-								<a href="##" > <span class="glyphicon glyphicon-user"> ${list.deptName}</span>
+							<li style="margin-left: 40px;" class="notfather1 tongxunluleixing depitem">
+								<a href="##" > <span style="color: #00c0ef ;" class="glyphicon glyphicon-user"> </span>${list.deptName}
 									<i class="glyphicon pull-right glyphicon-menu-left collapsed" href="##"  data-toggle="collapse" ></i>
 								</a>
 								<input type="hidden" class="detidchat" value="${list.deptId}">
@@ -125,7 +135,7 @@ li.activee>a {
 		
 		<div class="bgc-w box box-solid">
 			<div class="box-header">
-				<h3 class="box-title">状态类型</h3>
+				<h3 class="box-title">用户状态</h3>
 				<span class="btn btn-default pull-right btn-xs des mm"> <i
 					class="glyphicon glyphicon-minus"></i>
 				</span>
@@ -182,7 +192,7 @@ li.activee>a {
 		</ul>
 		
 		<!-- 右侧显示联系人列表 -->
-		<div class="bgc-w box box-primary thistable">
+		<div class="bgc-w box box-primary thistable00">
 			<!-- 一开始默认加载全部用户 -->
 			<#include "usermanage.ftl"/>
 		</div>
@@ -197,6 +207,57 @@ li.activee>a {
 <script type="text/javascript">
 
 		$(function() {
+			
+			
+			
+			//点击我的部门和部门列表切换样式
+			$(".notfather").click(function(){
+				
+				$(".notfather").each(function(){
+					
+					$(this).removeClass("activee");
+					
+				});$(".notfather1").each(function(){
+					
+					$(this).removeClass("activee");
+					
+				});
+				
+				$(this).addClass("activee");
+				
+				
+				//接着发送ajax请求来获取数据
+				var messege = $(this).find(".depmesege").val();
+		
+				$(".thistable").load("usermanage2",{messege:messege});
+				
+				
+			});
+			
+			//点击部门列表条目
+			//点击我的部门和部门列表切换样式
+			$(".notfather1").click(function(){
+				
+				$(".notfather").each(function(){
+					
+					$(this).removeClass("activee");
+					
+				});$(".notfather1").each(function(){
+					
+					$(this).removeClass("activee");
+					
+				});
+				
+				$(this).addClass("activee");
+				
+				
+				//接着发送ajax请求来获取数据
+				var depid = $(this).find(".detidchat").val();
+		
+				$(".thistable").load("usermanage3",{depid:depid});
+				
+				
+			});
 			
 			
 		});

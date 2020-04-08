@@ -75,10 +75,13 @@ public class LoginsController {
 	public String loginout(HttpSession session){
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
-		User user = uDao.findOne(userId);
-		user.setIsLogin(0); //设置为离线状态
 		
-		uDao.save(user); //保存
+		
+		//搞这个是否登录标记差点害了自己
+		//User user = uDao.findOne(userId);
+		//user.setIsLogin(0); //设置为离线状态
+		
+		//uDao.save(user); //保存
 		session.removeAttribute("userId");
 		
 		return "redirect:/login";

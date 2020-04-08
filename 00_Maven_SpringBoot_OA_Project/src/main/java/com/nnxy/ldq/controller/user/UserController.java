@@ -188,7 +188,7 @@ public class UserController {
 	}
 	
 	
-	
+	//显示用户列表
 	@RequestMapping("usermanage")
 	public String usermanage(Model model,@RequestParam(value="page",defaultValue="0") int page,
 			@RequestParam(value="size",defaultValue="10") int size
@@ -199,7 +199,7 @@ public class UserController {
 		List<User> users=userspage.getContent();
 		model.addAttribute("users",users);
 		model.addAttribute("page", userspage);
-		model.addAttribute("url", "usermanagepaging");
+		model.addAttribute("url", "usermanagepaging"); //点击下一页后访问地址
 		//return "user/usermanage";
 		
 		//获取所有部门列表
@@ -209,6 +209,61 @@ public class UserController {
 		return "user/userinformation";
 	}
 	
+	
+	//点击部门列表或者我的部门显示相关用户
+	@RequestMapping("usermanage2")
+	public String usermanage2(Model model,@RequestParam(value="page",defaultValue="0") int page,
+			@RequestParam(value="size",defaultValue="10") int size,
+			String messege,HttpServletRequest request
+			) {
+		Sort sort=new Sort(new Order(Direction.ASC,"dept"));
+		Pageable pa=new PageRequest(page, size,sort);
+		Page<User> userspage = null;
+		if( messege.equals("allusers") ) {
+			userspage = udao.findByIsLock(0, pa);
+		}
+		if( messege.equals("mydept") ) {
+			Dept dept = udao.findOne(Long.parseLong(""+request.getSession().getAttribute("userId"))).getDept();
+			
+			userspage = udao.findByIsLockAndDept(0,dept, pa);
+		}
+		
+		List<User> users=userspage.getContent();
+		model.addAttribute("users",users);
+		model.addAttribute("page", userspage);
+		model.addAttribute("url", "usermanagepaging"); //点击下一页后访问地址
+		//return "user/usermanage";
+		System.out.println("查询所有用户");
+		return "user/usermanagepaging";
+	}
+	
+	
+	//点击部门条目显示相应的用户列表
+		@RequestMapping("usermanage3")
+		public String usermanage3(Model model,@RequestParam(value="page",defaultValue="0") int page,
+				@RequestParam(value="size",defaultValue="10") int size,
+				String depid,HttpServletRequest request
+				) {
+			Sort sort=new Sort(new Order(Direction.ASC,"dept"));
+			Pageable pa=new PageRequest(page, size,sort);
+			Page<User> userspage = null;
+			
+			Dept dept = depDao.findOne(Long.parseLong(depid));
+			userspage = udao.findByIsLockAndDept(0,dept, pa);
+			
+			List<User> users=userspage.getContent();
+			model.addAttribute("users",users);
+			model.addAttribute("page", userspage);
+			model.addAttribute("url", "usermanagepaging"); //点击下一页后访问地址
+			//return "user/usermanage";
+			System.out.println("查询所有用户");
+			return "user/usermanagepaging";
+		}
+	
+	
+	/*
+	 * 点击分页下一页执行
+	 */
 	@RequestMapping("usermanagepaging")
 	public String userPaging(Model model,@RequestParam(value="page",defaultValue="0") int page,
 			@RequestParam(value="size",defaultValue="10") int size,
@@ -226,9 +281,10 @@ public class UserController {
 		List<User> users=userspage.getContent();
 		model.addAttribute("users",users);
 		model.addAttribute("page", userspage);
-		model.addAttribute("url", "usermanagepaging");
+		model.addAttribute("url", "usermanagepaging"); //这是点击下一页之后要访问的地址
 		
 		return "user/usermanagepaging";
+		//return "user/usermanage";
 	}
 	
 	//删除用户操作

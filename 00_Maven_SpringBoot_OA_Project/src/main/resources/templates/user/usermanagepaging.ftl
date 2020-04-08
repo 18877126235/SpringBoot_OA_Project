@@ -87,20 +87,21 @@
 			</table>
 		</div>
 	</div>
+	<div style="height: 20px;"></div>
 	<!--盒子尾-->
 	<#include "/common/paging.ftl"/>
 	<script type="text/javascript">
 		//设置所有的th 和 td内容居中
 		$("td").each(function(){
 			
-			$(this).css("text-align","center");
+			$(this).css("text-align","left");
 			
 		});
 		$("th").each(function(){
 			if($(this).text()=='头像'){
 				
 			}else{
-				$(this).css("text-align","center");	
+				$(this).css("text-align","left");	
 			}
 			
 			
