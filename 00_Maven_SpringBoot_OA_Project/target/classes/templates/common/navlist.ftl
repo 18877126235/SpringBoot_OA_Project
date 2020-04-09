@@ -125,7 +125,9 @@
 		return false;
 	});
 
+	//新邮件图标提示
 	function changeemail(){
+		//alert("来了老弟");
 		var email=$('.badge-mail').text().trim();
 		var emailNum=parseInt(email);
 		if(emailNum>1){
@@ -134,6 +136,8 @@
 			$('.badge-mail').text("");
 		}
 	}
+	
+	
 	function changeinformation(){
 		var email=$('.badge-notice').text().trim();
 		var emailNum=parseInt(email);

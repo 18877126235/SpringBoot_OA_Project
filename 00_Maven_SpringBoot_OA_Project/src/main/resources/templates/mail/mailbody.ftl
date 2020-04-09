@@ -195,7 +195,8 @@
 		 //查看
 		 $('.lab').on('click',function(){
 		 
-		 	 //alert("来了老弟");
+			 var pagenum = '${page.number}'; //获取当前是第几页
+		 	 //alert(pagenum);
 		 	 //获取当前邮件的id值
 			 var $mailid=$(this).parents("td").siblings(".mailid").children("span").text();
 			 //alert($mailid);
@@ -206,13 +207,13 @@
 			 var $mail=$(this).parents("td").siblings().find(".read").text();
 			 //alert($mail);
 			 
-			 if($mail!=""){
+			 if($mail !=""){
 				 parent.changeemail(); //暂时不知道这里用来干嘛的
 			 }
 			
-				$('.set').load('smail',{id:$mailid,title:title});
-				/* parent.changeemail(); */
-			});
+			$('.set').load('smail',{id:$mailid,title:title,pageNum:pagenum});
+			/* parent.changeemail(); */
+		});
 		 //重新编辑
 		 $('.edit').on('click',function(){
 			 var $mailid=$(this).parents("td").siblings(".mailid").children("span").text();

@@ -92,12 +92,15 @@ public class MailServices {
 		List<Order> orders = new ArrayList<>();
 		SystemStatusList status=sdao.findByStatusModelAndStatusName("aoa_in_mail_list", val);
 		SystemTypeList type=tydao.findByTypeModelAndTypeName("aoa_in_mail_list", val);
+		
 		if(("收件箱").equals(title)){
 			if(StringUtil.isEmpty(val)){
 				orders.add(new Order(Direction.ASC, "read"));
 				Sort sort = new Sort(orders);
 				pa=new PageRequest(page, size,sort);
+				
 				pagelist=mrdao.findmail(tu,false,pa);
+				
 			}else if(!Objects.isNull(status)){
 				pagelist=mrdao.findmailbystatus(tu,status.getStatusId(),false,pa);
 			}else if(!Objects.isNull(type)){

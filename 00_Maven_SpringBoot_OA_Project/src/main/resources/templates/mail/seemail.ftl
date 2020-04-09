@@ -50,8 +50,12 @@
 	</div>
 
 	<div class="box-footer foots">
-		<a class="btn btn-default fault fa-back"
+		
+		<!-- <a class="btn btn-default fault fa-back"
 			href="mail"><span
+			class="glyphicon glyphicon-chevron-left"></span> 返回</a> -->
+		<a class="btn btn-default fault fa-back fanhuianniu"
+			href="##"><span
 			class="glyphicon glyphicon-chevron-left"></span> 返回</a>
 		<div class="pull-right foot">
 			<a class="btn btn-default fault" onclick="javascript:window.print();">
@@ -81,7 +85,21 @@
     	})
     	
     	     
-    	
+    	//点击返回
+    	$(".fanhuianniu").click(function(){
+    		
+    		//alert("哈哈哈你大爷");
+    		//先要获取之前的模块名称
+    		var typename = '${mess}';
+    		//获取之前的分页页码
+    		var page = '${pageNum}';
+    		//alert(typename + page);
+    		
+    		
+   			//返回列表（还要吧分页参数传过去）
+   			$('.set').load('amail?page='+page,{title:typename});
+    		
+    	});
     	
 		//回复  
 		$(".huifu").click(function(){

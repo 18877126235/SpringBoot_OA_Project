@@ -132,7 +132,7 @@ public class MailController {
 		model.addAttribute("nopush", nopushlist.size());
 		model.addAttribute("push", pushlist.size());
 		model.addAttribute("rubbish", rubbish.size());
-		model.addAttribute("mess", "收件箱");
+		model.addAttribute("mess", "收件箱");  //默认显示收件箱内容
 		model.addAttribute("sort", "&title=收件箱");
 		
 		return "mail/mail";
@@ -813,7 +813,7 @@ public class MailController {
 	}
 	
 	/**
-	 * 最近邮件
+	 * 点击相应的邮件类型显示相应的邮件（收件，发件，垃圾箱，草稿箱）
 	 */
 	@RequestMapping("amail")
 	public  String index3(HttpServletRequest req,@SessionAttribute("userId") Long userId,Model model,
@@ -860,6 +860,77 @@ public class MailController {
 		return "mail/allmail";
 	}
 	
+	
+	/**
+	 * 点击收件类型条目显示相应邮件
+	 */
+	@RequestMapping("amail2")
+	public  String index4(HttpServletRequest req,@SessionAttribute("userId") Long userId,Model model,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			String typename
+			
+			) {
+		
+		System.out.println("我的妈呀，你跑来这里干嘛************************");
+		
+		Pageable pa=new PageRequest(page, size);
+		User mu=udao.findOne(userId);
+		String mess=req.getParameter("title");
+		//查询映射对象
+		Page<Pagemail> pagelist=null;
+		//实体类对象
+		Page<Inmaillist> pagemail=null;
+		List<Map<String, Object>> maillist=null;
+		if(("收件箱").equals(mess)){
+		
+			if("已读".equals(typename)) {
+				pagelist = mrdao.findisread(mu,false,true,pa);
+				
+			}else if("有附件".equals(typename)) {
+				//System.out.println("去死吧");
+				pagelist =mrdao.findhasfile(mu,false,pa);
+			}else if("未读".equals(typename)) {
+				pagelist = mrdao.findisread(mu,false,false,pa);
+			}else if("星标".equals(typename)) {
+				pagelist = mrdao.findisstar(mu,false,true,pa);
+			}
+			//数据封装
+			maillist=mservice.mail(pagelist);
+			for (Map<String, Object> map : maillist) {
+				System.out.println("怎么啥也查不到呀："+map);
+			}
+		}
+		
+		
+		
+		/*else if(("发件箱").equals(mess)){
+			pagemail=mservice.inmail(page, size, mu, null,mess);
+			maillist=mservice.maillist(pagemail);
+		}else if(("草稿箱").equals(mess)){
+			pagemail=mservice.inmail(page, size,mu, null,mess);
+			maillist=mservice.maillist(pagemail);
+		}else{
+			//垃圾箱
+			//分页及查找
+			pagelist=mservice.recive(page, size, mu, null,mess);
+			maillist=mservice.mail(pagelist);
+			
+		}*/
+		
+		if(!Objects.isNull(pagelist)){
+			model.addAttribute("page", pagelist);
+		}else{
+			model.addAttribute("page", pagemail);
+			
+		}
+		model.addAttribute("sort", "&title="+mess);
+		model.addAttribute("maillist",maillist);
+		model.addAttribute("url","mailtitle");
+		model.addAttribute("mess",mess);
+		return "mail/allmail";
+	}
+	
 	/**
 	 * 查看邮件
 	 */
@@ -870,7 +941,7 @@ public class MailController {
 		Long id=Long.parseLong(req.getParameter("id"));
 		//title(是收信箱来的还是发信箱来的)
 		String title=req.getParameter("title");
-		
+		String pageNum =req.getParameter("pageNum"); 
 		//System.out.println("打印这个title看看是什么东西"+title);
 		
 		//找到中间表信息
@@ -907,6 +978,7 @@ public class MailController {
 		User pushuser=udao.findOne(mail.getMailUserid().getUserId());
 		model.addAttribute("pushname", pushuser.getUserName()); //设置发件人
 		model.addAttribute("mail", mail); //邮件
+		model.addAttribute("pageNum", pageNum); //从第几页来的，点击返回的时候就回到第几页
 		model.addAttribute("mess", title); //收信箱还是发件箱
 		model.addAttribute("file", mail.getMailFileid()); //附件文件对象
 		

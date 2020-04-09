@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nnxy.ldq.model.entity.mail.Mailreciver;
 import com.nnxy.ldq.model.entity.mail.Pagemail;
+import com.nnxy.ldq.model.entity.note.Attachment;
 import com.nnxy.ldq.model.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,26 @@ public interface MailreciverDao extends PagingAndSortingRepository<Mailreciver, 
 	
 	
 	
+	
 	//收件箱查询
 	@Query("select new com.nnxy.ldq.model.entity.mail.Pagemail(list.mailId,list.mailType,list.mailStatusid,list.mailTitle,list.inReceiver,list.mailFileid.attachmentId,list.mailCreateTime,mr.star,mr.read) "
 			+ "from Mailreciver as mr ,Inmaillist as list where list.mailId=mr.mailId.mailId and mr.reciverId=?1 and mr.del=?2 order by list.mailCreateTime DESC")
 	Page<Pagemail> findmail(User user, Boolean bo, Pageable pa);
+	
+	//查询已读或未读的邮件
+	@Query("select new com.nnxy.ldq.model.entity.mail.Pagemail(list.mailId,list.mailType,list.mailStatusid,list.mailTitle,list.inReceiver,list.mailFileid.attachmentId,list.mailCreateTime,mr.star,mr.read) "
+			+ "from Mailreciver as mr ,Inmaillist as list where list.mailId=mr.mailId.mailId and mr.reciverId=?1 and mr.del=?2 and mr.read=?3 order by list.mailCreateTime DESC")
+	Page<Pagemail> findisread(User user,Boolean del,Boolean isread,Pageable pa);
+	
+	//查询标记的重要的邮件
+	@Query("select new com.nnxy.ldq.model.entity.mail.Pagemail(list.mailId,list.mailType,list.mailStatusid,list.mailTitle,list.inReceiver,list.mailFileid.attachmentId,list.mailCreateTime,mr.star,mr.read) "
+			+ "from Mailreciver as mr ,Inmaillist as list where list.mailId=mr.mailId.mailId and mr.reciverId=?1 and mr.del=?2 and mr.star=?3 order by list.mailCreateTime DESC")
+	Page<Pagemail> findisstar(User user,Boolean del,Boolean star,Pageable pa);
+	
+	//查询存在附件的邮件
+	@Query("select new com.nnxy.ldq.model.entity.mail.Pagemail(list.mailId,list.mailType,list.mailStatusid,list.mailTitle,list.inReceiver,list.mailFileid.attachmentId,list.mailCreateTime,mr.star,mr.read) "
+			+ "from Mailreciver as mr ,Inmaillist as list where list.mailId=mr.mailId.mailId and mr.reciverId=?1 and mr.del=?2 and list.mailFileid is not null  order by list.mailCreateTime DESC")
+	Page<Pagemail> findhasfile(User user,Boolean del,Pageable pa);
 	
 	//邮件主题或者接收人的模糊查询
 	@Query("select new com.nnxy.ldq.model.entity.mail.Pagemail(list.mailId,list.mailType,list.mailStatusid,list.mailTitle,list.inReceiver,list.mailFileid.attachmentId,list.mailCreateTime,mr.star,mr.read) "

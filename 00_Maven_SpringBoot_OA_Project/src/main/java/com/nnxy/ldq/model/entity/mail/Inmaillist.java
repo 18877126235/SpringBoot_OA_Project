@@ -49,7 +49,7 @@ public class Inmaillist {
 	
 	@ManyToOne
 	@JoinColumn(name="mail_file_id")
-	private Attachment mailFileid;//邮件附件id文
+	private Attachment mailFileid;//邮件附件id
 	
 	@Column(name="mail_create_time")
 	private Date mailCreateTime;//邮件创建时间
