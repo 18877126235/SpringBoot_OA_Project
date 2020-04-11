@@ -51,5 +51,13 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<!-- 查询公司公告，也就是所有人都可以看到的公告 -->
+	<select id="findbyisshare" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=1 ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
 
 </mapper>

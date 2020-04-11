@@ -20,10 +20,10 @@ public class NoticesList {
 	private Long noticeId; // 通知id	
 
 	@Column(name = "user_id")
-	private Long userId; // 用户id
+	private Long userId; // 用户id（谁发表的这条公告）
 
 	@Column(name = "type_id")
-	private Long typeId; // 类型id
+	private Long typeId; // 类型id （什么类型）
 
 	@Column(name = "status_id")
 	private Long statusId; // 状态id
@@ -42,7 +42,10 @@ public class NoticesList {
 
 	@Column(name = "modify_time")
 	private Date modifyTime=new Date(); // 修改时间
-
+	
+	@Column(name = "is_share") //是否全部人可见（也就是是不是公司公告）
+	private Boolean isShare=false;
+	
 	public NoticesList() {
 	}
 

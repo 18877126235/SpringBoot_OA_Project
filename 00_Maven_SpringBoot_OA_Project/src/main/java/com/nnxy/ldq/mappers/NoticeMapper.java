@@ -1,10 +1,12 @@
 package com.nnxy.ldq.mappers;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Page;
 
 
 //以下是基于mybatis查询的
@@ -20,6 +22,8 @@ public interface NoticeMapper {
 	
 	//进行逻辑判断，来根据那个排序，类型、状态、修改时间
 	List<Map<String, Object>> sortMyNotice(@Param("userId") Long userId, @Param("baseKey") String baseKey, @Param("type") Integer type, @Param("status") Integer status, @Param("time") Integer time);
+
+	List<Map<String, Object>> findbyisshare(long l);
 	
 	
 	

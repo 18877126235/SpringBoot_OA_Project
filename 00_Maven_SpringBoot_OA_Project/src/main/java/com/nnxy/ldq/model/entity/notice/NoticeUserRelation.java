@@ -23,11 +23,11 @@ public class NoticeUserRelation {
 
 	@ManyToOne
 	@JoinColumn(name = "relatin_notice_id")
-	private NoticesList noticeId;				//通知id
+	private NoticesList noticeId;				//公告通知的id
 
 	@ManyToOne
 	@JoinColumn(name = "relatin_user_id")
-	private User userId;				//用户id
+	private User userId;				//用户id（接收者id）
 	
 	@Column(name = "is_read")
 	private Boolean read=false;				//此条通知该用户是否一已读

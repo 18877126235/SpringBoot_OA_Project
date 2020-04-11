@@ -190,7 +190,8 @@ public class UserController {
 	
 	//显示用户列表
 	@RequestMapping("usermanage")
-	public String usermanage(Model model,@RequestParam(value="page",defaultValue="0") int page,
+	public String usermanage(Model model,
+			@RequestParam(value="page",defaultValue="0") int page,
 			@RequestParam(value="size",defaultValue="10") int size
 			) {
 		Sort sort=new Sort(new Order(Direction.ASC,"dept"));

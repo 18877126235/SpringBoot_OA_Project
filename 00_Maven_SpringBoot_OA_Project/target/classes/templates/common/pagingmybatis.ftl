@@ -4,7 +4,7 @@
 			style="background: #fff; border: 0px; margin-top: 0px; padding: 2px; height: 25px;">
 			<div style="width: 40%; float: left;">
 				<div class="pageInfo" style="margin-left: 5px;">
-					共<span>${page.total}</span>条 | 每页<span>${page.size}</span>条
+					共<span>${page.total}</span>条 | 每页<span>${page.pageSize}</span>条
 					| 共<span>${page.pages}</span>页
 				</div>
 			</div>

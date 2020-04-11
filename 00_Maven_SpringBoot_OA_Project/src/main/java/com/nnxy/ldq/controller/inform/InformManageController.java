@@ -14,6 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -189,7 +193,7 @@ public class InformManageController {
 	/**
 	 * 通知列表删除
 	 */
-	@RequestMapping("informlistdelete")
+	@RequestMapping("informlistdelete")  
 	public String informListDelete(HttpServletRequest req, HttpSession session) {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		Long noticeId = Long.parseLong(req.getParameter("id"));
@@ -204,51 +208,90 @@ public class InformManageController {
 	}
 
 	/**
-	 * 本部门公告通知列表
+	 * 本部门公告通知列表（）改成跳转到通知列表
 	 * 
 	 * @return
 	 */
-	@RequestMapping("infromlist")
+	//@RequestMapping("infromlist")
+	@RequestMapping("nitifyall")
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
 			@RequestParam(value="pageNum",defaultValue="1") int page) {
 		
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
 		
-		PageHelper.startPage(page, 10); //设置分页查询参数
+		com.github.pagehelper.Page<Object> page1 = PageHelper.startPage(page, 10); //设置分页查询参数
 		
 		//待定？？？
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
 		
-		
-		for (Map<String, Object> map : list) {
-			
-			System.out.println(map);
-			
-		}
+	
 		
 		
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		
+		
+//		Pageable pa=new PageRequest(page, 10);
+//		Page< Map<String, Object> > userspage = uDao.findAll(pa);
+		
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
 		
-		
-//		for (Map<String, Object> map : list2) {
-//			System.out.println("我去你大爷的哈哈哈哈哈哈"+map);
-//		}
-		
-		
+
 		model.addAttribute("url", "informlistpaging");
 		
 		model.addAttribute("list", list2);
-		
+		req.setAttribute("isMybatis", "yes");//表示是mybatis查询的
 		model.addAttribute("page", pageinfo);
 		
-		System.out.println(pageinfo);
+		System.out.println("啊哈:"+pageinfo);
 		
-		return "inform/informlist";
+		//return "inform/informlist";  
+		return "inform/infomasege";
+		
 	}
 	
+	
+	/*
+	 * 
+	 * ajax异步加载公告列表（查询公司公告）
+	 */
+	@RequestMapping("/infolist1")
+	public String infolist(HttpSession session,Model model
+			,@RequestParam(value="pageNum",defaultValue="1") int page
+			) {
+
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		PageHelper.startPage(page, 10); //设置分页查询参数
+		//待定？？？
+		List<Map<String, Object>> list = nm.findbyisshare(userId);
+
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
+		model.addAttribute("url", "pageinfolist");//点击下一页后跳转到的连接
+		session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		model.addAttribute("list", list2);
+		
+		model.addAttribute("page", pageinfo);
+
+		return "inform/informlistpaging";
+	}
+	
+	
+	/*
+	 * 分页查询公告
+	 */
+	@RequestMapping("pageinfolist")
+	public String pageinfolist() {
+		
+		
+		
+		return "inform/informlistpaging";
+	}
+	
+	/*
+	 * 查询本部门公告
+	 */
 	
 	/*
 	 * 点击显示最新公告

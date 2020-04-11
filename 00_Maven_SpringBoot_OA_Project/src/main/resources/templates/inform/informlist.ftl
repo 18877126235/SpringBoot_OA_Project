@@ -22,17 +22,7 @@ a:hover {
 }
 </style>
 
-<div class="row" style="padding-top: 10px;">
-	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">部门公告列表</h1>
-	</div>
-	<div class="col-md-10 text-right">
-		<a href="index"><span class="glyphicon glyphicon-home"></span> 首页</a>
-		> <a disabled="disabled">部门公告列表</a>
-	</div>
-</div>
-
-<div class="row" style="padding-top: 15px;">
+<div class="row" style=" padding-top: 0px;">
 	<div class="col-md-12 thistable">
 		<!--id="container"-->
 		<#include "informlistpaging.ftl"/>

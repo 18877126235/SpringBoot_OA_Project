@@ -274,7 +274,7 @@ public class MenuSysController {
 		
 		//如果是从左上角添加来的
 		if( req.getParameter("zuoshangjiaotianjia")!=null ) {
-			
+			System.out.println("我这是怎么了呀*****************************：这是添加菜单");
 			//执行新增的代码（否则这是新增菜单执行）
 			//menuService.save(menu);
 			
@@ -324,6 +324,7 @@ public class MenuSysController {
 		
 			
 		}else {
+			System.out.println("我这是怎么了呀*****************************：我不是左上角来的");
 			// 校验失败
 			if (!ResultEnum.SUCCESS.getCode().equals(res.getCode())) {
 				List<Object> list = new MapToList<>().mapToList(res.getData());
@@ -342,6 +343,7 @@ public class MenuSysController {
 			else {
 				// 判断是否从编辑界面进来的，前面有"session.setAttribute("getId",getId);",在这里获取，并remove掉；（说明是修改菜单）
 				if (!StringUtils.isEmpty(session.getAttribute("getId"))) {
+					System.out.println("我这是怎么了呀*****************************：修改菜单");
 					menuId = (Long)session.getAttribute("getId"); // 获取进入编辑界面的menuID值
 					menu.setMenuId(menuId); //设置你要修改的菜单id
 					log.info("getId:{}", session.getAttribute("getId")); //日志
@@ -351,7 +353,7 @@ public class MenuSysController {
 					
 					menuService.save(menu); //保存修改
 				}else{ //否则执行新增菜单逻辑
-					
+					System.out.println("我这是怎么了呀*****************************：新增菜单");
 					//执行新增的代码（否则这是新增菜单执行）
 					menuService.save(menu);
 					System.out.println("获取到了新增菜单：" + menu);
@@ -377,7 +379,10 @@ public class MenuSysController {
 		
 
 		//return "forward:/menuedit"; //转发回去，弹出操作成功，点击确定后回到菜单管理界面
-		return "testsysmenu";
+		
+		System.out.println("我这是怎么了呀*****************************");
+		
+		return "forward:/testsysmenu";  //妈的智障了我当初改的时候没注意看
 	}
 	
 	/**

@@ -92,7 +92,10 @@
 						</a></#if>
 				
 					<td style="display: none;" >${this.notice_id}</td>
-					<td>${this.type}</td>
+					<td>
+						
+						${this.type}
+					</td>
 					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>
 					<#if this.is_read==0>
 					<td class="c"><span>${(this.title)!''}</span></td>

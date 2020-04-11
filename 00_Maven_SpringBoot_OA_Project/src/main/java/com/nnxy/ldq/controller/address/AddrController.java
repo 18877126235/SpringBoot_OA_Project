@@ -111,7 +111,9 @@ public class AddrController {
 		User user=uDao.findOne(userId);
 		Set<String> catalogs=auDao.findByUser(user);
 		Pageable pa=new PageRequest(page, size,new Sort(Direction.ASC, "dept"));
+		
 		Page<User> userspage=uDao.findAll(pa);
+		
 		List<User> users=userspage.getContent();
 		List<DirectorUser> nothandles=auDao.findByUserAndShareuserNotNullAndHandle(user,false);
 		model.addAttribute("count", nothandles.size());

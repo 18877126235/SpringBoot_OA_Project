@@ -109,7 +109,7 @@ li.activee>a {
 			<!-- <a class="btn btn-primary" href="##"
 				style="width: 100%; margin-bottom: 20px;"><span
 				class="glyphicon glyphicon-open"></span> 上传</a> -->
-				<div class="btn btn-primary uploadfile"
+				<div class="btn btn-info uploadfile"
 					style="position: relative; overflow: hidden;width: 100%; margin-bottom: 20px;">
 					<i class="glyphicon glyphicon-open"></i> 上传 
 					<input type="file" name="file" style="opacity: 0; position: absolute; top: 0; right: 0; min-width: 100%; min-height: 100%;" />

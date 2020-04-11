@@ -55,7 +55,12 @@ public class InformRelationService {
 		
 		for (Map<String, Object> map : list) {
 			map.put("status", statusDao.findOne((Long) map.get("status_id")).getStatusName());
-			map.put("type", typeDao.findOne((Long) map.get("type_id")).getTypeName());
+			//map.put("type", typeDao.findOne((Long) map.get("type_id")).getTypeName());
+			if( (Integer)map.get("is_share") == 1 ) {
+				map.put("type", "公司公告");
+			}else if( (Integer)map.get("is_share") == 0 ) {
+				map.put("type", "部门公告");
+			}
 			map.put("statusColor", statusDao.findOne((Long) map.get("status_id")).getStatusColor());
 			map.put("userName", uDao.findOne((Long) map.get("user_id")).getUserName());
 			map.put("deptName", uDao.findOne((Long) map.get("user_id")).getDept().getDeptName());
