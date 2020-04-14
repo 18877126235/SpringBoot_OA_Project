@@ -47,17 +47,35 @@ a:hover {
 							<span class="error-mess"></span>
 						</div>
 						<div class="row">
-							<div class="col-md-6 form-group">
-								<label class="control-label"><span>类型</span></label> 
+							
+							<!-- 类型默认是公告了 -->
+							<div style="display: none;" class="col-md-6 form-group">
+								<label class="control-label"><span>通知类型</span></label> 
 								<select class="form-control" name="typeId">
-								<#if typeName??>
-									<option value="${noticeList.typeId}">${typeName}</option>
-								</#if>
-									<#list typeList as type>
-										<option value="${type.typeId}">${type.typeName}</option>
-									</#list>
+									<#if typeName??>
+										<option value="${noticeList.typeId}">${typeName}</option>
+									</#if>
+										<#list typeList as type>
+											<option value="${type.typeId}">${type.typeName}</option>
+										</#list>
 								</select>
 							</div>
+							
+							
+							<div  class="col-md-6 form-group">
+								<label class="control-label"><span>公告类型</span></label> 
+								<select class="form-control" name="isShare">
+									
+									<#if ishaveqx??>
+										<option value="1">公司公告</option>
+										<option value="0">部门公告</option>
+										<#else>
+											<option value="0">部门公告</option>
+									</#if>
+
+								</select>
+							</div>
+							
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>状态</span></label> 
 								<select class="form-control" name="statusId">

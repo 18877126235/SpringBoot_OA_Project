@@ -60,4 +60,12 @@
 		n.is_top DESC,u.is_read ASC ,n.modify_time
 	</select>
 
+	<!-- 查询部门公告，也就是本部门领导发布的公告 -->
+	<select id="findbynoshare" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=0 ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
+
 </mapper>

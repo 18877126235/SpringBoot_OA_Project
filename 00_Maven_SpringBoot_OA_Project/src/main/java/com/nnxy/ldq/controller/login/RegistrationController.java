@@ -75,6 +75,7 @@ public class RegistrationController {
 		//插入数据库看看
 		//uDao.save(user1);
 		System.out.println("注册成功");
+		
 		//发送邮箱信息验证激活
 		String code = UUIDUtils.getUUID() + UUIDUtils.getUUID();
 		

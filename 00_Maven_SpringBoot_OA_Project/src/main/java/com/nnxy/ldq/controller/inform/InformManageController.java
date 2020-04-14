@@ -217,43 +217,65 @@ public class InformManageController {
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
 			@RequestParam(value="pageNum",defaultValue="1") int page) {
 		
-		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
 		
 		com.github.pagehelper.Page<Object> page1 = PageHelper.startPage(page, 10); //设置分页查询参数
-		
 		//待定？？？
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
-		
-	
-		
-		
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
-		
-		
-//		Pageable pa=new PageRequest(page, 10);
-//		Page< Map<String, Object> > userspage = uDao.findAll(pa);
-		
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
-		
-
+	
 		model.addAttribute("url", "informlistpaging");
 		
 		model.addAttribute("list", list2);
-		req.setAttribute("isMybatis", "yes");//表示是mybatis查询的
+		
 		model.addAttribute("page", pageinfo);
 		
-		System.out.println("啊哈:"+pageinfo);
+		//是否有权限操作公告
+		User findOne = uDao.findOne(userId);
+		
+		if( findOne.getRole().getRoleId() <= 4 ) {
+			model.addAttribute("hasrole", "yes");
+		}
 		
 		//return "inform/informlist";  
 		return "inform/infomasege";
 		
 	}
 	
+	/*
+	 * 查询全部可见的公告
+	 */
+	@RequestMapping("/infolist3")
+	public String infolist3(HttpSession session,Model model
+			,@RequestParam(value="pageNum",defaultValue="1") int page
+			) {
+
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		PageHelper.startPage(page, 10); //设置分页查询参数
+		//待定？？？
+		List<Map<String, Object>> list = nm.findMyNotice(userId);
+
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
+		model.addAttribute("url", "infolist3");//点击下一页后跳转到的连接
+		
+		//待定使用
+		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		
+		model.addAttribute("list", list2);
+		
+		model.addAttribute("page", pageinfo);
+
+		return "inform/informlistpaging";
+		
+	}
+	
 	
 	/*
 	 * 
-	 * ajax异步加载公告列表（查询公司公告）
+	 * ajax异步加载公告列表（查询公司公告，传入类型然后增加根据类型条件查找的功能）
 	 */
 	@RequestMapping("/infolist1")
 	public String infolist(HttpSession session,Model model
@@ -268,8 +290,41 @@ public class InformManageController {
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
-		model.addAttribute("url", "pageinfolist");//点击下一页后跳转到的连接
-		session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		model.addAttribute("url", "infolist1");//点击下一页后跳转到的连接
+		
+		//待定使用
+		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		
+		model.addAttribute("list", list2);
+		
+		model.addAttribute("page", pageinfo);
+
+		return "inform/informlistpaging";
+		
+	}
+	
+	/*
+	 * 查询本部门公告
+	 */
+	@RequestMapping("/infolist2")
+	public String infolist2(HttpSession session,Model model
+			,@RequestParam(value="pageNum",defaultValue="1") int page
+			) {
+
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		PageHelper.startPage(page, 10); //设置分页查询参数
+		//待定？？？
+		List<Map<String, Object>> list = nm.findbynoshare(userId);
+
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
+		
+		model.addAttribute("url", "infolist2");//点击下一页后跳转到的连接
+		
+		//待定使用
+		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		
 		model.addAttribute("list", list2);
 		
 		model.addAttribute("page", pageinfo);
@@ -277,21 +332,6 @@ public class InformManageController {
 		return "inform/informlistpaging";
 	}
 	
-	
-	/*
-	 * 分页查询公告
-	 */
-	@RequestMapping("pageinfolist")
-	public String pageinfolist() {
-		
-		
-		
-		return "inform/informlistpaging";
-	}
-	
-	/*
-	 * 查询本部门公告
-	 */
 	
 	/*
 	 * 点击显示最新公告
@@ -354,6 +394,16 @@ public class InformManageController {
 			session.setAttribute("noticeId", noticeId);
 		}
 
+		//是否有权限发布公司公告
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		if( userId <=3l ) {  //只有管理员和总经理才有资格发布公司公告
+		
+			model.addAttribute("ishaveqx", "yes");
+			
+		}
+		
+		
+		
 		return "inform/informedit";
 	}
 
@@ -408,10 +458,13 @@ public class InformManageController {
 	 */
 	@RequestMapping("informcheck")
 	public String testMess(HttpServletRequest req, @Valid NoticesList menu, BindingResult br) {
+		
 		HttpSession session = req.getSession();
 		Long menuId = null;
+		
 		req.setAttribute("menuObj", menu);
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		
 		menu.setUserId(userId);
 
 		// 这里返回ResultVO对象，如果校验通过，ResultEnum.SUCCESS.getCode()返回的值为200；否则就是没有通过；
@@ -458,19 +511,36 @@ public class InformManageController {
 				
 				User user2 = uDao.findByUserId(userId);
 				
-				//待定你大爷的，好复杂的程序
-				List<User> userList = uDao.findByFatherId(user2.getFatherId()); //查找处同一个部门的所有用户哈哈哈哈（妈的智障，干嘛用上司的id）
-				for (User user : userList) {
-					System.out.println("打印试试看:"+user);
+				if(menu.getIsShare() == true ) { //是否全部人可见
+					
+					//查找全部用户
+					List<User> userList = uDao.findAll();
+//					for (User user : userList) {
+//						System.out.println("打印试试看:"+user);
+//					}
+					
+					//存入用户中间表
+					for (User user1 : userList) {
+						informrelationservice.save(new NoticeUserRelation(noticeList, user1, false)); //false代表未读
+					}
+					
+				}else { //否则仅该部门下用户可见
+					//待定你大爷的，好复杂的程序
+					List<User> userList = uDao.findByFatherId(user2.getFatherId()); //查找处同一个部门的所有用户哈哈哈哈（妈的智障，干嘛用上司的id）
+					for (User user : userList) {
+						System.out.println("打印试试看:"+user);
+					}
+					
+					//通知同部门的用户接收公告(存入用户和公告对应的中间表)
+					for (User user1 : userList) {
+						informrelationservice.save(new NoticeUserRelation(noticeList, user1, false));
+					}
+					
 				}
 				
-				//通知同部门的用户接收公告(存入用户和公告对应的中间表)
-				for (User user1 : userList) {
-					informrelationservice.save(new NoticeUserRelation(noticeList, user1, false));
-				}
-				/*
-				 * 设置该公告为已读状态
-				 */
+				
+				// 设置自己对于该公告本身为已读状态
+				 
 				//先根据用户id和通知id获取中间表数据
 				User userId2 = uDao.findOne(userId);
 				NoticeUserRelation findByUserIdAndNoticeId = informrelationDao.findByUserIdAndNoticeId(userId2,noticeList );
@@ -481,12 +551,13 @@ public class InformManageController {
 				
 				
 			}
-			// 执行业务代码
+			// 执行业务代码结束************
 			System.out.println("此操作是正确的");
 			req.setAttribute("success", "后台验证成功");
 		}
-		System.out.println("是否进入最后的实体类信息：" + menu);
+		
+		System.out.println("*********是否进入最后的实体类信息：" + menu.getIsShare());
 		return "redirect:/infrommanage"; //？？？？？
 	}
 
-}
+} //类括号

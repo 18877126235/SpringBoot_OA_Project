@@ -15,9 +15,13 @@
 	<div class="col-md-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">
+				<!-- <h3 class="box-title">
 					<a class="label label-success" href="dayedit"><span
 						class="glyphicon glyphicon-plus"></span> 新建日程</a>
+				</h3> -->
+				<h3 class="box-title">
+					<a class="label label-success" href="##"><span
+						class="glyphicon glyphicon-plus"></span> 更多日程格式</a>
 				</h3>
 			</div>
 			<!-- 核心显示div -->

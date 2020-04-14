@@ -93,8 +93,7 @@
 				
 					<td style="display: none;" >${this.notice_id}</td>
 					<td>
-						
-						${this.type}
+						${this.type} 
 					</td>
 					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>
 					<#if this.is_read==0>
@@ -137,7 +136,7 @@
 						<a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}&isnew=not"
 						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>
 							查看</a> 
-							<#if this.contain!=1>
+							<#--<#if this.contain!=1>
 								<#if this.contain==3>
 									<a href="forwardother?noticeId=${this.notice_id}" onclick="{return confirm('确定转发给自己的下属吗？');};" class="label xinzeng chakan forwardthis"><span class="glyphicon glyphicon-log-out"></span>
 									转发</a> 
@@ -145,7 +144,8 @@
 									<a href="javascript:void(0);" class="label sheding chakan"><span class="glyphicon glyphicon-log-out"></span>
 									已转发</a> 
 								</#if>
-							</#if>
+							</#if>-->
+							
 							<#if this.is_read==0> 
 								<#-- 
 								<#else> 

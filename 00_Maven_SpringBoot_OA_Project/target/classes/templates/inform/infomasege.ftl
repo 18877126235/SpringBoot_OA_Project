@@ -39,8 +39,8 @@ a:hover {
 		<h1 style="font-size: 24px; margin: 0;" class="">通知列表
 			<!--  -->
 			<a href="" class="label xinzeng" style="padding: 5px;margin-left:5px;">
-						<span class="glyphicon glyphicon-refresh"></span> 刷新
-					</a>
+				<span class="glyphicon glyphicon-refresh"></span> 刷新
+			</a>
 		</h1>
 		
 	</div>
@@ -51,10 +51,21 @@ a:hover {
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-3">
-		<a class="btn btn-info write"
-			style="width: 100%; margin-bottom: 20px;"> <span
-			class="glyphicon glyphicon-pencil"></span> 新增公告
-		</a>
+		
+		
+		
+		<#if hasrole??>
+			<a href="informedit" class="btn btn-info write"
+				style="width: 100%; margin-bottom: 20px;"> <span
+				class="glyphicon glyphicon-pencil"></span> 新增公告
+			</a>
+			<#else>
+				<a class="btn btn-default"
+					style="width: 100%; margin-bottom: 20px;"> <span
+					class="glyphicon glyphicon-pencil"></span> 新增公告
+				</a>
+		</#if>
+		
 		<div class="bgc-w box box-solid">
 			<div class="box-header">
 				<h3 class="box-title">全部通知</h3>
@@ -63,11 +74,15 @@ a:hover {
 				</span>
 			</div>
 			<ul class="nav nav-pills nav-stacked files emailtypename">
-				<li style="border-left: 3px solid blue;" class="infocompny"><span
+				<li style="border-left: 3px solid blue;" class="infoall"><span
+					class="glyphicon glyphicon-th le"> 全部公告 </span>
+					<input class="yincangzhi" type="hidden" value="shoujianxiang">
+				</li>
+				<li  class="infocompny"><span
 					class="glyphicon glyphicon-inbox le"> 公司公告 </span>
 					<input class="yincangzhi" type="hidden" value="shoujianxiang">
 				</li>
-				<li  class="getmail"><span
+				<li  class="infomdep"><span
 					class="glyphicon glyphicon-inbox le"> 部门公告 </span>
 
 					<input class="yincangzhi" type="hidden" value="shoujianxiang">
@@ -129,6 +144,8 @@ a:hover {
 	</div>
 	
 	<div  class="col-md-9 set">
+	
+		
 		<div class="row" style=" padding-top: 0px;">
 			<div class="col-md-12 thistable">
 				<!--id="container"-->
@@ -159,44 +176,33 @@ a:hover {
 	
 	$(function(){
 		//点击相应主题显示相关公告
-		//公司公告
+		
+		//点击全部公告
+		$('.infoall').on('click',function(){
+			$('.thistable').load('infolist3',{title:"all"});
+			removeliclass();
+		});	
+		//点击公司公告
 		$('.infocompny').on('click',function(){
 			$('.thistable').load('infolist1',{title:"company"});
 			removeliclass();
 		});	
-		$('.setmail').on('click',function(){
-			$('.set').load('amail',{title:"发件箱"});
-			removeliclass();
-		});
-		$('.caogao').on('click',function(){
-			$('.set').load('amail',{title:"草稿箱"});
-			removeliclass();
-		});
-		$('.rubbish').on('click',function(){
-			$('.set').load('amail',{title:"垃圾箱"});
+		//点击部门公告
+		$('.infomdep').on('click',function(){
+			$('.thistable').load('infolist2',{title:"dept"});
 			removeliclass();
 		});
 		
-		//写信
-		$('.write').on('click',function(){
+		
+		
+		//发公告
+		/*$('.write').on('click',function(){
 		
 			//alert("哈哈");
-			$('.set').load('wmail');
+			$('.set').load('informedit');
 			
-		});
+		});*/
 		
-		 /*$(".mail").click(function(){
-				var title=$(".titles").text();
-			   $(".thistable").load("mailtitle",{val:"邮件",title:title});
-		   });
-		 $(".tongzhi").click(function(){
-			   var title=$(".titles").text();
-			  $(".thistable").load("mailtitle",{val:"通知",title:title});
-		   });
-		 $(".gonggao").click(function(){
-			 	var title=$(".titles").text();
-			  $(".thistable").load("mailtitle",{val:"公告",title:title});
-		   });*/
 		 
 		 //点击发件类型条目
 		$(".fajianleixing li").click(function(){

@@ -26,6 +26,8 @@ public interface NoticeMapper {
 	List<Map<String, Object>> findbyisshare(long l);
 	
 	
+	List<Map<String, Object>> findbynoshare(long l);
+	
 	
  
 }
