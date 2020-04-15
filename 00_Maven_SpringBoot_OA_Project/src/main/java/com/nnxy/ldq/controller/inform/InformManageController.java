@@ -22,8 +22,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -104,9 +106,10 @@ public class InformManageController {
 	
 	
 	//使用ajax异步删除全选的公告
+	@ResponseBody
 	@RequestMapping("deleteAll")
-	public ModelAndView deleteAll(HttpSession session, HttpServletRequest req) {
-		ModelAndView modelAndView = new ModelAndView();
+	public String deleteAll(HttpSession session, HttpServletRequest req) {
+		
 		//System.out.println("来了老弟"+req.getParameter("noticeId"));
 		//接下来根据公告id删除公告
 		//informDao
@@ -116,16 +119,35 @@ public class InformManageController {
 		if ( userId != 1l ) { //如果不是超级管理员
 			//System.out.println("权限不匹配，不能删除");
 			
-			modelAndView.setViewName("redirect:/notlimit");
-			return modelAndView;
+			//modelAndView.setViewName("redirect:/notlimit");
+			return "error";
 		}
 		//System.out.println(noticeId);
 		informService.deleteOne(noticeId);
 
-		return modelAndView;
+		return "success";
 	}
 	
 	
+	//使用ajax异步删除全选的公告方法二
+	@ResponseBody
+	@RequestMapping("deleteInfombyAjax")
+	public String deleteInfombyAjax(HttpSession session,String id) {
+		
+		System.out.println("啊哈哈哈哈:"+id);
+		String infoId = id + "";
+		Long noticeId = Long.parseLong(infoId);
+		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		//NoticesList notice = informDao.findOne(noticeId); //根据公告id查询一条公告
+		if ( userId != 1l ) { //如果不是超级管理员
+			//System.out.println("权限不匹配，不能删除");
+			
+			return "error";  //没有权限删除
+		}
+		informService.deleteOne(noticeId);
+
+		return "success";
+	}
 	
 	/**
 	 * 通知管理面板
@@ -160,34 +182,6 @@ public class InformManageController {
 		return "redirect:/infromlist";
 	}
 
-	// demo
-//	@RequestMapping("cccc")
-//	public @ResponseBody Page<NoticesList> ddd(@RequestParam(value = "page", defaultValue = "0") int page,
-//			@RequestParam(value = "size", defaultValue = "10") int size,
-//			@RequestParam(value = "baseKey", required = false) String baseKey, @SessionAttribute("userId") Long userId,
-//			Model model) {
-//		Page<NoticesList> page2 = informService.pageThis(page, size, userId,baseKey,null,null,null);
-//		List<NoticesList> noticeList=page2.getContent();
-//		Long sum=page2.getTotalElements();
-//		int size2=page2.getSize();
-//		int pages=page2.getTotalPages();
-//		int number=page2.getNumber();
-//		model.addAttribute("list", noticeList);
-//		model.addAttribute("page", page2);
-//		return page2;
-		
-		// List<NoticesList> noticeList=informDao.findByUserId(userId);
-		// List<NoticesList>
-		// noticeList=informDao.findByUserIdAndTopOrderByModifyTimeDesc(userId,
-		// true);
-		// List<NoticesList>
-		// noticeList2=informDao.findByUserIdAndTopOrderByModifyTimeDesc(userId,
-		// false);
-		// noticeList.addAll(noticeList2);
-		// List<Map<String, Object>> list=informService.fengZhuang(noticeList);
-		// model.addAttribute("list",list);
-//	}
-
 
 
 	/**
@@ -215,7 +209,9 @@ public class InformManageController {
 	//@RequestMapping("infromlist")
 	@RequestMapping("nitifyall")
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
-			@RequestParam(value="pageNum",defaultValue="1") int page) {
+			@RequestParam(value="pageNum",defaultValue="1") int page
+			
+			) {
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
 		
@@ -225,11 +221,12 @@ public class InformManageController {
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
 	
-		model.addAttribute("url", "informlistpaging");
-		
+		model.addAttribute("url", "informlistpaging"); //点击下一页后跳转页面
 		model.addAttribute("list", list2);
 		
 		model.addAttribute("page", pageinfo);
+		
+
 		
 		//是否有权限操作公告
 		User findOne = uDao.findOne(userId);
@@ -249,8 +246,9 @@ public class InformManageController {
 	@RequestMapping("/infolist3")
 	public String infolist3(HttpSession session,Model model
 			,@RequestParam(value="pageNum",defaultValue="1") int page
+			,@RequestParam(value = "baseKey", required = false) String baseKey
 			) {
-
+		System.out.println("查询："+baseKey);
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
 		PageHelper.startPage(page, 10); //设置分页查询参数
 		//待定？？？
@@ -259,13 +257,13 @@ public class InformManageController {
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
-		model.addAttribute("url", "infolist3");//点击下一页后跳转到的连接
+		model.addAttribute("url", "informlistpaging");//点击下一页后跳转到的连接
 		
 		//待定使用
 		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
 		
 		model.addAttribute("list", list2);
-		
+	
 		model.addAttribute("page", pageinfo);
 
 		return "inform/informlistpaging";
@@ -275,7 +273,7 @@ public class InformManageController {
 	
 	/*
 	 * 
-	 * ajax异步加载公告列表（查询公司公告，传入类型然后增加根据类型条件查找的功能）
+	 * ajax异步加载公告列表（查询公司公告）
 	 */
 	@RequestMapping("/infolist1")
 	public String infolist(HttpSession session,Model model
@@ -303,6 +301,92 @@ public class InformManageController {
 		
 	}
 	
+	//查询全部未读
+		@RequestMapping("/quanbuweidu") 
+		public String quanbuweidu(HttpSession session,Model model,
+				@RequestParam(value="pageNum",defaultValue="1") int page
+				) {
+			
+			Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+			PageHelper.startPage(page, 10); //设置分页查询参数
+			//待定？？？
+			List<Map<String, Object>> list = nm.findMyNoticeandNoRead(userId);
+			PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+			List<Map<String, Object>> list2=informrelationservice.setList(list);
+			model.addAttribute("url", "quanbuweidu");//点击下一页后跳转到的连接
+			//待定使用
+			//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+			model.addAttribute("list", list2);
+			model.addAttribute("page", pageinfo);
+
+			return "inform/informlistpaging";
+		}
+		
+		//查询全部已读
+		@RequestMapping("/quanbuyidu") 
+		public String quanbuyidu(HttpSession session,Model model,
+				@RequestParam(value="pageNum",defaultValue="1") int page
+				) {
+			
+			Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+			PageHelper.startPage(page, 10); //设置分页查询参数
+			//待定？？？
+			List<Map<String, Object>> list = nm.findMyNoticeandisRead(userId);
+			PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+			List<Map<String, Object>> list2=informrelationservice.setList(list);
+			model.addAttribute("url", "quanbuyidu");//点击下一页后跳转到的连接
+			//待定使用
+			//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+			model.addAttribute("list", list2);
+			model.addAttribute("page", pageinfo);
+
+			return "inform/informlistpaging";
+		}
+	
+	
+		//查询公司公告未读
+		@RequestMapping("/infomCompanyNotRead") 
+		public String infomCompanyNotRead(HttpSession session,Model model,
+				@RequestParam(value="pageNum",defaultValue="1") int page
+				) {
+			
+			Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+			PageHelper.startPage(page, 10); //设置分页查询参数
+			//待定？？？
+			List<Map<String, Object>> list = nm.findbyisshareNotRead(userId);
+			PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+			List<Map<String, Object>> list2=informrelationservice.setList(list);
+			model.addAttribute("url", "infomCompanyNotRead");//点击下一页后跳转到的连接
+			//待定使用
+			//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+			model.addAttribute("list", list2);
+			model.addAttribute("page", pageinfo);
+
+			return "inform/informlistpaging";
+		}
+		
+		//查询公司公告已读
+		@RequestMapping("/infomCompanyIsRead") 
+		public String infomCompanyIsRead(HttpSession session,Model model,
+				@RequestParam(value="pageNum",defaultValue="1") int page
+				) {
+			
+			Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+			PageHelper.startPage(page, 10); //设置分页查询参数
+			//待定？？？
+			List<Map<String, Object>> list = nm.findbyisshareIsRead(userId);
+			PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+			List<Map<String, Object>> list2=informrelationservice.setList(list);
+			model.addAttribute("url", "infomCompanyIsRead");//点击下一页后跳转到的连接
+			//待定使用
+			//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+			model.addAttribute("list", list2);
+			model.addAttribute("page", pageinfo);
+
+			return "inform/informlistpaging";
+		}
+		
+		
 	/*
 	 * 查询本部门公告
 	 */
@@ -332,11 +416,69 @@ public class InformManageController {
 		return "inform/informlistpaging";
 	}
 	
+	/*
+	 * 查询本部门公告（未读）
+	 */
+	@RequestMapping("/infomDeptNotRead")
+	public String infomDeptNotRead(HttpSession session,Model model
+			,@RequestParam(value="pageNum",defaultValue="1") int page
+			) {
+
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		PageHelper.startPage(page, 10); //设置分页查询参数
+		//待定？？？
+		List<Map<String, Object>> list = nm.findbynoshareNotRead(userId);
+
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
+		
+		model.addAttribute("url", "infomDeptNotRead");//点击下一页后跳转到的连接
+		
+		//待定使用
+		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		
+		model.addAttribute("list", list2);
+		
+		model.addAttribute("page", pageinfo);
+
+		return "inform/informlistpaging";
+	}
 	
+	/*
+	 * 查询本部门公告（已读）
+	 */
+	@RequestMapping("/infomDeptIsRead")
+	public String infomDeptIsRead(HttpSession session,Model model
+			,@RequestParam(value="pageNum",defaultValue="1") int page
+			) {
+
+		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		PageHelper.startPage(page, 10); //设置分页查询参数
+		//待定？？？
+		List<Map<String, Object>> list = nm.findbynoshareIsRead(userId);
+
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
+		
+		model.addAttribute("url", "infomDeptIsRead");//点击下一页后跳转到的连接
+		
+		//待定使用
+		//session.setAttribute("infolisttype", "company");//标记此时显示的列表是公司公告
+		
+		model.addAttribute("list", list2);
+		
+		model.addAttribute("page", pageinfo);
+
+		return "inform/informlistpaging";
+	}
+	
+
 	/*
 	 * 点击显示最新公告
 	 */
-	@RequestMapping("newmasege")
+	/*@RequestMapping("newmasege")
 	public String newinfromlist(HttpSession session,Model model) {
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
@@ -361,7 +503,7 @@ public class InformManageController {
 		model.addAttribute("list", list3);
 		return "inform/newinformlist";
 		
-	}
+	}*/
 	
 	
 
@@ -559,5 +701,11 @@ public class InformManageController {
 		System.out.println("*********是否进入最后的实体类信息：" + menu.getIsShare());
 		return "redirect:/infrommanage"; //？？？？？
 	}
+	
+	
+	/*
+	 * ajax异步删除公告
+	 */
+	
 
 } //类括号

@@ -7,9 +7,32 @@
 	<select id="findMyNotice" resultType="java.util.Map">
 		SELECT n.*,u.* FROM
 		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
-		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} ORDER BY
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} 
+		
+		ORDER BY
 		n.is_top DESC,u.is_read ASC ,n.modify_time DESC
 	</select>
+	
+	<!--两个表联合查询得到本用户的所有通知列表 （未读的通知） -->
+	<select id="findMyNoticeandNoRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} 
+		and u.is_read=0
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time DESC
+	</select>
+	
+	<!--两个表联合查询得到本用户的所有通知列表 （已读的通知） -->
+	<select id="findMyNoticeandisRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} 
+		and u.is_read=1
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time DESC
+	</select>
+	
 	
 	<!-- 在控制面板限制条数为5 -->
 	<select id="findMyNoticeLimit" resultType="java.util.Map">
@@ -60,6 +83,27 @@
 		n.is_top DESC,u.is_read ASC ,n.modify_time
 	</select>
 
+	
+	<!-- 查询公司公告，也就是所有人都可以看到的公告(未读的) -->
+	<select id="findbyisshareNotRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=1 
+		and u.is_read=0
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
+	
+	<!-- 查询公司公告，也就是所有人都可以看到的公告(已读的) -->
+	<select id="findbyisshareIsRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=1 
+		and u.is_read=1
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
+	
 	<!-- 查询部门公告，也就是本部门领导发布的公告 -->
 	<select id="findbynoshare" resultType="java.util.Map">
 		SELECT n.*,u.* FROM
@@ -67,5 +111,25 @@
 		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=0 ORDER BY
 		n.is_top DESC,u.is_read ASC ,n.modify_time
 	</select>
-
+	
+	<!-- 查询部门公告，也就是本部门领导发布的公告（未读） -->
+	<select id="findbynoshareNotRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=0 
+		and u.is_read=0
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
+	
+	<!-- 查询部门公告，也就是本部门领导发布的公告（已读） -->
+	<select id="findbynoshareIsRead" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} and n.is_share=0 
+		and u.is_read=1
+		ORDER BY
+		n.is_top DESC,u.is_read ASC ,n.modify_time
+	</select>
+	
 </mapper>

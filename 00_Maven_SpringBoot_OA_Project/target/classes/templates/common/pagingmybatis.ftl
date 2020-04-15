@@ -44,22 +44,22 @@
 		/* url是从后台接收过来的链接，sort是记录排序规则 */
 		$('.tablefirst').on('click',function(){
 			if(!${page.isFirstPage?string('true','false')}){
-				$('.thistable').load('${url}?pageNum=1${(sort)!''}');
+				$('.thistable').load('${url}?pageNum=1${(sort)!''}&baseKey=${baseKey!''}');
 			}
 		});
 		$('.tableup').on('click',function(){
 			if(!${page.isFirstPage?string('true','false')}){
-				$('.thistable').load('${url}?pageNum=${(page.pageNum)-1}${(sort)!''}');
+				$('.thistable').load('${url}?pageNum=${(page.pageNum)-1}${(sort)!''}&baseKey=${baseKey!''}');
 			}
 		});
 		$('.tabledown').on('click',function(){
 			if(!${page.isLastPage?string('true','false')}){
-				$('.thistable').load('${url}?pageNum=${(page.pageNum)+1}${(sort)!''}');
+				$('.thistable').load('${url}?pageNum=${(page.pageNum)+1}${(sort)!''}&baseKey=${baseKey!''}');
 			}
 		});
 		$('.tablelast').on('click',function(){
 			if(!${page.isLastPage?string('true','false')}){
-				$('.thistable').load('${url}?pageNum=${(page.pages)}${(sort)!''}');
+				$('.thistable').load('${url}?pageNum=${(page.pages)}${(sort)!''}&baseKey=${baseKey!''}');
 			}
 			
 		});

@@ -77,7 +77,9 @@ public class InformController {
 		System.out.println("page:"+page);
 		setSomething(baseKey, type, status, time, icon, model);
 		PageHelper.startPage(page, 10);
+		
 		List<Map<String, Object>> list=nm.sortMyNotice(userId, baseKey, type, status, time);
+		
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		List<Map<String, Object>> list2=informRelationService.setList(list);
 		for (Map<String, Object> map : list2) {

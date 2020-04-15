@@ -70,7 +70,7 @@ a:hover {
 				
 				
 						<#if isnew == 'not'>
-						<a href="/infromlist" class="label label-default" style="padding: 6px;">
+						<a href="/nitifyall" class="label label-default" style="padding: 6px;">
 						<span class="glyphicon glyphicon-chevron-left">返回</span>
 						</a>
 							<#elseif isnew == 'yes'>

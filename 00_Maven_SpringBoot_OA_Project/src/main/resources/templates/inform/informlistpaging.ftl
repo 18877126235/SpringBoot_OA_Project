@@ -10,7 +10,7 @@
 			<#if userId!=1> 
 								<#--  -->
 								<#else> 
-								<a  href="#" id="quanxuan" class="label label-warning" style="padding: 5px;margin-left:5px;">
+								<a  href="##" id="quanxuan" class="label label-warning" style="padding: 5px;margin-left:5px;">
 									<span class="glyphicon glyphicon-ok"></span> 全选
 								</a>
 							
@@ -25,7 +25,7 @@
 			<div class="input-group" style="width: 150px;">
 				<input type="text" class="form-control input-sm baseKey" placeholder="按标题查找"  value="${(baseKey)!''}"/>
 				<div class="input-group-btn">
-					<a class="btn btn-sm btn-default baseKetsubmit"><span
+					<a class="btn btn-sm btn-default baseKetsubmit inputsearch "><span
 						class="glyphicon glyphicon-search"></span></a>
 				</div>
 			</div>
@@ -150,19 +150,20 @@
 								<#-- 
 								<#else> 
 								<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
-								href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
+								href="informlistdelete?id=${this.notice_id}" class="label shanchu  "> 
 								<span class="glyphicon glyphicon-remove"></span> 删除
 							 -->
 						</a></#if>
 						
 						<#if userId!=1> 
-								<#--  -->
-								<#else> 
-								<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
-								href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
+								
+							<#else> 
+								<a 
+								href="##" class="label shanchu yibushanchu"> 
 								<span class="glyphicon glyphicon-remove"></span> 删除
-							
-						</a></#if>
+								<input type="hidden" class="yincangzhi" value="${this.notice_id}">
+								</a>
+						</#if>
 						</td>
 				</tr>
 				</#list>
@@ -174,6 +175,79 @@
 </div>
 <script>
 	$(function(){
+		
+		//点击搜索框后设置全部
+		$(".inputsearch").click(function(){
+			
+			//alert("哈哈哈");
+			
+		});
+		
+		$(".yibushanchu").click(function(){
+			
+			//先获取要删除的公告的id
+			var infoid = $(this).find(".yincangzhi").val();
+			
+			var deletr = $(this).closest("tr");
+			
+			//alert(infoid);
+			swal({ 
+				
+				title: "确定删除该条公告吗？", 
+				text: "删除后您将无法恢复！", 
+				type: "warning",
+				showCancelButton: true, 
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定删除！", 
+				cancelButtonText: "取消删除！",
+				closeOnConfirm: false, 
+				closeOnCancel: false	
+				},
+				function(isConfirm){ 
+				if (isConfirm) { 
+					
+					
+
+					//修改成ajax方式  后台删除
+					$.ajax({
+						url:"deleteInfombyAjax?id="+infoid,
+						dataType:"text", //预期服务器返回的数据类型
+						type:"post",
+						data:null, //发送到服务器的数据
+						success:function(data){
+							if(data == 'success'){
+								swal("删除成功！","小O在此祝您今日工作顺利","success");
+								//在页面中删除先
+								deletr.remove();
+								setTimeout(function(){
+									swal.close();
+
+								},1000);
+							}
+
+							return false;
+						},
+						error:function(data){
+							swal("删除失败！","权限不匹配","warning");
+							
+							setTimeout(function(){
+								swal.close();
+
+							},1000);
+						}
+						
+					});
+					
+					
+				} else { 
+					swal.close();
+				} 
+			});
+			
+			
+		});
+		
+		
 		$(".chakan").click(function(){
 			var $information=$(this).parents("td").siblings(".c").find("span").text();
 			if( $information!=""){
@@ -224,34 +298,70 @@
                     }
                 });
                 if(flag == 1){
-                    if(confirm("您确定删除吗")){
-                        //获取出所有的checkbox输入框//遍历删除
-                        $("input[class='dianji']").each(function(){
-                            //如果这个checkbox是被选中的
-                            if(this.checked==true){
-                                //先获取公告的id
-                                var td_id = $(this).parent().parent().parent().parent().find("td").eq(1); //获取id
-                                var id = td_id.text();
-                                //alert(id);
-                                td_id.parent().remove(); //删除父元素tr自身及其所有子元素td(就是一整行)
-                                //然后再使用ajax异步删除后台数据
-                               	$.ajax({
-                                    url:"deleteAll?noticeId="+id,
-                                    dataType:"String",
-                                    type:"get",
-                                    data:null,
-                                    success:function(data){},
-                                    error:function(){}
-                                });
-  
-                            }
-                        });
+                	
+                	swal({ 
+        				title: "确定删除全部选中的公告吗？", 
+        				text: "删除后您将无法恢复！", 
+        				type: "warning",
+        				showCancelButton: true, 
+        				confirmButtonColor: "#DD6B55",
+        				confirmButtonText: "确定删除！", 
+        				cancelButtonText: "取消删除！",
+        				closeOnConfirm: false, 
+        				closeOnCancel: false	
+        				},
+        				function(isConfirm){ 
+        				if (isConfirm) { 
+        					
+        					//获取出所有的checkbox输入框//遍历删除
+                            $("input[class='dianji']").each(function(){
+                                //如果这个checkbox是被选中的
+                                if(this.checked==true){
+                                    //先获取公告的id
+                                    var td_id = $(this).parent().parent().parent().parent().find("td").eq(1); //获取id
+                                    var id = td_id.text();
+                                    //alert(id);
+                                    
+                                    //然后再使用ajax异步删除后台数据
+                                   	$.ajax({
+                                        url:"deleteAll?noticeId="+id,
+                                        dataType:"text",
+                                        type:"get",
+                                        data:null,
+                                        success:function(data){
+                							if(data == 'success'){
+                								swal("删除成功！","小O在此祝您今日工作顺利","success");
+                								td_id.parent().remove(); //删除父元素tr自身及其所有子元素td(就是一整行)
+                								setTimeout(function(){
+                									swal.close();
 
-                    }
+                								},1000);
+                							}else{
+                								swal("删除失败！","权限不匹配","warning");
+                								
+                								setTimeout(function(){
+                									swal.close();
+
+                								},1000);
+                							}
+
+                							return false;
+                						},
+                						error:function(data){
+                							
+                						}
+                                    });
+      
+                                }
+                            });
+        					
+        					
+        				} else { 
+        					swal.close();
+        				} 
+        			});
                 }
-                //alert("你大爷");
-			
-			
+
 		});
 		
 		<#-- 单机选中某一条公告 -->

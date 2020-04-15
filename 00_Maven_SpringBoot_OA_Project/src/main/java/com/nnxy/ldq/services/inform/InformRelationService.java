@@ -50,9 +50,7 @@ public class InformRelationService {
 
 	// 封装对象，将List<Map<String, Object>>中的值进行封装，例如type_id封装成相对应的名字
 	public List<Map<String, Object>> setList(List<Map<String, Object>> list) {
-		
 
-		
 		for (Map<String, Object> map : list) {
 			map.put("status", statusDao.findOne((Long) map.get("status_id")).getStatusName());
 			//map.put("type", typeDao.findOne((Long) map.get("type_id")).getTypeName());

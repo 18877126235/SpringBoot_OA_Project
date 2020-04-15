@@ -46,9 +46,6 @@ public class NoticesList {
 	@Column(name = "is_share") //是否全部人可见（也就是是不是公司公告）
 	private Boolean isShare=false;
 	
-	
-	
-	
 	public Boolean getIsShare() {
 		return isShare;
 	}

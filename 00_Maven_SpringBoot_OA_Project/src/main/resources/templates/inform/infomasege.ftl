@@ -74,18 +74,18 @@ a:hover {
 				</span>
 			</div>
 			<ul class="nav nav-pills nav-stacked files emailtypename">
-				<li style="border-left: 3px solid blue;" class="infoall"><span
-					class="glyphicon glyphicon-th le"> 全部公告 </span>
-					<input class="yincangzhi" type="hidden" value="shoujianxiang">
+				<li style="border-left: 3px solid blue;" class="infoall ischeck"><span
+					class="glyphicon glyphicon-th  le"> 全部公告 </span>
+					<input class="yincangzhi" type="hidden" value="all">
 				</li>
 				<li  class="infocompny"><span
 					class="glyphicon glyphicon-inbox le"> 公司公告 </span>
-					<input class="yincangzhi" type="hidden" value="shoujianxiang">
+					<input class="yincangzhi" type="hidden" value="company">
 				</li>
 				<li  class="infomdep"><span
 					class="glyphicon glyphicon-inbox le"> 部门公告 </span>
 
-					<input class="yincangzhi" type="hidden" value="shoujianxiang">
+					<input class="yincangzhi" type="hidden" value="dept">
 				</li>
 			</ul>
 		</div>
@@ -113,7 +113,7 @@ a:hover {
 				
 			</ul>
 			
-			<!-- 发件类型 -->
+			<!-- 发件类型(从邮箱界面copy过来的，就不做改变了呢) -->
 			<div class="box-header">
 				<h3 class="box-title">已读状态</h3>
 				<span class="btn btn-xs btn-default pull-right des"> <i
@@ -135,10 +135,14 @@ a:hover {
 			
 				<li class=""><svg class="icon le " aria-hidden="true" style="color: green;">
 								<use xlink:href="#icon-kongxinquan"></use>
-							</svg>&nbsp;&nbsp;&nbsp;<span class="tiaomuname">  已读</span></li>
+							</svg>&nbsp;&nbsp;&nbsp;<span class="tiaomuname">  已读 
+							<input type="hidden" class="yincangzhi" value="isRead" >
+							</span></li>
 				<li class=""><svg class="icon le " aria-hidden="true" style="color: red;">
 								<use xlink:href="#icon-kongxinquan"></use>
-							</svg>&nbsp;&nbsp;&nbsp;<span class="tiaomuname" >  未读</span></li>
+							</svg>&nbsp;&nbsp;&nbsp;<span class="tiaomuname" >  未读
+							<input type="hidden" class="yincangzhi" value="notRead" >
+							</span></li>
 			</ul>
 		</div>
 	</div>
@@ -167,6 +171,7 @@ a:hover {
 			
 			$(this).css('border-left-color','');
 			
+			
 		});$(".shoujianleixing li").each(function(){
 			
 			$(this).css('border-left-color','');
@@ -174,98 +179,104 @@ a:hover {
 		});
 	}
 	
+	//删除上方全部、公司、部门的选中状态
+	function remocheck(){
+		
+		$(".emailtypename li").each(function(){
+
+			
+			if( $(this).hasClass('ischeck') ){
+				$(this).removeClass("ischeck");
+			}
+			
+		});
+		
+		
+	}
+	
+	
+	
 	$(function(){
 		//点击相应主题显示相关公告
 		
 		//点击全部公告
 		$('.infoall').on('click',function(){
 			$('.thistable').load('infolist3',{title:"all"});
+			remocheck();
+			$(this).addClass("ischeck");
 			removeliclass();
 		});	
 		//点击公司公告
 		$('.infocompny').on('click',function(){
 			$('.thistable').load('infolist1',{title:"company"});
+			remocheck();
+			$(this).addClass("ischeck");
 			removeliclass();
 		});	
 		//点击部门公告
 		$('.infomdep').on('click',function(){
 			$('.thistable').load('infolist2',{title:"dept"});
+			remocheck();
+			$(this).addClass("ischeck");
 			removeliclass();
 		});
 		
 		
-		
-		//发公告
-		/*$('.write').on('click',function(){
-		
-			//alert("哈哈");
-			$('.set').load('informedit');
-			
-		});*/
-		
-		 
 		 //点击发件类型条目
-		$(".fajianleixing li").click(function(){
-			
-			//alert("你大爷");
-			//$(this).css('border-left-color','#3c8dbc');
-			//遍历上面的几个模块菜单，为对应的名称设置左边框颜色
-			$(".yincangzhi").each(function(){
-				
-				//alert( $(this).val() );
-				if( $(this).val() == 'fajianxiang' ){
-					//alert("jjj");
-					typeli=$(this).parent();
-					
-				}
-				$(this).parent().css('border-left-color','')
-				
-			});
-			typeli.css('border-left-color','#3c8dbc');
-			
-			
-			//先遍历删除所有的样式
-			removeliclass();
-			//再为当前元素赋值
-			$(this).css('border-left-color','#3c8dbc');
-			
-			//最后发送ajax方法加载邮件列表
-			//先获取当前类型名称
-			var typename = $(this).find(".tiaomuname").text();
-			//alert(typename);
-		});
-		
-		//点击收件类型条目
 		$(".shoujianleixing li").click(function(){
 			
-			var typeli;
-			//遍历上面的几个模块菜单，为对应的名称设置左边框颜色
-			$(".yincangzhi").each(function(){
-				
-				//alert( $(this).val() );
-				if( $(this).val() == 'shoujianxiang' ){
-					//alert("jjj");
-					typeli=$(this).parent();
-					
-				}
-				$(this).parent().css('border-left-color','')
-				
-			});
-			typeli.css('border-left-color','#3c8dbc');
-		
-			
-			
 			//alert("你大爷");
-			//先遍历删除所有的样式
+			
+			removeliclass(); //清除其他选项的左边框
+			//再为当前元素赋值
+			$(this).css('border-left-color','#3c8dbc');
+
+		});
+		
+		//点击收件类型条目（这里是已读和未读公告，主要实现这里）
+		$(".fajianleixing li").click(function(){
+			
+			
+			//先遍历删除li标签的所有的样式
 			removeliclass();
 			//再为当前元素赋值
 			$(this).css('border-left-color','#3c8dbc');
 			
-			var typename = $(this).find(".tiaomuname").text();
-			//alert(typename);
-			$('.set').load('amail2',{title:"收件箱",typename:typename});
+			//获取上面选中的是全部、还是公司、还是部门
+			var type = $(".ischeck").find(".yincangzhi").val();
+			//alert( type );
+			var isRead = $(this).find(".tiaomuname").find(".yincangzhi").val();
+			//alert(isRead);
 			
-		}); 
+			//发送load请求后台显示
+		
+			//alert(type + isRead );
+			if( type == 'all' ){
+				
+				if( isRead == 'notRead' ){
+					$('.thistable').load('quanbuweidu');
+				}else{
+					$('.thistable').load('quanbuyidu');
+				}
+			}else if( type == 'company' ){
+				if( isRead == 'notRead' ){
+					$('.thistable').load('infomCompanyNotRead');
+				}else{
+					$('.thistable').load('infomCompanyIsRead');
+				}
+			}else if( type == 'dept' ){
+				if( isRead == 'notRead' ){
+					$('.thistable').load('infomDeptNotRead');
+				}else{
+					$('.thistable').load('infomDeptIsRead');
+				}
+			}
+			
+			
+		});
 		
 	});
+	
+	
+	
 </script>
