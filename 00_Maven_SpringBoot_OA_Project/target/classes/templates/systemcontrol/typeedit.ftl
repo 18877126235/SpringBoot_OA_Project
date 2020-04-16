@@ -29,7 +29,11 @@ a:hover {
 			<!--盒子头-->
 			<div class="box-header">
 				<h3 class="box-title">
-					<a href="javascript:history.back();" class="label label-default"
+					<!-- <a href="javascript:history.back();" class="label label-default"
+						style="padding: 5px;"> <i
+						class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
+					</a> -->
+					<a href="##" class="label label-default btn_back"
 						style="padding: 5px;"> <i
 						class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
 					</a>
@@ -67,19 +71,47 @@ a:hover {
 		<!--盒子尾-->
 		<div class="box-footer">
 			<input class="btn btn-primary" id="save" type="submit" value="保存" />
-			<input class="btn btn-default" id="cancel" type="submit" value="取消"
-				onclick="window.history.back();" />
+			<!-- <input class="btn btn-default" id="cancel" type="button" value="取消"
+				onclick="window.history.back();" /> -->
+			<input class="btn btn-default" id="cancel" type="button" value="取消" />
 		</div>
 		</form>
 	</div>
 </div>
 </div>
 <#include "/common/modalTip.ftl"> 
+
+<#if success??>
+	<script type="text/javascript">
+		setTimeout(function(){
+			//alert("Hello");
+			window.location.href='/testsystype';
+		},1000);
+	</script>
+</#if>
+
 <script type="text/javascript">
+
+
+$("#cancel").click(function(){
+	
+	//alert("哈哈");
+	window.location.href='/testsystype';
+	
+});
+
+$(".btn_back").click(function(){
+	window.location.href='/testsystype';
+});
+
+
+
 //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
 $('.successToUrl').on('click',function(){
 	window.location.href='/testsystype';
 });
+
+
 function check() {
 	console.log("开始进入了");
 	//提示框可能在提交之前是block状态，所以在这之前要设置成none

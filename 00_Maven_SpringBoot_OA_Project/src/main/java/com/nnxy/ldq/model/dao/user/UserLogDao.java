@@ -28,8 +28,17 @@ public interface UserLogDao extends JpaRepository<UserLog, Long>{
 	@Query("from UserLog u where u.user.userId=?1 order by u.logTime DESC")
 	Page<UserLog> findByUserOrderBylogTimeDesc(long userid, Pageable pa);
 	
+	//查询全部按照时间降序排序
+	@Query("from UserLog u order by u.logTime DESC")
+	List<UserLog> findalltimedesc();
+	
+	
 	//按照时间升序
 	@Query("from UserLog u where u.user.userId=?1 order by u.logTime ASC")
 	Page<UserLog> findByUserOrderBylogTimeAsc(long userid, Pageable pa);
 	
+	//
+	//按照用户名，菜单名进行查找
+	@Query("from UserLog u where 1=1 and ( u.user.userName like %?1% or u.title like %?1%) order by u.logTime DESC")
+	List<UserLog> findbaskey2(String name);
 }

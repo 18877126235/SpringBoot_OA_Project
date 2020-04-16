@@ -74,11 +74,11 @@ a:hover {
 						<span class="glyphicon glyphicon-chevron-left">返回</span>
 						</a>
 							<#elseif isnew == 'yes'>
-								<a href="/newmasege" class="label label-default" style="padding: 6px;">
+								<a onclick="window.history.back()" class="label label-default" style="padding: 6px;">
 								<span class="glyphicon glyphicon-chevron-left">返回</span>
 								</a>
 							<#else>
-								<a href="/infrommanage" class="label label-default" style="padding: 6px;">
+								<a onclick="window.history.back()" class="label label-default" style="padding: 6px;">
 								<span class="glyphicon glyphicon-chevron-left">返回</span>
 								</a>
 					</#if>

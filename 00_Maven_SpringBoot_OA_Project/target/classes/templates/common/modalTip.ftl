@@ -98,7 +98,7 @@
 			swal.close();
 		},800);
 		
-		//modalShow(1);
+		//modalShow(1); //原先是以模态的形式
 	</script>
 </#if>
 

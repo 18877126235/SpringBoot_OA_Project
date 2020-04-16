@@ -121,7 +121,7 @@ public class ProcedureController {
 	public void UserpanelController(){
 		try {
 			rootpath= ResourceUtils.getURL("classpath:").getPath().replace("/target/classes/","/static");
-			System.out.println("答应这个路径看卡你什么："+rootpath);
+			//System.out.println("答应这个路径看卡你什么："+rootpath);
 
 		}catch (IOException e){
 			System.out.println("获取项目路径异常");

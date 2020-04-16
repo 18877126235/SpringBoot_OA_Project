@@ -10,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+/*
+ * 用户操作记录实体类（日志嘛）
+ */
 @Entity
 @Table(name = "aoa_user_log")
 public class UserLog {

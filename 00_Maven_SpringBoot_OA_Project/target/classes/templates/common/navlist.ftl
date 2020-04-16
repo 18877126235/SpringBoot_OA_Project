@@ -14,7 +14,8 @@
 		
 		<!-- 公告通知图标 -->
 		<li>
-			<a href="javascript:changepath('/infromlist');" class="green-none white"><span
+			<!-- <a href="javascript:changepath('/infromlist');" class="green-none white"><span -->
+			<a href="javascript:changepath('/nitifyall');" class="green-none white"><span
 				class="glyphicon glyphicon-bell"></span>
 				<#if notice==0>
 					<span class="badge blue-badge badge-notice"></span>

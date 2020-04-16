@@ -265,29 +265,29 @@ public class UserpanelController {
 	@RequestMapping({"image/**","attachment/**","file/**"})
 	public void image(Model model, HttpServletResponse response, @SessionAttribute("userId") Long userId, HttpServletRequest request)
 			throws Exception {
-		System.out.println("可以访问*******************");
+		//System.out.println("可以访问*******************");
 		String projectPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
 		
 		//   /E:/WEB-workPath/02_SpringBoot_OA_Project/target/classes/
-		System.out.println("王八蛋终于找到你了:"+projectPath);
+		//System.out.println("王八蛋终于找到你了:"+projectPath);
 		
 //	    /image/刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
 		String startpath = new String(URLDecoder.decode(request.getRequestURI(), "utf-8")); //设置编码
-		System.out.println("你特么又来干嘛:"+startpath);
+		//System.out.println("你特么又来干嘛:"+startpath);
 		
 		
 		//  /刘大庆/fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
 		String path =   startpath;    //startpath.replace("", "");
-		System.out.println("这个家会很复杂："+path);
+		//System.out.println("这个家会很复杂："+path);
 		
 		File f = new File(rootpath, path);
 		
 		//    E:\WEB-workPath\02_SpringBoot_OA_Project\static\image\刘大庆\fe6cc4fa36a64bf8bcbe578fad23a1fd_QQ图片20190317202325.jpg
-		System.out.println("最终的访问路径吗："+f);
+		//System.out.println("最终的访问路径吗："+f);
 		
 		ServletOutputStream sos = response.getOutputStream();
 		
-		System.out.println("这个fgetpath是干嘛的:"+f.getPath());
+		//System.out.println("这个fgetpath是干嘛的:"+f.getPath());
 		FileInputStream input = new FileInputStream(f.getPath()); ///////???????????
 		byte[] data = new byte[(int) f.length()];
 		IOUtils.readFully(input, data);

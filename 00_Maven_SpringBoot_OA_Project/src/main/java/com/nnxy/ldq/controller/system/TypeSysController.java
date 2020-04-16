@@ -132,6 +132,7 @@ public class TypeSysController {
 		}
 		System.out.println("是否进入最后的实体类信息：" + menu);
 		return "systemcontrol/typeedit";
+		//return "systemcontrol/typemanage";
 	}
 	
 	/**

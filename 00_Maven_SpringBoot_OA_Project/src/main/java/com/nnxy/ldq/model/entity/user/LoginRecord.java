@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 用户登陆记录
+ * 用户登陆记录表
  * @author Administrator
  *
  */
