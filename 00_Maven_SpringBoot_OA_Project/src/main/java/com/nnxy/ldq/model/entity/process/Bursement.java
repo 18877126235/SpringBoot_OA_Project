@@ -27,7 +27,7 @@ public class Bursement {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long bursementId;
 	
-	@OneToOne()
+	@OneToOne()  //一张报销单对应一个证明人
 	@JoinColumn(name="user_name")
 	private User usermoney;//证明人
 	
@@ -60,11 +60,11 @@ public class Bursement {
 	private String namemoney;//承担主体
 	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="burs",orphanRemoval = true)
-	List<DetailsBurse>  details;
+	List<DetailsBurse>  details; //报销单明细对象，多个
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="pro_id")
-	private ProcessList proId;
+	private ProcessList proId;  //对应的主表对象
 	
 	
 	

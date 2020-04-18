@@ -3,6 +3,7 @@ package com.nnxy.ldq.model.dao.user;
 import java.util.List;
 
 import com.nnxy.ldq.model.entity.user.Dept;
+import com.nnxy.ldq.model.entity.user.Position;
 import com.nnxy.ldq.model.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -108,6 +109,7 @@ public interface UserDao extends JpaRepository<User, Long>{
 	@Query("from User u where u.dept.deptName like %?1% or u.userName like %?1% or u.realName like %?1% or u.userTel like %?1% or u.role.roleName like %?1%")
 	Page<User> findnamelike(String name, Pageable pa);
 	
+	//查找部门下的所有用户
 	List<User> findByDept(Dept dept);
 	@Query("select u from User u where u.role.roleId=?1")
 	List<User> findrole(Long lid); 
@@ -118,4 +120,8 @@ public interface UserDao extends JpaRepository<User, Long>{
 	/*通过（用户名或者电话号码）+密码查找用户*/
 	@Query("from User u where (u.userName = ?1 or u.userTel = ?1) and u.password =?2")
 	User findOneUser(String userName, String password);
+	
+	//根据职位id查找唯一用户
+	User findByPosition(Position position);
+	
 }

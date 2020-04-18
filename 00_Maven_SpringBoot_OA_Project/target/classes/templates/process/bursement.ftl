@@ -105,7 +105,7 @@ cursor: pointer;
 						<!--錯誤信息提示  -->
 					<div class="alert alert-danger alert-dismissable" style="display:none;" role="alert">
 						错误信息:<button class="thisclose close" type="button">&times;</button>
-						<span class="error-mess"></span>
+						<span class="error-mess"></span>（请完善数据填写）
 					</div>
 					</td>
 				</tr>
@@ -127,14 +127,18 @@ cursor: pointer;
 					<td class="title" ><label class="control-label">提单人员</label></td>
 					<td  colspan="6"><input type="text" class="form-control inpu" 
 					readonly="readonly" style="background-color:#fff;" value="${username}"/></td>
+					
 					<td class="title" ><label class="control-label">证明人</label></td>
 					<td  colspan="6"><input type="text" class="form-control inpu cheng" 
 					readonly="readonly" style="background-color:#fff;" name="namemoney"/>
 						<div class="reciver">
 						<span class="label label-success glyphicon glyphicon-plus"
 					>通讯录</span>
+					
 					</div>
 					</td>
+					
+					
 				</tr>
 				
 				<tr >
@@ -150,13 +154,21 @@ cursor: pointer;
 					</td>
 				</tr>
 				<tr >
-				<td class="title" ><label class="control-label">审核人员</label></td>
-					<td  colspan="6"><input type="text" class="form-control inpu shen"
-					 readonly="readonly" style="background-color:#fff;" name="username"placeholder="请选自己的上级"/>
+				<td class="title" ><label class="control-label">审核人员（上司）</label></td>
+					<!-- <td  colspan="6"><input type="text" class="form-control inpu shen"
+					 readonly="readonly" style="background-color:#fff;" name="username" placeholder="请选自己的上级"/>
 					<div class="reciver">
 						<span class="label label-success glyphicon glyphicon-plus">通讯录</span>
 					</div>
+				</td> -->
+					<td  colspan="6"><input type="text" class="form-control inpu shen"
+					 readonly="readonly" style="background-color:#fff;" name="username" value="${ufather.userName}"/>
+					
 					</td>
+					
+					
+					
+	
 					<td class="title" ><label class="control-label">相关票据</label></td>
 					<td  colspan="6">
 						<div class="btn btn-default"style="position: relative; overflow: hidden;width: 100%;margin-top: -6px;">
@@ -171,7 +183,7 @@ cursor: pointer;
 					<td  colspan="6"><textarea class="form-control text" name="proId.processDescribe"></textarea></td>
 				</tr>
 				<tr >
-					<td class="title"><label class="control-label">报销明细</label></td>
+					<td class="title"><label class="control-label">报销单明细</label></td>
 					<td colspan="13" style="text-align: right;" ><i class="glyphicon glyphicon-plus zeng"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-minus jian"></i></td>
 					
 				</tr>
@@ -191,7 +203,7 @@ cursor: pointer;
 								</tr>
 							</thead>
 							<tbody class="tbody">
-							<tr class="tr">
+								<tr class="tr">
 									<td class="chebox" colspan="2"><span class="labels"><label><input type="checkbox" name="items" class="val" ><i>✓</i></label></span></td>
 									<td colspan="2"><input type="text" class="form-control inpu shijian" name="details[0].produceTime" /></td>
 									<td colspan="2">
@@ -233,8 +245,12 @@ cursor: pointer;
 </div>
 <input type="text" class="recive_list" style="display:none;">
 <input type="text" class="ject" style="display:none;">
+
+<!-- 操作提示 -->
 <#include "/common/modalTip.ftl"> 
 <script>
+
+
 //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
 function check() {
 	console.log("开始进入了");

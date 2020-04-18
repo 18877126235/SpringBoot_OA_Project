@@ -49,6 +49,7 @@ import com.nnxy.ldq.model.dao.processdao.StayDao;
 import com.nnxy.ldq.model.dao.processdao.SubjectDao;
 import com.nnxy.ldq.model.dao.system.StatusDao;
 import com.nnxy.ldq.model.dao.system.TypeDao;
+import com.nnxy.ldq.model.dao.user.PositionDao;
 import com.nnxy.ldq.model.dao.user.UserDao;
 import com.nnxy.ldq.model.entity.attendce.Attends;
 import com.nnxy.ldq.model.entity.note.Attachment;
@@ -128,7 +129,7 @@ public class ProcedureController {
 		}
 	}
 
-	//新增页面
+	//新增流程页面
 	@RequestMapping("xinxeng")
 	public String index(){
 		
@@ -137,19 +138,33 @@ public class ProcedureController {
 	
 	//费用报销表单
 	@RequestMapping("burse")
-	public String bursement(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest request,
+	public String bursement(Model model,
+			@SessionAttribute("userId") Long userId,
+			HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size){
-		//查找类型
+		
+		//查找类型(银行卡、现金、其他)
 		List<SystemTypeList> uplist=tydao.findByTypeModel("aoa_bursement");
+		
+		//System.out.println( "输出查找类型："+uplist );
+		
 		//查找费用科目生成树
 		List<Subject> second=sudao.findByParentId(1L);
 		List<Subject> sublist=sudao.findByParentIdNot(1L);
+		
+		//封装用户列表以及其他数据模态框
 		proservice.index6(model, userId, page, size);
 		
 		model.addAttribute("second", second);
 		model.addAttribute("sublist", sublist);
 		model.addAttribute("uplist", uplist);
+		
+		//查找用户上司
+		User user = udao.findOne(userId);
+		User ufather = udao.findOne(user.getFatherId());
+		model.addAttribute("ufather", ufather);
+		
 		return "process/bursement";
 	}
 	/**
@@ -159,39 +174,50 @@ public class ProcedureController {
 	 * @throws IllegalStateException 
 	 */
 	@RequestMapping("apply")
-	public String apply(@RequestParam("filePath")MultipartFile filePath,HttpServletRequest req,@Valid Bursement bu,BindingResult br,
-			@SessionAttribute("userId") Long userId) throws IllegalStateException, IOException{
+	public String apply(
+			@RequestParam("filePath")MultipartFile filePath, //文件对象
+			HttpServletRequest req, 
+			@Valid Bursement bu,//报销表单对象
+			BindingResult br, //表单校验
+			@SessionAttribute("userId") Long userId //当前用户
+			) throws IllegalStateException, IOException{
+		
 		User lu=udao.findOne(userId);//申请人
 		User reuser=udao.findByUserName(bu.getUsername());//审核人
 		User zhuti=udao.findByUserName(bu.getNamemoney());//证明人
-		Integer allinvoice=0;
-		Double allmoney=0.0;
+		
+		Integer allinvoice=0; //票据总数
+		Double allmoney=0.0;  //报销金额
+		
 		Long roleid=lu.getRole().getRoleId();//申请人角色id
-		Long fatherid=lu.getFatherId();//申请人父id
-		Long userid=reuser.getUserId();//审核人userid
+		Long fatherid=lu.getFatherId();//申请人父id（上级）
+		Long userid=reuser.getUserId();//审核人userid（自己的上级）
 		
-		String val=req.getParameter("val");
+		String val=req.getParameter("val");  //报销类型（费用报销）
 		
-		if(roleid>=3L && Objects.equals(fatherid, userid)){
+		if(roleid>=3L && Objects.equals(fatherid, userid)){  //判断是不是部门及以下的用户申请的报销单
+		
+			List<DetailsBurse> mm=bu.getDetails(); //获取报销明细对象集合（由前台填写好）
+			for (DetailsBurse detailsBurse : mm) {
+				allinvoice+=detailsBurse.getInvoices(); //票据总数
+				allmoney+=detailsBurse.getDetailmoney(); //报销总金额
+				detailsBurse.setBurs(bu); //每一张报销明细对应着本张表单
+			}
+			//在报销费用表里面set票据总数和总金额
+			bu.setAllinvoices(allinvoice);
+			bu.setAllMoney(allmoney);
+			bu.setUsermoney(zhuti);   //设置证明人
+			//set主表
+			ProcessList pro=bu.getProId();
 			
-		
-		List<DetailsBurse> mm=bu.getDetails();
-		for (DetailsBurse detailsBurse : mm) {
-			allinvoice+=detailsBurse.getInvoices();
-			allmoney+=detailsBurse.getDetailmoney();
-			detailsBurse.setBurs(bu);
-		}
-		//在报销费用表里面set票据总数和总金额
-		bu.setAllinvoices(allinvoice);
-		bu.setAllMoney(allmoney);
-		bu.setUsermoney(zhuti);
-		//set主表
-		ProcessList pro=bu.getProId();
-		proservice.index5(pro, val, lu, filePath,reuser.getUserName());
-		budao.save(bu);
-		
-		//存审核表
-		proservice.index7(reuser, pro);
+			System.out.println("输出报销单信息："+bu);
+			System.out.println("输出主表信息："+pro);
+			
+			//设置主表信息
+			proservice.index5(pro, val, lu, filePath,reuser.getUserName());
+			budao.save(bu); //存入报销记录表
+			//存审核表
+			proservice.index7(reuser, pro);
 		}else{
 			return "common/proce";
 		}
@@ -388,12 +414,16 @@ public class ProcedureController {
 				model.addAttribute("eve", eve);
 				model.addAttribute("map", map);
 				return "process/resserch";
-			}
-		
-		
-		
+			}	
 		return "process/serch";
 	}
+	
+	@Autowired
+	PositionDao pdao;
+	
+	
+
+	
 	/**
 	 * 进入审核页面
 	 * @return
@@ -406,7 +436,7 @@ public class ProcedureController {
 		
 		//流程id
 		Long id=Long.parseLong(req.getParameter("id"));
-		ProcessList process=prodao.findOne(id);
+		ProcessList process=prodao.findOne(id);  //根据id查找这条流程表信息
 		
 		Reviewed re=redao.findByProIdAndUserId(process.getProcessId(), u);//查找审核表
 		
@@ -414,6 +444,10 @@ public class ProcedureController {
 		if(("费用报销").equals(typename)){
 			Bursement bu=budao.findByProId(process);
 			model.addAttribute("bu", bu);
+			//设置下一个审核人（费用报销就是财务部经理最终审核）
+			//获取财务部经理用户对象（职位号是5的用户）
+			User nextuser = udao.findByPosition( pdao.findOne(5l) );
+			model.addAttribute("nextuser", nextuser);
 			
 		}else if(("出差费用").equals(typename)){
 			EvectionMoney emoney=emdao.findByProId(process);
@@ -421,7 +455,15 @@ public class ProcedureController {
 		}else if(("转正申请").equals(typename)||("离职申请").equals(typename)){
 			User zhuan=udao.findOne(process.getUserId().getUserId());
 			model.addAttribute("position", zhuan);
+		}else if(("请假申请").equals(typename)){
+			//System.out.println("请假申请？？？？？？");
+			//设置下一个审核人（请假最终审批就是人事部经理最终审核）
+			//获取人事部经理用户对象（职位号是7的用户）
+			User nextuser = udao.findByPosition( pdao.findOne(7l) );
+			model.addAttribute("nextuser", nextuser);
+			
 		}
+			
 		proservice.user(page, size, model);
 		List<Map<String, Object>> list=proservice.index4(process);
 		
@@ -750,7 +792,8 @@ public class ProcedureController {
 			return "redirect:/xinxeng";
 			
 		}
-	//请假申请
+		
+	//请假申请显示表单
 	@RequestMapping("holiday")
 	public String holiday(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -759,6 +802,12 @@ public class ProcedureController {
 		List<SystemTypeList> overtype=tydao.findByTypeModel("aoa_holiday");
 		proservice.index6(model, userId, page, size);
 		model.addAttribute("overtype", overtype);
+		
+		//审核人
+		User findOne = udao.findOne(userId);
+		User user = udao.findOne( findOne.getFatherId() );
+		model.addAttribute("fusername", user);
+		
 		return "process/holiday";
 	}
 	/**
@@ -779,6 +828,9 @@ public class ProcedureController {
 		Long fatherid=lu.getFatherId();//申请人父id
 		Long userid=shen.getUserId();//审核人userid
 		String val=req.getParameter("val");
+		
+		System.out.println("来了请假审批审核人："+shen);
+		
 		if(roleid>=3L && Objects.equals(fatherid, userid)){
 			SystemTypeList  type=tydao.findOne(eve.getTypeId());
 			if(eve.getTypeId()==40){
@@ -797,6 +849,8 @@ public class ProcedureController {
 					return "common/proce";
 				}
 			}else{
+				
+				System.out.println("到了到了最终执行");
 				//set主表
 				ProcessList pro=eve.getProId();
 				proservice.index5(pro, val, lu, filePath,shen.getUserName());
@@ -805,7 +859,11 @@ public class ProcedureController {
 				proservice.index7(shen, pro);
 			}
 		}else{
-			return "common/proce";
+			
+			System.out.println("出问题了呢");
+			
+			
+			return "common/proce"; //弹出错误
 		}
 		
 		return "redirect:/xinxeng";

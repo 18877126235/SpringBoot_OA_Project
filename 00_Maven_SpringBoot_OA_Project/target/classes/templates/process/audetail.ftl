@@ -61,7 +61,7 @@ a:hover {
 
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">
-		<h1 style="font-size: 24px; margin: 0;" class="">${typename}</h1>
+		<h1 style="font-size: 24px; margin: 0;" class="">流程类型：${typename}</h1>
 	</div>
 	<div class="col-md-10 text-right">
 		<a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
@@ -164,12 +164,26 @@ a:hover {
 				</div>
 				<div class="col-md-6 form-group" style="position: relative;">
 					<label class="control-label" data-toggle="modal" data-target="#myModal">下一步审核人</label>
-						<input name="username" type="text" id="recive_list"
+						<!-- <input name="username" type="text" id="recive_list"
 							   class="form-control " readonly="readonly" style="background-color:#fff;"/>
 							<div class="reciver">
 								<span class="label label-success glyphicon glyphicon-plus"
 									data-toggle="modal" data-target="#myModal">通讯录</span>
-							</div>
+							</div> -->
+						<#if typename=="费用报销" || typename=="请假申请">
+							<input name="username" type="text" id="recive_list"
+							   class="form-control " readonly="readonly" style="background-color:#fff;" value="${nextuser.userName}" />
+							<#else>
+								<input name="username" type="text" id="recive_list"
+								   class="form-control " readonly="readonly" style="background-color:#fff;"/>
+								<div class="reciver">
+									<span class="label label-success glyphicon glyphicon-plus"
+										data-toggle="modal" data-target="#myModal">通讯录</span>
+								</div>
+							
+						</#if>
+						
+							
 				</div>
 				 <div class="col-md-6 form-group" style="float: none;">
 					<label class="control-label">审核理由</label>
@@ -200,7 +214,7 @@ a:hover {
 				
 			</#if>	
 			</#if>
-				<input class="btn btn-default" id="cancel" type="submit" value="取消"
+				<input class="btn btn-default" id="cancel" type="button" value="取消"
 					onclick="window.history.back();" />
 			</div>
 			</form>

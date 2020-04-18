@@ -149,14 +149,20 @@ ${(out.typeColor)!''}
 					<td  colspan="6"><input type="text" class="form-control inpu days" name="leaveDays"
 					readonly="readonly" style="background-color:#fff;"/></td>
 					<td class="title" ><label class="control-label">审核人员</label></td>
-					<td  colspan="6"><input name="nameuser" type="text" id="recive_list"
+					<!-- <td  colspan="6"><input name="nameuser" type="text" id="recive_list"
 								class="form-control " readonly="readonly" style="background-color:#fff;"/>
 							<div class="reciver">
 								<span class="label label-success glyphicon glyphicon-plus"
 									data-toggle="modal" data-target="#myModal">通讯录</span>
 							</div>
+					</td> -->
+					<td  colspan="6"><input name="nameuser" type="text" id="recive_list"
+								class="form-control " readonly="readonly" style="background-color:#fff;" value="${fusername.userName}" />
+							
 					</td>
+					
 				</tr>
+				
 				
 				<tr >
 					<td class="title" ><label class="control-label">相关资料</label></td>

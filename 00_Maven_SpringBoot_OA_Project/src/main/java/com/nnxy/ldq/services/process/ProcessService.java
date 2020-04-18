@@ -290,7 +290,9 @@ public class ProcessService {
 	public void  index6(Model model,Long id,int page,int size){
 		User lu=udao.findOne(id);//申请人
 		Pageable pa=new PageRequest(page, size);
+		
 		List<SystemTypeList> harrylist=tydao.findByTypeModel("aoa_process_list");
+		
 		//查看用户并分页
 		Page<User> pageuser=udao.findAll(pa);
 		List<User> userlist=pageuser.getContent();
@@ -298,33 +300,36 @@ public class ProcessService {
 		Iterable<Dept> deptlist = ddao.findAll();
 		// 查职位表
 		Iterable<Position> poslist = pdao.findAll();
-		model.addAttribute("page", pageuser);
-		model.addAttribute("emplist", userlist);
-		model.addAttribute("deptlist", deptlist);
-		model.addAttribute("poslist", poslist);
-		model.addAttribute("url", "names");
-		model.addAttribute("username", lu.getUserName());
-		model.addAttribute("harrylist", harrylist);
+		model.addAttribute("page", pageuser); //分页用
+		model.addAttribute("emplist", userlist); //显示用
+		model.addAttribute("deptlist", deptlist); //部门列表
+		model.addAttribute("poslist", poslist);  //职位表
+		model.addAttribute("url", "names");  //点击下一页后访问url
+		model.addAttribute("username", lu.getUserName()); //当前用户名称
+		model.addAttribute("harrylist", harrylist);  //类型名称
 	}
+	
 	/**
-	 * 存表
+	 * 存主表
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
 	public void index5(ProcessList pro,String val,User lu,MultipartFile filePath,String name) throws IllegalStateException, IOException{
 		
-		pro.setTypeNmae(val);
-		pro.setApplyTime(new Date());
-		pro.setUserId(lu);
-		pro.setStatusId(23L);
-		pro.setShenuser(name);
-		Attachment attaid=null;
+		pro.setTypeNmae(val); //设置表单类型（费用报销、等）
+		pro.setApplyTime(new Date()); //设置报销填写时间
+		pro.setUserId(lu); //设置报销用户
+		pro.setStatusId(23L); //流程审核状态 id（未处理）
+		pro.setShenuser(name); //表单审核者
+		Attachment attaid=null; //创建附件对象
+		//是否存在附件
 		if(!StringUtil.isEmpty(filePath.getOriginalFilename())){
-			attaid=mservice.upload(filePath, lu);
-			attaid.setModel("aoa_bursement");
-			AttDao.save(attaid);
-			pro.setProFileid(attaid);
+			attaid=mservice.upload(filePath, lu); //上传文件
+			attaid.setModel("aoa_bursement"); //设置附件对应的模块
+			AttDao.save(attaid);  //保存附件记录
+			pro.setProFileid(attaid); //设置附件对象
 		}
+		
 	}
 	public void index8(ProcessList pro,String val,User lu,String name) {
 		pro.setTypeNmae(val);

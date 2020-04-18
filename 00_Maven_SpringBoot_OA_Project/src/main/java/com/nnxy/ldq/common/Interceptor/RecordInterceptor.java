@@ -65,7 +65,7 @@ public class RecordInterceptor extends HandlerInterceptorAdapter{
 		//String url = request.getRequestURL().toString();
 		String usrl2 = request.getServletPath();
 		//System.out.println("当前访问路径是哈哈哈："+url);
-		System.out.println("当前访问路径是哈哈哈："+usrl2);
+		//System.out.println("当前访问路径是哈哈哈："+usrl2);
 		String zhuan="notlimit"; //弹出权限不足的访问路径
 
 		if(oneMenuAll.size()>0){ //存在父菜单（除非实习生除外）
