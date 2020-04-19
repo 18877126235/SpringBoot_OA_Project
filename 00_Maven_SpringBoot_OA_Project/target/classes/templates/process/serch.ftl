@@ -322,7 +322,7 @@ border-top: 1px solid #2196F3;
 
 					<td colspan="14" style="text-align: right;" >
 						<div class="pull-right foot">
-							<a class="btn btn-default fault fa-back" href="javascript:" onclick="history.back(); ">
+							<a class="btn btn-default fault fa-back" href="javascript:" onclick="window.history.back(); ">
 								 <span class="glyphicon glyphicon-chevron-left"></span> 返回</a>
 							<a class="btn btn-default fault" onclick="javascript:window.print();">
 			   					<span class="glyphicon glyphicon glyphicon-print"></span> 打印</a>
@@ -332,6 +332,7 @@ border-top: 1px solid #2196F3;
 							</#if>
 						</div>
 				 </td>
+				 
 				</tr>
 				</table>
 			</div>

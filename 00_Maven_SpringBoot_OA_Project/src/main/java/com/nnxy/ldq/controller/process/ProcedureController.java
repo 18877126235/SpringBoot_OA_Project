@@ -1001,8 +1001,6 @@ public class ProcedureController {
 				e.printStackTrace();
 			}
 		}
-		
-		
 		/**
 		 * 图片预览
 		 * @param response
@@ -1026,5 +1024,13 @@ public class ProcedureController {
 			IOUtils.write(data, sos);
 			input.close();
 			sos.close();
+		}
+		
+		/*
+		 * 修改已填写好的表单
+		 */
+		public String xiugaibiaodan() {
+			
+			return "";
 		}
 }

@@ -47,8 +47,11 @@
 								</#if>
 							</#list>
 							
-							<td> <a href="particular?id=${pro.processId}&typename=${(pro.typeNmae)!''}" class="label xiugai"><span
-									class="glyphicon glyphicon-search"></span> 查看</a> 
+							<td> 
+								<a href="particular?id=${pro.processId}&typename=${(pro.typeNmae)!''}" class="label xiugai"><span
+									class="glyphicon glyphicon-search"></span> 查看</a>
+								<a href="##"  class="label xiugai"><span
+									class="glyphicon glyphicon-edit"></span> 修改</a>  
 							</td>
 						</tr>
 						</#list>

@@ -90,28 +90,6 @@ a:hover {
 					</div>
 					<div class="shuxian"></div>
 				</#if>
-				<#list revie as list>
-				
-				<div class="shen">
-					<p>${(list.poname)!''}：${(list.username)!''}<span class="pull-right">${(list.retime)!''}</span></p>
-					<div >
-					<div style="display:inline-block;position:absolute;">
-					<#if list.img?? && list.img!=''>
-						<img style="width: 50px;height: 50px;border-radius: 72px; position: relative;bottom:0px;right:0px;"
-							src="/image/${list.img}" />
-						<#else>
-						<img style="width: 50px;height: 50px;border-radius: 72px; position: relative;bottom:0px;right:0px;"
-							src="images/timg.jpg" alt="images"/>
-					</#if>	
-					</div>
-					<div class="content">
-						<p class="pa" style="padding-top: 9px;">审核状态:<i class="label ${list.statuscolor}">${(list.restatus)!''}</i></p>
-						<p class="pa" >审核意见：${(list.des)!''}</p>
-					</div>
-					</div>
-				</div>
-				<div class="shuxian"></div>
-				</#list>
 				<div class="shen">
 					<p>申请人：${(process.userId.userName)!''}<span class="pull-right">${(process.applyTime)!''}</span></p>
 					<div >
@@ -150,6 +128,32 @@ a:hover {
 					</div>
 					</div>
 				</div>
+				<br>
+				<br>
+				
+				<#list revie as list>
+				
+				<div class="shen">
+					<p>${(list.poname)!''}：${(list.username)!''}<span class="pull-right">${(list.retime)!''}</span></p>
+					<div >
+					<div style="display:inline-block;position:absolute;">
+					<#if list.img?? && list.img!=''>
+						<img style="width: 50px;height: 50px;border-radius: 72px; position: relative;bottom:0px;right:0px;"
+							src="/image/${list.img}" />
+						<#else>
+						<img style="width: 50px;height: 50px;border-radius: 72px; position: relative;bottom:0px;right:0px;"
+							src="images/timg.jpg" alt="images"/>
+					</#if>	
+					</div>
+					<div class="content">
+						<p class="pa" style="padding-top: 9px;">审核状态:<i class="label ${list.statuscolor}">${(list.restatus)!''}</i></p>
+						<p class="pa" >审核意见：${(list.des)!''}</p>
+					</div>
+					</div>
+				</div>
+				<div class="shuxian"></div>
+				</#list>
+				
 				<div class="shuxian"></div>
 				<div>
 					<i class="glyphicon glyphicon-record" style="color:#9E9E9E;padding-left: 13px;"></i> 开始申请

@@ -165,22 +165,25 @@ cursor: pointer;
 					 readonly="readonly" style="background-color:#fff;" name="username" value="${ufather.userName}"/>
 					
 					</td>
-					
-					
-					
 	
 					<td class="title" ><label class="control-label">相关票据</label></td>
 					<td  colspan="6">
-						<div class="btn btn-default"style="position: relative; overflow: hidden;width: 100%;margin-top: -6px;">
+						<div  class="btn btn-default shangchuanpiaoju" style="position: relative; overflow: hidden;width: 100%;margin-top: -6px;">
 							<i class="glyphicon glyphicon-open"></i> 上传票据
-							<input type="file" name="filePath" style="opacity: 0; position: absolute;
-								 top: 12px; right: 0; " class='inpu'>
+							
 						</div>
+						<input id="file" onchange="changepic(this)" type="file" name="filePath" style="opacity: 0; display:none; position: absolute; top: 12px; right: 0;" class='inpu'>
 					</td>
 				</tr>
 				<tr >
 					<td class="title" ><label class="control-label">报销事由</label></td>
 					<td  colspan="6"><textarea class="form-control text" name="proId.processDescribe"></textarea></td>
+					<td class="title" ><label class="control-label">票据详细：</label>
+					</td>
+					<td class="filenameshow" style="color:#286090;" ></td>
+					<td  colspan="6">
+						<img src="" id="img3" style="width: 120px; height: 120px; border-radius: 10%; margin-left: ;">
+					</td>
 				</tr>
 				<tr >
 					<td class="title"><label class="control-label">报销单明细</label></td>
@@ -359,6 +362,40 @@ function check() {
 		
 		
 	});
+	
+	//点击上传票据
+	$(".shangchuanpiaoju").click(function(){
+		
+		$("#file").click();  //执行文件弹窗点击功能
+	});
+	
+	//检测到上传文件的标签内容变化
+	function changepic() {
+		
+		
+		 var reads = new FileReader();
+		 
+		 f = document.getElementById('file').files[0];
+		 //alert(f.type);
+		 reads.readAsDataURL(f); //读取文件到暂存区
+		 
+		 
+		 
+		 //获取成功后执行代码
+		 reads.onload = function(e) {  //配置显示路径
+			if(f.type=='image/jpeg' || f.type=='image/png' ){
+				document.getElementById('img3').src = this.result;
+				$(".filenameshow").text(f.name);
+			}else{
+				document.getElementById('img3').src = "images/fileimg/Text.png";
+				$(".filenameshow").text(f.name);
+			}
+		 	
+			
+		 };
+		 
+		 
+	}
 	
 	
 </script>

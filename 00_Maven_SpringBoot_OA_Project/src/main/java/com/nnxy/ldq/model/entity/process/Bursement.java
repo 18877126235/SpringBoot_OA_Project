@@ -62,9 +62,10 @@ public class Bursement {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="burs",orphanRemoval = true)
 	List<DetailsBurse>  details; //报销单明细对象，多个
 	
+	//对应的主表对象(每一种流程都在主表中对应着一条数据记录)
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="pro_id")
-	private ProcessList proId;  //对应的主表对象
+	private ProcessList proId;  
 	
 	
 	
