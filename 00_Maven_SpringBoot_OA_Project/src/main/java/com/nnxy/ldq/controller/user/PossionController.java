@@ -2,6 +2,8 @@ package com.nnxy.ldq.controller.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,13 @@ public class PossionController {
 	DeptDao ddao;
 	
 	@RequestMapping("positionmanage")
-	public String positionmanage(Model model) {
+	public String positionmanage(Model model,HttpSession session) {
+		
+		
+		if( session.getAttribute("success")!=null) {
+			model.addAttribute("success", session.getAttribute("success"));
+			session.removeAttribute("success");
+		}
 		
 		List<Position> positions = (List<Position>) pdao.findAll();
 		
@@ -45,22 +53,26 @@ public class PossionController {
 		}
 		List<Dept> depts = (List<Dept>) ddao.findAll();
 		model.addAttribute("depts", depts);
+		System.out.println("玩我十八然后皇太后");
 		return "user/positionedit";
+		//return "user/positionmanage";
 	}
 	
 	@RequestMapping(value = "positionedit" ,method = RequestMethod.POST)
-	public String positioneditpost(Position position,Model model){
-		System.out.println(position);
+	public String positioneditpost(Position position,Model model,HttpSession session){
+		System.out.println("你大爷啊啊啊啊:"+position);
 		
 		Position psition2 = pdao.save(position);
 		
 		if(psition2!=null){
-			model.addAttribute("success",1);
-			return "/positionmanage";
+			//model.addAttribute("success","操作成功");
+			session.setAttribute("success","操作成功");
+			//return "/positionmanage";
 		}
-		
-		model.addAttribute("errormess","数据插入失败");
-		return "user/positionedit";
+		System.out.println("修好然后热火钛合金");
+		//model.addAttribute("errormess","数据插入失败");
+		//return "user/positionedit";
+		return "redirect:/positionmanage";
 	}
 	
 	

@@ -130,7 +130,9 @@ public class User {
 	@JoinColumn(name = "role_id")
 	private Role role;			//外键关联 角色表
 	
-
+	/*
+	 * 其他外键约束
+	 */
 	@ManyToMany(mappedBy = "users")
 	private List<ScheduleList> scheduleLists;
 	

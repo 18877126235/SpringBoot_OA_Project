@@ -96,6 +96,7 @@ public class LoginsController {
 	 */
 	@RequestMapping(value="logins",method = RequestMethod.POST)
 	public String loginCheck(HttpSession session,HttpServletRequest req,Model model) throws UnknownHostException{
+		
 		String userName=req.getParameter("userName").trim(); //trim()表示去掉输入框前面和后面的空格
 		String password=req.getParameter("password");
 		String ca=req.getParameter("code").toLowerCase(); //验证码
@@ -176,6 +177,8 @@ public class LoginsController {
 		return "redirect:/index";
 	}
 	
+	
+
 	
 	/*
 	 * 判断用户名是否存在

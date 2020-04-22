@@ -13,12 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan({"com.nnxy.ldq.mappers"}) //扫描mabatis的数据库接口在那里
 public class OasysApplication00 {
-
 	public static void main(String[] args) {
-		
-		SpringApplication.run(OasysApplication00.class, args);
-		
+		SpringApplication.run(OasysApplication00.class, args);	
 	}
-
 }
 

@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
+
 <#include "/common/commoncss.ftl"/>
 
 <style type="text/css">
@@ -18,7 +14,7 @@ a:hover {
 	background-color: #fff;
 }
 </style>
-</head>
+
 
 <body style="background-color: #ecf0f5;">
 	<div class="row" style="padding-top: 10px;">
@@ -83,8 +79,8 @@ a:hover {
 					<!--盒子尾-->
 					<div class="box-footer">
 						<input class="btn btn-primary" id="save" type="submit" value="保存" />
-						<input class="btn btn-default" id="cancel" type="submit" value="取消"
-							onclick="window.history.back();" />
+						<input class="btn btn-default" id="cancel" type="button" value="取消" 
+							/>
 					</div>
 				</form>
 			</div>
@@ -98,6 +94,14 @@ a:hover {
 	 window.location.href='/testsysmenu';
 	 });
 	 */
+	 
+	 $("#cancel").click(function (){
+		 
+		 //alert("你大爷");
+		 window.location.href='/positionmanage';
+		
+	});
+	
 	function alertCheck(errorMess) {
 
 		$('.alert-danger').css('display', 'block');
@@ -150,4 +154,3 @@ a:hover {
 	}
 
 </script>
-</html>

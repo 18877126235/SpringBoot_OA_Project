@@ -68,7 +68,7 @@ public class Inmaillist {
 	private Boolean star=false;
 	
 	@Transient 
-	private Long inmail;  //该属性？？？？？？？？
+	private Long inmail;  //该属性
 	
 	@Transient 
 	private String huizhuan;

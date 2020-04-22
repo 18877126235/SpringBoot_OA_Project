@@ -64,7 +64,7 @@ public class ProcessList{
 	@JoinColumn(name="pro_file_id")
 	private Attachment proFileid;   //流程附件id
 	
-	private String shenuser;
+	private String shenuser;  //流程审核人
 	
 	
 	

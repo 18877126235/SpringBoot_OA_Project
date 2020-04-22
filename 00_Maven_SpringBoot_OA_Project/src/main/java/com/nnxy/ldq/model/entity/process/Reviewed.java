@@ -30,7 +30,7 @@ public class Reviewed {
 	
 	private String advice; //审核人意见
 	
-	private Long statusId;//审核人状态
+	private Long statusId;//审核状态
 	
 	@Column(name="reviewed_time")
 	private Date reviewedTime;//审核时间
