@@ -39,6 +39,8 @@ import com.nnxy.ldq.model.entity.user.Dept;
 import com.nnxy.ldq.model.entity.user.Position;
 import com.nnxy.ldq.model.entity.user.User;
 
+import redis.clients.jedis.Jedis;
+
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -53,6 +55,12 @@ public class UserController {
 	RoleDao rdao;
 	@Autowired
 	DeptDao depDao;
+	
+	
+	
+	
+	private Jedis jedis = new Jedis();
+	
 	@RequestMapping("userlogmanage")
 	public String userlogmanage() {
 		return "user/userlogmanage";
@@ -82,25 +90,25 @@ public class UserController {
 		
 		//先获取
 		
-		Set<HttpSession> attribute =(Set<HttpSession>)request.getSession().getServletContext().getAttribute("sessionList"); //获取集合
+		//Set<HttpSession> attribute =(Set<HttpSession>)request.getSession().getServletContext().getAttribute("sessionList"); //获取集合
 		
 		//System.out.println("被清空了呀："+attribute);
 		
-		List<User> users = new ArrayList<User>();
+		//List<User> users = new ArrayList<User>();
 		//遍历试试看
-		for (HttpSession httpSession : attribute) {
-			if( httpSession != null ) {
-				Object obj = httpSession.getAttribute("userId");
-				
-				if(obj == null) { //说明该用户已离线
-					continue;
-				}else {
-					Long userId = Long.parseLong(httpSession.getAttribute("userId")+"");
-					users.add(udao.findOne(userId)); //加入集合
-				}	
-			}
-			
-		}	
+//		for (HttpSession httpSession : attribute) {
+//			if( httpSession != null ) {
+//				Object obj = httpSession.getAttribute("userId");
+//				
+//				if(obj == null) { //说明该用户已离线
+//					continue;
+//				}else {
+//					Long userId = Long.parseLong(httpSession.getAttribute("userId")+"");
+//					users.add(udao.findOne(userId)); //加入集合
+//				}	
+//			}
+//			
+//		}	
 		
 
 		
@@ -111,7 +119,14 @@ public class UserController {
 		Page<User> userspage = udao.findByIsLogin(pa);  //查询在线用户
 
 		List<User> users = userspage.getContent();*/
-
+		
+		//从redis中获取所有的在线用户id集合
+		Set<String> smembers = jedis.smembers("UserLists");
+		List<User> users = new ArrayList<>();
+		for (String string : smembers) {
+			users.add(  udao.findOne(Long.parseLong(string)) );
+		}
+		
 		model.addAttribute("users",users);
 		//model.addAttribute("page", userspage);
 		//model.addAttribute("url", "usermanagepaging");

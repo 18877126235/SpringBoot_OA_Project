@@ -29,6 +29,7 @@ import com.nnxy.ldq.services.user.UserLongRecordService;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
+import redis.clients.jedis.Jedis;
 
 
 
@@ -43,9 +44,11 @@ public class LoginsController {
 	
 	public static final String CAPTCHA_KEY = "session_captcha";
 
-	public Set<HttpSession> sessionList =  new HashSet<HttpSession>();  //用于记录在线用户
+	//public Set<HttpSession> sessionList =  new HashSet<HttpSession>();  //用于记录在线用户
 	
 	private Random rnd = new Random();
+	
+	private Jedis jedis = new Jedis();  //redis操作对象
 	
 	/**
 	 * 登录界面的显示
@@ -82,6 +85,11 @@ public class LoginsController {
 		//user.setIsLogin(0); //设置为离线状态
 		
 		//uDao.save(user); //保存
+		
+		//redis中删除相关值
+		jedis.srem("UserLists", userId+"");
+		
+		
 		session.removeAttribute("userId");
 		
 		return "redirect:/login";
@@ -149,10 +157,10 @@ public class LoginsController {
 			/*
 			 * 将session放入context对象中
 			 */
-			sessionList.add(session); //登录，放置session到session集合中
+			//sessionList.add(session); //登录，放置session到session集合中
 			//System.out.println("大小："+sessionList.size());
-			ServletContext servletContext = session.getServletContext();//获取全局域对象
-			servletContext.setAttribute("sessionList", sessionList); //把集合放置到全局域对象
+			//ServletContext servletContext = session.getServletContext();//获取全局域对象
+			//servletContext.setAttribute("sessionList", sessionList); //把集合放置到全局域对象
 			//再把全局域对象放置到管理员的session中
 //			Long userId = Long.parseLong(session.getAttribute("userId") + "");
 //			User userSup = uDao.findOne(userId);
@@ -160,6 +168,20 @@ public class LoginsController {
 //				//再把全局域对象放置到禅机管理员的session中去
 //				session.setAttribute("SessionListContext", servletContext);
 //			}		
+			
+			//把登录信息放入redis存储（采用键值对的方式）
+			Long userId = user.getUserId();
+			//jedis.hset("UserLists",userId+"" , user.getUserName());  //以set集合的方式来把在线的用户信息存储到redis数据库中
+			
+			jedis.sadd("UserLists", userId+"");  //保证不会重复
+			
+			Set<String> smembers = jedis.smembers("UserLists");
+			for (String string : smembers) {
+				
+				System.out.println("输出在线用户id："+string);
+				
+			}
+			
 			
 			
 			Browser browser = UserAgent.parseUserAgentString(req.getHeader("User-Agent")).getBrowser();
@@ -176,6 +198,9 @@ public class LoginsController {
 		
 		return "redirect:/index";
 	}
+	
+	
+	
 	
 	
 

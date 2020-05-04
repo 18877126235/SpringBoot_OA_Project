@@ -172,6 +172,12 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
+      <!-- redis坐依赖引入 -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+   	 </dependency>
+      
 	</dependencies>
 
 	<build>

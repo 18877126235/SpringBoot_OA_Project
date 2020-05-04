@@ -32,22 +32,16 @@
 				}
 			})
 			
+			//点击复选框执行事件
 			 $("[name=show]:checkbox").click(function(){
-				var $roleid=${roleid}
-				var menu;
-				var content;
+				var $roleid=${roleid};var menu;var content;
 				 if(this.checked){
 					menu=$(this).parents("td").siblings(".menuid").text();
-					content="选中"
-				}else{
+					content="选中"}else{
 					 menu=$(this).parents("td").siblings(".menuid").text();
-					 content="未选中"
-				}
-				 console.log(menu); console.log(content);
-				 $.post("powerss",{roleid:$roleid,content:content,menuid:menu},function(){
-					 
-				 }) 
-			 })
+					 content="未选中"}
+				 //发送ajax方法执行权限赋予操作
+				 $.post("powerss",{roleid:$roleid,content:content,menuid:menu} });
 			
 		});
 	

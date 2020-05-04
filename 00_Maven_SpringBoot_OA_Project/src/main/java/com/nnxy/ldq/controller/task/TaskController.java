@@ -210,8 +210,7 @@ public class TaskController {
 		Tasklist list = (Tasklist) request.getAttribute("tasklist");
 		request.getAttribute("success");
 		list.setUsersId(userlist);
-		list.setPublishTime(new Date());
-		list.setModifyTime(new Date());
+		list.setPublishTime(new Date());list.setModifyTime(new Date());
 		tdao.save(list);
 		// 分割任务接收人
 		StringTokenizer st = new StringTokenizer(list.getReciverlist(), ";");
@@ -221,13 +220,9 @@ public class TaskController {
 			task.setTaskId(list);
 			task.setUserId(reciver);
 			task.setStatusId(list.getStatusId());
-			// 存任务中间表
-			tudao.save(task);
-
+			tudao.save(task);// 存任务-用户中间表
 		}
-		
 		request.getSession().setAttribute("success", "操作成功");
-		
 		return "redirect:/taskmanage";
 	}
 

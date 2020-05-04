@@ -46,6 +46,9 @@ import com.nnxy.ldq.services.inform.InformService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class Test1 {
+	
+	
+	
 	@Autowired
 	private NotepaperDao notepaperDao;
 	
