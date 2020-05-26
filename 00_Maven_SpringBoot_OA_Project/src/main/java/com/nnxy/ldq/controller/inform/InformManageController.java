@@ -394,11 +394,13 @@ public class InformManageController {
 	public String infolist2(HttpSession session,Model model
 			,@RequestParam(value="pageNum",defaultValue="1") int page
 			) {
-
+		System.out.println("查询本部门公告");
 		Long userId = Long.parseLong(session.getAttribute("userId") + ""); //获取当前用户id
+		Long fatherId = uDao.findOne(userId).getFatherId();
 		PageHelper.startPage(page, 10); //设置分页查询参数
+		System.out.println("我的上司id是："+fatherId);
 		//待定？？？
-		List<Map<String, Object>> list = nm.findbynoshare(userId);
+		List<Map<String, Object>> list = nm.findbynoshare(uDao.findOne(userId));  //获取本部门上司发布的部门公告
 
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		
@@ -592,10 +594,7 @@ public class InformManageController {
 	/**
 	 * 系统管理表单验证
 	 * 
-	 * @param req
-	 * @param menu
-	 * @param br
-	 *            后台校验表单数据，不通过则回填数据，显示错误信息；通过则直接执行业务，例如新增、编辑等；
+	 * 后台校验表单数据，不通过则回填数据，显示错误信息；通过则直接执行业务，例如新增、编辑等；
 	 * @return
 	 */
 	@RequestMapping("informcheck")
@@ -639,12 +638,13 @@ public class InformManageController {
 				menu.setNoticeId(menuId);
 				session.removeAttribute("noticeId");
 				informService.save(menu);
-			} else { //点击保存后来到这？？
+			} else { //点击保存后来到这
 				
 				System.out.println("我不是编辑界面来的呀********************************");
 				
 				menu.setNoticeTime(new Date()); //设置当前公告时间
 				menu.setUserId(userId); //设置公告的发布人
+				menu.setDepId(uDao.findOne(userId).getDept().getDeptId());
 				
 				NoticesList noticeList = informService.save(menu); //保存当前公告
 				

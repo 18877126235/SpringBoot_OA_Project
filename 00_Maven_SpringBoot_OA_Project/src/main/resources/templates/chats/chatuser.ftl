@@ -13,8 +13,21 @@
 						<img style="width: 30px;height: 30px;float: left;border-radius: 50%;margin-right: 10px;margin-top: -5px;" src="/image/${(ca.imgPath)!'/timg.jpg'}" class="user-image"> 
 						<!-- 用户名 -->
 						<span> ${ca.userName}<br></span>
-						<small><span class="glyphicon glyphicon-record" style="color: #00a65a;">
-						</span>  在线
+						<small style="color: green;" ><span class="glyphicon glyphicon-record" style="color: #00a65a;">
+						</span> 
+						
+						 
+						<#list UserLists as useridtr>
+						
+							<#if useridtr?eval = ca.userId>
+								在线
+							</#if>
+							
+							
+						</#list>
+						
+						
+						
 						</small>
 				</a> 
 				<input class="duixiangidzhi" type="hidden" value="${ca.userId}">	

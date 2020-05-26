@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 
+import com.nnxy.ldq.model.entity.user.User;
+
 
 //以下是基于mybatis查询的
 @Mapper
@@ -40,7 +42,7 @@ public interface NoticeMapper {
 	List<Map<String, Object>> findbyisshareIsRead(long l);
 	
 	//查询部门公告
-	List<Map<String, Object>> findbynoshare(long l);
+	List<Map<String, Object>> findbynoshare(User user);
 	
 	
 	//查询部门公告（未读）

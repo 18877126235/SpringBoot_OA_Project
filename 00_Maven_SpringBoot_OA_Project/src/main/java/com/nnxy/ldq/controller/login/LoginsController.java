@@ -69,6 +69,15 @@ public class LoginsController {
 		return "login/Registration";
 	}
 	
+	
+	/*
+	 * 找回密码界面
+	 */
+	@RequestMapping(value="wangjimima",method=RequestMethod.GET)
+	public String wangjimima(){
+
+		return "login/wangjimima";
+	}
 
 	
 	/*
@@ -76,19 +85,9 @@ public class LoginsController {
 	 */
 	@RequestMapping("loginout") //退出登录
 	public String loginout(HttpSession session){
-		
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
-		
-		
-		//搞这个是否登录标记差点害了自己
-		//User user = uDao.findOne(userId);
-		//user.setIsLogin(0); //设置为离线状态
-		
-		//uDao.save(user); //保存
-		
 		//redis中删除相关值
 		jedis.srem("UserLists", userId+"");
-		
 		
 		session.removeAttribute("userId");
 		
@@ -118,13 +117,13 @@ public class LoginsController {
 		/*
 		 * //判断验证码是否正确
 		 */
-		//String sesionCode = (String) req.getSession().getAttribute(CAPTCHA_KEY); //获取系统生成的验证码
-		/*if(!ca.equals(sesionCode.toLowerCase())){
+		String sesionCode = (String) req.getSession().getAttribute(CAPTCHA_KEY); //获取系统生成的验证码
+		if(!ca.equals(sesionCode.toLowerCase())){
 			System.out.println("验证码输入错误!");
 			model.addAttribute("errormess", "验证码输入错误!");
 			req.setAttribute("errormess","验证码输入错误!");
 			return "login/login"; //返回登陆界面
-		}*/
+		}
 		/*
 		 * 将用户名分开查找；用户名或者电话号码；
 		 * */
@@ -176,6 +175,9 @@ public class LoginsController {
 			jedis.sadd("UserLists", userId+"");  //保证不会重复
 			
 			Set<String> smembers = jedis.smembers("UserLists");
+			
+			System.out.println("获取set集合："+smembers);
+		
 			for (String string : smembers) {
 				
 				System.out.println("输出在线用户id："+string);
@@ -193,17 +195,11 @@ public class LoginsController {
 		}
 
 		/*
-		 * 在此启动定时器查询在线用户
+		 * 在此启动定时器查询在线用户(待定实现。。。)
 		 */
 		
 		return "redirect:/index";
 	}
-	
-	
-	
-	
-	
-
 	
 	/*
 	 * 判断用户名是否存在
@@ -224,14 +220,16 @@ public class LoginsController {
 	}
 	
 	
-	
+	/*
+	 * 用户已经登陆，点击继续后执行
+	 */
 	@RequestMapping("handlehas")
 	public String handleHas(HttpSession session){
 		
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		User user1 = uDao.findOne(userId);
-		user1.setIsLogin(0); //设置为离线状态
-		uDao.save(user1); //保存
+		
+		
 		
 		if(!StringUtils.isEmpty(session.getAttribute("thisuser"))){
 			User user=(User) session.getAttribute("thisuser");

@@ -73,11 +73,15 @@ a:hover {
 					class="glyphicon glyphicon-minus"></i>
 				</span>
 			</div>
+			
 			<ul class="nav nav-pills nav-stacked files emailtypename">
-				<li style="border-left: 3px solid blue;" class="infoall ischeck"><span
-					class="glyphicon glyphicon-th  le"> 全部公告 </span>
-					<input class="yincangzhi" type="hidden" value="all">
-				</li>
+				
+				<#if hasrole??>
+					<li style="border-left: 3px solid blue;" class="infoall ischeck"><span
+						class="glyphicon glyphicon-th  le"> 全部公告 </span>
+						<input class="yincangzhi" type="hidden" value="all">
+					</li>
+				</#if>
 				<li  class="infocompny"><span
 					class="glyphicon glyphicon-inbox le"> 公司公告 </span>
 					<input class="yincangzhi" type="hidden" value="company">

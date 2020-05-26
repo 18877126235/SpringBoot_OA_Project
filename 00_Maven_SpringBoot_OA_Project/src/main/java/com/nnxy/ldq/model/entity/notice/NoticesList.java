@@ -46,6 +46,10 @@ public class NoticesList {
 	@Column(name = "is_share") //是否全部人可见（也就是是不是公司公告）
 	private Boolean isShare=false;
 	
+	//由哪个部门发布的
+	@Column(name = "dep_id") //是否全部人可见（也就是是不是公司公告）
+	private Long depId;
+	
 	public Boolean getIsShare() {
 		return isShare;
 	}
@@ -138,11 +142,22 @@ public class NoticesList {
 		this.modifyTime = modifyTime;
 	}
 
+	public Long getDepId() {
+		return depId;
+	}
+
+	public void setDepId(Long depId) {
+		this.depId = depId;
+	}
+
 	@Override
 	public String toString() {
 		return "NoticesList [noticeId=" + noticeId + ", userId=" + userId + ", typeId=" + typeId + ", statusId="
 				+ statusId + ", title=" + title + ", content=" + content + ", url=" + url + ", top=" + top
-				+ ", noticeTime=" + noticeTime + ", modifyTime=" + modifyTime + "]";
+				+ ", noticeTime=" + noticeTime + ", modifyTime=" + modifyTime + ", isShare=" + isShare + ", depId="
+				+ depId + "]";
 	}
+
+	
 
 }

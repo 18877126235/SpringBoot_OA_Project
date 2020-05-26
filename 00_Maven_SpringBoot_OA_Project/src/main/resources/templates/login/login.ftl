@@ -124,7 +124,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 <!--  style="background: url(images/tupian002.jpg); " -->
 <div style="overflow: hidden;"  class="cotn_principal ">
 
-	 <div class="cont_img_back_1"> <img src="images/tupian002.jpg" alt="背景图片" /> </div>
+	 <div class="cont_img_back_1"> <img src="images/chattest01.jpg" alt="背景图片" /> </div>
 
   <div class="cont_centrar" style="top:5%;">
   
@@ -147,7 +147,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
 		    <br>
 		 <div><button class="btn_login btn" type="submit" >LOGIN</button></div>
       	 <div style="width: 50px; float: left;" ><a href="registration"> 注册 </a></div>
-      	<div style="width:80px; float: right;" ><a href="#"><p>忘记密码？</p></a></div>
+      	<div style="width:80px; float: right;" ><a href="wangjimima"><p>忘记密码？</p></a></div>
         </div>
         </form>
       </div>

@@ -125,14 +125,12 @@ public class UserController {
 		List<User> users = new ArrayList<>();
 		for (String string : smembers) {
 			users.add(  udao.findOne(Long.parseLong(string)) );
-		}
-		
-		model.addAttribute("users",users);
+		}model.addAttribute("users",users);
 		//model.addAttribute("page", userspage);
 		//model.addAttribute("url", "usermanagepaging");
 		return "user/usermanage_login";
 
-		//return "847494979";
+	
 		
 	}
 	

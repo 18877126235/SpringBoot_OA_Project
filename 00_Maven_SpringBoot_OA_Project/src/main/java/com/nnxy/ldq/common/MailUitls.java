@@ -248,7 +248,7 @@ public class MailUitls {
 	 * 
 	 * @param mail
 	 */
-	public void sendMailFindUser(String mail) {
+	public void sendMailFindUser(String mail,String code ,String username) {
 		String addr = addr();
 		InputStream is = this.getClass().getResourceAsStream(
 				"/mailInfo.properties");
@@ -271,7 +271,19 @@ public class MailUitls {
 
 		// 取得默认的Session
 		Session session = Session.getDefaultInstance(props, null);
-
+		
+		// 开启SSL加密，否则会失败
+		MailSSLSocketFactory sf;
+		try {
+			sf = new MailSSLSocketFactory();
+			sf.setTrustAllHosts(true);
+			prop.put("mail.smtp.ssl.enable", "true");
+			prop.put("mail.smtp.ssl.socketFactory", sf);
+		} catch (GeneralSecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		// 创建一条信息，并定义发信人地址和收信人地址
 		MimeMessage message = new MimeMessage(session);
 
@@ -286,12 +298,16 @@ public class MailUitls {
 
 			message.setSentDate(new Date());// 设定发送时间
 			// 设置邮件正文:
-			/*message.setContent(
-					"<h1>OA软件办公系统官方重置密码邮件!点下面链接完成密码重置操作!</h1><h3><a href='http://"
-							+ addr + ":8080/ssm_OAManager/findUser.jsp"
-							+ "'>http://" + addr
-							+ ":8080/ssm_OAManager/findUser.jsp" + "</a></h3>",
-					"text/html;charset=UTF-8");*/
+			message.setContent(
+					"<h1>OA软件办公系统官方修改密码连接!点下面链接完成密码修改即可实现登录!</h1>"
+					+ "<h3>"
+					+ 		"<a href='http://"
+							+ "localhost"
+							+ ":8888/updatePassword?"+"username="+username
+							+ "'> 点我修改密码： "
+							+ code + 
+							"</a>"
+					+ "</h3>", "text/html;charset=UTF-8");
 
 			message.saveChanges(); // implicit with send()
 			// 协议
@@ -305,4 +321,8 @@ public class MailUitls {
 		}
 	}
 
+	
+	
+	
+	
 }

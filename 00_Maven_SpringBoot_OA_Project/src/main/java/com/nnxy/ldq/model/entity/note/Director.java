@@ -50,8 +50,8 @@ public class Director {
 	private Attachment  attachment;	 //头像路径（附件id）
 	
 	
-	private String  remark;     //备注
-	
+	private String  remark;     //
+
 	private String  address;	//用户住址
 	
 	@OneToOne

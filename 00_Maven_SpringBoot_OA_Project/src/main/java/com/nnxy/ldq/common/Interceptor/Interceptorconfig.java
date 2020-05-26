@@ -13,14 +13,16 @@ public class Interceptorconfig extends WebMvcConfigurerAdapter{
     	 registry.addInterceptor(new RecordInterceptor()).
     	 addPathPatterns("/**").//默认拦截所有
     	 excludePathPatterns("/login"). //不包含登陆界面
+    	 excludePathPatterns("/wangjimima"). //找回密码界面
     	 excludePathPatterns("/registration"). //注册界面
+    	 excludePathPatterns("/yanzhengyonghumingheyouxiang"). //执行找回密码逻辑
+    	 excludePathPatterns("/updatePassword"). //修改密码界面 
+    	 excludePathPatterns("/updatePasswordToGo"). //执行密码修改操作
     	 excludePathPatterns("/captcha"). //验证码生成显示
     	 excludePathPatterns("/logins"). //执行登陆查询（查看是否已经登陆）
     	 excludePathPatterns("/zhixingzhucedaima"). //执行注册逻辑
     	 excludePathPatterns("/emailcontroller").//邮箱激活连接
     	 excludePathPatterns("/findUserName")//查询用户名是否相同
 ; 
-    	 //registry.addInterceptor(new recordInterceptor()).addPathPatterns("/**").excludePathPatterns("/logins").excludePathPatterns("/index").excludePathPatterns("/test2");
-    
     }
 }

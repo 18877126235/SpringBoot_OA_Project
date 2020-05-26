@@ -231,13 +231,7 @@ function fChkMail(emailAddress){
 
 }
 	
-//表单提交校验
-//function check() {
-	
 
-	//return false;
-//}
-	
 	
 	
 	$(function(){

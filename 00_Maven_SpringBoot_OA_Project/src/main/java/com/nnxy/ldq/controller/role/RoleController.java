@@ -109,7 +109,7 @@ public class RoleController {
 	
 		Long roleid=Long.parseLong(req.getParameter("id"));
 		
-		Role role=rdao.findOne(roleid);
+		Role role=rdao.findOne(roleid);  //获取当前角色对象
 		List<Rolemenu> oneMenuAll=rpdao.findbyparentall(0L, roleid); //获取父菜单
 		
 		
@@ -137,21 +137,25 @@ public class RoleController {
 	 */
 	@RequestMapping("powerss")
 	public @ResponseBody Boolean power(HttpServletRequest req){
-	Long roleid=Long.parseLong(req.getParameter("roleid"));
-	String content=	req.getParameter("content").trim();
-	Long menuid=Long.parseLong(	req.getParameter("menuid"));
-	Rolepowerlist rolepower=rpdao.findbyroleidandmenuid(roleid,menuid);
-	System.out.println(rolepower);
-	if(content.equals("选中")){
-		rolepower.setCheck(true);
-		System.out.println("xuanzhong");
-	}else{
-		rolepower.setCheck(false);
-		System.out.println("not ok");
-	}
 		
+		System.out.println("来了权限设定");
+		
+		Long roleid=Long.parseLong(req.getParameter("roleid"));
+		String content=	req.getParameter("content").trim();
+		Long menuid=Long.parseLong(	req.getParameter("menuid"));
+		Rolepowerlist rolepower=rpdao.findbyroleidandmenuid(roleid,menuid);
+		System.out.println(rolepower);
+		if(content.equals("选中")){
+			rolepower.setCheck(true);
+			System.out.println("xuanzhong");
+		}else{
+			rolepower.setCheck(false);
+			System.out.println("not ok");
+		}
+			
 		rservice.sava(rolepower);
 		return true;
+		
 	}
 	/**
 	 * 进入新增角色

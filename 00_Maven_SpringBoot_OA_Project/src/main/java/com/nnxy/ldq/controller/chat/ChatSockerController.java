@@ -1,9 +1,15 @@
 package com.nnxy.ldq.controller.chat;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +34,8 @@ import com.nnxy.ldq.services.chat.UserinfoService;
 import com.nnxy.ldq.services.discuss.DiscussService;
 import com.nnxy.ldq.services.discuss.ReplyService;
 import com.nnxy.ldq.services.discuss.VoteService;
+
+import redis.clients.jedis.Jedis;
 
 @Controller
 @RequestMapping("/")
@@ -59,11 +67,46 @@ public class ChatSockerController {
 	UserinfoService userinfoService;
 	@Autowired
 	ChatFriendsService chatFriendsService; 
+	
+	
+	private Jedis jedis = new Jedis();  //redis操作对象
+	
+	public List<Map<String,String>> tomap( List<User> list,HttpSession session ){
+		
+		//获取在校用户列表
+		Set<String> attribute = (Set)session.getAttribute("UserLists");
+		
+		List<Map<String,String>> list2 = new ArrayList<Map<String,String>>();
+		
+		for (User user : list) {
+			Map<String,String> map = new HashedMap();
+			map.put("userId", user.getUserId()+"");
+			map.put("userName", user.getUserName());
+			int flag = 0;
+			for (String string : attribute) {
+				if( attribute.equals(user.getUserId()+"") ) {
+					flag = 1;
+					break;
+				}
+			}
+			if(flag == 1) {
+				map.put("islogin", "yes");
+			}else {
+				map.put("islogin", "no");
+			}
+			
+			list2.add(map);
+		}
+		
+		return list2;
+	}
+	
+	
 	/*
 	 * 显示初始页面
 	 */
 	@RequestMapping("testController01")
-	public String testController01(Model model,HttpServletRequest request) {
+	public String testController01(Model model,HttpSession session,HttpServletRequest request) {
 
 		
 		//获取所有的部门信息
@@ -71,6 +114,8 @@ public class ChatSockerController {
 		Dept findOne = depDao.findOne(1l);
 		//获取总经办的所有用户
 		List<User> findByDept = uDao.findByDept(findOne);
+		
+		//List<Map<String,String>> findByDept =  tomap(  uDao.findByDept(findOne),session );
 		
 		//部门列表
 		model.addAttribute("deplist", findAll);
@@ -104,6 +149,19 @@ public class ChatSockerController {
 		//用户头像路径放置域对象
 		request.getSession().setAttribute("mainuserimg", user.getImgPath());
 		
+		
+		Set<String> smembers = jedis.smembers("UserLists");
+		//把数据转为long类型再存储
+		Set<Long> smembers2 = new HashSet<Long>();
+		for (String string : smembers) {
+			System.out.println("要成功了嘛："+string);
+			smembers2.add(Long.parseLong(string));
+			
+		}
+		model.addAttribute("UserLists", smembers2);
+		
+		
+		
 		return "chats/chatindexmanage";
 		
 	}
@@ -135,6 +193,19 @@ public class ChatSockerController {
 		List<User> findByDept = uDao.findByDept(findOne);
 		
 		model.addAttribute("catalogs", findByDept);
+		
+		//获取在线用户列表
+		Set<String> smembers = jedis.smembers("UserLists");
+		//把数据转为long类型再存储
+		Set<Long> smembers2 = new HashSet<Long>();
+		for (String string : smembers) {
+			System.out.println("要成功了嘛："+string);
+			smembers2.add(Long.parseLong(string));
+			
+		}
+		model.addAttribute("UserLists", smembers2);
+		
+		
 		
 		return "chats/chatuser";
 	}

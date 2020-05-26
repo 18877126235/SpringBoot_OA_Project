@@ -1,5 +1,7 @@
 package com.nnxy.ldq.controller.login;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,7 +83,7 @@ public class RegistrationController {
 		
 		// 发送激活邮件;
 		MailUitls mailUitls = new MailUitls();
-		mailUitls.sendMail(user1.getEamil(), code,userName); //用户的邮箱号和激活码发送过去？？
+		mailUitls.sendMail(user1.getEamil(), code,userName); //用户的邮箱号和激活码发送过去
 		
 		return "success"; //返回显示错误信息
 	}
@@ -100,5 +102,95 @@ public class RegistrationController {
 		return "login/login";
 		
 	}
-
+	
+	/*
+	 * 验证用户名和绑定的邮箱是否一至
+	 */
+	
+	@RequestMapping("yanzhengyonghumingheyouxiang")
+	@ResponseBody
+	public String yanzhengyonghumingheyouxiang(String username,String email) {
+		
+		System.out.println("来了老弟:"+username+"哈哈"+email);
+		
+		//首先判断用户名是否存在
+		User findByUserName = uDao.findByUserName(username);
+		
+		if( findByUserName ==null ) {
+			System.out.println("用户名不存在");
+			return "error1";
+		}else { //判断输入的邮箱与用户所绑定的邮箱账号是否相同
+			
+			System.out.println("用户绑定的邮箱："+findByUserName.getEamil());
+			if(  email.equals(findByUserName.getEamil()) == false ) {
+				System.out.println("邮箱账号与用户所绑定邮箱账号不一致");
+				return "error2";
+			}
+		}
+		
+		//发送连接修改密码
+		//发送邮箱信息验证激活
+		String code = UUIDUtils.getUUID() + UUIDUtils.getUUID();
+		
+		// 发送激活邮件;
+		MailUitls mailUitls = new MailUitls();
+		mailUitls.sendMailFindUser(email,code,username); //用户的邮箱号和激活码发送过去？？
+		
+		
+		
+		return "success";
+		
+	}
+	
+	/*
+	 * 跳转到修改密码界面
+	 */
+	@RequestMapping("updatePassword")
+	public String xiugaimima(String username,HttpSession session) {
+		
+		System.out.println("谁要修改密码："+username);
+		
+		//存入session中
+		session.setAttribute("updatePasswordUserName", username);
+		
+		return "login/updatePassword";
+		
+	}
+	
+	
+	/*
+	 * 执行密码修改
+	 */
+	
+	@RequestMapping("updatePasswordToGo")
+	@ResponseBody
+	public String updatePasswordGo(HttpSession session,String password) {
+		
+		
+		String username = (String)session.getAttribute("updatePasswordUserName");
+		
+		
+		if( username == null || username == "" || username.length() == 0 ) {
+			
+			return "error";
+			
+		}
+		
+		session.removeAttribute("updatePasswordUserName");  //清除session
+		
+		//修改用户秘密
+		User findByUserName = uDao.findByUserName(username);
+		
+		System.out.println("新密码："+password);
+		
+		findByUserName.setPassword(password);
+		
+		uDao.save(findByUserName);  //修改密码
+		
+		return "success";
+		
+	}
+	
+	
+	
 }

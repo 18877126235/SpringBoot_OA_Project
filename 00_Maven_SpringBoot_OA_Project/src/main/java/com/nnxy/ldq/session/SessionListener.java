@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
 
-@WebListener
+@WebListener //记得加上这个注解
 public   class   SessionListener   implements   HttpSessionListener{
 
 	private Jedis jedis = new Jedis();
@@ -38,10 +39,14 @@ public   class   SessionListener   implements   HttpSessionListener{
 		
 		//Object attribute = se.getSession().getAttribute("userId");
 		Long userid = Long.valueOf(se.getSession().getAttribute("userId") + "");
-		System.out.println( "销毁前的获取"+userid );
 		
-		//从redis在线用户集合中移除
-		jedis.srem("UserLists", userid+"");
+		System.out.println( "销毁前的获取"+userid );
+		if(userid != null) {
+			//从redis在线用户集合中移除
+			jedis.srem("UserLists", userid+"");
+		}
+		
+		
 		
 		
 		// TODO Auto-generated method stub

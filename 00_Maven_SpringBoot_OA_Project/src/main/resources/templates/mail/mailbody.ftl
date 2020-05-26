@@ -98,8 +98,15 @@
 							<a href="##" class="label xinzeng edit"><span
 								class="glyphicon glyphicon-pencil"></span> 编辑</a>
 							</#if>	
-							<a href="##" class="label shanchu"><span
-								class="glyphicon glyphicon-remove"></span> 删除</a>
+							
+							<#if mess=="发件箱">
+								
+								<#else>
+									<a href="##" class="label shanchu"><span
+									class="glyphicon glyphicon-remove"></span> 删除</a>
+							</#if>
+							
+							
 						</td>
 					</tr>
 					</#list>
@@ -133,7 +140,58 @@
             });
 		 
 		 $(".sdelete").click(function(){
-			 if(confirm("确定删除么？")){
+			 
+			 var flag = 0;
+			 //首先判断有没有被选中的
+			  $("[name=items]:checkbox").each(function(){
+				 if(this.checked){ //存在选中的
+	    			flag = 1;
+	    		}
+			 });
+			 
+			 if( flag == 1 ){  //执行删除
+				 
+				 swal({ 
+						title: "您确定删除选中的邮件吗", 
+						text: "收件可放入垃圾箱，发件不可恢复哦！", 
+						type: "warning",
+						showCancelButton: true, 
+						confirmButtonColor: "",
+						confirmButtonText: "确认删除！", 
+						cancelButtonText: "考虑一下！",
+						closeOnConfirm: false, 
+						closeOnCancel: false	
+						},
+						function(isConfirm){ 
+						if (isConfirm) { 
+							 var  arry=new Array();
+							 var title=$(".titles").text();
+							 $("[name=items]:checkbox").each(function(){
+								 if(this.checked){
+					    				//获取被选中了的邮件id
+									 var $mailid=$(this).parents("td").siblings(".mailid").children("span").text();
+					    				arry.push($mailid);
+					    			}
+							 })
+							 if(arry.length==0){
+								 return;
+							 }
+							 var values=arry.toString();
+							 $(".thistable").load("alldelete",{ids:values,title:title}); 
+							swal("操作成功！","666","success");
+							setTimeout(function(){swal.close();},800);
+						} else { 
+							swal.close();
+						} 
+				});
+				 
+			 }
+			 
+			 
+			 
+			 
+			/* if(confirm("确定删除么？")){
+
 			 var  arry=new Array();
 			 var title=$(".titles").text();
 			 $("[name=items]:checkbox").each(function(){
@@ -148,7 +206,7 @@
 			 }
 			 var values=arry.toString();
 			 $(".thistable").load("alldelete",{ids:values,title:title}); 
-			 }
+			 }*/
 		 });
 		 //批量查看
 		 $(".looked").click(function(){
